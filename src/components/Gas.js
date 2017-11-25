@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Menu from './Menu.js'
 import { Link } from 'react-router-dom'
+import { menuItems } from '../data/menuItems'
 
 export default class Gas extends Component {
 
@@ -9,45 +10,6 @@ export default class Gas extends Component {
   }
 
   render () {
-
-    const demo = [
-      {
-        id: 1,
-        url: '/environment',
-        name: 'Environment',
-        icon: 'fa fa-envira',
-        children: [
-          {
-            id: 1,
-            url: '/environment/node/1',
-            name: 'ห้องนอน'
-          },
-          {
-            id: 2,
-            url: '/environment/node/2',
-            name: 'ห้องน้ำ'
-          }
-        ]
-      },
-      {
-        id: 2,
-        url: '/gas',
-        name: 'Gas',
-        icon: 'fa fa-flask',
-        children: [
-          {
-            id: 1,
-            url: '/gas/node/1',
-            name: 'ห้องครัว'
-          },
-          {
-            id: 2,
-            url: '/gas/node/2',
-            name: 'ห้องทำงาน'
-          }
-        ]
-      }
-    ]
 
     return (
       <div className='container'>
@@ -68,7 +30,7 @@ export default class Gas extends Component {
 
                   <div className="columns">
                     {
-                      demo.map((obj) => {
+                      menuItems.map((obj) => {
 
                         let buffer = []
                         if (this.props.location.pathname === obj.url) {

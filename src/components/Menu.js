@@ -9,27 +9,13 @@ export default class Menu extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      currentUrl: props.url
-    }
-    console.log('props: ', props)
-  }
-
-  matchUrl = (url) => {
-    const {currentUrl} = this.state
-    console.log(`currentUrl: ${currentUrl}, url: ${url}`)
-    // debugger;
-
-    if (url === currentUrl) {
-      //console.log(`=== matched: ${url}`)
-
-      let t = url.split('/', 2)[1]
-      console.log(`>>>>>>>>>>>>>>>> ${t}`)
-
-      return {
-        backgroundColor: 'hsl(217, 71%, 53%)',
+      currentUrl: props.url,
+      activeMenu: {
+        backgroundColor: 'hsl(217, 71%, 50%)',
         color: 'white'
       }
     }
+    console.log('props: ', props)
   }
 
   render () {
@@ -48,10 +34,7 @@ export default class Menu extends Component {
             menuItems.map(menu => {
               return (
                 <li key={menu.id}>
-                  <NavLink activeStyle={{
-                    backgroundColor: 'hsl(217, 71%, 40%)',
-                    color: 'white'
-                  }} to={menu.url}>
+                  <NavLink activeStyle={this.state.activeMenu} to={menu.url}>
                     <BoldSpan><i className={menu.icon}/> {menu.name}</BoldSpan>
                   </NavLink>
                   <ul>
@@ -59,10 +42,7 @@ export default class Menu extends Component {
                       menu.children.map((child) => {
                         return (
                           <li key={child.id}>
-                            <NavLink activeStyle={{
-                              backgroundColor: 'hsl(217, 71%, 50%)',
-                              color: 'white'
-                            }} to={child.url}>
+                            <NavLink activeStyle={this.state.activeMenu} to={child.url}>
                               <BoldSpan>{child.name}</BoldSpan>
                             </NavLink>
                           </li>

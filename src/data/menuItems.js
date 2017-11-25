@@ -3,7 +3,7 @@ for (let i = 0; i <= 99; i++) {
   generate.push(parseInt(Math.random().toFixed(2) * 100))
 }
 
-var menuItems = [
+const menuItems = [
   {
     id: 1,
     url: '/environment',

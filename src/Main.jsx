@@ -4,8 +4,6 @@ import { HashRouter, Route, Switch } from 'react-router-dom'
 import 'bulma/css/bulma.css'
 import Environment from './components/Environment'
 import Gas from './components/Gas'
-
-
 import NodeTemplate from './components/NodeTemplate'
 
 const PageNotFound = ({location}) => (

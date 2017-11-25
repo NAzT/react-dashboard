@@ -6500,27 +6500,12 @@ var Menu = function (_Component) {
 
     var _this = _possibleConstructorReturn(this, (Menu.__proto__ || Object.getPrototypeOf(Menu)).call(this, props));
 
-    _this.matchUrl = function (url) {
-      var currentUrl = _this.state.currentUrl;
-
-      console.log('currentUrl: ' + currentUrl + ', url: ' + url);
-      // debugger;
-
-      if (url === currentUrl) {
-        //console.log(`=== matched: ${url}`)
-
-        var t = url.split('/', 2)[1];
-        console.log('>>>>>>>>>>>>>>>> ' + t);
-
-        return {
-          backgroundColor: 'hsl(217, 71%, 53%)',
-          color: 'white'
-        };
-      }
-    };
-
     _this.state = {
-      currentUrl: props.url
+      currentUrl: props.url,
+      activeMenu: {
+        backgroundColor: 'hsl(217, 71%, 50%)',
+        color: 'white'
+      }
     };
     console.log('props: ', props);
     return _this;
@@ -6529,6 +6514,7 @@ var Menu = function (_Component) {
   _createClass(Menu, [{
     key: 'render',
     value: function render() {
+      var _this2 = this;
 
       var BoldSpan = _styledComponents2.default.span(_templateObject);
 
@@ -6549,10 +6535,7 @@ var Menu = function (_Component) {
               { key: menu.id },
               _react2.default.createElement(
                 _reactRouterDom.NavLink,
-                { activeStyle: {
-                    backgroundColor: 'hsl(217, 71%, 40%)',
-                    color: 'white'
-                  }, to: menu.url },
+                { activeStyle: _this2.state.activeMenu, to: menu.url },
                 _react2.default.createElement(
                   BoldSpan,
                   null,
@@ -6570,10 +6553,7 @@ var Menu = function (_Component) {
                     { key: child.id },
                     _react2.default.createElement(
                       _reactRouterDom.NavLink,
-                      { activeStyle: {
-                          backgroundColor: 'hsl(217, 71%, 50%)',
-                          color: 'white'
-                        }, to: child.url },
+                      { activeStyle: _this2.state.activeMenu, to: child.url },
                       _react2.default.createElement(
                         BoldSpan,
                         null,
@@ -43005,6 +42985,8 @@ var _Menu2 = _interopRequireDefault(_Menu);
 
 var _reactRouterDom = __webpack_require__(56);
 
+var _menuItems = __webpack_require__(447);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -43026,36 +43008,6 @@ var Environment = function (_Component) {
     key: 'render',
     value: function render() {
       var _this2 = this;
-
-      var demo = [{
-        id: 1,
-        url: '/environment',
-        name: 'Environment',
-        icon: 'fa fa-envira',
-        children: [{
-          id: 1,
-          url: '/environment/node/1',
-          name: 'ห้องนอน'
-        }, {
-          id: 2,
-          url: '/environment/node/2',
-          name: 'ห้องน้ำ'
-        }]
-      }, {
-        id: 2,
-        url: '/gas',
-        name: 'Gas',
-        icon: 'fa fa-flask',
-        children: [{
-          id: 1,
-          url: '/gas/node/1',
-          name: 'ห้องครัว'
-        }, {
-          id: 2,
-          url: '/gas/node/2',
-          name: 'ห้องทำงาน'
-        }]
-      }];
 
       return _react2.default.createElement(
         'div',
@@ -43093,7 +43045,7 @@ var Environment = function (_Component) {
                   _react2.default.createElement(
                     'div',
                     { className: 'columns' },
-                    demo.map(function (obj) {
+                    _menuItems.menuItems.map(function (obj) {
 
                       var buffer = [];
                       if (_this2.props.location.pathname === obj.url) {
@@ -63202,6 +63154,8 @@ var _Menu2 = _interopRequireDefault(_Menu);
 
 var _reactRouterDom = __webpack_require__(56);
 
+var _menuItems = __webpack_require__(447);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -63223,36 +63177,6 @@ var Gas = function (_Component) {
     key: 'render',
     value: function render() {
       var _this2 = this;
-
-      var demo = [{
-        id: 1,
-        url: '/environment',
-        name: 'Environment',
-        icon: 'fa fa-envira',
-        children: [{
-          id: 1,
-          url: '/environment/node/1',
-          name: 'ห้องนอน'
-        }, {
-          id: 2,
-          url: '/environment/node/2',
-          name: 'ห้องน้ำ'
-        }]
-      }, {
-        id: 2,
-        url: '/gas',
-        name: 'Gas',
-        icon: 'fa fa-flask',
-        children: [{
-          id: 1,
-          url: '/gas/node/1',
-          name: 'ห้องครัว'
-        }, {
-          id: 2,
-          url: '/gas/node/2',
-          name: 'ห้องทำงาน'
-        }]
-      }];
 
       return _react2.default.createElement(
         'div',
@@ -63290,7 +63214,7 @@ var Gas = function (_Component) {
                   _react2.default.createElement(
                     'div',
                     { className: 'columns' },
-                    demo.map(function (obj) {
+                    _menuItems.menuItems.map(function (obj) {
 
                       var buffer = [];
                       if (_this2.props.location.pathname === obj.url) {
