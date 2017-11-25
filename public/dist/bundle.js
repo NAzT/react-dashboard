@@ -6529,7 +6529,6 @@ var Menu = function (_Component) {
   _createClass(Menu, [{
     key: 'render',
     value: function render() {
-      var _this2 = this;
 
       var BoldSpan = _styledComponents2.default.span(_templateObject);
 
@@ -6549,8 +6548,11 @@ var Menu = function (_Component) {
               'li',
               { key: menu.id },
               _react2.default.createElement(
-                _reactRouterDom.Link,
-                { to: menu.url, style: _this2.matchUrl(menu.url) },
+                _reactRouterDom.NavLink,
+                { activeStyle: {
+                    backgroundColor: 'hsl(217, 71%, 40%)',
+                    color: 'white'
+                  }, to: menu.url },
                 _react2.default.createElement(
                   BoldSpan,
                   null,
@@ -6567,8 +6569,11 @@ var Menu = function (_Component) {
                     'li',
                     { key: child.id },
                     _react2.default.createElement(
-                      _reactRouterDom.Link,
-                      { to: child.url, style: _this2.matchUrl(child.url) },
+                      _reactRouterDom.NavLink,
+                      { activeStyle: {
+                          backgroundColor: 'hsl(217, 71%, 50%)',
+                          color: 'white'
+                        }, to: child.url },
                       _react2.default.createElement(
                         BoldSpan,
                         null,
