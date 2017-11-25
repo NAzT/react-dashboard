@@ -1,36 +1,53 @@
 import React, { Component } from 'react'
 import Menu from './Menu.js'
-import Temperature from './environments/Temperature.jsx'
-import Humidity from './environments/Humidity.jsx'
-import Sound from './environments/Sound.jsx'
-import axios from 'axios'
+import { Link } from 'react-router-dom'
 
 export default class Environment extends Component {
 
   constructor (props) {
     super(props)
-    this.state = {temp: [], humid: [], sound: []}
-  }
-
-  componentDidMount () {
-    setInterval(() => {
-      let then = this
-      axios.get('https://us-central1-performance-182414.cloudfunctions.net/generate_objects')
-        .then(function (response) {
-          let data = response.data.body
-          then.setState({
-            temp: data,
-            humid: data,
-            sound: data
-          })
-        })
-        .catch(function (error) {
-          console.log(error)
-        })
-    }, 2000)
   }
 
   render () {
+
+    const demo = [
+      {
+        id: 1,
+        url: '/environment',
+        name: 'Environment',
+        icon: 'fa fa-envira',
+        children: [
+          {
+            id: 1,
+            url: '/environment/node/1',
+            name: 'ห้องนอน'
+          },
+          {
+            id: 2,
+            url: '/environment/node/2',
+            name: 'ห้องน้ำ'
+          }
+        ]
+      },
+      {
+        id: 2,
+        url: '/gas',
+        name: 'Gas',
+        icon: 'fa fa-flask',
+        children: [
+          {
+            id: 1,
+            url: '/gas/node/1',
+            name: 'ห้องครัว'
+          },
+          {
+            id: 2,
+            url: '/gas/node/2',
+            name: 'ห้องทำงาน'
+          }
+        ]
+      }
+    ]
 
     return (
       <div className='container'>
@@ -50,18 +67,30 @@ export default class Environment extends Component {
                   </div>
 
                   <div className="columns">
-                    <div className="column">
-                      <Temperature data={this.state.temp}/>
-                    </div>
-                    <div className="column">
-                      <Humidity data={this.state.humid}/>
-                    </div>
-                  </div>
+                    {
+                      demo.map((obj) => {
 
-                  <div className="columns">
-                    <div className="column">
-                      <Sound data={this.state.sound}/>
-                    </div>
+                        let buffer = []
+                        if (this.props.location.pathname === obj.url) {
+                          obj.children.map((child) => {
+                            buffer.push(
+                              <div className='column is-6' key={child.id}>
+                                <div className="card">
+                                  <div className="card-content has-text-centered">
+                                    <Link to={child.url}>
+                                      <p className='title'>{child.name}</p>
+                                    </Link>
+                                  </div>
+                                </div>
+                              </div>
+                            )
+                          })
+                        }
+
+                        return buffer
+
+                      })
+                    }
                   </div>
 
                 </div>

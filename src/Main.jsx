@@ -4,8 +4,9 @@ import { HashRouter, Route, Switch } from 'react-router-dom'
 import 'bulma/css/bulma.css'
 import Environment from './components/Environment'
 import Gas from './components/Gas'
-import Toilet from './components/Toilet'
-import Bedroom from './components/Bedroom'
+
+
+import NodeTemplate from './components/NodeTemplate'
 
 const PageNotFound = ({location}) => (
   <div className="container">
@@ -20,9 +21,9 @@ const Main = (
     <Switch>
       <Route exact path='/' component={Environment}/>
       <Route exact path='/environment' component={Environment}/>
+      <Route exact path='/environment/node/:id' component={NodeTemplate}/>
       <Route exact path='/gas' component={Gas}/>
-      <Route exact path='/toilet' component={Toilet}/>
-      <Route exact path='/bedroom' component={Bedroom}/>
+      <Route exact path='/gas/node/:id' component={NodeTemplate}/>
       <Route component={PageNotFound}/>
     </Switch>
   </HashRouter>

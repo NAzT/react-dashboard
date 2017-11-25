@@ -6480,6 +6480,8 @@ var _styledComponents = __webpack_require__(252);
 
 var _styledComponents2 = _interopRequireDefault(_styledComponents);
 
+var _menuItems = __webpack_require__(447);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
@@ -6498,9 +6500,29 @@ var Menu = function (_Component) {
 
     var _this = _possibleConstructorReturn(this, (Menu.__proto__ || Object.getPrototypeOf(Menu)).call(this, props));
 
+    _this.matchUrl = function (url) {
+      var currentUrl = _this.state.currentUrl;
+
+      console.log('currentUrl: ' + currentUrl + ', url: ' + url);
+      // debugger;
+
+      if (url === currentUrl) {
+        //console.log(`=== matched: ${url}`)
+
+        var t = url.split('/', 2)[1];
+        console.log('>>>>>>>>>>>>>>>> ' + t);
+
+        return {
+          backgroundColor: 'hsl(217, 71%, 53%)',
+          color: 'white'
+        };
+      }
+    };
+
     _this.state = {
       currentUrl: props.url
     };
+    console.log('props: ', props);
     return _this;
   }
 
@@ -6509,18 +6531,7 @@ var Menu = function (_Component) {
     value: function render() {
       var _this2 = this;
 
-      var StyledSpan = _styledComponents2.default.span(_templateObject);
-
-      var matchUrl = function matchUrl(url) {
-        var currentUrl = _this2.state.currentUrl;
-
-        if (url === currentUrl) {
-          return {
-            backgroundColor: 'hsl(217, 71%, 53%)',
-            color: 'white'
-          };
-        }
-      };
+      var BoldSpan = _styledComponents2.default.span(_templateObject);
 
       return _react2.default.createElement(
         'aside',
@@ -6533,62 +6544,42 @@ var Menu = function (_Component) {
         _react2.default.createElement(
           'ul',
           { className: 'menu-list' },
-          _react2.default.createElement(
-            _reactRouterDom.Link,
-            { to: '/environment', style: matchUrl('/environment') },
-            _react2.default.createElement(
+          _menuItems.menuItems.map(function (menu) {
+            return _react2.default.createElement(
               'li',
-              null,
+              { key: menu.id },
               _react2.default.createElement(
-                StyledSpan,
-                null,
-                _react2.default.createElement('i', { className: 'fa fa-envira' }),
-                ' Environment'
-              )
-            )
-          ),
-          _react2.default.createElement(
-            _reactRouterDom.Link,
-            { to: '/gas', style: matchUrl('/gas') },
-            _react2.default.createElement(
-              'li',
-              null,
+                _reactRouterDom.Link,
+                { to: menu.url, style: _this2.matchUrl(menu.url) },
+                _react2.default.createElement(
+                  BoldSpan,
+                  null,
+                  _react2.default.createElement('i', { className: menu.icon }),
+                  ' ',
+                  menu.name
+                )
+              ),
               _react2.default.createElement(
-                StyledSpan,
+                'ul',
                 null,
-                _react2.default.createElement('i', { className: 'fa fa-flask' }),
-                ' Gas'
+                menu.children.map(function (child) {
+                  return _react2.default.createElement(
+                    'li',
+                    { key: child.id },
+                    _react2.default.createElement(
+                      _reactRouterDom.Link,
+                      { to: child.url, style: _this2.matchUrl(child.url) },
+                      _react2.default.createElement(
+                        BoldSpan,
+                        null,
+                        child.name
+                      )
+                    )
+                  );
+                })
               )
-            )
-          ),
-          _react2.default.createElement(
-            _reactRouterDom.Link,
-            { to: '/toilet', style: matchUrl('/toilet') },
-            _react2.default.createElement(
-              'li',
-              null,
-              _react2.default.createElement(
-                StyledSpan,
-                null,
-                _react2.default.createElement('i', { className: 'fa fa-shower' }),
-                ' Toilet'
-              )
-            )
-          ),
-          _react2.default.createElement(
-            _reactRouterDom.Link,
-            { to: '/bedroom', style: matchUrl('/bedroom') },
-            _react2.default.createElement(
-              'li',
-              null,
-              _react2.default.createElement(
-                StyledSpan,
-                null,
-                _react2.default.createElement('i', { className: 'fa fa-bed' }),
-                ' Bedroom'
-              )
-            )
-          )
+            );
+          })
         )
       );
     }
@@ -21875,13 +21866,9 @@ var _Gas = __webpack_require__(397);
 
 var _Gas2 = _interopRequireDefault(_Gas);
 
-var _Toilet = __webpack_require__(402);
+var _NodeTemplate = __webpack_require__(446);
 
-var _Toilet2 = _interopRequireDefault(_Toilet);
-
-var _Bedroom = __webpack_require__(406);
-
-var _Bedroom2 = _interopRequireDefault(_Bedroom);
+var _NodeTemplate2 = _interopRequireDefault(_NodeTemplate);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -21915,9 +21902,9 @@ var Main = _react2.default.createElement(
     null,
     _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: _Environment2.default }),
     _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/environment', component: _Environment2.default }),
+    _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/environment/node/:id', component: _NodeTemplate2.default }),
     _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/gas', component: _Gas2.default }),
-    _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/toilet', component: _Toilet2.default }),
-    _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/bedroom', component: _Bedroom2.default }),
+    _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/gas/node/:id', component: _NodeTemplate2.default }),
     _react2.default.createElement(_reactRouterDom.Route, { component: PageNotFound })
   )
 );
@@ -43011,21 +42998,7 @@ var _Menu = __webpack_require__(25);
 
 var _Menu2 = _interopRequireDefault(_Menu);
 
-var _Temperature = __webpack_require__(258);
-
-var _Temperature2 = _interopRequireDefault(_Temperature);
-
-var _Humidity = __webpack_require__(395);
-
-var _Humidity2 = _interopRequireDefault(_Humidity);
-
-var _Sound = __webpack_require__(396);
-
-var _Sound2 = _interopRequireDefault(_Sound);
-
-var _axios = __webpack_require__(418);
-
-var _axios2 = _interopRequireDefault(_axios);
+var _reactRouterDom = __webpack_require__(56);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -43041,34 +43014,43 @@ var Environment = function (_Component) {
   function Environment(props) {
     _classCallCheck(this, Environment);
 
-    var _this = _possibleConstructorReturn(this, (Environment.__proto__ || Object.getPrototypeOf(Environment)).call(this, props));
-
-    _this.state = { temp: [], humid: [], sound: [] };
-    return _this;
+    return _possibleConstructorReturn(this, (Environment.__proto__ || Object.getPrototypeOf(Environment)).call(this, props));
   }
 
   _createClass(Environment, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      var _this2 = this;
-
-      setInterval(function () {
-        var then = _this2;
-        _axios2.default.get('https://us-central1-performance-182414.cloudfunctions.net/generate_objects').then(function (response) {
-          var data = response.data.body;
-          then.setState({
-            temp: data,
-            humid: data,
-            sound: data
-          });
-        }).catch(function (error) {
-          console.log(error);
-        });
-      }, 2000);
-    }
-  }, {
     key: 'render',
     value: function render() {
+      var _this2 = this;
+
+      var demo = [{
+        id: 1,
+        url: '/environment',
+        name: 'Environment',
+        icon: 'fa fa-envira',
+        children: [{
+          id: 1,
+          url: '/environment/node/1',
+          name: 'ห้องนอน'
+        }, {
+          id: 2,
+          url: '/environment/node/2',
+          name: 'ห้องน้ำ'
+        }]
+      }, {
+        id: 2,
+        url: '/gas',
+        name: 'Gas',
+        icon: 'fa fa-flask',
+        children: [{
+          id: 1,
+          url: '/gas/node/1',
+          name: 'ห้องครัว'
+        }, {
+          id: 2,
+          url: '/gas/node/2',
+          name: 'ห้องทำงาน'
+        }]
+      }];
 
       return _react2.default.createElement(
         'div',
@@ -43106,25 +43088,37 @@ var Environment = function (_Component) {
                   _react2.default.createElement(
                     'div',
                     { className: 'columns' },
-                    _react2.default.createElement(
-                      'div',
-                      { className: 'column' },
-                      _react2.default.createElement(_Temperature2.default, { data: this.state.temp })
-                    ),
-                    _react2.default.createElement(
-                      'div',
-                      { className: 'column' },
-                      _react2.default.createElement(_Humidity2.default, { data: this.state.humid })
-                    )
-                  ),
-                  _react2.default.createElement(
-                    'div',
-                    { className: 'columns' },
-                    _react2.default.createElement(
-                      'div',
-                      { className: 'column' },
-                      _react2.default.createElement(_Sound2.default, { data: this.state.sound })
-                    )
+                    demo.map(function (obj) {
+
+                      var buffer = [];
+                      if (_this2.props.location.pathname === obj.url) {
+                        obj.children.map(function (child) {
+                          buffer.push(_react2.default.createElement(
+                            'div',
+                            { className: 'column is-6', key: child.id },
+                            _react2.default.createElement(
+                              'div',
+                              { className: 'card' },
+                              _react2.default.createElement(
+                                'div',
+                                { className: 'card-content has-text-centered' },
+                                _react2.default.createElement(
+                                  _reactRouterDom.Link,
+                                  { to: child.url },
+                                  _react2.default.createElement(
+                                    'p',
+                                    { className: 'title' },
+                                    child.name
+                                  )
+                                )
+                              )
+                            )
+                          ));
+                        });
+                      }
+
+                      return buffer;
+                    })
                   )
                 )
               )
@@ -47205,84 +47199,7 @@ module.exports = function hoistNonReactStatics(targetComponent, sourceComponent,
 
 
 /***/ }),
-/* 258 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactChartjs = __webpack_require__(7);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-var Temperature = function Temperature(props) {
-
-  var line_data = {
-    labels: ['6', '7', '8', '9', '10', '11', '12', '13', '14', '15'],
-    datasets: [{
-      label: 'Temperature',
-      fill: false,
-      lineTension: 0.5,
-      backgroundColor: 'rgba(87, 230, 255, 1)',
-      borderColor: 'rgba(87, 230, 255, 1)',
-      borderCapStyle: 'butt',
-      borderDash: [],
-      borderDashOffset: 0.0,
-      borderJoinStyle: 'miter',
-      pointBorderColor: 'rgba(75,192,192,1)',
-      pointBackgroundColor: '#fff',
-      pointBorderWidth: 2,
-      pointHoverRadius: 5,
-      pointHoverBackgroundColor: 'rgba(75,192,192,1)',
-      pointHoverBorderColor: 'rgba(220,220,220,1)',
-      pointHoverBorderWidth: 2,
-      pointRadius: 3,
-      pointHitRadius: 5,
-      data: [].concat(_toConsumableArray(props.data))
-    }]
-  };
-
-  var line_options = {
-    responsive: true,
-    title: {
-      display: false,
-      text: 'Chart.js Line Chart'
-    },
-    tooltips: {
-      mode: 'index',
-      intersect: false
-    },
-    hover: {
-      mode: 'nearest',
-      intersect: true
-    },
-    scales: {
-      yAxes: [{
-        display: true,
-        scaleLabel: {
-          display: true,
-          labelString: 'C'
-        }
-      }]
-    }
-  };
-
-  return _react2.default.createElement(_reactChartjs.Line, { data: line_data, options: line_options });
-};
-
-exports.default = Temperature;
-
-/***/ }),
+/* 258 */,
 /* 259 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -63256,162 +63173,8 @@ module.exports = toNumber;
 
 
 /***/ }),
-/* 395 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactChartjs = __webpack_require__(7);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-var Humidity = function Humidity(props) {
-
-  var line_data = {
-    labels: ['6', '7', '8', '9', '10', '11', '12', '13', '14', '15'],
-    datasets: [{
-      label: 'Humidity',
-      fill: false,
-      lineTension: 0.5,
-      backgroundColor: 'rgba(255, 87, 112, 1)',
-      borderColor: 'rgba(255, 87, 112, 1)',
-      borderCapStyle: 'butt',
-      borderDash: [],
-      borderDashOffset: 0.0,
-      borderJoinStyle: 'miter',
-      pointBorderColor: 'rgba(255, 87, 112, 1)',
-      pointBackgroundColor: '#fff',
-      pointBorderWidth: 2,
-      pointHoverRadius: 5,
-      pointHoverBackgroundColor: 'rgba(75,192,192,1)',
-      pointHoverBorderColor: 'rgba(220,220,220,1)',
-      pointHoverBorderWidth: 2,
-      pointRadius: 3,
-      pointHitRadius: 5,
-      data: [].concat(_toConsumableArray(props.data))
-    }]
-  };
-
-  var line_options = {
-    responsive: true,
-    title: {
-      display: false,
-      text: 'Chart.js Line Chart'
-    },
-    tooltips: {
-      mode: 'index',
-      intersect: false
-    },
-    hover: {
-      mode: 'nearest',
-      intersect: true
-    },
-    scales: {
-      yAxes: [{
-        display: true,
-        scaleLabel: {
-          display: true,
-          labelString: 'RH'
-        }
-      }]
-    }
-  };
-
-  return _react2.default.createElement(_reactChartjs.Line, { data: line_data, options: line_options });
-};
-
-exports.default = Humidity;
-
-/***/ }),
-/* 396 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactChartjs = __webpack_require__(7);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-var Sound = function Sound(props) {
-
-  var line_data = {
-    labels: ['6', '7', '8', '9', '10', '11', '12', '13', '14', '15'],
-    datasets: [{
-      label: 'Sound',
-      fill: false,
-      lineTension: 0.5,
-      backgroundColor: 'rgba(134, 255, 87, 1)',
-      borderColor: 'rgba(134, 255, 87, 1)',
-      borderCapStyle: 'butt',
-      borderDash: [],
-      borderDashOffset: 0.0,
-      borderJoinStyle: 'miter',
-      pointBorderColor: 'rgba(134, 255, 87, 1)',
-      pointBackgroundColor: '#fff',
-      pointBorderWidth: 2,
-      pointHoverRadius: 5,
-      pointHoverBackgroundColor: 'rgba(134, 255, 87, 1)',
-      pointHoverBorderColor: 'rgba(134, 255, 87, 1)',
-      pointHoverBorderWidth: 2,
-      pointRadius: 3,
-      pointHitRadius: 5,
-      data: [].concat(_toConsumableArray(props.data))
-    }]
-  };
-
-  var line_options = {
-    responsive: true,
-    title: {
-      display: false,
-      text: 'Chart.js Line Chart'
-    },
-    tooltips: {
-      mode: 'index',
-      intersect: false
-    },
-    hover: {
-      mode: 'nearest',
-      intersect: true
-    },
-    scales: {
-      yAxes: [{
-        display: true,
-        scaleLabel: {
-          display: true,
-          labelString: 'DB'
-        }
-      }]
-    }
-  };
-
-  return _react2.default.createElement(_reactChartjs.Line, { data: line_data, options: line_options });
-};
-
-exports.default = Sound;
-
-/***/ }),
+/* 395 */,
+/* 396 */,
 /* 397 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -63432,25 +63195,7 @@ var _Menu = __webpack_require__(25);
 
 var _Menu2 = _interopRequireDefault(_Menu);
 
-var _Battery = __webpack_require__(398);
-
-var _Battery2 = _interopRequireDefault(_Battery);
-
-var _Co = __webpack_require__(399);
-
-var _Co2 = _interopRequireDefault(_Co);
-
-var _Co3 = __webpack_require__(400);
-
-var _Co4 = _interopRequireDefault(_Co3);
-
-var _H2O = __webpack_require__(401);
-
-var _H2O2 = _interopRequireDefault(_H2O);
-
-var _axios = __webpack_require__(418);
-
-var _axios2 = _interopRequireDefault(_axios);
+var _reactRouterDom = __webpack_require__(56);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -63466,34 +63211,43 @@ var Gas = function (_Component) {
   function Gas(props) {
     _classCallCheck(this, Gas);
 
-    var _this = _possibleConstructorReturn(this, (Gas.__proto__ || Object.getPrototypeOf(Gas)).call(this, props));
-
-    _this.state = { battery: [], co: [], co2: [], h2o: [] };
-    return _this;
+    return _possibleConstructorReturn(this, (Gas.__proto__ || Object.getPrototypeOf(Gas)).call(this, props));
   }
 
   _createClass(Gas, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      var _this2 = this;
-
-      setInterval(function () {
-        var then = _this2;
-        _axios2.default.get('https://us-central1-performance-182414.cloudfunctions.net/generate_objects').then(function (response) {
-          var data = response.data.body;
-          then.setState({
-            temp: data,
-            humid: data,
-            sound: data
-          });
-        }).catch(function (error) {
-          console.log(error);
-        });
-      }, 2000);
-    }
-  }, {
     key: 'render',
     value: function render() {
+      var _this2 = this;
+
+      var demo = [{
+        id: 1,
+        url: '/environment',
+        name: 'Environment',
+        icon: 'fa fa-envira',
+        children: [{
+          id: 1,
+          url: '/environment/node/1',
+          name: 'ห้องนอน'
+        }, {
+          id: 2,
+          url: '/environment/node/2',
+          name: 'ห้องน้ำ'
+        }]
+      }, {
+        id: 2,
+        url: '/gas',
+        name: 'Gas',
+        icon: 'fa fa-flask',
+        children: [{
+          id: 1,
+          url: '/gas/node/1',
+          name: 'ห้องครัว'
+        }, {
+          id: 2,
+          url: '/gas/node/2',
+          name: 'ห้องทำงาน'
+        }]
+      }];
 
       return _react2.default.createElement(
         'div',
@@ -63531,34 +63285,37 @@ var Gas = function (_Component) {
                   _react2.default.createElement(
                     'div',
                     { className: 'columns' },
-                    _react2.default.createElement(
-                      'div',
-                      { className: 'column' },
-                      _react2.default.createElement(_Battery2.default, { data: this.state.battery })
-                    )
-                  ),
-                  _react2.default.createElement(
-                    'div',
-                    { className: 'columns' },
-                    _react2.default.createElement(
-                      'div',
-                      { className: 'column' },
-                      _react2.default.createElement(_Co4.default, { data: this.state.co2 })
-                    ),
-                    _react2.default.createElement(
-                      'div',
-                      { className: 'column' },
-                      _react2.default.createElement(_Co2.default, { data: this.state.co })
-                    )
-                  ),
-                  _react2.default.createElement(
-                    'div',
-                    { className: 'columns' },
-                    _react2.default.createElement(
-                      'div',
-                      { className: 'column' },
-                      _react2.default.createElement(_H2O2.default, { data: this.state.h2o })
-                    )
+                    demo.map(function (obj) {
+
+                      var buffer = [];
+                      if (_this2.props.location.pathname === obj.url) {
+                        obj.children.map(function (child) {
+                          buffer.push(_react2.default.createElement(
+                            'div',
+                            { className: 'column is-6', key: child.id },
+                            _react2.default.createElement(
+                              'div',
+                              { className: 'card' },
+                              _react2.default.createElement(
+                                'div',
+                                { className: 'card-content has-text-centered' },
+                                _react2.default.createElement(
+                                  _reactRouterDom.Link,
+                                  { to: child.url },
+                                  _react2.default.createElement(
+                                    'p',
+                                    { className: 'title' },
+                                    child.name
+                                  )
+                                )
+                              )
+                            )
+                          ));
+                        });
+                      }
+
+                      return buffer;
+                    })
                   )
                 )
               )
@@ -63575,1172 +63332,19 @@ var Gas = function (_Component) {
 exports.default = Gas;
 
 /***/ }),
-/* 398 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactChartjs = __webpack_require__(7);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-var Battery = function Battery(props) {
-
-  var line_data = {
-    labels: ['6', '7', '8', '9', '10', '11', '12', '13', '14', '15'],
-    datasets: [{
-      label: 'Battery',
-      fill: false,
-      lineTension: 0.5,
-      backgroundColor: 'rgba(255, 165, 87, 1)',
-      borderColor: 'rgba(255, 165, 87, 1)',
-      borderCapStyle: 'butt',
-      borderDash: [],
-      borderDashOffset: 0.0,
-      borderJoinStyle: 'miter',
-      pointBorderColor: 'rgba(255, 165, 87, 1)',
-      pointBackgroundColor: '#fff',
-      pointBorderWidth: 2,
-      pointHoverRadius: 5,
-      pointHoverBackgroundColor: 'rgba(255, 165, 87, 1)',
-      pointHoverBorderColor: 'rgba(255, 165, 87, 1)',
-      pointHoverBorderWidth: 2,
-      pointRadius: 3,
-      pointHitRadius: 5,
-      data: [].concat(_toConsumableArray(props.data))
-    }]
-  };
-
-  var line_options = {
-    responsive: true,
-    title: {
-      display: false,
-      text: 'Chart.js Line Chart'
-    },
-    tooltips: {
-      mode: 'index',
-      intersect: false
-    },
-    hover: {
-      mode: 'nearest',
-      intersect: true
-    },
-    scales: {
-      yAxes: [{
-        display: true,
-        scaleLabel: {
-          display: true,
-          labelString: 'C'
-        }
-      }]
-    }
-  };
-
-  return _react2.default.createElement(_reactChartjs.Line, { data: line_data, options: line_options });
-};
-
-exports.default = Battery;
-
-/***/ }),
-/* 399 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactChartjs = __webpack_require__(7);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-var Co = function Co(props) {
-
-  var line_data = {
-    labels: ['6', '7', '8', '9', '10', '11', '12', '13', '14', '15'],
-    datasets: [{
-      label: 'Co',
-      fill: false,
-      lineTension: 0.5,
-      backgroundColor: 'rgba(134, 255, 87, 1)',
-      borderColor: 'rgba(134, 255, 87, 1)',
-      borderCapStyle: 'butt',
-      borderDash: [],
-      borderDashOffset: 0.0,
-      borderJoinStyle: 'miter',
-      pointBorderColor: 'rgba(134, 255, 87, 1)',
-      pointBackgroundColor: '#fff',
-      pointBorderWidth: 2,
-      pointHoverRadius: 5,
-      pointHoverBackgroundColor: 'rgba(134, 255, 87, 1)',
-      pointHoverBorderColor: 'rgba(134, 255, 87, 1)',
-      pointHoverBorderWidth: 2,
-      pointRadius: 3,
-      pointHitRadius: 5,
-      data: [].concat(_toConsumableArray(props.data))
-    }]
-  };
-
-  var line_options = {
-    responsive: true,
-    title: {
-      display: false,
-      text: 'Chart.js Line Chart'
-    },
-    tooltips: {
-      mode: 'index',
-      intersect: false
-    },
-    hover: {
-      mode: 'nearest',
-      intersect: true
-    },
-    scales: {
-      yAxes: [{
-        display: true,
-        scaleLabel: {
-          display: true,
-          labelString: ''
-        }
-      }]
-    }
-  };
-
-  return _react2.default.createElement(_reactChartjs.Line, { data: line_data, options: line_options });
-};
-
-exports.default = Co;
-
-/***/ }),
-/* 400 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactChartjs = __webpack_require__(7);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-var Co2 = function Co2(props) {
-
-  var line_data = {
-    labels: ['6', '7', '8', '9', '10', '11', '12', '13', '14', '15'],
-    datasets: [{
-      label: 'Co2',
-      fill: false,
-      lineTension: 0.5,
-      backgroundColor: 'rgba(255, 87, 112, 1)',
-      borderColor: 'rgba(255, 87, 112, 1)',
-      borderCapStyle: 'butt',
-      borderDash: [],
-      borderDashOffset: 0.0,
-      borderJoinStyle: 'miter',
-      pointBorderColor: 'rgba(255, 87, 112, 1)',
-      pointBackgroundColor: '#fff',
-      pointBorderWidth: 2,
-      pointHoverRadius: 5,
-      pointHoverBackgroundColor: 'rgba(75,192,192,1)',
-      pointHoverBorderColor: 'rgba(220,220,220,1)',
-      pointHoverBorderWidth: 2,
-      pointRadius: 3,
-      pointHitRadius: 5,
-      data: [].concat(_toConsumableArray(props.data))
-    }]
-  };
-
-  var line_options = {
-    responsive: true,
-    title: {
-      display: false,
-      text: 'Chart.js Line Chart'
-    },
-    tooltips: {
-      mode: 'index',
-      intersect: false
-    },
-    hover: {
-      mode: 'nearest',
-      intersect: true
-    },
-    scales: {
-      yAxes: [{
-        display: true,
-        scaleLabel: {
-          display: true,
-          labelString: ''
-        }
-      }]
-    }
-  };
-
-  return _react2.default.createElement(_reactChartjs.Line, { data: line_data, options: line_options });
-};
-
-exports.default = Co2;
-
-/***/ }),
-/* 401 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactChartjs = __webpack_require__(7);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-var H2O = function H2O(props) {
-
-  var line_data = {
-    labels: ['6', '7', '8', '9', '10', '11', '12', '13', '14', '15'],
-    datasets: [{
-      label: 'H2O',
-      fill: false,
-      lineTension: 0.5,
-      backgroundColor: 'rgba(87, 230, 255, 1)',
-      borderColor: 'rgba(87, 230, 255, 1)',
-      borderCapStyle: 'butt',
-      borderDash: [],
-      borderDashOffset: 0.0,
-      borderJoinStyle: 'miter',
-      pointBorderColor: 'rgba(75,192,192,1)',
-      pointBackgroundColor: '#fff',
-      pointBorderWidth: 2,
-      pointHoverRadius: 5,
-      pointHoverBackgroundColor: 'rgba(75,192,192,1)',
-      pointHoverBorderColor: 'rgba(220,220,220,1)',
-      pointHoverBorderWidth: 2,
-      pointRadius: 3,
-      pointHitRadius: 5,
-      data: [].concat(_toConsumableArray(props.data))
-    }]
-  };
-
-  var line_options = {
-    responsive: true,
-    title: {
-      display: false,
-      text: 'Chart.js Line Chart'
-    },
-    tooltips: {
-      mode: 'index',
-      intersect: false
-    },
-    hover: {
-      mode: 'nearest',
-      intersect: true
-    },
-    scales: {
-      yAxes: [{
-        display: true,
-        scaleLabel: {
-          display: true,
-          labelString: ''
-        }
-      }]
-    }
-  };
-
-  return _react2.default.createElement(_reactChartjs.Line, { data: line_data, options: line_options });
-};
-
-exports.default = H2O;
-
-/***/ }),
-/* 402 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _Menu = __webpack_require__(25);
-
-var _Menu2 = _interopRequireDefault(_Menu);
-
-var _Temperature = __webpack_require__(403);
-
-var _Temperature2 = _interopRequireDefault(_Temperature);
-
-var _Humidity = __webpack_require__(404);
-
-var _Humidity2 = _interopRequireDefault(_Humidity);
-
-var _Ammonia = __webpack_require__(405);
-
-var _Ammonia2 = _interopRequireDefault(_Ammonia);
-
-var _axios = __webpack_require__(418);
-
-var _axios2 = _interopRequireDefault(_axios);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Location = function (_Component) {
-  _inherits(Location, _Component);
-
-  function Location(props) {
-    _classCallCheck(this, Location);
-
-    var _this = _possibleConstructorReturn(this, (Location.__proto__ || Object.getPrototypeOf(Location)).call(this, props));
-
-    _this.state = { temp: [], humid: [], ammonia: [] };
-    return _this;
-  }
-
-  _createClass(Location, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      var _this2 = this;
-
-      setInterval(function () {
-        var then = _this2;
-        _axios2.default.get('https://us-central1-performance-182414.cloudfunctions.net/generate_objects').then(function (response) {
-          var data = response.data.body;
-          then.setState({
-            temp: data,
-            humid: data,
-            sound: data
-          });
-        }).catch(function (error) {
-          console.log(error);
-        });
-      }, 2000);
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      return _react2.default.createElement(
-        'div',
-        { className: 'container' },
-        _react2.default.createElement(
-          'div',
-          { className: 'section' },
-          _react2.default.createElement(
-            'div',
-            { className: 'columns' },
-            _react2.default.createElement(
-              'div',
-              { className: 'column is-2' },
-              _react2.default.createElement(_Menu2.default, { url: this.props.location.pathname })
-            ),
-            _react2.default.createElement(
-              'div',
-              { className: 'column is-10' },
-              _react2.default.createElement(
-                'div',
-                { className: 'card' },
-                _react2.default.createElement(
-                  'div',
-                  { className: 'card-content' },
-                  _react2.default.createElement(
-                    'div',
-                    { className: 'has-text-centered' },
-                    _react2.default.createElement(
-                      'p',
-                      { className: 'title has-text-link' },
-                      'Toiler'
-                    ),
-                    _react2.default.createElement('br', null)
-                  ),
-                  _react2.default.createElement(
-                    'div',
-                    { className: 'columns' },
-                    _react2.default.createElement(
-                      'div',
-                      { className: 'column' },
-                      _react2.default.createElement(_Temperature2.default, { data: this.state.temp })
-                    ),
-                    _react2.default.createElement(
-                      'div',
-                      { className: 'column' },
-                      _react2.default.createElement(_Humidity2.default, { data: this.state.humid })
-                    )
-                  ),
-                  _react2.default.createElement(
-                    'div',
-                    { className: 'columns' },
-                    _react2.default.createElement(
-                      'div',
-                      { className: 'column' },
-                      _react2.default.createElement(_Ammonia2.default, { data: this.state.ammonia })
-                    )
-                  )
-                )
-              )
-            )
-          )
-        )
-      );
-    }
-  }]);
-
-  return Location;
-}(_react.Component);
-
-exports.default = Location;
-
-/***/ }),
-/* 403 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactChartjs = __webpack_require__(7);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-var Temperature = function Temperature(props) {
-
-  var line_data = {
-    labels: ['6', '7', '8', '9', '10', '11', '12', '13', '14', '15'],
-    datasets: [{
-      label: 'Temperature',
-      fill: false,
-      lineTension: 0.5,
-      backgroundColor: 'rgba(87, 230, 255, 1)',
-      borderColor: 'rgba(87, 230, 255, 1)',
-      borderCapStyle: 'butt',
-      borderDash: [],
-      borderDashOffset: 0.0,
-      borderJoinStyle: 'miter',
-      pointBorderColor: 'rgba(75,192,192,1)',
-      pointBackgroundColor: '#fff',
-      pointBorderWidth: 2,
-      pointHoverRadius: 5,
-      pointHoverBackgroundColor: 'rgba(75,192,192,1)',
-      pointHoverBorderColor: 'rgba(220,220,220,1)',
-      pointHoverBorderWidth: 2,
-      pointRadius: 3,
-      pointHitRadius: 5,
-      data: [].concat(_toConsumableArray(props.data))
-    }]
-  };
-
-  var line_options = {
-    responsive: true,
-    title: {
-      display: false,
-      text: 'Chart.js Line Chart'
-    },
-    tooltips: {
-      mode: 'index',
-      intersect: false
-    },
-    hover: {
-      mode: 'nearest',
-      intersect: true
-    },
-    scales: {
-      yAxes: [{
-        display: true,
-        scaleLabel: {
-          display: true,
-          labelString: 'C'
-        }
-      }]
-    }
-  };
-
-  return _react2.default.createElement(_reactChartjs.Line, { data: line_data, options: line_options });
-};
-
-exports.default = Temperature;
-
-/***/ }),
-/* 404 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactChartjs = __webpack_require__(7);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-var Humidity = function Humidity(props) {
-
-  var line_data = {
-    labels: ['6', '7', '8', '9', '10', '11', '12', '13', '14', '15'],
-    datasets: [{
-      label: 'Humidity',
-      fill: false,
-      lineTension: 0.5,
-      backgroundColor: 'rgba(255, 87, 112, 1)',
-      borderColor: 'rgba(255, 87, 112, 1)',
-      borderCapStyle: 'butt',
-      borderDash: [],
-      borderDashOffset: 0.0,
-      borderJoinStyle: 'miter',
-      pointBorderColor: 'rgba(255, 87, 112, 1)',
-      pointBackgroundColor: '#fff',
-      pointBorderWidth: 2,
-      pointHoverRadius: 5,
-      pointHoverBackgroundColor: 'rgba(75,192,192,1)',
-      pointHoverBorderColor: 'rgba(220,220,220,1)',
-      pointHoverBorderWidth: 2,
-      pointRadius: 3,
-      pointHitRadius: 5,
-      data: [].concat(_toConsumableArray(props.data))
-    }]
-  };
-
-  var line_options = {
-    responsive: true,
-    title: {
-      display: false,
-      text: 'Chart.js Line Chart'
-    },
-    tooltips: {
-      mode: 'index',
-      intersect: false
-    },
-    hover: {
-      mode: 'nearest',
-      intersect: true
-    },
-    scales: {
-      yAxes: [{
-        display: true,
-        scaleLabel: {
-          display: true,
-          labelString: 'RH'
-        }
-      }]
-    }
-  };
-
-  return _react2.default.createElement(_reactChartjs.Line, { data: line_data, options: line_options });
-};
-
-exports.default = Humidity;
-
-/***/ }),
-/* 405 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactChartjs = __webpack_require__(7);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-var Ammonia = function Ammonia(props) {
-
-  var line_data = {
-    labels: ['6', '7', '8', '9', '10', '11', '12', '13', '14', '15'],
-    datasets: [{
-      label: 'Ammonia',
-      fill: false,
-      lineTension: 0.5,
-      backgroundColor: 'rgba(134, 255, 87, 1)',
-      borderColor: 'rgba(134, 255, 87, 1)',
-      borderCapStyle: 'butt',
-      borderDash: [],
-      borderDashOffset: 0.0,
-      borderJoinStyle: 'miter',
-      pointBorderColor: 'rgba(134, 255, 87, 1)',
-      pointBackgroundColor: '#fff',
-      pointBorderWidth: 2,
-      pointHoverRadius: 5,
-      pointHoverBackgroundColor: 'rgba(134, 255, 87, 1)',
-      pointHoverBorderColor: 'rgba(134, 255, 87, 1)',
-      pointHoverBorderWidth: 2,
-      pointRadius: 3,
-      pointHitRadius: 5,
-      data: [].concat(_toConsumableArray(props.data))
-    }]
-  };
-
-  var line_options = {
-    responsive: true,
-    title: {
-      display: false,
-      text: 'Chart.js Line Chart'
-    },
-    tooltips: {
-      mode: 'index',
-      intersect: false
-    },
-    hover: {
-      mode: 'nearest',
-      intersect: true
-    },
-    scales: {
-      yAxes: [{
-        display: true,
-        scaleLabel: {
-          display: true,
-          labelString: ''
-        }
-      }]
-    }
-  };
-
-  return _react2.default.createElement(_reactChartjs.Line, { data: line_data, options: line_options });
-};
-
-exports.default = Ammonia;
-
-/***/ }),
-/* 406 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _Menu = __webpack_require__(25);
-
-var _Menu2 = _interopRequireDefault(_Menu);
-
-var _Temperature = __webpack_require__(407);
-
-var _Temperature2 = _interopRequireDefault(_Temperature);
-
-var _Humidity = __webpack_require__(408);
-
-var _Humidity2 = _interopRequireDefault(_Humidity);
-
-var _Sound = __webpack_require__(409);
-
-var _Sound2 = _interopRequireDefault(_Sound);
-
-var _Light = __webpack_require__(410);
-
-var _Light2 = _interopRequireDefault(_Light);
-
-var _axios = __webpack_require__(418);
-
-var _axios2 = _interopRequireDefault(_axios);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Bedroom = function (_Component) {
-  _inherits(Bedroom, _Component);
-
-  function Bedroom(props) {
-    _classCallCheck(this, Bedroom);
-
-    var _this = _possibleConstructorReturn(this, (Bedroom.__proto__ || Object.getPrototypeOf(Bedroom)).call(this, props));
-
-    _this.state = { temp: [], humid: [], sound: [], light: [] };
-    return _this;
-  }
-
-  _createClass(Bedroom, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      var _this2 = this;
-
-      setInterval(function () {
-        var then = _this2;
-        _axios2.default.get('https://us-central1-performance-182414.cloudfunctions.net/generate_objects').then(function (response) {
-          var data = response.data.body;
-          then.setState({
-            temp: data,
-            humid: data,
-            sound: data
-          });
-        }).catch(function (error) {
-          console.log(error);
-        });
-      }, 2000);
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-
-      return _react2.default.createElement(
-        'div',
-        { className: 'container' },
-        _react2.default.createElement(
-          'div',
-          { className: 'section' },
-          _react2.default.createElement(
-            'div',
-            { className: 'columns' },
-            _react2.default.createElement(
-              'div',
-              { className: 'column is-2' },
-              _react2.default.createElement(_Menu2.default, { url: this.props.location.pathname })
-            ),
-            _react2.default.createElement(
-              'div',
-              { className: 'column is-10' },
-              _react2.default.createElement(
-                'div',
-                { className: 'card' },
-                _react2.default.createElement(
-                  'div',
-                  { className: 'card-content' },
-                  _react2.default.createElement(
-                    'div',
-                    { className: 'has-text-centered' },
-                    _react2.default.createElement(
-                      'p',
-                      { className: 'title has-text-link' },
-                      'Bedroom'
-                    ),
-                    _react2.default.createElement('br', null)
-                  ),
-                  _react2.default.createElement(
-                    'div',
-                    { className: 'columns' },
-                    _react2.default.createElement(
-                      'div',
-                      { className: 'column' },
-                      _react2.default.createElement(_Temperature2.default, { data: this.state.temp })
-                    ),
-                    _react2.default.createElement(
-                      'div',
-                      { className: 'column' },
-                      _react2.default.createElement(_Humidity2.default, { data: this.state.humid })
-                    )
-                  ),
-                  _react2.default.createElement(
-                    'div',
-                    { className: 'columns' },
-                    _react2.default.createElement(
-                      'div',
-                      { className: 'column' },
-                      _react2.default.createElement(_Sound2.default, { data: this.state.sound })
-                    ),
-                    _react2.default.createElement(
-                      'div',
-                      { className: 'column' },
-                      _react2.default.createElement(_Light2.default, { data: this.state.light })
-                    )
-                  )
-                )
-              )
-            )
-          )
-        )
-      );
-    }
-  }]);
-
-  return Bedroom;
-}(_react.Component);
-
-exports.default = Bedroom;
-
-/***/ }),
-/* 407 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactChartjs = __webpack_require__(7);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-var Temperature = function Temperature(props) {
-
-  var line_data = {
-    labels: ['6', '7', '8', '9', '10', '11', '12', '13', '14', '15'],
-    datasets: [{
-      label: 'Temperature',
-      fill: false,
-      lineTension: 0.5,
-      backgroundColor: 'rgba(87, 230, 255, 1)',
-      borderColor: 'rgba(87, 230, 255, 1)',
-      borderCapStyle: 'butt',
-      borderDash: [],
-      borderDashOffset: 0.0,
-      borderJoinStyle: 'miter',
-      pointBorderColor: 'rgba(75,192,192,1)',
-      pointBackgroundColor: '#fff',
-      pointBorderWidth: 2,
-      pointHoverRadius: 5,
-      pointHoverBackgroundColor: 'rgba(75,192,192,1)',
-      pointHoverBorderColor: 'rgba(220,220,220,1)',
-      pointHoverBorderWidth: 2,
-      pointRadius: 3,
-      pointHitRadius: 5,
-      data: [].concat(_toConsumableArray(props.data))
-    }]
-  };
-
-  var line_options = {
-    responsive: true,
-    title: {
-      display: false,
-      text: 'Chart.js Line Chart'
-    },
-    tooltips: {
-      mode: 'index',
-      intersect: false
-    },
-    hover: {
-      mode: 'nearest',
-      intersect: true
-    },
-    scales: {
-      yAxes: [{
-        display: true,
-        scaleLabel: {
-          display: true,
-          labelString: 'C'
-        }
-      }]
-    }
-  };
-
-  return _react2.default.createElement(_reactChartjs.Line, { data: line_data, options: line_options });
-};
-
-exports.default = Temperature;
-
-/***/ }),
-/* 408 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactChartjs = __webpack_require__(7);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-var Humidity = function Humidity(props) {
-
-  var line_data = {
-    labels: ['6', '7', '8', '9', '10', '11', '12', '13', '14', '15'],
-    datasets: [{
-      label: 'Humidity',
-      fill: false,
-      lineTension: 0.5,
-      backgroundColor: 'rgba(255, 87, 112, 1)',
-      borderColor: 'rgba(255, 87, 112, 1)',
-      borderCapStyle: 'butt',
-      borderDash: [],
-      borderDashOffset: 0.0,
-      borderJoinStyle: 'miter',
-      pointBorderColor: 'rgba(255, 87, 112, 1)',
-      pointBackgroundColor: '#fff',
-      pointBorderWidth: 2,
-      pointHoverRadius: 5,
-      pointHoverBackgroundColor: 'rgba(75,192,192,1)',
-      pointHoverBorderColor: 'rgba(220,220,220,1)',
-      pointHoverBorderWidth: 2,
-      pointRadius: 3,
-      pointHitRadius: 5,
-      data: [].concat(_toConsumableArray(props.data))
-    }]
-  };
-
-  var line_options = {
-    responsive: true,
-    title: {
-      display: false,
-      text: 'Chart.js Line Chart'
-    },
-    tooltips: {
-      mode: 'index',
-      intersect: false
-    },
-    hover: {
-      mode: 'nearest',
-      intersect: true
-    },
-    scales: {
-      yAxes: [{
-        display: true,
-        scaleLabel: {
-          display: true,
-          labelString: 'RH'
-        }
-      }]
-    }
-  };
-
-  return _react2.default.createElement(_reactChartjs.Line, { data: line_data, options: line_options });
-};
-
-exports.default = Humidity;
-
-/***/ }),
-/* 409 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactChartjs = __webpack_require__(7);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-var Sound = function Sound(props) {
-
-  var line_data = {
-    labels: ['6', '7', '8', '9', '10', '11', '12', '13', '14', '15'],
-    datasets: [{
-      label: 'Sound',
-      fill: false,
-      lineTension: 0.5,
-      backgroundColor: 'rgba(134, 255, 87, 1)',
-      borderColor: 'rgba(134, 255, 87, 1)',
-      borderCapStyle: 'butt',
-      borderDash: [],
-      borderDashOffset: 0.0,
-      borderJoinStyle: 'miter',
-      pointBorderColor: 'rgba(134, 255, 87, 1)',
-      pointBackgroundColor: '#fff',
-      pointBorderWidth: 2,
-      pointHoverRadius: 5,
-      pointHoverBackgroundColor: 'rgba(134, 255, 87, 1)',
-      pointHoverBorderColor: 'rgba(134, 255, 87, 1)',
-      pointHoverBorderWidth: 2,
-      pointRadius: 3,
-      pointHitRadius: 5,
-      data: [].concat(_toConsumableArray(props.data))
-    }]
-  };
-
-  var line_options = {
-    responsive: true,
-    title: {
-      display: false,
-      text: 'Chart.js Line Chart'
-    },
-    tooltips: {
-      mode: 'index',
-      intersect: false
-    },
-    hover: {
-      mode: 'nearest',
-      intersect: true
-    },
-    scales: {
-      yAxes: [{
-        display: true,
-        scaleLabel: {
-          display: true,
-          labelString: 'DB'
-        }
-      }]
-    }
-  };
-
-  return _react2.default.createElement(_reactChartjs.Line, { data: line_data, options: line_options });
-};
-
-exports.default = Sound;
-
-/***/ }),
-/* 410 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactChartjs = __webpack_require__(7);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-var Light = function Light(props) {
-
-  var line_data = {
-    labels: ['6', '7', '8', '9', '10', '11', '12', '13', '14', '15'],
-    datasets: [{
-      label: 'Light',
-      fill: false,
-      lineTension: 0.5,
-      backgroundColor: 'rgba(174, 87, 255, 1)',
-      borderColor: 'rgba(174, 87, 255, 1)',
-      borderCapStyle: 'butt',
-      borderDash: [],
-      borderDashOffset: 0.0,
-      borderJoinStyle: 'miter',
-      pointBorderColor: 'rgba(174, 87, 255, 1)',
-      pointBackgroundColor: '#fff',
-      pointBorderWidth: 2,
-      pointHoverRadius: 5,
-      pointHoverBackgroundColor: 'rgba(174, 87, 255, 1)',
-      pointHoverBorderColor: 'rgba(174, 87, 255, 1)',
-      pointHoverBorderWidth: 2,
-      pointRadius: 3,
-      pointHitRadius: 5,
-      data: [].concat(_toConsumableArray(props.data))
-    }]
-  };
-
-  var line_options = {
-    responsive: true,
-    title: {
-      display: false,
-      text: 'Chart.js Line Chart'
-    },
-    tooltips: {
-      mode: 'index',
-      intersect: false
-    },
-    hover: {
-      mode: 'nearest',
-      intersect: true
-    },
-    scales: {
-      yAxes: [{
-        display: true,
-        scaleLabel: {
-          display: true,
-          labelString: ''
-        }
-      }]
-    }
-  };
-
-  return _react2.default.createElement(_reactChartjs.Line, { data: line_data, options: line_options });
-};
-
-exports.default = Light;
-
-/***/ }),
+/* 398 */,
+/* 399 */,
+/* 400 */,
+/* 401 */,
+/* 402 */,
+/* 403 */,
+/* 404 */,
+/* 405 */,
+/* 406 */,
+/* 407 */,
+/* 408 */,
+/* 409 */,
+/* 410 */,
 /* 411 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -66308,6 +64912,262 @@ module.exports = function spread(callback) {
   };
 };
 
+
+/***/ }),
+/* 437 */,
+/* 438 */,
+/* 439 */,
+/* 440 */,
+/* 441 */,
+/* 442 */,
+/* 443 */,
+/* 444 */,
+/* 445 */,
+/* 446 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _Menu = __webpack_require__(25);
+
+var _Menu2 = _interopRequireDefault(_Menu);
+
+var _reactChartjs = __webpack_require__(7);
+
+var _axios = __webpack_require__(418);
+
+var _axios2 = _interopRequireDefault(_axios);
+
+var _menuItems = __webpack_require__(447);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var EnvironmentType = function (_Component) {
+  _inherits(EnvironmentType, _Component);
+
+  function EnvironmentType(props) {
+    _classCallCheck(this, EnvironmentType);
+
+    var _this = _possibleConstructorReturn(this, (EnvironmentType.__proto__ || Object.getPrototypeOf(EnvironmentType)).call(this, props));
+
+    _this.state = { temp: []
+      // debugger
+    };return _this;
+  }
+
+  _createClass(EnvironmentType, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      setInterval(function () {
+        var then = _this2;
+        _axios2.default.get('https://us-central1-performance-182414.cloudfunctions.net/generate_objects').then(function (response) {
+          var data = response.data.body;
+          then.setState({
+            temp: data
+          });
+        }).catch(function (error) {
+          console.log(error);
+        });
+      }, 2000);
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _this3 = this;
+
+      var mockup = function mockup() {
+
+        var line_data = {
+          labels: ['6', '7', '8', '9', '10', '11', '12', '13', '14', '15'],
+          datasets: [{
+            label: 'Temperature',
+            fill: false,
+            lineTension: 0.5,
+            backgroundColor: 'rgba(87, 230, 255, 1)',
+            borderColor: 'rgba(87, 230, 255, 1)',
+            borderCapStyle: 'butt',
+            borderDash: [],
+            borderDashOffset: 0.0,
+            borderJoinStyle: 'miter',
+            pointBorderColor: 'rgba(75,192,192,1)',
+            pointBackgroundColor: '#fff',
+            pointBorderWidth: 2,
+            pointHoverRadius: 5,
+            pointHoverBackgroundColor: 'rgba(75,192,192,1)',
+            pointHoverBorderColor: 'rgba(220,220,220,1)',
+            pointHoverBorderWidth: 2,
+            pointRadius: 3,
+            pointHitRadius: 5,
+            data: [].concat(_toConsumableArray(_this3.state.temp))
+          }]
+        };
+
+        var line_options = {
+          responsive: true,
+          title: {
+            display: false,
+            text: 'Chart.js Line Chart'
+          },
+          tooltips: {
+            mode: 'index',
+            intersect: false
+          },
+          hover: {
+            mode: 'nearest',
+            intersect: true
+          },
+          scales: {
+            yAxes: [{
+              display: true,
+              scaleLabel: {
+                display: true,
+                labelString: 'C'
+              }
+            }]
+          }
+        };
+
+        return _react2.default.createElement(_reactChartjs.Line, { data: line_data, options: line_options });
+      };
+
+      return _react2.default.createElement(
+        'div',
+        { className: 'container' },
+        _react2.default.createElement(
+          'div',
+          { className: 'section' },
+          _react2.default.createElement(
+            'div',
+            { className: 'columns' },
+            _react2.default.createElement(
+              'div',
+              { className: 'column is-2' },
+              _react2.default.createElement(_Menu2.default, { url: this.props.location.pathname })
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: 'column is-10' },
+              _react2.default.createElement(
+                'div',
+                { className: 'card' },
+                _react2.default.createElement(
+                  'div',
+                  { className: 'card-content' },
+                  _react2.default.createElement(
+                    'div',
+                    { className: 'has-text-centered' },
+                    _react2.default.createElement(
+                      'p',
+                      { className: 'title has-text-link' },
+                      _menuItems.menuNameMapping[this.props.location.pathname]
+                    ),
+                    _react2.default.createElement('br', null)
+                  ),
+                  _react2.default.createElement(
+                    'div',
+                    { className: 'columns' },
+                    _react2.default.createElement(
+                      'div',
+                      { className: 'column' },
+                      mockup()
+                    )
+                  )
+                )
+              )
+            )
+          )
+        )
+      );
+    }
+  }]);
+
+  return EnvironmentType;
+}(_react.Component);
+
+exports.default = EnvironmentType;
+
+/***/ }),
+/* 447 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var generate = [];
+for (var i = 0; i <= 99; i++) {
+  generate.push(parseInt(Math.random().toFixed(2) * 100));
+}
+
+var menuItems = [{
+  id: 1,
+  url: '/environment',
+  name: 'Environment',
+  icon: 'fa fa-envira',
+  children: [{
+    id: 1,
+    url: '/environment/node/1',
+    name: 'ห้องนอน',
+    temp: generate,
+    humid: generate
+  }, {
+    id: 2,
+    url: '/environment/node/2',
+    name: 'ห้องน้ำ',
+    temp: generate,
+    humid: generate
+  }]
+}, {
+  id: 2,
+  url: '/gas',
+  name: 'Gas',
+  icon: 'fa fa-flask',
+  children: [{
+    id: 1,
+    url: '/gas/node/1',
+    name: 'ห้องครัว',
+    temp: generate,
+    humid: generate
+  }, {
+    id: 2,
+    url: '/gas/node/2',
+    name: 'ห้องทำงาน',
+    temp: generate,
+    humid: generate
+  }]
+}];
+
+var menuNameMapping = {};
+menuItems.forEach(function (menu, idx) {
+  menu.children.forEach(function (menuItem) {
+    menuNameMapping[menuItem.url] = menuItem.name;
+  });
+});
+exports.menuItems = menuItems;
+exports.menuNameMapping = menuNameMapping;
 
 /***/ })
 /******/ ]);
