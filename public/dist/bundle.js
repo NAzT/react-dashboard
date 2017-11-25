@@ -43007,7 +43007,6 @@ var Environment = function (_Component) {
   _createClass(Environment, [{
     key: 'render',
     value: function render() {
-      var _this2 = this;
 
       return _react2.default.createElement(
         'div',
@@ -43048,31 +43047,31 @@ var Environment = function (_Component) {
                     _menuItems.menuItems.map(function (obj) {
 
                       var buffer = [];
-                      if (_this2.props.location.pathname === obj.url) {
-                        obj.children.map(function (child) {
-                          buffer.push(_react2.default.createElement(
+                      // if (this.props.location.pathname === obj.url) {
+                      obj.children.map(function (child) {
+                        buffer.push(_react2.default.createElement(
+                          'div',
+                          { className: 'column is-6', key: child.id },
+                          _react2.default.createElement(
                             'div',
-                            { className: 'column is-6', key: child.id },
+                            { className: 'card' },
                             _react2.default.createElement(
                               'div',
-                              { className: 'card' },
+                              { className: 'card-content has-text-centered' },
                               _react2.default.createElement(
-                                'div',
-                                { className: 'card-content has-text-centered' },
+                                _reactRouterDom.Link,
+                                { to: child.url },
                                 _react2.default.createElement(
-                                  _reactRouterDom.Link,
-                                  { to: child.url },
-                                  _react2.default.createElement(
-                                    'p',
-                                    { className: 'title' },
-                                    child.name
-                                  )
+                                  'p',
+                                  { className: 'title' },
+                                  child.name
                                 )
                               )
                             )
-                          ));
-                        });
-                      }
+                          )
+                        ));
+                      });
+                      // }
 
                       return buffer;
                     })

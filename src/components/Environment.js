@@ -33,7 +33,7 @@ export default class Environment extends Component {
                       menuItems.map((obj) => {
 
                         let buffer = []
-                        if (this.props.location.pathname === obj.url) {
+                        // if (this.props.location.pathname === obj.url) {
                           obj.children.map((child) => {
                             buffer.push(
                               <div className='column is-6' key={child.id}>
@@ -47,7 +47,7 @@ export default class Environment extends Component {
                               </div>
                             )
                           })
-                        }
+                        // }
 
                         return buffer
 
