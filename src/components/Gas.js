@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Menu from './Menu.js'
 import { Link } from 'react-router-dom'
 import { menuItems } from '../data/menuItems'
+import styled from 'styled-components'
 
 export default class Gas extends Component {
 
@@ -10,6 +11,10 @@ export default class Gas extends Component {
   }
 
   render () {
+
+    const StyledSpan = styled.p`
+      font-family: 'Kanit', sans-serif;
+    `
 
     return (
       <div className='container'>
@@ -23,11 +28,6 @@ export default class Gas extends Component {
               <div className="card">
                 <div className="card-content">
 
-                  <div className='has-text-centered'>
-                    <p className='title has-text-link'>Gas</p>
-                    <br/>
-                  </div>
-
                   <div className="columns">
                     {
                       menuItems.map((obj) => {
@@ -40,7 +40,7 @@ export default class Gas extends Component {
                                 <div className="card">
                                   <div className="card-content has-text-centered">
                                     <Link to={child.url}>
-                                      <p className='title'>{child.name}</p>
+                                      <StyledSpan className='title'>{child.name}</StyledSpan>
                                     </Link>
                                   </div>
                                 </div>

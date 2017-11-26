@@ -7,42 +7,71 @@ const menuItems = [
   {
     id: 1,
     url: '/environment',
-    name: 'Environment',
+    name: 'สภาพแวดล้อม',
     icon: 'fa fa-envira',
+    children: []
+  },
+  {
+    id: 2,
+    url: '/gas',
+    name: 'แก๊ส',
+    icon: 'fa fa-flask',
     children: [
       {
         id: 1,
-        url: '/environment/node/1',
-        name: 'ห้องนอน',
-        temp: generate,
-        humid: generate
-      },
-      {
-        id: 2,
-        url: '/environment/node/2',
-        name: 'ห้องน้ำ',
+        url: '/gas/node/1',
+        name: 'ห้องเก็บไวน์',
         temp: generate,
         humid: generate
       }
     ]
   },
   {
-    id: 2,
-    url: '/gas',
-    name: 'Gas',
-    icon: 'fa fa-flask',
+    id: 3,
+    url: '/recycle',
+    name: 'ปริมาณขยะ',
+    icon: 'fa fa-recycle',
     children: [
       {
         id: 1,
-        url: '/gas/node/1',
-        name: 'ห้องครัว',
+        url: '/recycle/node/1',
+        name: 'หน้าบ้าน',
         temp: generate,
         humid: generate
       },
       {
         id: 2,
-        url: '/gas/node/2',
-        name: 'ห้องทำงาน',
+        url: '/recycle/node/2',
+        name: 'หลังบ้าน',
+        temp: generate,
+        humid: generate
+      },
+      {
+        id: 2,
+        url: '/recycle/node/2',
+        name: 'ห้องครัว',
+        temp: generate,
+        humid: generate
+      }
+    ]
+  },
+  {
+    id: 4,
+    url: '/battery',
+    name: 'แบตเตอรี่',
+    icon: 'fa fa-battery-three-quarters',
+    children: [
+      {
+        id: 1,
+        url: '/battery/node/1',
+        name: 'เซิร์ฟเวอร์ A',
+        temp: generate,
+        humid: generate
+      },
+      {
+        id: 2,
+        url: '/battery/node/2',
+        name: 'เซิร์ฟเวอร์ B',
         temp: generate,
         humid: generate
       }

@@ -7548,36 +7548,60 @@ for (var i = 0; i <= 99; i++) {
 var menuItems = [{
   id: 1,
   url: '/environment',
-  name: 'Environment',
+  name: 'สภาพแวดล้อม',
   icon: 'fa fa-envira',
-  children: [{
-    id: 1,
-    url: '/environment/node/1',
-    name: 'ห้องนอน',
-    temp: generate,
-    humid: generate
-  }, {
-    id: 2,
-    url: '/environment/node/2',
-    name: 'ห้องน้ำ',
-    temp: generate,
-    humid: generate
-  }]
+  children: []
 }, {
   id: 2,
   url: '/gas',
-  name: 'Gas',
+  name: 'แก๊ส',
   icon: 'fa fa-flask',
   children: [{
     id: 1,
     url: '/gas/node/1',
-    name: 'ห้องครัว',
+    name: 'ห้องเก็บไวน์',
+    temp: generate,
+    humid: generate
+  }]
+}, {
+  id: 3,
+  url: '/recycle',
+  name: 'ปริมาณขยะ',
+  icon: 'fa fa-recycle',
+  children: [{
+    id: 1,
+    url: '/recycle/node/1',
+    name: 'หน้าบ้าน',
     temp: generate,
     humid: generate
   }, {
     id: 2,
-    url: '/gas/node/2',
-    name: 'ห้องทำงาน',
+    url: '/recycle/node/2',
+    name: 'หลังบ้าน',
+    temp: generate,
+    humid: generate
+  }, {
+    id: 2,
+    url: '/recycle/node/2',
+    name: 'ห้องครัว',
+    temp: generate,
+    humid: generate
+  }]
+}, {
+  id: 4,
+  url: '/battery',
+  name: 'แบตเตอรี่',
+  icon: 'fa fa-battery-three-quarters',
+  children: [{
+    id: 1,
+    url: '/battery/node/1',
+    name: 'เซิร์ฟเวอร์ A',
+    temp: generate,
+    humid: generate
+  }, {
+    id: 2,
+    url: '/battery/node/2',
+    name: 'เซิร์ฟเวอร์ B',
     temp: generate,
     humid: generate
   }]
@@ -65115,6 +65139,8 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _templateObject = _taggedTemplateLiteral(['\n      font-family: \'Kanit\', sans-serif;\n    '], ['\n      font-family: \'Kanit\', sans-serif;\n    ']);
+
 var _react = __webpack_require__(3);
 
 var _react2 = _interopRequireDefault(_react);
@@ -65127,7 +65153,13 @@ var _reactRouterDom = __webpack_require__(36);
 
 var _menuItems = __webpack_require__(44);
 
+var _styledComponents = __webpack_require__(68);
+
+var _styledComponents2 = _interopRequireDefault(_styledComponents);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -65148,6 +65180,8 @@ var Gas = function (_Component) {
     key: 'render',
     value: function render() {
       var _this2 = this;
+
+      var StyledSpan = _styledComponents2.default.p(_templateObject);
 
       return _react2.default.createElement(
         'div',
@@ -65174,16 +65208,6 @@ var Gas = function (_Component) {
                   { className: 'card-content' },
                   _react2.default.createElement(
                     'div',
-                    { className: 'has-text-centered' },
-                    _react2.default.createElement(
-                      'p',
-                      { className: 'title has-text-link' },
-                      'Gas'
-                    ),
-                    _react2.default.createElement('br', null)
-                  ),
-                  _react2.default.createElement(
-                    'div',
                     { className: 'columns' },
                     _menuItems.menuItems.map(function (obj) {
 
@@ -65203,7 +65227,7 @@ var Gas = function (_Component) {
                                   _reactRouterDom.Link,
                                   { to: child.url },
                                   _react2.default.createElement(
-                                    'p',
+                                    StyledSpan,
                                     { className: 'title' },
                                     child.name
                                   )
