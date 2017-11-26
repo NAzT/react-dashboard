@@ -14,6 +14,7 @@ export default class Gas extends Component {
 
     const StyledSpan = styled.p`
       font-family: 'Kanit', sans-serif;
+      color: white;
     `
 
     return (
@@ -37,7 +38,10 @@ export default class Gas extends Component {
                           obj.children.map((child) => {
                             buffer.push(
                               <div className='column is-6' key={child.id}>
-                                <div className="card">
+                                <div className="card"
+                                     style={{
+                                       backgroundColor: '#99c2ff'
+                                     }}>
                                   <div className="card-content has-text-centered">
                                     <Link to={child.url}>
                                       <StyledSpan className='title'>{child.name}</StyledSpan>

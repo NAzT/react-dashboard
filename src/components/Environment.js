@@ -62,19 +62,42 @@ export default class Environment extends Component {
 
                   <div className="columns">
                     <div className="column">
-                      <Line label='Line2' data={data.generate.data()} labels={data.generate.labels}/>
+                      <Line label='Line2' data={data.generate.data()}
+                            labels={data.generate.labels}
+                            backgroundColor='rgba(87, 230, 255, 0.5)'
+                            borderColor='rgba(87, 230, 255, 0.5)'
+                            pointBorderColor='rgba(255, 163, 102, 1)'
+                      />
                     </div>
                     <div className="column">
-                      <Line label='Line3' data={data.generate.data()} labels={data.generate.labels}/>
+                      <Line label='Line3' data={data.generate.data()}
+                            labels={data.generate.labels}
+                            backgroundColor='rgba(68, 104, 176, 0.5)'
+                            borderColor='rgba(68, 104, 176, 0.5)'
+                            pointBorderColor='rgba(255, 163, 102, 1)'
+                            lineTension='0'
+                      />
                     </div>
                   </div>
 
                   <div className="columns">
                     <div className="column">
-                      <Line label='Line4' data={data.generate.data()} labels={data.generate.labels}/>
+                      <Line label='Line4' data={data.generate.data()}
+                            labels={data.generate.labels}
+                            backgroundColor='rgba(242, 204, 255, 0.5)'
+                            borderColor='rgba(242, 204, 255, 0.5)'
+                            pointBorderColor='rgba(255, 163, 102, 1)'
+                            lineTension='0'
+                      />
                     </div>
                     <div className="column">
-                      <Line label='Line5' data={data.generate.data()} labels={data.generate.labels}/>
+                      <Line label='Line5' data={data.generate.data()}
+                            labels={data.generate.labels}
+                            backgroundColor='rgba(223, 191, 159, 0.5)'
+                            borderColor='rgba(223, 191, 159, 0.5)'
+                            pointBorderColor='rgba(255, 163, 102, 1)'
+                            lineTension='0.3'
+                      />
                     </div>
                   </div>
 

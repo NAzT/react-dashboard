@@ -46121,12 +46121,23 @@ var Environment = function (_Component) {
                     _react2.default.createElement(
                       'div',
                       { className: 'column' },
-                      _react2.default.createElement(_Line2.default, { label: 'Line2', data: _dummyCharts.data.generate.data(), labels: _dummyCharts.data.generate.labels })
+                      _react2.default.createElement(_Line2.default, { label: 'Line2', data: _dummyCharts.data.generate.data(),
+                        labels: _dummyCharts.data.generate.labels,
+                        backgroundColor: 'rgba(87, 230, 255, 0.5)',
+                        borderColor: 'rgba(87, 230, 255, 0.5)',
+                        pointBorderColor: 'rgba(255, 163, 102, 1)'
+                      })
                     ),
                     _react2.default.createElement(
                       'div',
                       { className: 'column' },
-                      _react2.default.createElement(_Line2.default, { label: 'Line3', data: _dummyCharts.data.generate.data(), labels: _dummyCharts.data.generate.labels })
+                      _react2.default.createElement(_Line2.default, { label: 'Line3', data: _dummyCharts.data.generate.data(),
+                        labels: _dummyCharts.data.generate.labels,
+                        backgroundColor: 'rgba(68, 104, 176, 0.5)',
+                        borderColor: 'rgba(68, 104, 176, 0.5)',
+                        pointBorderColor: 'rgba(255, 163, 102, 1)',
+                        lineTension: '0'
+                      })
                     )
                   ),
                   _react2.default.createElement(
@@ -46135,12 +46146,24 @@ var Environment = function (_Component) {
                     _react2.default.createElement(
                       'div',
                       { className: 'column' },
-                      _react2.default.createElement(_Line2.default, { label: 'Line4', data: _dummyCharts.data.generate.data(), labels: _dummyCharts.data.generate.labels })
+                      _react2.default.createElement(_Line2.default, { label: 'Line4', data: _dummyCharts.data.generate.data(),
+                        labels: _dummyCharts.data.generate.labels,
+                        backgroundColor: 'rgba(242, 204, 255, 0.5)',
+                        borderColor: 'rgba(242, 204, 255, 0.5)',
+                        pointBorderColor: 'rgba(255, 163, 102, 1)',
+                        lineTension: '0'
+                      })
                     ),
                     _react2.default.createElement(
                       'div',
                       { className: 'column' },
-                      _react2.default.createElement(_Line2.default, { label: 'Line5', data: _dummyCharts.data.generate.data(), labels: _dummyCharts.data.generate.labels })
+                      _react2.default.createElement(_Line2.default, { label: 'Line5', data: _dummyCharts.data.generate.data(),
+                        labels: _dummyCharts.data.generate.labels,
+                        backgroundColor: 'rgba(223, 191, 159, 0.5)',
+                        borderColor: 'rgba(223, 191, 159, 0.5)',
+                        pointBorderColor: 'rgba(255, 163, 102, 1)',
+                        lineTension: '0.3'
+                      })
                     )
                   )
                 )
@@ -48017,19 +48040,28 @@ var line_options = {
 };
 
 exports.default = function (props) {
+
+  var data = {
+    lineTension: 0.5
+  };
+
+  if (props.lineTension !== undefined) {
+    data.lineTension = props.lineTension;
+  }
+
   return _react2.default.createElement(_reactChartjs.Line, { data: {
       labels: [].concat(_toConsumableArray(props.labels)),
       datasets: [{
         label: props.label,
-        fill: false,
-        lineTension: 0.5,
-        backgroundColor: 'rgba(87, 230, 255, 1)',
-        borderColor: 'rgba(87, 230, 255, 1)',
+        fill: true,
+        lineTension: data.lineTension,
+        backgroundColor: props.backgroundColor,
+        borderColor: props.borderColor,
         borderCapStyle: 'butt',
         borderDash: [],
         borderDashOffset: 0.0,
         borderJoinStyle: 'miter',
-        pointBorderColor: 'rgba(75,192,192,1)',
+        pointBorderColor: props.pointBorderColor,
         pointBackgroundColor: '#fff',
         pointBorderWidth: 2,
         pointHoverRadius: 5,
@@ -65139,7 +65171,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _templateObject = _taggedTemplateLiteral(['\n      font-family: \'Kanit\', sans-serif;\n    '], ['\n      font-family: \'Kanit\', sans-serif;\n    ']);
+var _templateObject = _taggedTemplateLiteral(['\n      font-family: \'Kanit\', sans-serif;\n      color: white;\n    '], ['\n      font-family: \'Kanit\', sans-serif;\n      color: white;\n    ']);
 
 var _react = __webpack_require__(3);
 
@@ -65219,7 +65251,10 @@ var Gas = function (_Component) {
                             { className: 'column is-6', key: child.id },
                             _react2.default.createElement(
                               'div',
-                              { className: 'card' },
+                              { className: 'card',
+                                style: {
+                                  backgroundColor: '#99c2ff'
+                                } },
                               _react2.default.createElement(
                                 'div',
                                 { className: 'card-content has-text-centered' },
