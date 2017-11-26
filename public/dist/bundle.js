@@ -45989,9 +45989,9 @@ var _Line = __webpack_require__(267);
 
 var _Line2 = _interopRequireDefault(_Line);
 
-var _axios = __webpack_require__(204);
+var _LineMultiAxis = __webpack_require__(427);
 
-var _axios2 = _interopRequireDefault(_axios);
+var _LineMultiAxis2 = _interopRequireDefault(_LineMultiAxis);
 
 var _Gauge = __webpack_require__(422);
 
@@ -46013,30 +46013,10 @@ var Environment = function (_Component) {
   function Environment(props) {
     _classCallCheck(this, Environment);
 
-    var _this = _possibleConstructorReturn(this, (Environment.__proto__ || Object.getPrototypeOf(Environment)).call(this, props));
-
-    _this.state = { temp: [] };
-    return _this;
+    return _possibleConstructorReturn(this, (Environment.__proto__ || Object.getPrototypeOf(Environment)).call(this, props));
   }
 
   _createClass(Environment, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      var _this2 = this;
-
-      setInterval(function () {
-        var then = _this2;
-        _axios2.default.get('https://us-central1-performance-182414.cloudfunctions.net/generate_objects').then(function (response) {
-          var data = response.data.body;
-          then.setState({
-            temp: data
-          });
-        }).catch(function (error) {
-          console.log(error);
-        });
-      }, 2000);
-    }
-  }, {
     key: 'render',
     value: function render() {
 
@@ -46076,6 +46056,20 @@ var Environment = function (_Component) {
                       { className: 'column has-text-centered' },
                       _react2.default.createElement(_Gauge2.default, { width: '200', height: '160', label: 'Humidity', value: '80', color: '#ff4d4d' })
                     )
+                  ),
+                  _react2.default.createElement(
+                    'div',
+                    { className: 'columns' },
+                    _react2.default.createElement(
+                      'div',
+                      { className: 'column has-text-centered' },
+                      _react2.default.createElement(_Gauge2.default, { width: '200', height: '160', label: 'Sound', value: '40', color: '#00cc00' })
+                    ),
+                    _react2.default.createElement(
+                      'div',
+                      { className: 'column has-text-centered' },
+                      _react2.default.createElement(_Gauge2.default, { width: '200', height: '160', label: 'Pressure', value: '70', color: '#ff4d4d' })
+                    )
                   )
                 )
               ),
@@ -46091,12 +46085,38 @@ var Environment = function (_Component) {
                     _react2.default.createElement(
                       'div',
                       { className: 'column' },
-                      _react2.default.createElement(_Line2.default, { label: 'Line1', data: _dummyCharts.data.temperature.data(), labels: _dummyCharts.data.temperature.labels })
+                      _react2.default.createElement(_LineMultiAxis2.default, { label: 'Line1',
+                        dataItem1: _dummyCharts.data.generate.data(),
+                        dataItem2: _dummyCharts.data.generate.data(),
+                        labels: _dummyCharts.data.generate.labels })
+                    )
+                  ),
+                  _react2.default.createElement(
+                    'div',
+                    { className: 'columns' },
+                    _react2.default.createElement(
+                      'div',
+                      { className: 'column' },
+                      _react2.default.createElement(_Line2.default, { label: 'Line2', data: _dummyCharts.data.generate.data(), labels: _dummyCharts.data.generate.labels })
                     ),
                     _react2.default.createElement(
                       'div',
                       { className: 'column' },
-                      _react2.default.createElement(_Line2.default, { label: 'Line2', data: _dummyCharts.data.temperature.data(), labels: _dummyCharts.data.temperature.labels })
+                      _react2.default.createElement(_Line2.default, { label: 'Line3', data: _dummyCharts.data.generate.data(), labels: _dummyCharts.data.generate.labels })
+                    )
+                  ),
+                  _react2.default.createElement(
+                    'div',
+                    { className: 'columns' },
+                    _react2.default.createElement(
+                      'div',
+                      { className: 'column' },
+                      _react2.default.createElement(_Line2.default, { label: 'Line4', data: _dummyCharts.data.generate.data(), labels: _dummyCharts.data.generate.labels })
+                    ),
+                    _react2.default.createElement(
+                      'div',
+                      { className: 'column' },
+                      _react2.default.createElement(_Line2.default, { label: 'Line5', data: _dummyCharts.data.generate.data(), labels: _dummyCharts.data.generate.labels })
                     )
                   )
                 )
@@ -65071,11 +65091,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 var data = exports.data = {
-  temperature: {
-    label: 'Temperature',
+  generate: {
+    label: 'Chart',
     labels: ['6', '7', '8', '9', '10', '11', '12', '13', '14', '15'],
     data: function data() {
-      return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(function (v) {
+      return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map(function (v) {
         return Math.random() * v;
       });
     }
@@ -65405,6 +65425,104 @@ var EnvironmentType = function (_Component) {
 }(_react.Component);
 
 exports.default = EnvironmentType;
+
+/***/ }),
+/* 427 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(3);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactChartjs = __webpack_require__(69);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+var line_options = {
+  responsive: true,
+  hoverMode: 'index',
+  stacked: false,
+  title: {
+    display: true,
+    text: 'Chart.js Line Chart - Multi Axis'
+  },
+  scales: {
+    yAxes: [{
+      type: "linear", // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+      display: true,
+      position: "left",
+      id: "y-axis-1"
+    }, {
+      type: "linear", // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+      display: true,
+      position: "right",
+      id: "y-axis-2",
+
+      // grid line settings
+      gridLines: {
+        drawOnChartArea: false // only want the grid lines for one axis to show up
+      }
+    }]
+  }
+};
+
+exports.default = function (props) {
+  return _react2.default.createElement(_reactChartjs.Line, { data: {
+      labels: [].concat(_toConsumableArray(props.labels)),
+      datasets: [{
+        label: 'Item 1',
+        fill: true,
+        lineTension: 0.5,
+        backgroundColor: 'rgba(255, 179, 128, 0.5)',
+        borderColor: 'rgba(255, 179, 128, 1)',
+        borderCapStyle: 'butt',
+        borderDash: [],
+        borderDashOffset: 0.0,
+        borderJoinStyle: 'miter',
+        pointBorderColor: 'rgba(75,192,192,1)',
+        pointBackgroundColor: '#fff',
+        pointBorderWidth: 2,
+        pointHoverRadius: 5,
+        pointHoverBackgroundColor: 'rgba(75,192,192,1)',
+        pointHoverBorderColor: 'rgba(220,220,220,1)',
+        pointHoverBorderWidth: 2,
+        pointRadius: 3,
+        pointHitRadius: 5,
+        data: [].concat(_toConsumableArray(props.dataItem1)),
+        yAxisID: "y-axis-1"
+      }, {
+        label: 'Item 2',
+        fill: true,
+        lineTension: 0.5,
+        backgroundColor: 'rgba(87, 230, 255, 0.5)',
+        borderColor: 'rgba(87, 230, 255, 1)',
+        borderCapStyle: 'butt',
+        borderDash: [],
+        borderDashOffset: 0.0,
+        borderJoinStyle: 'miter',
+        pointBorderColor: 'rgba(75,192,192,1)',
+        pointBackgroundColor: '#fff',
+        pointBorderWidth: 2,
+        pointHoverRadius: 5,
+        pointHoverBackgroundColor: 'rgba(75,192,192,1)',
+        pointHoverBorderColor: 'rgba(220,220,220,1)',
+        pointHoverBorderWidth: 2,
+        pointRadius: 3,
+        pointHitRadius: 5,
+        data: [].concat(_toConsumableArray(props.dataItem2)),
+        yAxisID: "y-axis-2"
+      }]
+    }, options: line_options });
+};
 
 /***/ })
 /******/ ]);

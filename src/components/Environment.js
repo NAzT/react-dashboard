@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Menu from './Menu.js'
 import Line from './Line.jsx'
-import axios from 'axios'
+import LineMultiAxis from './LineMultiAxis.jsx'
 import Gauge from './Gauge.jsx'
 import { data } from '../data/dummyCharts'
 
@@ -9,23 +9,6 @@ export default class Environment extends Component {
 
   constructor (props) {
     super(props)
-    this.state = {temp: []}
-  }
-
-  componentDidMount () {
-    setInterval(() => {
-      let then = this
-      axios.get('https://us-central1-performance-182414.cloudfunctions.net/generate_objects')
-        .then(function (response) {
-          let data = response.data.body
-          then.setState({
-            temp: data
-          })
-        })
-        .catch(function (error) {
-          console.log(error)
-        })
-    }, 2000)
   }
 
   render () {
@@ -52,46 +35,46 @@ export default class Environment extends Component {
                       <Gauge width='200' height='160' label='Humidity' value='80' color='#ff4d4d'/>
                     </div>
                   </div>
+
+                  <div className="columns">
+                    <div className="column has-text-centered">
+                      <Gauge width='200' height='160' label='Sound' value='40' color='#00cc00'/>
+                    </div>
+                    <div className="column has-text-centered">
+                      <Gauge width='200' height='160' label='Pressure' value='70' color='#ff4d4d'/>
+                    </div>
+                  </div>
+
                 </div>
               </div>
-
 
               <div className="card">
                 <div className="card-content">
 
-                  {/*<div className="columns">*/}
-                  {/*{*/}
-                  {/*menuItems.map((obj) => {*/}
-
-                  {/*let buffer = []*/}
-                  {/*if (this.props.location.pathname === obj.url) {*/}
-                  {/*obj.children.map((child) => {*/}
-                  {/*buffer.push(*/}
-                  {/*<div className='column is-6' key={child.id}>*/}
-                  {/*<div className="card">*/}
-                  {/*<div className="card-content has-text-centered">*/}
-                  {/*<Link to={child.url}>*/}
-                  {/*<p className='title'>{child.name}</p>*/}
-                  {/*</Link>*/}
-                  {/*</div>*/}
-                  {/*</div>*/}
-                  {/*</div>*/}
-                  {/*)*/}
-                  {/*})*/}
-                  {/*}*/}
-
-                  {/*return buffer*/}
-
-                  {/*})*/}
-                  {/*}*/}
-                  {/*</div>*/}
+                  <div className="columns">
+                    <div className="column">
+                      <LineMultiAxis label='Line1'
+                                     dataItem1={data.generate.data()}
+                                     dataItem2={data.generate.data()}
+                                     labels={data.generate.labels}/>
+                    </div>
+                  </div>
 
                   <div className="columns">
                     <div className="column">
-                      <Line label='Line1' data={data.temperature.data()} labels={data.temperature.labels}/>
+                      <Line label='Line2' data={data.generate.data()} labels={data.generate.labels}/>
                     </div>
                     <div className="column">
-                      <Line label='Line2' data={data.temperature.data()} labels={data.temperature.labels}/>
+                      <Line label='Line3' data={data.generate.data()} labels={data.generate.labels}/>
+                    </div>
+                  </div>
+
+                  <div className="columns">
+                    <div className="column">
+                      <Line label='Line4' data={data.generate.data()} labels={data.generate.labels}/>
+                    </div>
+                    <div className="column">
+                      <Line label='Line5' data={data.generate.data()} labels={data.generate.labels}/>
                     </div>
                   </div>
 
