@@ -3,6 +3,7 @@ import Menu from './Menu.js'
 import { Line } from 'react-chartjs-2'
 import axios from 'axios'
 import { menuNameMapping } from '../data/menuItems'
+import styled from 'styled-components'
 
 export default class EnvironmentType extends Component {
 
@@ -87,6 +88,10 @@ export default class EnvironmentType extends Component {
       return <Line data={line_data} options={line_options}/>
     }
 
+    const Span = styled.p`
+    font-family: 'Kanit', sans-serif;
+    `
+
     return (
       <div className='container'>
         <div className='section'>
@@ -101,7 +106,7 @@ export default class EnvironmentType extends Component {
 
                   <div className='has-text-centered'>
 
-                    <p className='title has-text-link'>{menuNameMapping[this.props.location.pathname]}</p>
+                    <Span className='title has-text-link'>{menuNameMapping[this.props.location.pathname]}</Span>
                     <br/>
                   </div>
 

@@ -13,15 +13,19 @@ export default class Menu extends Component {
       activeMenu: {
         backgroundColor: 'hsl(217, 71%, 50%)',
         color: 'white'
+      },
+      activeSubMenu: {
+        color: '#4468B0'
       }
     }
-    console.log('props: ', props)
+    //console.log('props: ', props)
   }
 
   render () {
 
     const BoldSpan = styled.span`
       font-weight: bold;
+      font-family: 'Kanit', sans-serif;
     `
 
     return (
@@ -42,8 +46,8 @@ export default class Menu extends Component {
                       menu.children.map((child) => {
                         return (
                           <li key={child.id}>
-                            <NavLink activeStyle={this.state.activeMenu} to={child.url}>
-                              <BoldSpan>{child.name}</BoldSpan>
+                            <NavLink activeStyle={this.state.activeSubMenu} to={child.url}>
+                              <BoldSpan><i className='fa fa-code-fork' /> {child.name}</BoldSpan>
                             </NavLink>
                           </li>
                         )
