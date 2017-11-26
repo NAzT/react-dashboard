@@ -19,10 +19,10 @@ export default class Environment extends Component {
         <div className='section'>
 
           <div className='columns'>
-            <div className="column is-2">
+            <div className="column is-3">
               <Menu url={this.props.location.pathname}/>
             </div>
-            <div className="column is-10">
+            <div className="column is-9">
 
               <div className="card">
                 <div className="card-content">
@@ -84,8 +84,8 @@ export default class Environment extends Component {
                     <div className="column">
                       <Line label='Line4' data={data.generate.data()}
                             labels={data.generate.labels}
-                            backgroundColor='rgba(242, 204, 255, 0.5)'
-                            borderColor='rgba(242, 204, 255, 0.5)'
+                            backgroundColor='rgba(254, 178, 194, 0.5)'
+                            borderColor='rgba(254, 178, 194, 0.5)'
                             pointBorderColor='rgba(255, 163, 102, 1)'
                             lineTension='0'
                       />

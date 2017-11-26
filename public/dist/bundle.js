@@ -7550,7 +7550,25 @@ var menuItems = [{
   url: '/environment',
   name: 'สภาพแวดล้อม',
   icon: 'fa fa-envira',
-  children: []
+  children: [{
+    id: 1,
+    url: '/environment/node/1',
+    name: 'หน้าบ้าน',
+    temp: generate,
+    humid: generate
+  }, {
+    id: 2,
+    url: '/environment/node/2',
+    name: 'หลังบ้าน',
+    temp: generate,
+    humid: generate
+  }, {
+    id: 3,
+    url: '/environment/node/3',
+    name: 'ห้องครัว',
+    temp: generate,
+    humid: generate
+  }]
 }, {
   id: 2,
   url: '/gas',
@@ -7559,7 +7577,19 @@ var menuItems = [{
   children: [{
     id: 1,
     url: '/gas/node/1',
-    name: 'ห้องเก็บไวน์',
+    name: 'หน้าบ้าน',
+    temp: generate,
+    humid: generate
+  }, {
+    id: 2,
+    url: '/gas/node/2',
+    name: 'หลังบ้าน',
+    temp: generate,
+    humid: generate
+  }, {
+    id: 3,
+    url: '/gas/node/3',
+    name: 'ห้องครัว',
     temp: generate,
     humid: generate
   }]
@@ -7595,13 +7625,19 @@ var menuItems = [{
   children: [{
     id: 1,
     url: '/battery/node/1',
-    name: 'เซิร์ฟเวอร์ A',
+    name: 'เซ็นเซอร์ หน้าบ้าน',
     temp: generate,
     humid: generate
   }, {
     id: 2,
     url: '/battery/node/2',
-    name: 'เซิร์ฟเวอร์ B',
+    name: 'เซ็นเซอร์ หลังบ้าน',
+    temp: generate,
+    humid: generate
+  }, {
+    id: 3,
+    url: '/battery/node/3',
+    name: 'เซ็นเซอร์ ห้องครัว',
     temp: generate,
     humid: generate
   }]
@@ -24877,6 +24913,14 @@ var _Gas = __webpack_require__(425);
 
 var _Gas2 = _interopRequireDefault(_Gas);
 
+var _Battery = __webpack_require__(428);
+
+var _Battery2 = _interopRequireDefault(_Battery);
+
+var _Recycle = __webpack_require__(429);
+
+var _Recycle2 = _interopRequireDefault(_Recycle);
+
 var _NodeTemplate = __webpack_require__(426);
 
 var _NodeTemplate2 = _interopRequireDefault(_NodeTemplate);
@@ -24916,6 +24960,10 @@ var Main = _react2.default.createElement(
     _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/environment/node/:id', component: _NodeTemplate2.default }),
     _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/gas', component: _Gas2.default }),
     _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/gas/node/:id', component: _NodeTemplate2.default }),
+    _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/battery', component: _Battery2.default }),
+    _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/battery/node/:id', component: _NodeTemplate2.default }),
+    _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/recycle', component: _Recycle2.default }),
+    _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/recycle/node/:id', component: _NodeTemplate2.default }),
     _react2.default.createElement(_reactRouterDom.Route, { component: PageNotFound })
   )
 );
@@ -46055,12 +46103,12 @@ var Environment = function (_Component) {
             { className: 'columns' },
             _react2.default.createElement(
               'div',
-              { className: 'column is-2' },
+              { className: 'column is-3' },
               _react2.default.createElement(_Menu2.default, { url: this.props.location.pathname })
             ),
             _react2.default.createElement(
               'div',
-              { className: 'column is-10' },
+              { className: 'column is-9' },
               _react2.default.createElement(
                 'div',
                 { className: 'card' },
@@ -46148,8 +46196,8 @@ var Environment = function (_Component) {
                       { className: 'column' },
                       _react2.default.createElement(_Line2.default, { label: 'Line4', data: _dummyCharts.data.generate.data(),
                         labels: _dummyCharts.data.generate.labels,
-                        backgroundColor: 'rgba(242, 204, 255, 0.5)',
-                        borderColor: 'rgba(242, 204, 255, 0.5)',
+                        backgroundColor: 'rgba(254, 178, 194, 0.5)',
+                        borderColor: 'rgba(254, 178, 194, 0.5)',
                         pointBorderColor: 'rgba(255, 163, 102, 1)',
                         lineTension: '0'
                       })
@@ -65171,8 +65219,6 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _templateObject = _taggedTemplateLiteral(['\n      font-family: \'Kanit\', sans-serif;\n      color: white;\n    '], ['\n      font-family: \'Kanit\', sans-serif;\n      color: white;\n    ']);
-
 var _react = __webpack_require__(3);
 
 var _react2 = _interopRequireDefault(_react);
@@ -65181,17 +65227,11 @@ var _Menu = __webpack_require__(43);
 
 var _Menu2 = _interopRequireDefault(_Menu);
 
-var _reactRouterDom = __webpack_require__(36);
+var _Gauge = __webpack_require__(422);
 
-var _menuItems = __webpack_require__(44);
-
-var _styledComponents = __webpack_require__(68);
-
-var _styledComponents2 = _interopRequireDefault(_styledComponents);
+var _Gauge2 = _interopRequireDefault(_Gauge);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -65211,9 +65251,6 @@ var Gas = function (_Component) {
   _createClass(Gas, [{
     key: 'render',
     value: function render() {
-      var _this2 = this;
-
-      var StyledSpan = _styledComponents2.default.p(_templateObject);
 
       return _react2.default.createElement(
         'div',
@@ -65226,12 +65263,12 @@ var Gas = function (_Component) {
             { className: 'columns' },
             _react2.default.createElement(
               'div',
-              { className: 'column is-2' },
+              { className: 'column is-3' },
               _react2.default.createElement(_Menu2.default, { url: this.props.location.pathname })
             ),
             _react2.default.createElement(
               'div',
-              { className: 'column is-10' },
+              { className: 'column is-9' },
               _react2.default.createElement(
                 'div',
                 { className: 'card' },
@@ -65241,40 +65278,21 @@ var Gas = function (_Component) {
                   _react2.default.createElement(
                     'div',
                     { className: 'columns' },
-                    _menuItems.menuItems.map(function (obj) {
-
-                      var buffer = [];
-                      if (_this2.props.location.pathname === obj.url) {
-                        obj.children.map(function (child) {
-                          buffer.push(_react2.default.createElement(
-                            'div',
-                            { className: 'column is-6', key: child.id },
-                            _react2.default.createElement(
-                              'div',
-                              { className: 'card',
-                                style: {
-                                  backgroundColor: '#99c2ff'
-                                } },
-                              _react2.default.createElement(
-                                'div',
-                                { className: 'card-content has-text-centered' },
-                                _react2.default.createElement(
-                                  _reactRouterDom.Link,
-                                  { to: child.url },
-                                  _react2.default.createElement(
-                                    StyledSpan,
-                                    { className: 'title' },
-                                    child.name
-                                  )
-                                )
-                              )
-                            )
-                          ));
-                        });
-                      }
-
-                      return buffer;
-                    })
+                    _react2.default.createElement(
+                      'div',
+                      { className: 'column has-text-centered' },
+                      _react2.default.createElement(_Gauge2.default, { width: '200', height: '160', label: '\u0E1A\u0E23\u0E34\u0E40\u0E27\u0E13 \u0E2B\u0E19\u0E49\u0E32\u0E1A\u0E49\u0E32\u0E19', value: '60', color: '#ff9966' })
+                    ),
+                    _react2.default.createElement(
+                      'div',
+                      { className: 'column has-text-centered' },
+                      _react2.default.createElement(_Gauge2.default, { width: '200', height: '160', label: '\u0E1A\u0E23\u0E34\u0E40\u0E27\u0E13 \u0E2B\u0E25\u0E31\u0E07\u0E1A\u0E49\u0E32\u0E19', value: '70', color: '#ff4d4d' })
+                    ),
+                    _react2.default.createElement(
+                      'div',
+                      { className: 'column has-text-centered' },
+                      _react2.default.createElement(_Gauge2.default, { width: '200', height: '160', label: '\u0E1A\u0E23\u0E34\u0E40\u0E27\u0E13 \u0E2B\u0E49\u0E2D\u0E07\u0E04\u0E23\u0E31\u0E27', value: '10', color: '#00cc00' })
+                    )
                   )
                 )
               )
@@ -65313,8 +65331,6 @@ var _Menu = __webpack_require__(43);
 
 var _Menu2 = _interopRequireDefault(_Menu);
 
-var _reactChartjs = __webpack_require__(69);
-
 var _axios = __webpack_require__(204);
 
 var _axios2 = _interopRequireDefault(_axios);
@@ -65325,11 +65341,15 @@ var _styledComponents = __webpack_require__(68);
 
 var _styledComponents2 = _interopRequireDefault(_styledComponents);
 
+var _Line = __webpack_require__(267);
+
+var _Line2 = _interopRequireDefault(_Line);
+
+var _dummyCharts = __webpack_require__(424);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
-
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -65343,89 +65363,12 @@ var EnvironmentType = function (_Component) {
   function EnvironmentType(props) {
     _classCallCheck(this, EnvironmentType);
 
-    var _this = _possibleConstructorReturn(this, (EnvironmentType.__proto__ || Object.getPrototypeOf(EnvironmentType)).call(this, props));
-
-    _this.state = { temp: []
-      // debugger
-    };return _this;
+    return _possibleConstructorReturn(this, (EnvironmentType.__proto__ || Object.getPrototypeOf(EnvironmentType)).call(this, props));
   }
 
   _createClass(EnvironmentType, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      var _this2 = this;
-
-      setInterval(function () {
-        var then = _this2;
-        _axios2.default.get('https://us-central1-performance-182414.cloudfunctions.net/generate_objects').then(function (response) {
-          var data = response.data.body;
-          then.setState({
-            temp: data
-          });
-        }).catch(function (error) {
-          console.log(error);
-        });
-      }, 2000);
-    }
-  }, {
     key: 'render',
     value: function render() {
-      var _this3 = this;
-
-      var mockup = function mockup() {
-
-        var line_data = {
-          labels: ['6', '7', '8', '9', '10', '11', '12', '13', '14', '15'],
-          datasets: [{
-            label: 'Temperature',
-            fill: false,
-            lineTension: 0.5,
-            backgroundColor: 'rgba(87, 230, 255, 1)',
-            borderColor: 'rgba(87, 230, 255, 1)',
-            borderCapStyle: 'butt',
-            borderDash: [],
-            borderDashOffset: 0.0,
-            borderJoinStyle: 'miter',
-            pointBorderColor: 'rgba(75,192,192,1)',
-            pointBackgroundColor: '#fff',
-            pointBorderWidth: 2,
-            pointHoverRadius: 5,
-            pointHoverBackgroundColor: 'rgba(75,192,192,1)',
-            pointHoverBorderColor: 'rgba(220,220,220,1)',
-            pointHoverBorderWidth: 2,
-            pointRadius: 3,
-            pointHitRadius: 5,
-            data: [].concat(_toConsumableArray(_this3.state.temp))
-          }]
-        };
-
-        var line_options = {
-          responsive: true,
-          title: {
-            display: false,
-            text: 'Chart.js Line Chart'
-          },
-          tooltips: {
-            mode: 'index',
-            intersect: false
-          },
-          hover: {
-            mode: 'nearest',
-            intersect: true
-          },
-          scales: {
-            yAxes: [{
-              display: true,
-              scaleLabel: {
-                display: true,
-                labelString: 'C'
-              }
-            }]
-          }
-        };
-
-        return _react2.default.createElement(_reactChartjs.Line, { data: line_data, options: line_options });
-      };
 
       var Span = _styledComponents2.default.p(_templateObject);
 
@@ -65440,12 +65383,12 @@ var EnvironmentType = function (_Component) {
             { className: 'columns' },
             _react2.default.createElement(
               'div',
-              { className: 'column is-2' },
+              { className: 'column is-3' },
               _react2.default.createElement(_Menu2.default, { url: this.props.location.pathname })
             ),
             _react2.default.createElement(
               'div',
-              { className: 'column is-10' },
+              { className: 'column is-9' },
               _react2.default.createElement(
                 'div',
                 { className: 'card' },
@@ -65468,7 +65411,13 @@ var EnvironmentType = function (_Component) {
                     _react2.default.createElement(
                       'div',
                       { className: 'column' },
-                      mockup()
+                      _react2.default.createElement(_Line2.default, { label: '\u0E1B\u0E23\u0E34\u0E21\u0E32\u0E13', data: _dummyCharts.data.generate.data(),
+                        labels: _dummyCharts.data.generate.labels,
+                        backgroundColor: 'rgba(254, 178, 194, 0.5)',
+                        borderColor: 'rgba(254, 178, 194, 0.5)',
+                        pointBorderColor: 'rgba(255, 163, 102, 1)',
+                        lineTension: '0'
+                      })
                     )
                   )
                 )
@@ -65582,6 +65531,210 @@ exports.default = function (props) {
       }]
     }, options: line_options });
 };
+
+/***/ }),
+/* 428 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(3);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _Menu = __webpack_require__(43);
+
+var _Menu2 = _interopRequireDefault(_Menu);
+
+var _Gauge = __webpack_require__(422);
+
+var _Gauge2 = _interopRequireDefault(_Gauge);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Battery = function (_Component) {
+  _inherits(Battery, _Component);
+
+  function Battery(props) {
+    _classCallCheck(this, Battery);
+
+    return _possibleConstructorReturn(this, (Battery.__proto__ || Object.getPrototypeOf(Battery)).call(this, props));
+  }
+
+  _createClass(Battery, [{
+    key: 'render',
+    value: function render() {
+
+      return _react2.default.createElement(
+        'div',
+        { className: 'container' },
+        _react2.default.createElement(
+          'div',
+          { className: 'section' },
+          _react2.default.createElement(
+            'div',
+            { className: 'columns' },
+            _react2.default.createElement(
+              'div',
+              { className: 'column is-3' },
+              _react2.default.createElement(_Menu2.default, { url: this.props.location.pathname })
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: 'column is-9' },
+              _react2.default.createElement(
+                'div',
+                { className: 'card' },
+                _react2.default.createElement(
+                  'div',
+                  { className: 'card-content' },
+                  _react2.default.createElement(
+                    'div',
+                    { className: 'columns' },
+                    _react2.default.createElement(
+                      'div',
+                      { className: 'column has-text-centered' },
+                      _react2.default.createElement(_Gauge2.default, { width: '200', height: '160', label: '\u0E40\u0E0B\u0E47\u0E19\u0E40\u0E0B\u0E2D\u0E23\u0E4C \u0E2B\u0E19\u0E49\u0E32\u0E1A\u0E49\u0E32\u0E19', value: '60', color: '#ff9966' })
+                    ),
+                    _react2.default.createElement(
+                      'div',
+                      { className: 'column has-text-centered' },
+                      _react2.default.createElement(_Gauge2.default, { width: '200', height: '160', label: '\u0E40\u0E0B\u0E47\u0E19\u0E40\u0E0B\u0E2D\u0E23\u0E4C \u0E2B\u0E25\u0E31\u0E07\u0E1A\u0E49\u0E32\u0E19', value: '20', color: '#ff4d4d' })
+                    ),
+                    _react2.default.createElement(
+                      'div',
+                      { className: 'column has-text-centered' },
+                      _react2.default.createElement(_Gauge2.default, { width: '200', height: '160', label: '\u0E40\u0E0B\u0E47\u0E19\u0E40\u0E0B\u0E2D\u0E23\u0E4C \u0E2B\u0E49\u0E2D\u0E07\u0E04\u0E23\u0E31\u0E27', value: '90', color: '#00cc00' })
+                    )
+                  )
+                )
+              )
+            )
+          )
+        )
+      );
+    }
+  }]);
+
+  return Battery;
+}(_react.Component);
+
+exports.default = Battery;
+
+/***/ }),
+/* 429 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(3);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _Menu = __webpack_require__(43);
+
+var _Menu2 = _interopRequireDefault(_Menu);
+
+var _Gauge = __webpack_require__(422);
+
+var _Gauge2 = _interopRequireDefault(_Gauge);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Recycle = function (_Component) {
+  _inherits(Recycle, _Component);
+
+  function Recycle(props) {
+    _classCallCheck(this, Recycle);
+
+    return _possibleConstructorReturn(this, (Recycle.__proto__ || Object.getPrototypeOf(Recycle)).call(this, props));
+  }
+
+  _createClass(Recycle, [{
+    key: 'render',
+    value: function render() {
+
+      return _react2.default.createElement(
+        'div',
+        { className: 'container' },
+        _react2.default.createElement(
+          'div',
+          { className: 'section' },
+          _react2.default.createElement(
+            'div',
+            { className: 'columns' },
+            _react2.default.createElement(
+              'div',
+              { className: 'column is-3' },
+              _react2.default.createElement(_Menu2.default, { url: this.props.location.pathname })
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: 'column is-9' },
+              _react2.default.createElement(
+                'div',
+                { className: 'card' },
+                _react2.default.createElement(
+                  'div',
+                  { className: 'card-content' },
+                  _react2.default.createElement(
+                    'div',
+                    { className: 'columns' },
+                    _react2.default.createElement(
+                      'div',
+                      { className: 'column has-text-centered' },
+                      _react2.default.createElement(_Gauge2.default, { width: '200', height: '160', label: '\u0E2B\u0E19\u0E49\u0E32\u0E1A\u0E49\u0E32\u0E19', value: '50', color: '#ff9966' })
+                    ),
+                    _react2.default.createElement(
+                      'div',
+                      { className: 'column has-text-centered' },
+                      _react2.default.createElement(_Gauge2.default, { width: '200', height: '160', label: '\u0E2B\u0E25\u0E31\u0E07\u0E1A\u0E49\u0E32\u0E19', value: '60', color: '#ff4d4d' })
+                    ),
+                    _react2.default.createElement(
+                      'div',
+                      { className: 'column has-text-centered' },
+                      _react2.default.createElement(_Gauge2.default, { width: '200', height: '160', label: '\u0E2B\u0E49\u0E2D\u0E07\u0E04\u0E23\u0E31\u0E27', value: '90', color: '#ff4d4d' })
+                    )
+                  )
+                )
+              )
+            )
+          )
+        )
+      );
+    }
+  }]);
+
+  return Recycle;
+}(_react.Component);
+
+exports.default = Recycle;
 
 /***/ })
 /******/ ]);

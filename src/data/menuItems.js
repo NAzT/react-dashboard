@@ -9,7 +9,29 @@ const menuItems = [
     url: '/environment',
     name: 'สภาพแวดล้อม',
     icon: 'fa fa-envira',
-    children: []
+    children: [
+      {
+        id: 1,
+        url: '/environment/node/1',
+        name: 'หน้าบ้าน',
+        temp: generate,
+        humid: generate
+      },
+      {
+        id: 2,
+        url: '/environment/node/2',
+        name: 'หลังบ้าน',
+        temp: generate,
+        humid: generate
+      },
+      {
+        id: 3,
+        url: '/environment/node/3',
+        name: 'ห้องครัว',
+        temp: generate,
+        humid: generate
+      }
+    ]
   },
   {
     id: 2,
@@ -20,7 +42,21 @@ const menuItems = [
       {
         id: 1,
         url: '/gas/node/1',
-        name: 'ห้องเก็บไวน์',
+        name: 'หน้าบ้าน',
+        temp: generate,
+        humid: generate
+      },
+      {
+        id: 2,
+        url: '/gas/node/2',
+        name: 'หลังบ้าน',
+        temp: generate,
+        humid: generate
+      },
+      {
+        id: 3,
+        url: '/gas/node/3',
+        name: 'ห้องครัว',
         temp: generate,
         humid: generate
       }
@@ -64,14 +100,21 @@ const menuItems = [
       {
         id: 1,
         url: '/battery/node/1',
-        name: 'เซิร์ฟเวอร์ A',
+        name: 'เซ็นเซอร์ หน้าบ้าน',
         temp: generate,
         humid: generate
       },
       {
         id: 2,
         url: '/battery/node/2',
-        name: 'เซิร์ฟเวอร์ B',
+        name: 'เซ็นเซอร์ หลังบ้าน',
+        temp: generate,
+        humid: generate
+      },
+      {
+        id: 3,
+        url: '/battery/node/3',
+        name: 'เซ็นเซอร์ ห้องครัว',
         temp: generate,
         humid: generate
       }
