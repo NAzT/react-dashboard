@@ -11,6 +11,10 @@ export default class Environment extends Component {
     super(props)
   }
 
+  componentWillMount () {
+
+  }
+
   render () {
 
     return (

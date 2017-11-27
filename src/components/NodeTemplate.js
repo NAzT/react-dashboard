@@ -5,11 +5,26 @@ import { menuNameMapping, menuGroupMapping } from '../data/menuItems'
 import styled from 'styled-components'
 import Line from './Line.jsx'
 import { data } from '../data/dummyCharts'
+import ApplicationStore from '../flux/MyStore'
+import { APIAction } from '../flux/DataAction'
+
+/* ===== end test ===== */
 
 export default class EnvironmentType extends Component {
 
   constructor (props) {
     super(props)
+    this.store = ApplicationStore
+  }
+
+  componentWillMount () {
+    this.store.addListener((data) => {
+      console.log(this.store.getState())
+    })
+  }
+
+  componentDidMount () {
+    APIAction.startGetData()
   }
 
   render () {
