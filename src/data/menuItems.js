@@ -83,8 +83,8 @@ const menuItems = [
         humid: generate
       },
       {
-        id: 2,
-        url: '/recycle/node/2',
+        id: 3,
+        url: '/recycle/node/3',
         name: 'ห้องครัว',
         temp: generate,
         humid: generate
@@ -122,13 +122,30 @@ const menuItems = [
   }
 ]
 
+const menuGroupMapping = (url) => {
+  let result = {}
+  menuItems.forEach(menu => {
+    menu.children.forEach(subMenu => {
+      if (subMenu.url === url) {
+        result = {
+          name: menu.name,
+          url: menu.url
+        }
+      }
+    })
+  })
+  return result
+}
+
 const menuNameMapping = {}
 menuItems.forEach((menu, idx) => {
   menu.children.forEach(menuItem => {
     menuNameMapping[menuItem.url] = menuItem.name
   })
 })
+
 export {
   menuItems,
-  menuNameMapping
+  menuNameMapping,
+  menuGroupMapping
 }

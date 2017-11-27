@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Menu from './Menu.js'
-import axios from 'axios'
-import { menuNameMapping } from '../data/menuItems'
+import { Link } from 'react-router-dom'
+import { menuNameMapping, menuGroupMapping } from '../data/menuItems'
 import styled from 'styled-components'
 import Line from './Line.jsx'
 import { data } from '../data/dummyCharts'
@@ -14,7 +14,10 @@ export default class EnvironmentType extends Component {
 
   render () {
 
-    const Span = styled.p`
+    const StyledLink = styled(Link)`
+    font-family: 'Kanit', sans-serif;
+    `
+    const StyledA = styled.a`
     font-family: 'Kanit', sans-serif;
     `
 
@@ -30,9 +33,21 @@ export default class EnvironmentType extends Component {
               <div className="card">
                 <div className="card-content">
 
-                  <div className='has-text-centered'>
-
-                    <Span className='title has-text-link'>{menuNameMapping[this.props.location.pathname]}</Span>
+                  <div className="level-right">
+                    <nav className="breadcrumb" aria-label="breadcrumbs">
+                      <ul>
+                        <li>
+                          <StyledLink to={menuGroupMapping(this.props.location.pathname).url}>
+                            {menuGroupMapping(this.props.location.pathname).name}
+                          </StyledLink>
+                        </li>
+                        <li className="is-active">
+                          <StyledA>
+                            {menuNameMapping[this.props.location.pathname]}
+                          </StyledA>
+                        </li>
+                      </ul>
+                    </nav>
                     <br/>
                   </div>
 
