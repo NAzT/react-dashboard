@@ -17,6 +17,7 @@ export default class EnvironmentType extends Component {
 
   _onStoreChanged () {
     this.setState(store.state)
+    console.log(this.state)
   }
 
   componentWillMount () {

@@ -1,6 +1,6 @@
-let generate = []
+let generatedDummyValues = []
 for (let i = 0; i <= 99; i++) {
-  generate.push(parseInt(Math.random().toFixed(2) * 100))
+  generatedDummyValues.push(parseInt(Math.random().toFixed(2) * 100))
 }
 
 const menuItems = [
@@ -13,23 +13,17 @@ const menuItems = [
       {
         id: 1,
         url: '/environment/node/1',
-        name: 'หน้าบ้าน',
-        temp: generate,
-        humid: generate
+        name: 'หน้าบ้าน'
       },
       {
         id: 2,
         url: '/environment/node/2',
-        name: 'หลังบ้าน',
-        temp: generate,
-        humid: generate
+        name: 'หลังบ้าน'
       },
       {
         id: 3,
         url: '/environment/node/3',
-        name: 'ห้องครัว',
-        temp: generate,
-        humid: generate
+        name: 'ห้องครัว'
       }
     ]
   },
@@ -42,23 +36,17 @@ const menuItems = [
       {
         id: 1,
         url: '/gas/node/1',
-        name: 'หน้าบ้าน',
-        temp: generate,
-        humid: generate
+        name: 'หน้าบ้าน'
       },
       {
         id: 2,
         url: '/gas/node/2',
-        name: 'หลังบ้าน',
-        temp: generate,
-        humid: generate
+        name: 'หลังบ้าน'
       },
       {
         id: 3,
         url: '/gas/node/3',
-        name: 'ห้องครัว',
-        temp: generate,
-        humid: generate
+        name: 'ห้องครัว'
       }
     ]
   },
@@ -71,23 +59,17 @@ const menuItems = [
       {
         id: 1,
         url: '/recycle/node/1',
-        name: 'หน้าบ้าน',
-        temp: generate,
-        humid: generate
+        name: 'หน้าบ้าน'
       },
       {
         id: 2,
         url: '/recycle/node/2',
-        name: 'หลังบ้าน',
-        temp: generate,
-        humid: generate
+        name: 'หลังบ้าน'
       },
       {
         id: 3,
         url: '/recycle/node/3',
-        name: 'ห้องครัว',
-        temp: generate,
-        humid: generate
+        name: 'ห้องครัว'
       }
     ]
   },
@@ -100,23 +82,17 @@ const menuItems = [
       {
         id: 1,
         url: '/battery/node/1',
-        name: 'เซ็นเซอร์ หน้าบ้าน',
-        temp: generate,
-        humid: generate
+        name: 'เซ็นเซอร์ หน้าบ้าน'
       },
       {
         id: 2,
         url: '/battery/node/2',
-        name: 'เซ็นเซอร์ หลังบ้าน',
-        temp: generate,
-        humid: generate
+        name: 'เซ็นเซอร์ หลังบ้าน'
       },
       {
         id: 3,
         url: '/battery/node/3',
-        name: 'เซ็นเซอร์ ห้องครัว',
-        temp: generate,
-        humid: generate
+        name: 'เซ็นเซอร์ ห้องครัว'
       }
     ]
   }
