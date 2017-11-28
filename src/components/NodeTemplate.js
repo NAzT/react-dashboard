@@ -13,12 +13,10 @@ export default class EnvironmentType extends Component {
 
   constructor (props) {
     super(props)
-    this.store = store
   }
 
   _onStoreChanged () {
-    // console.log('store has changes... data = ', store.getState())
-    console.log('store has changes... data = ', this.store.state)
+    console.log('store has changes... data = ', store.state)
   }
 
   componentWillMount () {

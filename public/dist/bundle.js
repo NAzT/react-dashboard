@@ -64375,17 +64375,13 @@ var EnvironmentType = function (_Component) {
   function EnvironmentType(props) {
     _classCallCheck(this, EnvironmentType);
 
-    var _this = _possibleConstructorReturn(this, (EnvironmentType.__proto__ || Object.getPrototypeOf(EnvironmentType)).call(this, props));
-
-    _this.store = _Store2.default;
-    return _this;
+    return _possibleConstructorReturn(this, (EnvironmentType.__proto__ || Object.getPrototypeOf(EnvironmentType)).call(this, props));
   }
 
   _createClass(EnvironmentType, [{
     key: '_onStoreChanged',
     value: function _onStoreChanged() {
-      // console.log('store has changes... data = ', store.getState())
-      console.log('store has changes... data = ', this.store.state);
+      console.log('store has changes... data = ', _Store2.default.state);
     }
   }, {
     key: 'componentWillMount',
