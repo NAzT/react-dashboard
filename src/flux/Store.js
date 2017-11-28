@@ -20,9 +20,7 @@ class MyStore extends Store {
 
   __onDispatch (action) {
     if (action.type === AppConstants.DONE_GET_DATA) {
-      this.state.data = action.data.data
       Object.assign(this.state, action.data)
-      console.log(this.state)
       this.__emitChange()
     }
   }

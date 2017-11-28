@@ -1,6 +1,28 @@
-let generatedDummyValues = []
-for (let i = 0; i <= 99; i++) {
-  generatedDummyValues.push(parseInt(Math.random().toFixed(2) * 100))
+
+var sensors = {
+  environment: {
+    master: {
+      temperature: 30, humidity: 60, sound: 45, pressure: 1000
+    },
+    nodes: [
+      {
+        id: 1, name: 'Node1',
+        chart: {
+          label: `node 1`,
+          labels: ['1', '2', '3', '4', '5'],
+          data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map(v => Math.random() * v)
+        }
+      },
+      {
+        id: 2, name: 'Node2',
+        chart: {
+          label: `node 1`,
+          labels: ['1', '2', '3', '4', '5'],
+          data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map(v => Math.random() * v)
+        }
+      }
+    ]
+  }
 }
 
 const menuItems = [
@@ -10,21 +32,13 @@ const menuItems = [
     name: 'สภาพแวดล้อม',
     icon: 'fa fa-envira',
     children: [
-      {
-        id: 1,
-        url: '/environment/node/1',
-        name: 'หน้าบ้าน'
-      },
-      {
-        id: 2,
-        url: '/environment/node/2',
-        name: 'หลังบ้าน'
-      },
-      {
-        id: 3,
-        url: '/environment/node/3',
-        name: 'ห้องครัว'
-      }
+      ...sensors.environment.nodes.map((item, idx) => {
+        return {
+          id: item.id,
+          name: item.name,
+          url: `/environment/node/${item.id}`
+        }
+      })
     ]
   },
   {

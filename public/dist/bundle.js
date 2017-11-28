@@ -11027,35 +11027,45 @@ var styled = _styled(StyledComponent, constructWithOptions);
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var generate = [];
-for (var i = 0; i <= 99; i++) {
-  generate.push(parseInt(Math.random().toFixed(2) * 100));
-}
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+var sensors = {
+  environment: {
+    nodes: [{
+      id: 1, name: 'Node1',
+      chart: {
+        label: 'node 1',
+        labels: ['1', '2', '3', '4', '5'],
+        data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map(function (v) {
+          return Math.random() * v;
+        })
+      }
+    }, {
+      id: 2, name: 'Node2',
+      chart: {
+        label: 'node 1',
+        labels: ['1', '2', '3', '4', '5'],
+        data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map(function (v) {
+          return Math.random() * v;
+        })
+      }
+    }]
+  }
+};
 
 var menuItems = [{
   id: 1,
   url: '/environment',
   name: 'สภาพแวดล้อม',
   icon: 'fa fa-envira',
-  children: [{
-    id: 1,
-    url: '/environment/node/1',
-    name: 'หน้าบ้าน',
-    temp: generate,
-    humid: generate
-  }, {
-    id: 2,
-    url: '/environment/node/2',
-    name: 'หลังบ้าน',
-    temp: generate,
-    humid: generate
-  }, {
-    id: 3,
-    url: '/environment/node/3',
-    name: 'ห้องครัว',
-    temp: generate,
-    humid: generate
-  }]
+  children: [].concat(_toConsumableArray(sensors.environment.nodes.map(function (item, idx) {
+    return {
+      id: item.id,
+      name: item.name,
+      url: '/environment/node/' + item.id
+    };
+  })))
 }, {
   id: 2,
   url: '/gas',
@@ -11064,21 +11074,15 @@ var menuItems = [{
   children: [{
     id: 1,
     url: '/gas/node/1',
-    name: 'หน้าบ้าน',
-    temp: generate,
-    humid: generate
+    name: 'หน้าบ้าน'
   }, {
     id: 2,
     url: '/gas/node/2',
-    name: 'หลังบ้าน',
-    temp: generate,
-    humid: generate
+    name: 'หลังบ้าน'
   }, {
     id: 3,
     url: '/gas/node/3',
-    name: 'ห้องครัว',
-    temp: generate,
-    humid: generate
+    name: 'ห้องครัว'
   }]
 }, {
   id: 3,
@@ -11088,21 +11092,15 @@ var menuItems = [{
   children: [{
     id: 1,
     url: '/recycle/node/1',
-    name: 'หน้าบ้าน',
-    temp: generate,
-    humid: generate
+    name: 'หน้าบ้าน'
   }, {
     id: 2,
     url: '/recycle/node/2',
-    name: 'หลังบ้าน',
-    temp: generate,
-    humid: generate
+    name: 'หลังบ้าน'
   }, {
     id: 3,
     url: '/recycle/node/3',
-    name: 'ห้องครัว',
-    temp: generate,
-    humid: generate
+    name: 'ห้องครัว'
   }]
 }, {
   id: 4,
@@ -11112,21 +11110,15 @@ var menuItems = [{
   children: [{
     id: 1,
     url: '/battery/node/1',
-    name: 'เซ็นเซอร์ หน้าบ้าน',
-    temp: generate,
-    humid: generate
+    name: 'เซ็นเซอร์ หน้าบ้าน'
   }, {
     id: 2,
     url: '/battery/node/2',
-    name: 'เซ็นเซอร์ หลังบ้าน',
-    temp: generate,
-    humid: generate
+    name: 'เซ็นเซอร์ หลังบ้าน'
   }, {
     id: 3,
     url: '/battery/node/3',
-    name: 'เซ็นเซอร์ ห้องครัว',
-    temp: generate,
-    humid: generate
+    name: 'เซ็นเซอร์ ห้องครัว'
   }]
 }];
 
@@ -45795,7 +45787,15 @@ var _Gauge = __webpack_require__(34);
 
 var _Gauge2 = _interopRequireDefault(_Gauge);
 
-var _dummyCharts = __webpack_require__(204);
+var _Store = __webpack_require__(422);
+
+var _Store2 = _interopRequireDefault(_Store);
+
+var _AppDummyAction = __webpack_require__(426);
+
+var API = _interopRequireWildcard(_AppDummyAction);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -45811,12 +45811,31 @@ var Environment = function (_Component) {
   function Environment(props) {
     _classCallCheck(this, Environment);
 
-    return _possibleConstructorReturn(this, (Environment.__proto__ || Object.getPrototypeOf(Environment)).call(this, props));
+    var _this = _possibleConstructorReturn(this, (Environment.__proto__ || Object.getPrototypeOf(Environment)).call(this, props));
+
+    _this.state = _Store2.default.state;
+    return _this;
   }
 
   _createClass(Environment, [{
     key: 'componentWillMount',
-    value: function componentWillMount() {}
+    value: function componentWillMount() {
+      var _this2 = this;
+
+      _Store2.default.addListener(function () {
+        _this2.setState(_Store2.default.state);
+      });
+    }
+  }, {
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      API.startGetSensorData();
+    }
+  }, {
+    key: 'componentDidUpdate',
+    value: function componentDidUpdate() {
+      console.log(this.state);
+    }
   }, {
     key: 'render',
     value: function render() {
@@ -45887,9 +45906,9 @@ var Environment = function (_Component) {
                       'div',
                       { className: 'column' },
                       _react2.default.createElement(_LineMultiAxis2.default, { label: 'Line1',
-                        dataItem1: _dummyCharts.data.generator.data(),
-                        dataItem2: _dummyCharts.data.generator.data(),
-                        labels: _dummyCharts.data.generator.labels })
+                        dataItem1: this.state.data,
+                        dataItem2: this.state.data,
+                        labels: this.state.labels })
                     )
                   ),
                   _react2.default.createElement(
@@ -45898,8 +45917,8 @@ var Environment = function (_Component) {
                     _react2.default.createElement(
                       'div',
                       { className: 'column' },
-                      _react2.default.createElement(_Line2.default, { label: 'Line2', data: _dummyCharts.data.generator.data(),
-                        labels: _dummyCharts.data.generator.labels,
+                      _react2.default.createElement(_Line2.default, { label: 'Line2', data: this.state.data,
+                        labels: this.state.labels,
                         backgroundColor: 'rgba(87, 230, 255, 0.5)',
                         borderColor: 'rgba(87, 230, 255, 0.5)',
                         pointBorderColor: 'rgba(255, 163, 102, 1)'
@@ -45908,8 +45927,8 @@ var Environment = function (_Component) {
                     _react2.default.createElement(
                       'div',
                       { className: 'column' },
-                      _react2.default.createElement(_Line2.default, { label: 'Line3', data: _dummyCharts.data.generator.data(),
-                        labels: _dummyCharts.data.generator.labels,
+                      _react2.default.createElement(_Line2.default, { label: 'Line3', data: this.state.data,
+                        labels: this.state.labels,
                         backgroundColor: 'rgba(68, 104, 176, 0.5)',
                         borderColor: 'rgba(68, 104, 176, 0.5)',
                         pointBorderColor: 'rgba(255, 163, 102, 1)',
@@ -45923,8 +45942,8 @@ var Environment = function (_Component) {
                     _react2.default.createElement(
                       'div',
                       { className: 'column' },
-                      _react2.default.createElement(_Line2.default, { label: 'Line4', data: _dummyCharts.data.generator.data(),
-                        labels: _dummyCharts.data.generator.labels,
+                      _react2.default.createElement(_Line2.default, { label: 'Line4', data: this.state.data,
+                        labels: this.state.labels,
                         backgroundColor: 'rgba(254, 178, 194, 0.5)',
                         borderColor: 'rgba(254, 178, 194, 0.5)',
                         pointBorderColor: 'rgba(255, 163, 102, 1)',
@@ -45934,8 +45953,8 @@ var Environment = function (_Component) {
                     _react2.default.createElement(
                       'div',
                       { className: 'column' },
-                      _react2.default.createElement(_Line2.default, { label: 'Line5', data: _dummyCharts.data.generator.data(),
-                        labels: _dummyCharts.data.generator.labels,
+                      _react2.default.createElement(_Line2.default, { label: 'Line5', data: this.state.data,
+                        labels: this.state.labels,
                         backgroundColor: 'rgba(223, 191, 159, 0.5)',
                         borderColor: 'rgba(223, 191, 159, 0.5)',
                         pointBorderColor: 'rgba(255, 163, 102, 1)',
@@ -64387,6 +64406,7 @@ var EnvironmentType = function (_Component) {
     key: '_onStoreChanged',
     value: function _onStoreChanged() {
       this.setState(_Store2.default.state);
+      console.log(this.state);
     }
   }, {
     key: 'componentWillMount',
@@ -65890,6 +65910,10 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var state = {
+  environment: {},
+  gas: {},
+  recycle: {},
+  battery: {},
   data: [],
   labels: []
 };
@@ -65910,8 +65934,7 @@ var MyStore = function (_Store) {
     key: '__onDispatch',
     value: function __onDispatch(action) {
       if (action.type === _Constants2.default.DONE_GET_DATA) {
-        this.state.labels = action.data.labels;
-        this.state.data = action.data.data;
+        Object.assign(this.state, action.data);
         this.__emitChange();
       }
     }
@@ -66026,9 +66049,10 @@ var _apiSensor2 = _interopRequireDefault(_apiSensor);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var startGetSensorData = function startGetSensorData() {
-  _Dispatcher2.default.dispatch({
-    type: _Constants2.default.START_GET_DATA
-  });
+  // Dispatcher.dispatch({
+  //   type: AppConstants.START_GET_DATA
+  // })
+
 
   _apiSensor2.default.getSensorData(function (data) {
     _Dispatcher2.default.dispatch({
@@ -66036,6 +66060,13 @@ var startGetSensorData = function startGetSensorData() {
       data: data
     });
   });
+
+  // API.getGraphMultiAxis(data => {
+  //   Dispatcher.dispatch({
+  //     type: AppConstants.DONE_GET_DATA,
+  //     data: data
+  //   })
+  // })
 };
 
 exports.startGetSensorData = startGetSensorData;
@@ -66057,15 +66088,117 @@ var dummy = _interopRequireWildcard(_dummyCharts);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
+// const generator = {
+//
+//   environment: () => {
+//     let objChild = []
+//     for (let i = 0; i <= 5; i++) {
+//       objChild.push({
+//         id: i,
+//         url: `/environment/node/${i}`,
+//         name: `node ${i}`,
+//         chart: {
+//           label: `node ${i}`,
+//           labels: ['1','2','3','4','5'],
+//           data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map(v => Math.random() * v)
+//         }
+//       })
+//     }
+//     console.log(objChild)
+//     return objChild
+//   },
+//   gas: () => {
+//     let objChild = []
+//     for (let i = 0; i <= 5; i++) {
+//       objChild.push({
+//         id: i,
+//         url: `/gas/node/${i}`,
+//         name: `node ${i}`,
+//         chart: {
+//           label: `node ${i}`,
+//           labels: ['1','2','3','4','5'],
+//           data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map(v => Math.random() * v)
+//         }
+//       })
+//     }
+//     return objChild
+//   },
+//   recycle: () => {
+//     let objChild = []
+//     for (let i = 0; i <= 5; i++) {
+//       objChild.push({
+//         id: i,
+//         url: `/recycle/node/${i}`,
+//         name: `node ${i}`,
+//         chart: {
+//           label: `node ${i}`,
+//           labels: ['1','2','3','4','5'],
+//           data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map(v => Math.random() * v)
+//         }
+//       })
+//     }
+//     return objChild
+//   },
+//   battery: () => {
+//     let objChild = []
+//     for (let i = 0; i <= 5; i++) {
+//       objChild.push({
+//         id: i,
+//         url: `/battery/node/${i}`,
+//         name: `node ${i}`,
+//         chart: {
+//           label: `node ${i}`,
+//           labels: ['1','2','3','4','5'],
+//           data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map(v => Math.random() * v)
+//         }
+//       })
+//     }
+//     return objChild
+//   }
+//
+// }
+
 var MOCKUP_API = {
+
   getSensorData: function getSensorData(cb) {
     setTimeout(function () {
+
       var data = {
         'data': dummy.data.generator.data(), 'labels': dummy.data.generator.labels, 'label': dummy.data.generator.label
-      };
-      cb(data);
+
+        // const realData = {
+        //
+        //   environment: {
+        //     url: '/environment',
+        //     name: 'สภาพแวดล้อม',
+        //     icon: 'fa fa-envira',
+        //     children: generator.environment()
+        //   },
+        //   gas: {
+        //     url: '/gas',
+        //     name: 'แก๊ส',
+        //     icon: 'fa fa-flask',
+        //     children: generator.gas()
+        //   },
+        //   recycle: {
+        //     url: '/recycle',
+        //     name: 'ปริมาณขยะ',
+        //     icon: 'fa fa-recycle',
+        //     children: generator.recycle()
+        //   },
+        //   battery: {
+        //     url: '/battery',
+        //     name: 'แบตเตอรี่',
+        //     icon: 'fa fa-battery-three-quarters',
+        //     children: generator.battery()
+        //   },
+        //
+        // }
+
+      };cb(data);
     }, 1000);
   }
+
 };
 
 exports.default = MOCKUP_API;
