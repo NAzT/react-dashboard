@@ -58,24 +58,24 @@ export default class Environment extends Component {
                   <div className="columns">
                     <div className="column">
                       <LineMultiAxis label='Line1'
-                                     dataItem1={data.generate.data()}
-                                     dataItem2={data.generate.data()}
-                                     labels={data.generate.labels}/>
+                                     dataItem1={data.generator.data()}
+                                     dataItem2={data.generator.data()}
+                                     labels={data.generator.labels}/>
                     </div>
                   </div>
 
                   <div className="columns">
                     <div className="column">
-                      <Line label='Line2' data={data.generate.data()}
-                            labels={data.generate.labels}
+                      <Line label='Line2' data={data.generator.data()}
+                            labels={data.generator.labels}
                             backgroundColor='rgba(87, 230, 255, 0.5)'
                             borderColor='rgba(87, 230, 255, 0.5)'
                             pointBorderColor='rgba(255, 163, 102, 1)'
                       />
                     </div>
                     <div className="column">
-                      <Line label='Line3' data={data.generate.data()}
-                            labels={data.generate.labels}
+                      <Line label='Line3' data={data.generator.data()}
+                            labels={data.generator.labels}
                             backgroundColor='rgba(68, 104, 176, 0.5)'
                             borderColor='rgba(68, 104, 176, 0.5)'
                             pointBorderColor='rgba(255, 163, 102, 1)'
@@ -86,8 +86,8 @@ export default class Environment extends Component {
 
                   <div className="columns">
                     <div className="column">
-                      <Line label='Line4' data={data.generate.data()}
-                            labels={data.generate.labels}
+                      <Line label='Line4' data={data.generator.data()}
+                            labels={data.generator.labels}
                             backgroundColor='rgba(254, 178, 194, 0.5)'
                             borderColor='rgba(254, 178, 194, 0.5)'
                             pointBorderColor='rgba(255, 163, 102, 1)'
@@ -95,8 +95,8 @@ export default class Environment extends Component {
                       />
                     </div>
                     <div className="column">
-                      <Line label='Line5' data={data.generate.data()}
-                            labels={data.generate.labels}
+                      <Line label='Line5' data={data.generator.data()}
+                            labels={data.generator.labels}
                             backgroundColor='rgba(223, 191, 159, 0.5)'
                             borderColor='rgba(223, 191, 159, 0.5)'
                             pointBorderColor='rgba(255, 163, 102, 1)'

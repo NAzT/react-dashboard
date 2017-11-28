@@ -5,26 +5,29 @@ import { menuNameMapping, menuGroupMapping } from '../data/menuItems'
 import styled from 'styled-components'
 import Line from './Line.jsx'
 import { data } from '../data/dummyCharts'
-import ApplicationStore from '../flux/MyStore'
-import { APIAction } from '../flux/DataAction'
 
-/* ===== end test ===== */
+import store from '../flux/Store'
+import { startGetData } from '../flux/AppActions'
 
 export default class EnvironmentType extends Component {
 
   constructor (props) {
     super(props)
-    this.store = ApplicationStore
+    this.store = store
+  }
+
+  _onStoreChanged () {
+    // console.log('store has changes... data = ', store.getState())
+    console.log('store has changes... data = ', this.store.state)
   }
 
   componentWillMount () {
-    this.store.addListener((data) => {
-      console.log(this.store.getState())
-    })
+    store.addListener(this._onStoreChanged)
   }
 
   componentDidMount () {
-    APIAction.startGetData()
+    console.log('did mount...')
+    startGetData()
   }
 
   render () {
@@ -69,8 +72,8 @@ export default class EnvironmentType extends Component {
                   <div className="columns">
                     <div className="column">
 
-                      <Line label='ปริมาณ' data={data.generate.data()}
-                            labels={data.generate.labels}
+                      <Line label='ปริมาณ' data={data.generator.data()}
+                            labels={data.generator.labels}
                             backgroundColor='rgba(254, 178, 194, 0.5)'
                             borderColor='rgba(254, 178, 194, 0.5)'
                             pointBorderColor='rgba(255, 163, 102, 1)'

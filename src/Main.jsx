@@ -8,6 +8,8 @@ import Battery from './components/Battery'
 import Recycle from './components/Recycle'
 import NodeTemplate from './components/NodeTemplate'
 
+import Debug from './Debug'
+
 const PageNotFound = ({location}) => (
   <div className="container">
     <div className="section">
