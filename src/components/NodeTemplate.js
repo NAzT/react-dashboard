@@ -4,28 +4,30 @@ import { Link } from 'react-router-dom'
 import { menuNameMapping, menuGroupMapping } from '../data/menuItems'
 import styled from 'styled-components'
 import Line from './Line.jsx'
-import { data } from '../data/dummyCharts'
 
 import store from '../flux/Store'
-import { startGetData } from '../flux/AppActions'
+import * as API from '../flux/AppDummyAction'
 
 export default class EnvironmentType extends Component {
 
   constructor (props) {
     super(props)
+    this.state = store.state
   }
 
   _onStoreChanged () {
-    console.log('store has changes... data = ', store.state)
+    this.setState(store.state)
   }
 
   componentWillMount () {
-    store.addListener(this._onStoreChanged)
+    store.addListener(() => {
+      this._onStoreChanged()
+    })
   }
 
   componentDidMount () {
     console.log('did mount...')
-    startGetData()
+    API.startGetSensorData()
   }
 
   render () {
@@ -70,8 +72,8 @@ export default class EnvironmentType extends Component {
                   <div className="columns">
                     <div className="column">
 
-                      <Line label='ปริมาณ' data={data.generator.data()}
-                            labels={data.generator.labels}
+                      <Line label='ปริมาณ' data={this.state.data}
+                            labels={this.state.labels}
                             backgroundColor='rgba(254, 178, 194, 0.5)'
                             borderColor='rgba(254, 178, 194, 0.5)'
                             pointBorderColor='rgba(255, 163, 102, 1)'

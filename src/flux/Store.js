@@ -2,7 +2,10 @@ import { Store } from 'flux/utils'
 import AppDispatcher from './Dispatcher'
 import AppConstants from './Constants'
 
-const state = {}
+const state = {
+  data: [],
+  labels: []
+}
 
 class MyStore extends Store {
 
@@ -12,13 +15,9 @@ class MyStore extends Store {
   }
 
   __onDispatch (action) {
-    if (action.type === AppConstants.START_GET_DATA) {
-      this.state.loading = true
-      this.__emitChange()
-    }
-    else if (action.type === AppConstants.DONE_GET_DATA) {
-      this.state.loading = false
-      this.state.sensor = action.data
+    if (action.type === AppConstants.DONE_GET_DATA) {
+      this.state.labels = action.data.labels
+      this.state.data = action.data.data
       this.__emitChange()
     }
   }

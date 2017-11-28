@@ -64351,13 +64351,15 @@ var _Line = __webpack_require__(68);
 
 var _Line2 = _interopRequireDefault(_Line);
 
-var _dummyCharts = __webpack_require__(204);
-
 var _Store = __webpack_require__(422);
 
 var _Store2 = _interopRequireDefault(_Store);
 
-var _AppActions = __webpack_require__(425);
+var _AppDummyAction = __webpack_require__(426);
+
+var API = _interopRequireWildcard(_AppDummyAction);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -64375,24 +64377,31 @@ var EnvironmentType = function (_Component) {
   function EnvironmentType(props) {
     _classCallCheck(this, EnvironmentType);
 
-    return _possibleConstructorReturn(this, (EnvironmentType.__proto__ || Object.getPrototypeOf(EnvironmentType)).call(this, props));
+    var _this = _possibleConstructorReturn(this, (EnvironmentType.__proto__ || Object.getPrototypeOf(EnvironmentType)).call(this, props));
+
+    _this.state = _Store2.default.state;
+    return _this;
   }
 
   _createClass(EnvironmentType, [{
     key: '_onStoreChanged',
     value: function _onStoreChanged() {
-      console.log('store has changes... data = ', _Store2.default.state);
+      this.setState(_Store2.default.state);
     }
   }, {
     key: 'componentWillMount',
     value: function componentWillMount() {
-      _Store2.default.addListener(this._onStoreChanged);
+      var _this2 = this;
+
+      _Store2.default.addListener(function () {
+        _this2._onStoreChanged();
+      });
     }
   }, {
     key: 'componentDidMount',
     value: function componentDidMount() {
       console.log('did mount...');
-      (0, _AppActions.startGetData)();
+      API.startGetSensorData();
     }
   }, {
     key: 'render',
@@ -64461,8 +64470,8 @@ var EnvironmentType = function (_Component) {
                     _react2.default.createElement(
                       'div',
                       { className: 'column' },
-                      _react2.default.createElement(_Line2.default, { label: '\u0E1B\u0E23\u0E34\u0E21\u0E32\u0E13', data: _dummyCharts.data.generator.data(),
-                        labels: _dummyCharts.data.generator.labels,
+                      _react2.default.createElement(_Line2.default, { label: '\u0E1B\u0E23\u0E34\u0E21\u0E32\u0E13', data: this.state.data,
+                        labels: this.state.labels,
                         backgroundColor: 'rgba(254, 178, 194, 0.5)',
                         borderColor: 'rgba(254, 178, 194, 0.5)',
                         pointBorderColor: 'rgba(255, 163, 102, 1)',
@@ -65590,21 +65599,8 @@ Object.defineProperty(exports, "__esModule", {
 
 var _flux = __webpack_require__(419);
 
-// import AppConstants from './Constants'
-// import ApplicationStore from './Store'
-// import { startGetData } from './AppActions'
-
 var dispatcher = new _flux.Dispatcher();
-//
-// dispatcher.register(action => {
-//   if (action.type === AppConstants.START_GET_DATA) {
-//     startGetData()
-//   }
-//   else if (action.type === AppConstants.DONE_GET_DATA) {
-//     ApplicationStore.('sensor', action.data)
-//   }
-//
-// })
+
 exports.default = dispatcher;
 
 /***/ }),
@@ -65893,7 +65889,10 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var state = {};
+var state = {
+  data: [],
+  labels: []
+};
 
 var MyStore = function (_Store) {
   _inherits(MyStore, _Store);
@@ -65910,12 +65909,9 @@ var MyStore = function (_Store) {
   _createClass(MyStore, [{
     key: '__onDispatch',
     value: function __onDispatch(action) {
-      if (action.type === _Constants2.default.START_GET_DATA) {
-        this.state.loading = true;
-        this.__emitChange();
-      } else if (action.type === _Constants2.default.DONE_GET_DATA) {
-        this.state.loading = false;
-        this.state.sensor = action.data;
+      if (action.type === _Constants2.default.DONE_GET_DATA) {
+        this.state.labels = action.data.labels;
+        this.state.data = action.data.data;
         this.__emitChange();
       }
     }
@@ -66003,7 +65999,8 @@ var ActionTypes = {
 exports.default = ActionTypes;
 
 /***/ }),
-/* 425 */
+/* 425 */,
+/* 426 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -66012,7 +66009,7 @@ exports.default = ActionTypes;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.startGetData = undefined;
+exports.startGetSensorData = undefined;
 
 var _Constants = __webpack_require__(424);
 
@@ -66022,27 +66019,56 @@ var _Dispatcher = __webpack_require__(418);
 
 var _Dispatcher2 = _interopRequireDefault(_Dispatcher);
 
-var _dummyCharts = __webpack_require__(204);
+var _apiSensor = __webpack_require__(427);
+
+var _apiSensor2 = _interopRequireDefault(_apiSensor);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function startGetData() {
-  var action = {
-    type: _Constants2.default.START_GET_DATA,
-    data: undefined
-  };
+var startGetSensorData = function startGetSensorData() {
+  _Dispatcher2.default.dispatch({
+    type: _Constants2.default.START_GET_DATA
+  });
 
-  _Dispatcher2.default.dispatch(action);
-
-  setTimeout(function () {
+  _apiSensor2.default.getSensorData(function (data) {
     _Dispatcher2.default.dispatch({
       type: _Constants2.default.DONE_GET_DATA,
-      data: _dummyCharts.data.generator.data()
+      data: data
     });
-  }, 1000);
-}
+  });
+};
 
-exports.startGetData = startGetData;
+exports.startGetSensorData = startGetSensorData;
+
+/***/ }),
+/* 427 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _dummyCharts = __webpack_require__(204);
+
+var dummy = _interopRequireWildcard(_dummyCharts);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+var MOCKUP_API = {
+  getSensorData: function getSensorData(cb) {
+    setTimeout(function () {
+      var data = {
+        'data': dummy.data.generator.data(), 'labels': dummy.data.generator.labels, 'label': dummy.data.generator.label
+      };
+      cb(data);
+    }, 1000);
+  }
+};
+
+exports.default = MOCKUP_API;
 
 /***/ })
 /******/ ]);
