@@ -7,11 +7,17 @@ import Gauge from './Gauge.jsx'
 import store from '../flux/Store'
 import * as API from '../flux/AppDummyAction'
 
+import sensors from '../data/virtualData'
+import Columns from './Columns.jsx'
+import uuid from 'uuid'
+
+const result = []
 export default class Environment extends Component {
 
   constructor (props) {
     super(props)
-    this.state = store.state
+    //this.state = store.state
+    this.state = {nodes: []}
   }
 
   componentWillMount () {
@@ -22,10 +28,36 @@ export default class Environment extends Component {
 
   componentDidMount () {
     API.startGetSensorData()
-  }
+    let components = []
 
-  componentDidUpdate() {
-    console.log(this.state)
+    components.push(
+      sensors.lab.nodes.map(node => {
+        return (
+          <div className="column" key={node.id}>
+            <Line label={node.chart.label} data={node.chart.data}
+                  labels={node.chart.labels}
+                  backgroundColor='rgba(87, 230, 255, 0.5)'
+                  borderColor='rgba(87, 230, 255, 0.5)'
+                  pointBorderColor='rgba(255, 163, 102, 1)'
+            />
+          </div>
+        )
+      })
+    )
+
+    components.forEach(component => {
+      let buffer = []
+      component.forEach(el => {
+        if (el.key % 2 === 0) { // even
+          buffer.push(el)
+          result.push(buffer)
+          buffer = []
+        } else {
+          buffer.push(el)
+        }
+      })
+    })
+
   }
 
   render () {
@@ -45,21 +77,21 @@ export default class Environment extends Component {
                 <div className="card-content">
 
                   <div className="columns">
-                    <div className="column has-text-centered">
-                      <Gauge width='200' height='160' label='Temperature' value='60' color='#ff9966'/>
-                    </div>
-                    <div className="column has-text-centered">
-                      <Gauge width='200' height='160' label='Humidity' value='80' color='#ff4d4d'/>
-                    </div>
-                  </div>
+                    {
+                      sensors.lab.master.map((master) => {
+                        let components = []
+                        master.environment.forEach((obj) => {
+                          components.push(
+                            <div className="column is-3 has-text-centered" key={obj.id}>
+                              <Gauge width='200' height='160' label={obj.title}
+                                     value={obj.value} color='#ff9966'/>
+                            </div>
+                          )
+                        })
 
-                  <div className="columns">
-                    <div className="column has-text-centered">
-                      <Gauge width='200' height='160' label='Sound' value='40' color='#00cc00'/>
-                    </div>
-                    <div className="column has-text-centered">
-                      <Gauge width='200' height='160' label='Pressure' value='70' color='#ff4d4d'/>
-                    </div>
+                        return components
+                      })
+                    }
                   </div>
 
                 </div>
@@ -68,55 +100,11 @@ export default class Environment extends Component {
               <div className="card">
                 <div className="card-content">
 
-                  <div className="columns">
-                    <div className="column">
-                      <LineMultiAxis label='Line1'
-                                     dataItem1={this.state.data}
-                                     dataItem2={this.state.data}
-                                     labels={this.state.labels}/>
-                    </div>
-                  </div>
-
-                  <div className="columns">
-                    <div className="column">
-                      <Line label='Line2' data={this.state.data}
-                            labels={this.state.labels}
-                            backgroundColor='rgba(87, 230, 255, 0.5)'
-                            borderColor='rgba(87, 230, 255, 0.5)'
-                            pointBorderColor='rgba(255, 163, 102, 1)'
-                      />
-                    </div>
-                    <div className="column">
-                      <Line label='Line3' data={this.state.data}
-                            labels={this.state.labels}
-                            backgroundColor='rgba(68, 104, 176, 0.5)'
-                            borderColor='rgba(68, 104, 176, 0.5)'
-                            pointBorderColor='rgba(255, 163, 102, 1)'
-                            lineTension='0'
-                      />
-                    </div>
-                  </div>
-
-                  <div className="columns">
-                    <div className="column">
-                      <Line label='Line4' data={this.state.data}
-                            labels={this.state.labels}
-                            backgroundColor='rgba(254, 178, 194, 0.5)'
-                            borderColor='rgba(254, 178, 194, 0.5)'
-                            pointBorderColor='rgba(255, 163, 102, 1)'
-                            lineTension='0'
-                      />
-                    </div>
-                    <div className="column">
-                      <Line label='Line5' data={this.state.data}
-                            labels={this.state.labels}
-                            backgroundColor='rgba(223, 191, 159, 0.5)'
-                            borderColor='rgba(223, 191, 159, 0.5)'
-                            pointBorderColor='rgba(255, 163, 102, 1)'
-                            lineTension='0.3'
-                      />
-                    </div>
-                  </div>
+                    {
+                      result.map(node => {
+                        return <Columns column={node} key={uuid()}/>
+                      })
+                    }
 
                 </div>
               </div>

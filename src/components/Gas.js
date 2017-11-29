@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import Menu from './Menu.js'
 import Gauge from './Gauge.jsx'
 
+import sensors from '../data/virtualData'
+
 export default class Gas extends Component {
 
   constructor (props) {
@@ -20,19 +22,24 @@ export default class Gas extends Component {
             </div>
             <div className="column is-9">
               <div className="card">
-                <div className="card-content">
+                <div className="card-content has-text-centered">
 
-                  <div className="columns">
-                    <div className="column has-text-centered">
-                      <Gauge width='200' height='160' label='บริเวณ หน้าบ้าน' value='60' color='#ff9966'/>
-                    </div>
-                    <div className="column has-text-centered">
-                      <Gauge width='200' height='160' label='บริเวณ หลังบ้าน' value='70' color='#ff4d4d'/>
-                    </div>
-                    <div className="column has-text-centered">
-                      <Gauge width='200' height='160' label='บริเวณ ห้องครัว' value='10' color='#00cc00'/>
-                    </div>
-                  </div>
+                  <p className='title'>Not available</p>
+
+                  {/*<div className="columns">*/}
+                    {/*{*/}
+                      {/*sensors.gas.master.map(master => {*/}
+
+                        {/*console.log(master)*/}
+
+                        {/*return (*/}
+                          {/*<div className="column is-3 has-text-centered">*/}
+                            {/*<Gauge width='200' height='160' label={master.title} value={master.value} color='#ff9966'/>*/}
+                          {/*</div>*/}
+                        {/*)*/}
+                      {/*})*/}
+                    {/*}*/}
+                  {/*</div>*/}
 
                 </div>
               </div>

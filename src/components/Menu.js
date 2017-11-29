@@ -18,7 +18,7 @@ export default class Menu extends Component {
         color: '#4468B0'
       }
     }
-    //console.log('props: ', props)
+
   }
 
   render () {
@@ -31,7 +31,7 @@ export default class Menu extends Component {
     return (
       <aside className='menu'>
         <p className='menu-label'>
-          General
+          Lab
         </p>
         <ul className='menu-list'>
           {

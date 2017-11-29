@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Menu from './Menu.js'
 import Gauge from './Gauge.jsx'
+import sensors from '../data/virtualData'
 
 export default class Battery extends Component {
 
@@ -25,15 +26,21 @@ export default class Battery extends Component {
                 <div className="card-content">
 
                   <div className="columns">
-                    <div className="column has-text-centered">
-                      <Gauge width='200' height='160' label='เซ็นเซอร์ หน้าบ้าน' value='60' color='#ff9966'/>
-                    </div>
-                    <div className="column has-text-centered">
-                      <Gauge width='200' height='160' label='เซ็นเซอร์ หลังบ้าน' value='20' color='#ff4d4d'/>
-                    </div>
-                    <div className="column has-text-centered">
-                      <Gauge width='200' height='160' label='เซ็นเซอร์ ห้องครัว' value='90' color='#00cc00'/>
-                    </div>
+                    {
+                      sensors.lab.master.map((master) => {
+                        let components = []
+                        master.battery.forEach((obj) => {
+                          components.push(
+                            <div className="column is-3 has-text-centered" key={obj.id}>
+                              <Gauge width='200' height='160' label={obj.title}
+                                     value={obj.value} color='#ff9966'/>
+                            </div>
+                          )
+                        })
+
+                        return components
+                      })
+                    }
                   </div>
 
                 </div>

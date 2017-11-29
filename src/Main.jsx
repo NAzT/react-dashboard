@@ -5,7 +5,7 @@ import 'bulma/css/bulma.css'
 import Environment from './components/Environment'
 import Gas from './components/Gas'
 import Battery from './components/Battery'
-import Trash from './components/Recycle'
+import Trash from './components/Trash'
 import NodeTemplate from './components/NodeTemplate'
 
 import Debug from './Debug'
