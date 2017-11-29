@@ -5,7 +5,7 @@ import 'bulma/css/bulma.css'
 import Environment from './components/Environment'
 import Gas from './components/Gas'
 import Battery from './components/Battery'
-import Recycle from './components/Recycle'
+import Trash from './components/Recycle'
 import NodeTemplate from './components/NodeTemplate'
 
 import Debug from './Debug'
@@ -28,8 +28,8 @@ const Main = (
       <Route exact path='/gas/node/:id' component={NodeTemplate}/>
       <Route exact path='/battery' component={Battery}/>
       <Route exact path='/battery/node/:id' component={NodeTemplate}/>
-      <Route exact path='/recycle' component={Recycle}/>
-      <Route exact path='/recycle/node/:id' component={NodeTemplate}/>
+      <Route exact path='/trash' component={Trash}/>
+      <Route exact path='/trash/node/:id' component={NodeTemplate}/>
       <Route component={PageNotFound}/>
     </Switch>
   </HashRouter>
