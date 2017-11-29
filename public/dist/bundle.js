@@ -5532,7 +5532,6 @@ var Menu = function (_Component) {
         color: '#4468B0'
       }
     };
-
     return _this;
   }
 
@@ -11058,13 +11057,13 @@ var line_options = {
       display: true,
       scaleLabel: {
         display: true,
-        labelString: 'C'
+        labelString: ''
       }
     }]
   }
 };
 
-exports.default = function (props) {
+var LineChart = function LineChart(props) {
 
   var data = {
     lineTension: 0.5
@@ -11099,6 +11098,8 @@ exports.default = function (props) {
       }]
     }, options: line_options });
 };
+
+exports.default = LineChart;
 
 /***/ }),
 /* 68 */
@@ -24228,14 +24229,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var state = {
-  environment: {},
-  gas: {},
-  recycle: {},
-  battery: {},
-  data: [],
-  labels: []
-};
+var state = {};
 
 var MyStore = function (_Store) {
   _inherits(MyStore, _Store);
@@ -45785,10 +45779,6 @@ var _AppDummyAction = __webpack_require__(209);
 
 var API = _interopRequireWildcard(_AppDummyAction);
 
-var _virtualData = __webpack_require__(427);
-
-var _virtualData2 = _interopRequireDefault(_virtualData);
-
 var _Columns = __webpack_require__(429);
 
 var _Columns2 = _interopRequireDefault(_Columns);
@@ -45815,10 +45805,14 @@ var Environment = function (_Component) {
   function Environment(props) {
     _classCallCheck(this, Environment);
 
-    //this.state = store.state
     var _this = _possibleConstructorReturn(this, (Environment.__proto__ || Object.getPrototypeOf(Environment)).call(this, props));
 
-    _this.state = { nodes: [] };
+    _this.state = {
+      nodes: [],
+      loading: true,
+      sensors: {},
+      gauges: []
+    };
     return _this;
   }
 
@@ -45828,41 +45822,69 @@ var Environment = function (_Component) {
       var _this2 = this;
 
       _Store2.default.addListener(function () {
-        _this2.setState(_Store2.default.state);
+        _this2.setState({ sensors: _Store2.default.state });
+        console.log(_this2.state.sensors);
+
+        var components = [];
+
+        _this2.state.sensors.nodes.map(function (node) {
+          //console.log(node)
+          components.push(_react2.default.createElement(
+            'div',
+            { className: 'column', key: node.id },
+            _react2.default.createElement(_Line2.default, { label: node.chart.label, data: node.chart.data,
+              labels: node.chart.labels,
+              backgroundColor: 'rgba(87, 230, 255, 0.5)',
+              borderColor: 'rgba(87, 230, 255, 0.5)',
+              pointBorderColor: 'rgba(255, 163, 102, 1)'
+            })
+          ));
+        });
+
+        console.log(components);
+
+        var buffer = [];
+        components.forEach(function (component) {
+          if (component.key % 2 === 0) {
+            // even
+            buffer.push(component);
+            result.push(buffer);
+            buffer = [];
+          } else {
+            buffer.push(component);
+          }
+        });
+
+        console.log(result);
+
+        _this2.setState({ nodes: result });
+
+        //  ================
+
+        _this2.setState({
+          gauges: _this2.state.sensors.master.map(function (master) {
+            var components = [];
+            master.environment.forEach(function (obj) {
+              components.push(_react2.default.createElement(
+                'div',
+                { className: 'column is-3 has-text-centered', key: obj.id },
+                _react2.default.createElement(_Gauge2.default, { width: '200', height: '160', label: obj.title,
+                  value: obj.value, color: '#ff9966' })
+              ));
+            });
+            return components;
+          })
+        });
+
+        console.log(_this2.state.gauges);
+
+        _this2.setState({ loading: false });
       });
     }
   }, {
     key: 'componentDidMount',
     value: function componentDidMount() {
       API.startGetSensorData();
-      var components = [];
-
-      components.push(_virtualData2.default.lab.nodes.map(function (node) {
-        return _react2.default.createElement(
-          'div',
-          { className: 'column', key: node.id },
-          _react2.default.createElement(_Line2.default, { label: node.chart.label, data: node.chart.data,
-            labels: node.chart.labels,
-            backgroundColor: 'rgba(87, 230, 255, 0.5)',
-            borderColor: 'rgba(87, 230, 255, 0.5)',
-            pointBorderColor: 'rgba(255, 163, 102, 1)'
-          })
-        );
-      }));
-
-      components.forEach(function (component) {
-        var buffer = [];
-        component.forEach(function (el) {
-          if (el.key % 2 === 0) {
-            // even
-            buffer.push(el);
-            result.push(buffer);
-            buffer = [];
-          } else {
-            buffer.push(el);
-          }
-        });
-      });
     }
   }, {
     key: 'render',
@@ -45884,38 +45906,37 @@ var Environment = function (_Component) {
             ),
             _react2.default.createElement(
               'div',
-              { className: 'column is-9' },
+              { className: 'column is-9 has-text-centered' },
               _react2.default.createElement(
                 'div',
-                { className: 'card' },
+                { className: this.state.loading ? 'card' : '' },
                 _react2.default.createElement(
                   'div',
-                  { className: 'card-content' },
+                  { className: this.state.loading ? 'card-content' : '' },
+                  _react2.default.createElement('span', { className: this.state.loading && 'fa fa-refresh fa-spin fa-3x' || '' })
+                )
+              ),
+              _react2.default.createElement(
+                'div',
+                { className: !this.state.loading ? 'card' : '' },
+                _react2.default.createElement(
+                  'div',
+                  { className: !this.state.loading ? 'card-content' : '' },
                   _react2.default.createElement(
                     'div',
-                    { className: 'columns' },
-                    _virtualData2.default.lab.master.map(function (master) {
-                      var components = [];
-                      master.environment.forEach(function (obj) {
-                        components.push(_react2.default.createElement(
-                          'div',
-                          { className: 'column is-3 has-text-centered', key: obj.id },
-                          _react2.default.createElement(_Gauge2.default, { width: '200', height: '160', label: obj.title,
-                            value: obj.value, color: '#ff9966' })
-                        ));
-                      });
-
-                      return components;
+                    { className: !this.state.loading ? 'columns' : '' },
+                    this.state.gauges.map(function (gauge) {
+                      return gauge;
                     })
                   )
                 )
               ),
               _react2.default.createElement(
                 'div',
-                { className: 'card' },
+                { className: !this.state.loading ? 'card' : '' },
                 _react2.default.createElement(
                   'div',
-                  { className: 'card-content' },
+                  { className: !this.state.loading ? 'card-content' : '' },
                   result.map(function (node) {
                     return _react2.default.createElement(_Columns2.default, { column: node, key: (0, _uuid2.default)() });
                   })
@@ -65347,117 +65368,21 @@ var _dummyCharts = __webpack_require__(426);
 
 var dummy = _interopRequireWildcard(_dummyCharts);
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+var _virtualData = __webpack_require__(427);
 
-// const generator = {
-//
-//   environment: () => {
-//     let objChild = []
-//     for (let i = 0; i <= 5; i++) {
-//       objChild.push({
-//         id: i,
-//         url: `/environment/node/${i}`,
-//         name: `node ${i}`,
-//         chart: {
-//           label: `node ${i}`,
-//           labels: ['1','2','3','4','5'],
-//           data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map(v => Math.random() * v)
-//         }
-//       })
-//     }
-//     console.log(objChild)
-//     return objChild
-//   },
-//   gas: () => {
-//     let objChild = []
-//     for (let i = 0; i <= 5; i++) {
-//       objChild.push({
-//         id: i,
-//         url: `/gas/node/${i}`,
-//         name: `node ${i}`,
-//         chart: {
-//           label: `node ${i}`,
-//           labels: ['1','2','3','4','5'],
-//           data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map(v => Math.random() * v)
-//         }
-//       })
-//     }
-//     return objChild
-//   },
-//   recycle: () => {
-//     let objChild = []
-//     for (let i = 0; i <= 5; i++) {
-//       objChild.push({
-//         id: i,
-//         url: `/recycle/node/${i}`,
-//         name: `node ${i}`,
-//         chart: {
-//           label: `node ${i}`,
-//           labels: ['1','2','3','4','5'],
-//           data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map(v => Math.random() * v)
-//         }
-//       })
-//     }
-//     return objChild
-//   },
-//   battery: () => {
-//     let objChild = []
-//     for (let i = 0; i <= 5; i++) {
-//       objChild.push({
-//         id: i,
-//         url: `/battery/node/${i}`,
-//         name: `node ${i}`,
-//         chart: {
-//           label: `node ${i}`,
-//           labels: ['1','2','3','4','5'],
-//           data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map(v => Math.random() * v)
-//         }
-//       })
-//     }
-//     return objChild
-//   }
-//
-// }
+var _virtualData2 = _interopRequireDefault(_virtualData);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 var MOCKUP_API = {
 
   getSensorData: function getSensorData(cb) {
-    setTimeout(function () {
-
-      var data = {
-        'data': dummy.data.generator.data(), 'labels': dummy.data.generator.labels, 'label': dummy.data.generator.label
-
-        // const realData = {
-        //
-        //   environment: {
-        //     url: '/environment',
-        //     name: 'สภาพแวดล้อม',
-        //     icon: 'fa fa-envira',
-        //     children: generator.environment()
-        //   },
-        //   gas: {
-        //     url: '/gas',
-        //     name: 'แก๊ส',
-        //     icon: 'fa fa-flask',
-        //     children: generator.gas()
-        //   },
-        //   recycle: {
-        //     url: '/recycle',
-        //     name: 'ปริมาณขยะ',
-        //     icon: 'fa fa-recycle',
-        //     children: generator.recycle()
-        //   },
-        //   battery: {
-        //     url: '/battery',
-        //     name: 'แบตเตอรี่',
-        //     icon: 'fa fa-battery-three-quarters',
-        //     children: generator.battery()
-        //   },
-        //
-        // }
-
-      };cb(data);
-    }, 1000);
+    setInterval(function () {
+      console.log('regneration...' + new Date());
+      cb(_virtualData2.default);
+    }, 3000);
   }
 
 };
@@ -65632,7 +65557,7 @@ var Battery = function (_Component) {
                   _react2.default.createElement(
                     'div',
                     { className: 'columns' },
-                    _virtualData2.default.lab.master.map(function (master) {
+                    _virtualData2.default.master.map(function (master) {
                       var components = [];
                       master.battery.forEach(function (obj) {
                         components.push(_react2.default.createElement(
@@ -65724,29 +65649,51 @@ var EnvironmentType = function (_Component) {
 
     var _this = _possibleConstructorReturn(this, (EnvironmentType.__proto__ || Object.getPrototypeOf(EnvironmentType)).call(this, props));
 
-    _this.state = _Store2.default.state;
+    _this.state = {
+      sensors: {},
+      node: [],
+      lineDefault: {
+        data: [],
+        labels: []
+      }
+    };
+
     return _this;
   }
 
   _createClass(EnvironmentType, [{
-    key: '_onStoreChanged',
-    value: function _onStoreChanged() {
-      this.setState(_Store2.default.state);
-      console.log(this.state);
-    }
-  }, {
     key: 'componentWillMount',
     value: function componentWillMount() {
       var _this2 = this;
 
       _Store2.default.addListener(function () {
-        _this2._onStoreChanged();
+
+        _this2.setState({ sensors: _Store2.default.state });
+
+        _this2.setState({
+          node: _this2.state.sensors.nodes.filter(function (node) {
+            return node.id === parseInt(_this2.props.match.params.id);
+          })[0]
+        });
+
+        _this2.setState({
+          lineDefault: {
+            data: _this2.state.node.chart.data || [],
+            labels: _this2.state.node.chart.labels || []
+          }
+        });
+
+        //console.log(this.state)
       });
+    }
+  }, {
+    key: 'componentDidUpdate',
+    value: function componentDidUpdate() {
+      //console.log(this.state)
     }
   }, {
     key: 'componentDidMount',
     value: function componentDidMount() {
-      console.log('did mount...');
       API.startGetSensorData();
     }
   }, {
@@ -65816,8 +65763,9 @@ var EnvironmentType = function (_Component) {
                     _react2.default.createElement(
                       'div',
                       { className: 'column' },
-                      _react2.default.createElement(_Line2.default, { label: '\u0E1B\u0E23\u0E34\u0E21\u0E32\u0E13', data: this.state.data,
-                        labels: this.state.labels,
+                      _react2.default.createElement(_Line2.default, { label: '\u0E1B\u0E23\u0E34\u0E21\u0E32\u0E13',
+                        data: this.state.lineDefault.data,
+                        labels: this.state.lineDefault.labels,
                         backgroundColor: 'rgba(254, 178, 194, 0.5)',
                         borderColor: 'rgba(254, 178, 194, 0.5)',
                         pointBorderColor: 'rgba(255, 163, 102, 1)',
@@ -65925,7 +65873,7 @@ var menuItems = [{
   url: '/environment',
   name: 'สภาพแวดล้อม',
   icon: 'fa fa-envira',
-  children: [].concat(_toConsumableArray(_virtualData2.default.lab.nodes.map(function (item, idx) {
+  children: [].concat(_toConsumableArray(_virtualData2.default.nodes.map(function (item) {
     return {
       id: item.id,
       name: item.name,
@@ -66011,74 +65959,72 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 var sensors = {
-  lab: {
-    master: [{
-      environment: [{
-        id: 1,
-        title: 'temperature',
-        value: 30
-      }, {
-        id: 2,
-        title: 'humidity',
-        value: 60
-      }, {
-        id: 3,
-        title: 'sound',
-        value: 45
-      }, {
-        id: 4,
-        title: 'pressure',
-        value: 1000
-      }],
-      trash: [{
-        id: 1,
-        title: 'trashed',
-        value: 30
-      }],
-      battery: [{
-        id: 1,
-        title: 'battery',
-        value: 30
-      }]
+  master: [{
+    environment: [{
+      id: 1,
+      title: 'temperature',
+      value: 30
+    }, {
+      id: 2,
+      title: 'humidity',
+      value: 60
+    }, {
+      id: 3,
+      title: 'sound',
+      value: 45
+    }, {
+      id: 4,
+      title: 'pressure',
+      value: 1000
     }],
-    nodes: [{
-      id: 1, name: 'หน้าชมรมด้านนอก',
-      chart: {
-        label: 'node 1',
-        labels: ['1', '2', '3', '4', '5'],
-        data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map(function (v) {
-          return Math.random() * v;
-        })
-      }
-    }, {
-      id: 2, name: 'ห้องชมรมชั้น 2',
-      chart: {
-        label: 'node 2',
-        labels: ['1', '2', '3', '4', '5'],
-        data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map(function (v) {
-          return Math.random() * v;
-        })
-      }
-    }, {
-      id: 3, name: 'ห้องชมรมชั้น 3',
-      chart: {
-        label: 'node 3',
-        labels: ['1', '2', '3', '4', '5'],
-        data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map(function (v) {
-          return Math.random() * v;
-        })
-      }
-    }, {
-      id: 4, name: 'โกดัง',
-      chart: {
-        label: 'node 4',
-        labels: ['1', '2', '3', '4', '5'],
-        data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map(function (v) {
-          return Math.random() * v;
-        })
-      }
+    trash: [{
+      id: 1,
+      title: 'trashed',
+      value: 30
+    }],
+    battery: [{
+      id: 1,
+      title: 'battery',
+      value: 30
     }]
-  }
+  }],
+  nodes: [{
+    id: 1, name: 'หน้าชมรมด้านนอก',
+    chart: {
+      label: 'node 1',
+      labels: ['1', '2', '3', '4', '5'],
+      data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map(function (v) {
+        return Math.random() * v;
+      })
+    }
+  }, {
+    id: 2, name: 'ห้องชมรมชั้น 2',
+    chart: {
+      label: 'node 2',
+      labels: ['1', '2', '3', '4', '5'],
+      data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map(function (v) {
+        return Math.random() * v;
+      })
+    }
+  }, {
+    id: 3, name: 'ห้องชมรมชั้น 3',
+    chart: {
+      label: 'node 3',
+      labels: ['1', '2', '3', '4', '5'],
+      data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map(function (v) {
+        return Math.random() * v;
+      })
+    }
+  }, {
+    id: 4, name: 'โกดัง',
+    chart: {
+      label: 'node 4',
+      labels: ['1', '2', '3', '4', '5'],
+      data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map(function (v) {
+        return Math.random() * v;
+      })
+    }
+  }]
 };
 
 exports.default = sensors;
@@ -66159,18 +66105,20 @@ var Recycle = function (_Component) {
                   _react2.default.createElement(
                     'div',
                     { className: 'columns' },
-                    _virtualData2.default.lab.master.map(function (master) {
-                      var components = [];
+                    _virtualData2.default.master.map(function (master) {
+
+                      // console.log(master)
+                      // let components = []
                       master.trash.forEach(function (obj) {
-                        components.push(_react2.default.createElement(
+                        return _react2.default.createElement(
                           'div',
                           { className: 'column is-3 has-text-centered', key: obj.id },
                           _react2.default.createElement(_Gauge2.default, { width: '200', height: '160', label: obj.title,
                             value: obj.value, color: '#ff9966' })
-                        ));
+                        );
                       });
 
-                      return components;
+                      // return components
                     })
                   )
                 )

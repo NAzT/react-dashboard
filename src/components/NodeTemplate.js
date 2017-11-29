@@ -12,22 +12,43 @@ export default class EnvironmentType extends Component {
 
   constructor (props) {
     super(props)
-    this.state = store.state
-  }
+    this.state = {
+      sensors: {},
+      node: [],
+      lineDefault: {
+        data: [],
+        labels: []
+      }
+    }
 
-  _onStoreChanged () {
-    this.setState(store.state)
-    console.log(this.state)
   }
 
   componentWillMount () {
     store.addListener(() => {
-      this._onStoreChanged()
+
+      this.setState({sensors: store.state})
+
+      this.setState({
+        node: this.state.sensors.nodes.filter(node => node.id === parseInt(this.props.match.params.id))[0]
+      })
+
+      this.setState({
+        lineDefault: {
+          data: this.state.node.chart.data || [],
+          labels: this.state.node.chart.labels || []
+        }
+      })
+
+      //console.log(this.state)
+
     })
   }
 
+  componentDidUpdate () {
+    //console.log(this.state)
+  }
+
   componentDidMount () {
-    console.log('did mount...')
     API.startGetSensorData()
   }
 
@@ -73,8 +94,17 @@ export default class EnvironmentType extends Component {
                   <div className="columns">
                     <div className="column">
 
-                      <Line label='ปริมาณ' data={this.state.data}
-                            labels={this.state.labels}
+                      {/*<Line label='ปริมาณ' data={this.state.data}*/}
+                      {/*labels={this.state.labels}*/}
+                      {/*backgroundColor='rgba(254, 178, 194, 0.5)'*/}
+                      {/*borderColor='rgba(254, 178, 194, 0.5)'*/}
+                      {/*pointBorderColor='rgba(255, 163, 102, 1)'*/}
+                      {/*lineTension='0'*/}
+                      {/*/>*/}
+
+                      <Line label='ปริมาณ'
+                            data={this.state.lineDefault.data}
+                            labels={this.state.lineDefault.labels}
                             backgroundColor='rgba(254, 178, 194, 0.5)'
                             borderColor='rgba(254, 178, 194, 0.5)'
                             pointBorderColor='rgba(255, 163, 102, 1)'

@@ -20,13 +20,13 @@ const line_options = {
       display: true,
       scaleLabel: {
         display: true,
-        labelString: 'C'
+        labelString: ''
       }
     }]
   }
 }
 
-export default (props) => {
+const LineChart = (props) => {
 
   let data = {
     lineTension: 0.5
@@ -65,3 +65,5 @@ export default (props) => {
     }} options={line_options}/>
   )
 }
+
+export default LineChart

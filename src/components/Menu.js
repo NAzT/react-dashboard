@@ -18,7 +18,6 @@ export default class Menu extends Component {
         color: '#4468B0'
       }
     }
-
   }
 
   render () {

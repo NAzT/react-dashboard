@@ -7,32 +7,34 @@ import Gauge from './Gauge.jsx'
 import store from '../flux/Store'
 import * as API from '../flux/AppDummyAction'
 
-import sensors from '../data/virtualData'
 import Columns from './Columns.jsx'
 import uuid from 'uuid'
 
 const result = []
+
 export default class Environment extends Component {
 
   constructor (props) {
     super(props)
-    //this.state = store.state
-    this.state = {nodes: []}
+
+    this.state = {
+      nodes: [],
+      loading: true,
+      sensors: {},
+      gauges: []
+    }
   }
 
   componentWillMount () {
     store.addListener(() => {
-      this.setState(store.state)
-    })
-  }
+      this.setState({sensors: store.state})
+      console.log(this.state.sensors)
 
-  componentDidMount () {
-    API.startGetSensorData()
-    let components = []
+      let components = []
 
-    components.push(
-      sensors.lab.nodes.map(node => {
-        return (
+      this.state.sensors.nodes.map(node => {
+        //console.log(node)
+        components.push(
           <div className="column" key={node.id}>
             <Line label={node.chart.label} data={node.chart.data}
                   labels={node.chart.labels}
@@ -43,21 +45,50 @@ export default class Environment extends Component {
           </div>
         )
       })
-    )
 
-    components.forEach(component => {
+      console.log(components)
+
       let buffer = []
-      component.forEach(el => {
-        if (el.key % 2 === 0) { // even
-          buffer.push(el)
+      components.forEach(component => {
+        if (component.key % 2 === 0) { // even
+          buffer.push(component)
           result.push(buffer)
           buffer = []
         } else {
-          buffer.push(el)
+          buffer.push(component)
         }
       })
-    })
 
+      console.log(result)
+
+      this.setState({nodes: result})
+
+      //  ================
+
+      this.setState({
+        gauges: this.state.sensors.master.map(master => {
+          let components = []
+          master.environment.forEach((obj) => {
+            components.push(
+              <div className="column is-3 has-text-centered" key={obj.id}>
+                <Gauge width='200' height='160' label={obj.title}
+                       value={obj.value} color='#ff9966'/>
+              </div>
+            )
+          })
+          return components
+        })
+      })
+
+      console.log(this.state.gauges)
+
+      this.setState({loading: false})
+
+    })
+  }
+
+  componentDidMount () {
+    API.startGetSensorData()
   }
 
   render () {
@@ -71,41 +102,31 @@ export default class Environment extends Component {
             <div className="column is-3">
               <Menu url={this.props.location.pathname}/>
             </div>
-            <div className="column is-9">
+            <div className="column is-9 has-text-centered">
 
-              <div className="card">
-                <div className="card-content">
-
-                  <div className="columns">
-                    {
-                      sensors.lab.master.map((master) => {
-                        let components = []
-                        master.environment.forEach((obj) => {
-                          components.push(
-                            <div className="column is-3 has-text-centered" key={obj.id}>
-                              <Gauge width='200' height='160' label={obj.title}
-                                     value={obj.value} color='#ff9966'/>
-                            </div>
-                          )
-                        })
-
-                        return components
-                      })
-                    }
-                  </div>
-
+              <div className={this.state.loading ? 'card' : ''}>
+                <div className={this.state.loading ? 'card-content' : ''}>
+                  <span className={this.state.loading && 'fa fa-refresh fa-spin fa-3x' || ''}/>
                 </div>
               </div>
 
-              <div className="card">
-                <div className="card-content">
-
+              <div className={!this.state.loading ? 'card' : ''}>
+                <div className={!this.state.loading ? 'card-content' : ''}>
+                  <div className={!this.state.loading ? 'columns' : ''}>
                     {
-                      result.map(node => {
-                        return <Columns column={node} key={uuid()}/>
-                      })
+                      this.state.gauges.map(gauge => gauge)
                     }
+                  </div>
+                </div>
+              </div>
 
+              <div className={!this.state.loading ? 'card' : ''}>
+                <div className={!this.state.loading ? 'card-content' : ''}>
+                  {
+                    result.map(node => {
+                      return <Columns column={node} key={uuid()}/>
+                    })
+                  }
                 </div>
               </div>
 

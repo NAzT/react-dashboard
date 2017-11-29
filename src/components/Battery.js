@@ -27,7 +27,7 @@ export default class Battery extends Component {
 
                   <div className="columns">
                     {
-                      sensors.lab.master.map((master) => {
+                      sensors.master.map((master) => {
                         let components = []
                         master.battery.forEach((obj) => {
                           components.push(

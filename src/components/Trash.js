@@ -27,10 +27,12 @@ export default class Recycle extends Component {
 
                   <div className="columns">
                     {
-                      sensors.lab.master.map((master) => {
-                        let components = []
+                      sensors.master.map((master) => {
+
+                        // console.log(master)
+                        // let components = []
                         master.trash.forEach((obj) => {
-                          components.push(
+                          return (
                             <div className="column is-3 has-text-centered" key={obj.id}>
                               <Gauge width='200' height='160' label={obj.title}
                                      value={obj.value} color='#ff9966'/>
@@ -38,7 +40,7 @@ export default class Recycle extends Component {
                           )
                         })
 
-                        return components
+                        // return components
                       })
                     }
                   </div>

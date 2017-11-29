@@ -2,14 +2,7 @@ import { Store } from 'flux/utils'
 import AppDispatcher from './Dispatcher'
 import AppConstants from './Constants'
 
-const state = {
-  environment: {},
-  gas: {},
-  recycle: {},
-  battery: {},
-  data: [],
-  labels: []
-}
+const state = {}
 
 class MyStore extends Store {
 

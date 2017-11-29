@@ -7,7 +7,7 @@ const menuItems = [
     name: 'สภาพแวดล้อม',
     icon: 'fa fa-envira',
     children: [
-      ...sensors.lab.nodes.map((item, idx) => {
+      ...sensors.nodes.map((item) => {
         return {
           id: item.id,
           name: item.name,
