@@ -8,7 +8,17 @@ import Battery from './components/Battery'
 import Trash from './components/Trash'
 import NodeTemplate from './components/NodeTemplate'
 
-import Debug from './Debug'
+// import Debug from './Debug'
+import Dispatcher from './flux/Dispatcher'
+import AppConstants from './flux/Constants'
+import API from './api/api.sensor.prod'
+
+API.CLOUD_FUNCTIONS((DATA) => {
+  Dispatcher.dispatch({
+    type: AppConstants.DONE_GET_DATA,
+    data: DATA
+  })
+})
 
 const PageNotFound = ({location}) => (
   <div className="container">

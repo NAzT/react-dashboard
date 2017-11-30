@@ -7,12 +7,6 @@ const startGetSensorData = () => {
     type: AppConstants.START_GET_DATA
   })
 
-  API.CLOUD_FUNCTIONS((DATA) => {
-    Dispatcher.dispatch({
-      type: AppConstants.DONE_GET_DATA,
-      data: DATA
-    })
-  })
 }
 
 export {

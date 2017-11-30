@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import Menu from './Menu.js'
 import Gauge from './Gauge.jsx'
 import store from '../flux/Store'
-import * as API from '../flux/AppDummyAction'
 
 export default class Recycle extends Component {
 
@@ -23,10 +22,6 @@ export default class Recycle extends Component {
       this.setState({trash: this.state.sensors.master.map(obj => obj.trash)})
       this.setState({loading: false})
     })
-  }
-
-  componentDidMount () {
-    API.startGetSensorData()
   }
 
   render () {

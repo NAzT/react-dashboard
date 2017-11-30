@@ -24434,6 +24434,7 @@ var MyStore = function (_Store) {
     value: function __onDispatch(action) {
       if (action.type === _Constants2.default.DONE_GET_DATA) {
         Object.assign(this.state, action.data);
+        console.log('========== store ', this.state);
         this.__emitChange();
       }
     }
@@ -24759,13 +24760,6 @@ var startGetSensorData = function startGetSensorData() {
   _Dispatcher2.default.dispatch({
     type: _Constants2.default.START_GET_DATA
   });
-
-  _apiSensor2.default.CLOUD_FUNCTIONS(function (DATA) {
-    _Dispatcher2.default.dispatch({
-      type: _Constants2.default.DONE_GET_DATA,
-      data: DATA
-    });
-  });
 };
 
 exports.startGetSensorData = startGetSensorData;
@@ -24878,11 +24872,29 @@ var _NodeTemplate = __webpack_require__(430);
 
 var _NodeTemplate2 = _interopRequireDefault(_NodeTemplate);
 
-var _Debug = __webpack_require__(431);
+var _Dispatcher = __webpack_require__(210);
 
-var _Debug2 = _interopRequireDefault(_Debug);
+var _Dispatcher2 = _interopRequireDefault(_Dispatcher);
+
+var _Constants = __webpack_require__(211);
+
+var _Constants2 = _interopRequireDefault(_Constants);
+
+var _apiSensor = __webpack_require__(458);
+
+var _apiSensor2 = _interopRequireDefault(_apiSensor);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+_apiSensor2.default.CLOUD_FUNCTIONS(function (DATA) {
+  _Dispatcher2.default.dispatch({
+    type: _Constants2.default.DONE_GET_DATA,
+    data: DATA
+  });
+});
+
+// import Debug from './Debug'
+
 
 var PageNotFound = function PageNotFound(_ref) {
   var location = _ref.location;
@@ -46078,7 +46090,6 @@ var Environment = function (_Component) {
 
       _Store2.default.addListener(function () {
         _this2.setState({ sensors: _Store2.default.state });
-        console.log(_this2.state.sensors);
 
         var components = [];
 
@@ -46096,8 +46107,6 @@ var Environment = function (_Component) {
           ));
         });
 
-        console.log(components);
-
         var buffer = [];
         components.forEach(function (component) {
           if (component.key % 2 === 0) {
@@ -46109,8 +46118,6 @@ var Environment = function (_Component) {
             buffer.push(component);
           }
         });
-
-        console.log(result);
 
         _this2.setState({ nodes: result });
 
@@ -46131,15 +46138,8 @@ var Environment = function (_Component) {
           })
         });
 
-        console.log(_this2.state.gauges);
-
         _this2.setState({ loading: false });
       });
-    }
-  }, {
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      API.startGetSensorData();
     }
   }, {
     key: 'render',
@@ -65888,12 +65888,6 @@ var _Store = __webpack_require__(206);
 
 var _Store2 = _interopRequireDefault(_Store);
 
-var _AppDummyAction = __webpack_require__(212);
-
-var API = _interopRequireWildcard(_AppDummyAction);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -65936,11 +65930,6 @@ var Battery = function (_Component) {
           loading: false
         });
       });
-    }
-  }, {
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      API.startGetSensorData();
     }
   }, {
     key: 'render',
@@ -66041,12 +66030,6 @@ var _Store = __webpack_require__(206);
 
 var _Store2 = _interopRequireDefault(_Store);
 
-var _AppDummyAction = __webpack_require__(212);
-
-var API = _interopRequireWildcard(_AppDummyAction);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -66085,11 +66068,6 @@ var Recycle = function (_Component) {
           }) });
         _this2.setState({ loading: false });
       });
-    }
-  }, {
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      API.startGetSensorData();
     }
   }, {
     key: 'render',
@@ -66200,12 +66178,6 @@ var _Store = __webpack_require__(206);
 
 var _Store2 = _interopRequireDefault(_Store);
 
-var _AppDummyAction = __webpack_require__(212);
-
-var API = _interopRequireWildcard(_AppDummyAction);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
@@ -66246,6 +66218,8 @@ var EnvironmentType = function (_Component) {
 
         _this2.setState({ sensors: _Store2.default.state });
 
+        console.log('===== node template : ', _this2.state.sensors);
+
         _this2.setState({
           node: _this2.state.sensors.nodes.filter(function (node) {
             return node.id === parseInt(_this2.props.match.params.id);
@@ -66261,11 +66235,6 @@ var EnvironmentType = function (_Component) {
 
         _this2.setState({ loading: false });
       });
-    }
-  }, {
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      API.startGetSensorData();
     }
   }, {
     key: 'render',
@@ -66360,65 +66329,7 @@ var EnvironmentType = function (_Component) {
 exports.default = EnvironmentType;
 
 /***/ }),
-/* 431 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(2);
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Debug = function (_Component) {
-  _inherits(Debug, _Component);
-
-  function Debug(props) {
-    _classCallCheck(this, Debug);
-
-    return _possibleConstructorReturn(this, (Debug.__proto__ || Object.getPrototypeOf(Debug)).call(this, props));
-  }
-
-  _createClass(Debug, [{
-    key: 'render',
-    value: function render() {
-
-      return _react2.default.createElement(
-        'div',
-        { className: 'container' },
-        _react2.default.createElement(
-          'div',
-          { className: 'section' },
-          _react2.default.createElement(
-            'p',
-            { className: 'title' },
-            'Debug only.'
-          )
-        )
-      );
-    }
-  }]);
-
-  return Debug;
-}(_react.Component);
-
-exports.default = Debug;
-
-/***/ }),
+/* 431 */,
 /* 432 */
 /***/ (function(module, exports, __webpack_require__) {
 

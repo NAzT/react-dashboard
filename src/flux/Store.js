@@ -14,6 +14,7 @@ class MyStore extends Store {
   __onDispatch (action) {
     if (action.type === AppConstants.DONE_GET_DATA) {
       Object.assign(this.state, action.data)
+      console.log('========== store ', this.state)
       this.__emitChange()
     }
   }

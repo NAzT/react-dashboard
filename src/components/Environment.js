@@ -28,7 +28,6 @@ export default class Environment extends Component {
   componentWillMount () {
     store.addListener(() => {
       this.setState({sensors: store.state})
-      console.log(this.state.sensors)
 
       let components = []
 
@@ -46,8 +45,6 @@ export default class Environment extends Component {
         )
       })
 
-      console.log(components)
-
       let buffer = []
       components.forEach(component => {
         if (component.key % 2 === 0) { // even
@@ -58,8 +55,6 @@ export default class Environment extends Component {
           buffer.push(component)
         }
       })
-
-      console.log(result)
 
       this.setState({nodes: result})
 
@@ -80,15 +75,9 @@ export default class Environment extends Component {
         })
       })
 
-      console.log(this.state.gauges)
-
       this.setState({loading: false})
 
     })
-  }
-
-  componentDidMount () {
-    API.startGetSensorData()
   }
 
   render () {

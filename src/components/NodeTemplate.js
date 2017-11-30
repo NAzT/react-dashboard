@@ -4,9 +4,7 @@ import { Link } from 'react-router-dom'
 import { menuNameMapping, menuGroupMapping } from '../data/menuItems'
 import styled from 'styled-components'
 import Line from './Line.jsx'
-
 import store from '../flux/Store'
-import * as API from '../flux/AppDummyAction'
 
 export default class EnvironmentType extends Component {
 
@@ -29,6 +27,8 @@ export default class EnvironmentType extends Component {
 
       this.setState({sensors: store.state})
 
+      console.log('===== node template : ', this.state.sensors)
+
       this.setState({
         node: this.state.sensors.nodes.filter(node => node.id === parseInt(this.props.match.params.id))[0]
       })
@@ -43,10 +43,6 @@ export default class EnvironmentType extends Component {
       this.setState({loading: false})
 
     })
-  }
-
-  componentDidMount () {
-    API.startGetSensorData()
   }
 
   render () {

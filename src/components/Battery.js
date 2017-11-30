@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import Menu from './Menu.js'
 import Gauge from './Gauge.jsx'
 import store from '../flux/Store'
-import * as API from '../flux/AppDummyAction'
 
 export default class Battery extends Component {
 
@@ -27,10 +26,6 @@ export default class Battery extends Component {
         loading: false
       })
     })
-  }
-
-  componentDidMount() {
-    API.startGetSensorData()
   }
 
   render () {
