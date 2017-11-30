@@ -3,9 +3,7 @@ import Menu from './Menu.js'
 import Line from './Line.jsx'
 import LineMultiAxis from './LineMultiAxis.jsx'
 import Gauge from './Gauge.jsx'
-
 import store from '../flux/Store'
-import * as API from '../flux/AppDummyAction'
 
 import Columns from './Columns.jsx'
 import uuid from 'uuid'

@@ -11116,39 +11116,44 @@ var _virtualData2 = _interopRequireDefault(_virtualData);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-var menuItems = [{
-  id: 1,
-  url: '/environment',
-  name: 'สภาพแวดล้อม',
-  icon: 'fa fa-envira',
-  children: [].concat(_toConsumableArray(_virtualData2.default.nodes.map(function (item) {
-    return {
-      id: item.id,
-      name: item.name,
-      url: '/environment/node/' + item.id
-    };
-  })))
-}, {
-  id: 2,
-  url: '/gas',
-  name: 'แก๊ส',
-  icon: 'fa fa-flask',
-  children: []
-}, {
-  id: 3,
-  url: '/trash',
-  name: 'ปริมาณขยะ',
-  icon: 'fa fa-recycle',
-  children: []
-}, {
-  id: 4,
-  url: '/battery',
-  name: 'แบตเตอรี่',
-  icon: 'fa fa-battery-three-quarters',
-  children: []
-}];
+var menuItems = [
+  // {
+  //   id: 1,
+  //   url: '/environment',
+  //   name: 'สภาพแวดล้อม',
+  //   icon: 'fa fa-envira',
+  //   children: [
+  //     ...sensors.nodes.map((item) => {
+  //       return {
+  //         id: item.id,
+  //         name: item.name,
+  //         url: `/environment/node/${item.id}`
+  //       }
+  //     })
+  //   ]
+  // },
+  // {
+  //   id: 2,
+  //   url: '/gas',
+  //   name: 'แก๊ส',
+  //   icon: 'fa fa-flask',
+  //   children: []
+  // },
+  // {
+  //   id: 3,
+  //   url: '/trash',
+  //   name: 'ปริมาณขยะ',
+  //   icon: 'fa fa-recycle',
+  //   children: []
+  // },
+  // {
+  //   id: 4,
+  //   url: '/battery',
+  //   name: 'แบตเตอรี่',
+  //   icon: 'fa fa-battery-three-quarters',
+  //   children: []
+  // }
+];
 
 var menuGroupMapping = function menuGroupMapping(url) {
   var result = {};
@@ -24731,40 +24736,7 @@ var ActionTypes = {
 exports.default = ActionTypes;
 
 /***/ }),
-/* 212 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.startGetSensorData = undefined;
-
-var _Constants = __webpack_require__(211);
-
-var _Constants2 = _interopRequireDefault(_Constants);
-
-var _Dispatcher = __webpack_require__(210);
-
-var _Dispatcher2 = _interopRequireDefault(_Dispatcher);
-
-var _apiSensor = __webpack_require__(458);
-
-var _apiSensor2 = _interopRequireDefault(_apiSensor);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var startGetSensorData = function startGetSensorData() {
-  _Dispatcher2.default.dispatch({
-    type: _Constants2.default.START_GET_DATA
-  });
-};
-
-exports.startGetSensorData = startGetSensorData;
-
-/***/ }),
+/* 212 */,
 /* 213 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -46042,10 +46014,6 @@ var _Store = __webpack_require__(206);
 
 var _Store2 = _interopRequireDefault(_Store);
 
-var _AppDummyAction = __webpack_require__(212);
-
-var API = _interopRequireWildcard(_AppDummyAction);
-
 var _Columns = __webpack_require__(423);
 
 var _Columns2 = _interopRequireDefault(_Columns);
@@ -46053,8 +46021,6 @@ var _Columns2 = _interopRequireDefault(_Columns);
 var _uuid = __webpack_require__(424);
 
 var _uuid2 = _interopRequireDefault(_uuid);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -67917,11 +67883,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = {
   CLOUD_FUNCTIONS: function CLOUD_FUNCTIONS(callback) {
-    setInterval(function () {
-      _axios2.default.get('https://us-central1-performance-182414.cloudfunctions.net/generator_graph').then(function (response) {
-        return callback(response.data.body);
-      });
-    }, 3000);
+    // setInterval(() => {
+    //   axois.get('https://us-central1-performance-182414.cloudfunctions.net/generator_graph').then((response) => {
+    //     return callback(response.data.body)
+    //   })
+    // }, 3000)
   }
 };
 
