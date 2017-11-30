@@ -18,7 +18,8 @@ export default class EnvironmentType extends Component {
       lineDefault: {
         data: [],
         labels: []
-      }
+      },
+      loading: true
     }
 
   }
@@ -39,13 +40,9 @@ export default class EnvironmentType extends Component {
         }
       })
 
-      //console.log(this.state)
+      this.setState({loading: false})
 
     })
-  }
-
-  componentDidUpdate () {
-    //console.log(this.state)
   }
 
   componentDidMount () {
@@ -85,6 +82,7 @@ export default class EnvironmentType extends Component {
                           <StyledA>
                             {menuNameMapping[this.props.location.pathname]}
                           </StyledA>
+                          <span className={this.state.loading && 'fa fa-refresh fa-spin' || ''}/>
                         </li>
                       </ul>
                     </nav>
@@ -93,14 +91,6 @@ export default class EnvironmentType extends Component {
 
                   <div className="columns">
                     <div className="column">
-
-                      {/*<Line label='ปริมาณ' data={this.state.data}*/}
-                      {/*labels={this.state.labels}*/}
-                      {/*backgroundColor='rgba(254, 178, 194, 0.5)'*/}
-                      {/*borderColor='rgba(254, 178, 194, 0.5)'*/}
-                      {/*pointBorderColor='rgba(255, 163, 102, 1)'*/}
-                      {/*lineTension='0'*/}
-                      {/*/>*/}
 
                       <Line label='ปริมาณ'
                             data={this.state.lineDefault.data}
