@@ -25,53 +25,53 @@ export default class Environment extends Component {
 
   componentWillMount () {
     store.addListener(() => {
-      this.setState({sensors: store.state})
-
-      let components = []
-
-      this.state.sensors.nodes.map(node => {
-        //console.log(node)
-        components.push(
-          <div className="column" key={node.id}>
-            <Line label={node.chart.label} data={node.chart.data}
-                  labels={node.chart.labels}
-                  backgroundColor='rgba(87, 230, 255, 0.5)'
-                  borderColor='rgba(87, 230, 255, 0.5)'
-                  pointBorderColor='rgba(255, 163, 102, 1)'
-            />
-          </div>
-        )
-      })
-
-      let buffer = []
-      components.forEach(component => {
-        if (component.key % 2 === 0) { // even
-          buffer.push(component)
-          result.push(buffer)
-          buffer = []
-        } else {
-          buffer.push(component)
-        }
-      })
-
-      this.setState({nodes: result})
-
-      //  ================
-
-      this.setState({
-        gauges: this.state.sensors.master.map(master => {
-          let components = []
-          master.environment.forEach((obj) => {
-            components.push(
-              <div className="column is-3 has-text-centered" key={obj.id}>
-                <Gauge width='200' height='160' label={obj.title}
-                       value={obj.value} color='#ff9966'/>
-              </div>
-            )
-          })
-          return components
-        })
-      })
+      // this.setState({sensors: store.state})
+      //
+      // let components = []
+      //
+      // this.state.sensors.nodes.map(node => {
+      //   //console.log(node)
+      //   components.push(
+      //     <div className="column" key={node.id}>
+      //       <Line label={node.chart.label} data={node.chart.data}
+      //             labels={node.chart.labels}
+      //             backgroundColor='rgba(87, 230, 255, 0.5)'
+      //             borderColor='rgba(87, 230, 255, 0.5)'
+      //             pointBorderColor='rgba(255, 163, 102, 1)'
+      //       />
+      //     </div>
+      //   )
+      // })
+      //
+      // let buffer = []
+      // components.forEach(component => {
+      //   if (component.key % 2 === 0) { // even
+      //     buffer.push(component)
+      //     result.push(buffer)
+      //     buffer = []
+      //   } else {
+      //     buffer.push(component)
+      //   }
+      // })
+      //
+      // this.setState({nodes: result})
+      //
+      // //  ================
+      //
+      // this.setState({
+      //   gauges: this.state.sensors.master.map(master => {
+      //     let components = []
+      //     master.environment.forEach((obj) => {
+      //       components.push(
+      //         <div className="column is-3 has-text-centered" key={obj.id}>
+      //           <Gauge width='200' height='160' label={obj.title}
+      //                  value={obj.value} color='#ff9966'/>
+      //         </div>
+      //       )
+      //     })
+      //     return components
+      //   })
+      // })
 
       this.setState({loading: false})
 

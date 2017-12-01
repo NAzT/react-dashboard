@@ -3,7 +3,7 @@ import Menu from './Menu.js'
 import Gauge from './Gauge.jsx'
 import store from '../flux/Store'
 
-export default class Recycle extends Component {
+export default class Trash extends Component {
 
   constructor (props) {
     super(props)
@@ -16,10 +16,10 @@ export default class Recycle extends Component {
 
   componentWillMount () {
     store.addListener(() => {
-      this.setState({
-        sensors: store.state
-      })
-      this.setState({trash: this.state.sensors.master.map(obj => obj.trash)})
+      // this.setState({
+      //   sensors: store.state
+      // })
+      // this.setState({trash: this.state.sensors.master.map(obj => obj.trash)})
       this.setState({loading: false})
     })
   }
@@ -48,24 +48,24 @@ export default class Recycle extends Component {
 
                   <div className="columns">
                     {
-                      this.state.trash.map(trash => {
-
-                        let component = []
-
-                        trash.forEach(obj => {
-
-                          component.push(
-                            <div className="column is-3 has-text-centered" key={obj.id}>
-                              <Gauge width='200' height='160' label={obj.title}
-                                     value={obj.value} color='#ff9966'/>
-                            </div>
-                          )
-
-                        })
-
-                        return component
-
-                      })
+                      // this.state.trash.map(trash => {
+                      //
+                      //   let component = []
+                      //
+                      //   trash.forEach(obj => {
+                      //
+                      //     component.push(
+                      //       <div className="column is-3 has-text-centered" key={obj.id}>
+                      //         <Gauge width='200' height='160' label={obj.title}
+                      //                value={obj.value} color='#ff9966'/>
+                      //       </div>
+                      //     )
+                      //
+                      //   })
+                      //
+                      //   return component
+                      //
+                      // })
                     }
                   </div>
 

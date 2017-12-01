@@ -2,7 +2,9 @@ import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom'
 import 'font-awesome/css/font-awesome.css'
 import styled from 'styled-components'
-import { menuItems } from '../data/menuItems'
+//import { menuItems } from '../data/menuItems'
+import store from '../flux/Store'
+import uuid from 'uuid'
 
 export default class Menu extends Component {
 
@@ -16,8 +18,16 @@ export default class Menu extends Component {
       },
       activeSubMenu: {
         color: '#4468B0'
-      }
+      },
+      menuItems: []
     }
+  }
+
+  componentDidMount () {
+    store.addListener(() => {
+      this.setState({menuItems: store.state.menu})
+      //console.log(`=== state`, store.state)
+    })
   }
 
   render () {
@@ -34,27 +44,42 @@ export default class Menu extends Component {
         </p>
         <ul className='menu-list'>
           {
-            menuItems.map(menu => {
-              return (
-                <li key={menu.id}>
-                  <NavLink activeStyle={this.state.activeMenu} to={menu.url}>
-                    <BoldSpan><i className={menu.icon}/> {menu.name}</BoldSpan>
+            this.state.menuItems.map(menuItem => {
+
+              const master = []
+              let nodes = []
+
+              console.log('=== menuItem', menuItem)
+
+              menuItem.children.forEach(subMenu => { // render sub menu
+
+                console.log('=== menuItem', menuItem)
+
+                nodes.push (
+                  <li key={uuid()}>
+                    <NavLink activeStyle={this.state.activeSubMenu} to={subMenu.url}>
+                      <BoldSpan><i className='fa fa-code-fork'/> {subMenu.name}</BoldSpan>
+                    </NavLink>
+                  </li>
+                )
+
+              })
+
+              master.push ( // render menu
+                <li key={uuid()}>
+                  <NavLink activeStyle={this.state.activeMenu} to={menuItem.url}>
+                    <BoldSpan><i className={menuItem.icon}/> {menuItem.name}</BoldSpan>
                   </NavLink>
                   <ul>
                     {
-                      menu.children.map((child) => {
-                        return (
-                          <li key={child.id}>
-                            <NavLink activeStyle={this.state.activeSubMenu} to={child.url}>
-                              <BoldSpan><i className='fa fa-code-fork' /> {child.name}</BoldSpan>
-                            </NavLink>
-                          </li>
-                        )
-                      })
+                      nodes.map(node => node)
                     }
                   </ul>
                 </li>
               )
+
+              return master
+
             })
           }
 

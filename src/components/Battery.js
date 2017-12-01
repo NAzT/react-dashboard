@@ -16,12 +16,12 @@ export default class Battery extends Component {
 
   componentWillMount() {
     store.addListener(() => {
-      this.setState({
-        sensors: store.state
-      })
-      this.setState({
-        battery: this.state.sensors.master.map(obj => obj.battery)
-      })
+      // this.setState({
+      //   sensors: store.state
+      // })
+      // this.setState({
+      //   battery: this.state.sensors.master.map(obj => obj.battery)
+      // })
       this.setState({
         loading: false
       })
@@ -53,24 +53,24 @@ export default class Battery extends Component {
                   <div className="columns">
 
                     {
-                      this.state.battery.map(battery => {
-
-                        let component = []
-
-                        battery.forEach(obj => {
-
-                          component.push(
-                            <div className="column is-3 has-text-centered" key={obj.id}>
-                              <Gauge width='200' height='160' label={obj.title}
-                                     value={obj.value} color='#ff9966'/>
-                            </div>
-                          )
-
-                        })
-
-                        return component
-
-                      })
+                      // this.state.battery.map(battery => {
+                      //
+                      //   let component = []
+                      //
+                      //   battery.forEach(obj => {
+                      //
+                      //     component.push(
+                      //       <div className="column is-3 has-text-centered" key={obj.id}>
+                      //         <Gauge width='200' height='160' label={obj.title}
+                      //                value={obj.value} color='#ff9966'/>
+                      //       </div>
+                      //     )
+                      //
+                      //   })
+                      //
+                      //   return component
+                      //
+                      // })
                     }
 
                   </div>
