@@ -17,7 +17,7 @@ class Menu extends Store {
 
       this.state = action.data
 
-      console.log('>>>> store menu', this.state)
+      //('>>>> store menu', action.data)
 
       this.__emitChange()
 

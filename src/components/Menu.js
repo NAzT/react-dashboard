@@ -27,7 +27,7 @@ export default class Menu extends Component {
     store.addListener(() => {
       this.setState({menuItems: store.state})
       //console.log(this.state.menuItems)
-      console.log('==== store menu ', store.state)
+      // console.log('==== store menu ', store.state)
       //console.log(`=== state`, store.state)
     })
   }
@@ -51,11 +51,11 @@ export default class Menu extends Component {
               const master = []
               let nodes = []
 
-              console.log('=== menuItem', menuItem)
+              // console.log('=== menuItem', menuItem)
 
               menuItem.children.forEach(subMenu => { // render sub menu
 
-                console.log('=== menuItem', menuItem)
+                // console.log('=== menuItem', menuItem)
 
                 nodes.push (
                   <li key={uuid()}>

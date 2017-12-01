@@ -1,14 +1,16 @@
 import React, { Component } from 'react'
+import ReactDOM from 'react-dom'
 import Menu from './Menu.js'
 import Line from './Line.jsx'
 import LineMultiAxis from './LineMultiAxis.jsx'
 import Gauge from './Gauge.jsx'
 import store from '../flux/stores/Menu'
+import _ from 'underscore'
 
 import Columns from './Columns.jsx'
 import uuid from 'uuid'
 
-const result = []
+let load = 1
 
 export default class Environment extends Component {
 
@@ -19,6 +21,7 @@ export default class Environment extends Component {
       nodes: [],
       loading: true,
       sensors: {},
+      graphs: [],
       gauges: []
     }
   }
@@ -26,8 +29,18 @@ export default class Environment extends Component {
   componentWillMount () {
     store.addListener(() => {
 
+      const data = _.find(store.state, (menu) => menu.url === this.props.location.pathname)
+      this.setState({sensors: data})
+      const graphData = []
+      data.children.map(graph => {
+        graphData.push(graph)
+      })
+      this.setState({graphs: graphData})
+      //console.log(this.state.graphs)
 
-      console.log('==== environment', store.state)
+      // console.log(store.state)
+
+      // console.log('==== environment', store.state)
 
       // this.setState({sensors: store.state})
       //
@@ -78,11 +91,16 @@ export default class Environment extends Component {
       // })
 
       this.setState({loading: false})
-
     })
   }
 
   render () {
+
+    if (!this.state.loading) {
+      console.log(`load : ${load}`)
+      load++
+      ReactDOM.render(<LineMultiAxis data={this.state.graphs}/>, document.getElementById('LineMultiAxis'))
+    }
 
     return (
 
@@ -105,7 +123,7 @@ export default class Environment extends Component {
                 <div className={!this.state.loading ? 'card-content' : ''}>
                   <div className={!this.state.loading ? 'columns' : ''}>
                     {
-                      this.state.gauges.map(gauge => gauge)
+                      // this.state.gauges.map(gauge => gauge)
                     }
                   </div>
                 </div>
@@ -113,10 +131,11 @@ export default class Environment extends Component {
 
               <div className={!this.state.loading ? 'card' : ''}>
                 <div className={!this.state.loading ? 'card-content' : ''}>
+                  <div id='LineMultiAxis'/>
                   {
-                    result.map(node => {
-                      return <Columns column={node} key={uuid()}/>
-                    })
+                    // this.state.graphs.map(node => {
+                    //   return <Columns column={node} key={uuid()}/>
+                    // })
                   }
                 </div>
               </div>
