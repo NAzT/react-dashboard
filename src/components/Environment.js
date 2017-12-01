@@ -3,7 +3,7 @@ import Menu from './Menu.js'
 import Line from './Line.jsx'
 import LineMultiAxis from './LineMultiAxis.jsx'
 import Gauge from './Gauge.jsx'
-import store from '../flux/Store'
+import store from '../flux/stores/Menu'
 
 import Columns from './Columns.jsx'
 import uuid from 'uuid'
@@ -25,6 +25,10 @@ export default class Environment extends Component {
 
   componentWillMount () {
     store.addListener(() => {
+
+
+      console.log('==== environment', store.state)
+
       // this.setState({sensors: store.state})
       //
       // let components = []

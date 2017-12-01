@@ -2,9 +2,7 @@ import { Store } from 'flux/utils'
 import AppDispatcher from './Dispatcher'
 import AppConstants from './Constants'
 
-let state = {
-  menu: []
-}
+let state = {}
 
 class MyStore extends Store {
 
@@ -15,9 +13,8 @@ class MyStore extends Store {
 
   __onDispatch (action) {
     if (action.type === AppConstants.DONE_GET_DATA) {
-      //Object.assign(this.state, action.data)
-      this.state.menu = action.data
-      console.log('========== store ', state)
+      Object.assign(this.state, action.data)
+      //console.log('========== store ', state)
       this.__emitChange()
     }
   }

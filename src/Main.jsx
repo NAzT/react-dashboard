@@ -10,12 +10,12 @@ import NodeTemplate from './components/NodeTemplate'
 
 // import Debug from './Debug'
 import Dispatcher from './flux/Dispatcher'
-import AppConstants from './flux/Constants'
+import TypeActions from './flux/Constants'
 import API from './api/api.sensor.prod'
 
-API.CLOUD_FUNCTIONS((DATA) => {
+API.CLOUD_FUNCTIONS.MENU((DATA) => {
   Dispatcher.dispatch({
-    type: AppConstants.DONE_GET_DATA,
+    type: TypeActions.DONE_GET_MENU,
     data: DATA
   })
 })

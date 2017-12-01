@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Menu from './Menu.js'
 import Gauge from './Gauge.jsx'
-import store from '../flux/Store'
+import store from '../flux/stores/Menu'
 
 export default class Trash extends Component {
 

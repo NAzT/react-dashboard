@@ -5812,9 +5812,9 @@ var _styledComponents = __webpack_require__(69);
 
 var _styledComponents2 = _interopRequireDefault(_styledComponents);
 
-var _Store = __webpack_require__(20);
+var _Menu = __webpack_require__(456);
 
-var _Store2 = _interopRequireDefault(_Store);
+var _Menu2 = _interopRequireDefault(_Menu);
 
 var _uuid = __webpack_require__(428);
 
@@ -5855,12 +5855,14 @@ var Menu = function (_Component) {
   }
 
   _createClass(Menu, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
+    key: 'componentWillMount',
+    value: function componentWillMount() {
       var _this2 = this;
 
-      _Store2.default.addListener(function () {
-        _this2.setState({ menuItems: _Store2.default.state.menu });
+      _Menu2.default.addListener(function () {
+        _this2.setState({ menuItems: _Menu2.default.state });
+        //console.log(this.state.menuItems)
+        console.log('==== store menu ', _Menu2.default.state);
         //console.log(`=== state`, store.state)
       });
     }
@@ -5978,9 +5980,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var state = {
-  menu: []
-};
+var state = {};
 
 var MyStore = function (_Store) {
   _inherits(MyStore, _Store);
@@ -5998,9 +5998,8 @@ var MyStore = function (_Store) {
     key: '__onDispatch',
     value: function __onDispatch(action) {
       if (action.type === _Constants2.default.DONE_GET_DATA) {
-        //Object.assign(this.state, action.data)
-        this.state.menu = action.data;
-        console.log('========== store ', state);
+        Object.assign(this.state, action.data);
+        //console.log('========== store ', state)
         this.__emitChange();
       }
     }
@@ -25579,9 +25578,9 @@ var _apiSensor2 = _interopRequireDefault(_apiSensor);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-_apiSensor2.default.CLOUD_FUNCTIONS(function (DATA) {
+_apiSensor2.default.CLOUD_FUNCTIONS.MENU(function (DATA) {
   _Dispatcher2.default.dispatch({
-    type: _Constants2.default.DONE_GET_DATA,
+    type: _Constants2.default.DONE_GET_MENU,
     data: DATA
   });
 });
@@ -46731,9 +46730,9 @@ var _Gauge = __webpack_require__(36);
 
 var _Gauge2 = _interopRequireDefault(_Gauge);
 
-var _Store = __webpack_require__(20);
+var _Menu3 = __webpack_require__(456);
 
-var _Store2 = _interopRequireDefault(_Store);
+var _Menu4 = _interopRequireDefault(_Menu3);
 
 var _Columns = __webpack_require__(427);
 
@@ -46775,7 +46774,10 @@ var Environment = function (_Component) {
     value: function componentWillMount() {
       var _this2 = this;
 
-      _Store2.default.addListener(function () {
+      _Menu4.default.addListener(function () {
+
+        console.log('==== environment', _Menu4.default.state);
+
         // this.setState({sensors: store.state})
         //
         // let components = []
@@ -66568,9 +66570,9 @@ var _Gauge = __webpack_require__(36);
 
 var _Gauge2 = _interopRequireDefault(_Gauge);
 
-var _Store = __webpack_require__(20);
+var _Menu3 = __webpack_require__(456);
 
-var _Store2 = _interopRequireDefault(_Store);
+var _Menu4 = _interopRequireDefault(_Menu3);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -66601,7 +66603,7 @@ var Battery = function (_Component) {
     value: function componentWillMount() {
       var _this2 = this;
 
-      _Store2.default.addListener(function () {
+      _Menu4.default.addListener(function () {
         // this.setState({
         //   sensors: store.state
         // })
@@ -66689,9 +66691,9 @@ var _Gauge = __webpack_require__(36);
 
 var _Gauge2 = _interopRequireDefault(_Gauge);
 
-var _Store = __webpack_require__(20);
+var _Menu3 = __webpack_require__(456);
 
-var _Store2 = _interopRequireDefault(_Store);
+var _Menu4 = _interopRequireDefault(_Menu3);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -66722,7 +66724,7 @@ var Trash = function (_Component) {
     value: function componentWillMount() {
       var _this2 = this;
 
-      _Store2.default.addListener(function () {
+      _Menu4.default.addListener(function () {
         // this.setState({
         //   sensors: store.state
         // })
@@ -66988,12 +66990,14 @@ var _axios2 = _interopRequireDefault(_axios);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {
-  CLOUD_FUNCTIONS: function CLOUD_FUNCTIONS(callback) {
-    setInterval(function () {
-      _axios2.default.get('https://us-central1-performance-182414.cloudfunctions.net/menu').then(function (response) {
-        return callback(response.data);
-      });
-    }, 3000);
+  CLOUD_FUNCTIONS: {
+    MENU: function MENU(callback) {
+      setInterval(function () {
+        _axios2.default.get('https://us-central1-performance-182414.cloudfunctions.net/menu').then(function (response) {
+          return callback(response.data);
+        });
+      }, 2000);
+    }
   }
 };
 
@@ -67886,6 +67890,72 @@ module.exports = function spread(callback) {
   };
 };
 
+
+/***/ }),
+/* 455 */,
+/* 456 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _utils = __webpack_require__(278);
+
+var _Dispatcher = __webpack_require__(74);
+
+var _Dispatcher2 = _interopRequireDefault(_Dispatcher);
+
+var _Constants = __webpack_require__(75);
+
+var _Constants2 = _interopRequireDefault(_Constants);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var state = [];
+
+var Menu = function (_Store) {
+  _inherits(Menu, _Store);
+
+  function Menu(props) {
+    _classCallCheck(this, Menu);
+
+    var _this = _possibleConstructorReturn(this, (Menu.__proto__ || Object.getPrototypeOf(Menu)).call(this, props));
+
+    _this.state = state;
+    return _this;
+  }
+
+  _createClass(Menu, [{
+    key: '__onDispatch',
+    value: function __onDispatch(action) {
+
+      if (action.type === _Constants2.default.DONE_GET_MENU) {
+
+        this.state = action.data;
+
+        console.log('>>>> store menu', this.state);
+
+        this.__emitChange();
+      }
+    }
+  }]);
+
+  return Menu;
+}(_utils.Store);
+
+exports.default = new Menu(_Dispatcher2.default);
 
 /***/ })
 /******/ ]);

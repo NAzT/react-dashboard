@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom'
 import 'font-awesome/css/font-awesome.css'
 import styled from 'styled-components'
 //import { menuItems } from '../data/menuItems'
-import store from '../flux/Store'
+import store from '../flux/stores/Menu'
 import uuid from 'uuid'
 
 export default class Menu extends Component {
@@ -23,9 +23,11 @@ export default class Menu extends Component {
     }
   }
 
-  componentDidMount () {
+  componentWillMount () {
     store.addListener(() => {
-      this.setState({menuItems: store.state.menu})
+      this.setState({menuItems: store.state})
+      //console.log(this.state.menuItems)
+      console.log('==== store menu ', store.state)
       //console.log(`=== state`, store.state)
     })
   }
