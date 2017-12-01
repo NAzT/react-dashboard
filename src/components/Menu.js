@@ -51,32 +51,28 @@ export default class Menu extends Component {
               const master = []
               let nodes = []
 
-              // console.log('=== menuItem', menuItem)
-
-              menuItem.children.forEach(subMenu => { // render sub menu
-
-                // console.log('=== menuItem', menuItem)
-
-                nodes.push (
-                  <li key={uuid()}>
-                    <NavLink activeStyle={this.state.activeSubMenu} to={subMenu.url}>
-                      <BoldSpan><i className='fa fa-code-fork'/> {subMenu.name}</BoldSpan>
-                    </NavLink>
-                  </li>
-                )
-
-              })
+              // menuItem.children.forEach(subMenu => { // render sub menu
+              //
+              //   nodes.push (
+              //     <li key={uuid()}>
+              //       <NavLink activeStyle={this.state.activeSubMenu} to={subMenu.url}>
+              //         <BoldSpan><i className='fa fa-code-fork'/> {subMenu.name}</BoldSpan>
+              //       </NavLink>
+              //     </li>
+              //   )
+              //
+              // })
 
               master.push ( // render menu
                 <li key={uuid()}>
                   <NavLink activeStyle={this.state.activeMenu} to={menuItem.url}>
                     <BoldSpan><i className={menuItem.icon}/> {menuItem.name}</BoldSpan>
                   </NavLink>
-                  <ul>
-                    {
-                      nodes.map(node => node)
-                    }
-                  </ul>
+                  {/*<ul>*/}
+                    {/*{*/}
+                      {/*nodes.map(node => node)*/}
+                    {/*}*/}
+                  {/*</ul>*/}
                 </li>
               )
 

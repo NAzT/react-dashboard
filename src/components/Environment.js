@@ -1,16 +1,10 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import Menu from './Menu.js'
-import Line from './Line.jsx'
 import LineMultiAxis from './LineMultiAxis.jsx'
 import Gauge from './Gauge.jsx'
 import store from '../flux/stores/Menu'
 import _ from 'underscore'
-
-import Columns from './Columns.jsx'
-import uuid from 'uuid'
-
-let load = 1
 
 export default class Environment extends Component {
 
@@ -28,7 +22,6 @@ export default class Environment extends Component {
 
   componentWillMount () {
     store.addListener(() => {
-
       const data = _.find(store.state, (menu) => menu.url === this.props.location.pathname)
       this.setState({sensors: data})
       const graphData = []
@@ -36,74 +29,20 @@ export default class Environment extends Component {
         graphData.push(graph)
       })
       this.setState({graphs: graphData})
-      //console.log(this.state.graphs)
-
-      // console.log(store.state)
-
-      // console.log('==== environment', store.state)
-
-      // this.setState({sensors: store.state})
-      //
-      // let components = []
-      //
-      // this.state.sensors.nodes.map(node => {
-      //   //console.log(node)
-      //   components.push(
-      //     <div className="column" key={node.id}>
-      //       <Line label={node.chart.label} data={node.chart.data}
-      //             labels={node.chart.labels}
-      //             backgroundColor='rgba(87, 230, 255, 0.5)'
-      //             borderColor='rgba(87, 230, 255, 0.5)'
-      //             pointBorderColor='rgba(255, 163, 102, 1)'
-      //       />
-      //     </div>
-      //   )
-      // })
-      //
-      // let buffer = []
-      // components.forEach(component => {
-      //   if (component.key % 2 === 0) { // even
-      //     buffer.push(component)
-      //     result.push(buffer)
-      //     buffer = []
-      //   } else {
-      //     buffer.push(component)
-      //   }
-      // })
-      //
-      // this.setState({nodes: result})
-      //
-      // //  ================
-      //
-      // this.setState({
-      //   gauges: this.state.sensors.master.map(master => {
-      //     let components = []
-      //     master.environment.forEach((obj) => {
-      //       components.push(
-      //         <div className="column is-3 has-text-centered" key={obj.id}>
-      //           <Gauge width='200' height='160' label={obj.title}
-      //                  value={obj.value} color='#ff9966'/>
-      //         </div>
-      //       )
-      //     })
-      //     return components
-      //   })
-      // })
-
       this.setState({loading: false})
     })
   }
 
-  render () {
-
+  componentDidUpdate() {
     if (!this.state.loading) {
-      console.log(`load : ${load}`)
-      load++
+      ReactDOM.render(<Gauge data={this.state.graphs}/>, document.getElementById('Gauge'))
       ReactDOM.render(<LineMultiAxis data={this.state.graphs}/>, document.getElementById('LineMultiAxis'))
     }
+  }
+
+  render () {
 
     return (
-
       <div className='container'>
         <div className='section'>
 
@@ -121,22 +60,13 @@ export default class Environment extends Component {
 
               <div className={!this.state.loading ? 'card' : ''}>
                 <div className={!this.state.loading ? 'card-content' : ''}>
-                  <div className={!this.state.loading ? 'columns' : ''}>
-                    {
-                      // this.state.gauges.map(gauge => gauge)
-                    }
-                  </div>
+                    <div id='Gauge' className={!this.state.loading ? 'columns' : ''} style={{width: '100%'}}/>
                 </div>
               </div>
 
               <div className={!this.state.loading ? 'card' : ''}>
                 <div className={!this.state.loading ? 'card-content' : ''}>
                   <div id='LineMultiAxis'/>
-                  {
-                    // this.state.graphs.map(node => {
-                    //   return <Columns column={node} key={uuid()}/>
-                    // })
-                  }
                 </div>
               </div>
 

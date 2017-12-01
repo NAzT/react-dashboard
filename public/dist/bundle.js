@@ -5889,29 +5889,17 @@ var Menu = function (_Component) {
             var master = [];
             var nodes = [];
 
-            // console.log('=== menuItem', menuItem)
-
-            menuItem.children.forEach(function (subMenu) {
-              // render sub menu
-
-              // console.log('=== menuItem', menuItem)
-
-              nodes.push(_react2.default.createElement(
-                'li',
-                { key: (0, _uuid2.default)() },
-                _react2.default.createElement(
-                  _reactRouterDom.NavLink,
-                  { activeStyle: _this3.state.activeSubMenu, to: subMenu.url },
-                  _react2.default.createElement(
-                    BoldSpan,
-                    null,
-                    _react2.default.createElement('i', { className: 'fa fa-code-fork' }),
-                    ' ',
-                    subMenu.name
-                  )
-                )
-              ));
-            });
+            // menuItem.children.forEach(subMenu => { // render sub menu
+            //
+            //   nodes.push (
+            //     <li key={uuid()}>
+            //       <NavLink activeStyle={this.state.activeSubMenu} to={subMenu.url}>
+            //         <BoldSpan><i className='fa fa-code-fork'/> {subMenu.name}</BoldSpan>
+            //       </NavLink>
+            //     </li>
+            //   )
+            //
+            // })
 
             master.push( // render menu
             _react2.default.createElement(
@@ -5927,13 +5915,6 @@ var Menu = function (_Component) {
                   ' ',
                   menuItem.name
                 )
-              ),
-              _react2.default.createElement(
-                'ul',
-                null,
-                nodes.map(function (node) {
-                  return node;
-                })
               )
             ));
 
@@ -7028,8 +7009,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
 var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
@@ -7038,18 +7017,37 @@ var _reactSvgGauge = __webpack_require__(426);
 
 var _reactSvgGauge2 = _interopRequireDefault(_reactSvgGauge);
 
+var _uuid = __webpack_require__(428);
+
+var _uuid2 = _interopRequireDefault(_uuid);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = function (props) {
-  return _react2.default.createElement(_reactSvgGauge2.default, _extends({}, props, {
-    valueLabelStyle: {
-      fontSize: '40px',
-      fontFamily: 'Kanit, sans-serif'
-    },
-    topLabelStyle: {
-      fontFamily: 'Kanit, sans-serif'
-    }
-  }));
+  return props.data.map(function (sensor) {
+    var gaugeData = sensor.chart.data;
+    var average = gaugeData.reduce(function (total, num) {
+      return total + num;
+    }) / gaugeData.length;
+    return _react2.default.createElement(
+      'div',
+      { className: 'column', key: (0, _uuid2.default)() },
+      _react2.default.createElement(_reactSvgGauge2.default, {
+        label: sensor.name,
+        value: average.toFixed(2),
+        valueLabelStyle: {
+          fontSize: '25px',
+          fontFamily: 'Kanit, sans-serif'
+        },
+        topLabelStyle: {
+          fontFamily: 'Kanit, sans-serif'
+        },
+        color: '#BFE6C7',
+        width: '180',
+        height: '150'
+      })
+    );
+  });
 };
 
 /***/ }),
@@ -46722,10 +46720,6 @@ var _Menu = __webpack_require__(19);
 
 var _Menu2 = _interopRequireDefault(_Menu);
 
-var _Line = __webpack_require__(77);
-
-var _Line2 = _interopRequireDefault(_Line);
-
 var _LineMultiAxis = __webpack_require__(425);
 
 var _LineMultiAxis2 = _interopRequireDefault(_LineMultiAxis);
@@ -46742,14 +46736,6 @@ var _underscore = __webpack_require__(457);
 
 var _underscore2 = _interopRequireDefault(_underscore);
 
-var _Columns = __webpack_require__(427);
-
-var _Columns2 = _interopRequireDefault(_Columns);
-
-var _uuid = __webpack_require__(428);
-
-var _uuid2 = _interopRequireDefault(_uuid);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -46757,8 +46743,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var load = 1;
 
 var Environment = function (_Component) {
   _inherits(Environment, _Component);
@@ -46784,7 +46768,6 @@ var Environment = function (_Component) {
       var _this2 = this;
 
       _Menu4.default.addListener(function () {
-
         var data = _underscore2.default.find(_Menu4.default.state, function (menu) {
           return menu.url === _this2.props.location.pathname;
         });
@@ -46794,72 +46777,20 @@ var Environment = function (_Component) {
           graphData.push(graph);
         });
         _this2.setState({ graphs: graphData });
-        //console.log(this.state.graphs)
-
-        // console.log(store.state)
-
-        // console.log('==== environment', store.state)
-
-        // this.setState({sensors: store.state})
-        //
-        // let components = []
-        //
-        // this.state.sensors.nodes.map(node => {
-        //   //console.log(node)
-        //   components.push(
-        //     <div className="column" key={node.id}>
-        //       <Line label={node.chart.label} data={node.chart.data}
-        //             labels={node.chart.labels}
-        //             backgroundColor='rgba(87, 230, 255, 0.5)'
-        //             borderColor='rgba(87, 230, 255, 0.5)'
-        //             pointBorderColor='rgba(255, 163, 102, 1)'
-        //       />
-        //     </div>
-        //   )
-        // })
-        //
-        // let buffer = []
-        // components.forEach(component => {
-        //   if (component.key % 2 === 0) { // even
-        //     buffer.push(component)
-        //     result.push(buffer)
-        //     buffer = []
-        //   } else {
-        //     buffer.push(component)
-        //   }
-        // })
-        //
-        // this.setState({nodes: result})
-        //
-        // //  ================
-        //
-        // this.setState({
-        //   gauges: this.state.sensors.master.map(master => {
-        //     let components = []
-        //     master.environment.forEach((obj) => {
-        //       components.push(
-        //         <div className="column is-3 has-text-centered" key={obj.id}>
-        //           <Gauge width='200' height='160' label={obj.title}
-        //                  value={obj.value} color='#ff9966'/>
-        //         </div>
-        //       )
-        //     })
-        //     return components
-        //   })
-        // })
-
         _this2.setState({ loading: false });
       });
     }
   }, {
-    key: 'render',
-    value: function render() {
-
+    key: 'componentDidUpdate',
+    value: function componentDidUpdate() {
       if (!this.state.loading) {
-        console.log('load : ' + load);
-        load++;
+        _reactDom2.default.render(_react2.default.createElement(_Gauge2.default, { data: this.state.graphs }), document.getElementById('Gauge'));
         _reactDom2.default.render(_react2.default.createElement(_LineMultiAxis2.default, { data: this.state.graphs }), document.getElementById('LineMultiAxis'));
       }
+    }
+  }, {
+    key: 'render',
+    value: function render() {
 
       return _react2.default.createElement(
         'div',
@@ -46893,7 +46824,7 @@ var Environment = function (_Component) {
                 _react2.default.createElement(
                   'div',
                   { className: !this.state.loading ? 'card-content' : '' },
-                  _react2.default.createElement('div', { className: !this.state.loading ? 'columns' : '' })
+                  _react2.default.createElement('div', { id: 'Gauge', className: !this.state.loading ? 'columns' : '', style: { width: '100%' } })
                 )
               ),
               _react2.default.createElement(
@@ -66283,36 +66214,7 @@ exports.default = Gauge;
 module.exports = exports['default'];
 
 /***/ }),
-/* 427 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(2);
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var Columns = function Columns(props) {
-  //console.log(props.data)
-  return _react2.default.createElement(
-    'div',
-    { className: 'columns' },
-    props.data.map(function (graph) {
-      return graph;
-    })
-  );
-};
-
-exports.default = Columns;
-
-/***/ }),
+/* 427 */,
 /* 428 */
 /***/ (function(module, exports, __webpack_require__) {
 
