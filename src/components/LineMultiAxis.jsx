@@ -4,10 +4,12 @@ import uuid from 'uuid'
 
 const LineMultiAxis = (props) => {
 
-  console.log('==== found data line multi axis')
+  //console.log('==== found data line multi axis')
 
   let datasets = []
   let yAxes = []
+
+  //console.log(props.data)
 
   props.data.map(obj => {
 

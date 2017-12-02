@@ -1,12 +1,11 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import Menu from './Menu.js'
-import LineMultiAxis from './LineMultiAxis.jsx'
-import Gauge from './NodeGauge.jsx'
+import MasterGauge from './MasterGauge.jsx'
 import store from '../flux/stores/Menu'
 import _ from 'underscore'
 
-export default class NodeTemplate extends Component {
+export default class Master extends Component {
 
   constructor (props) {
     super(props)
@@ -14,26 +13,22 @@ export default class NodeTemplate extends Component {
     this.state = {
       nodes: [],
       loading: true,
-      graphs: []
+      status: {},
     }
-
-    console.log('=== constructor')
   }
 
   _processStore = () => {
     const currentPath = this.props.location.pathname
-    let node = _.find(store.state.nodes, (node) => node.url.split('/')[1] === currentPath.split('/')[1])
-    let data = _.find(node.children, (obj) => obj.url === currentPath)
+
+    let master = _.find(store.state.master, (menu) => menu.url === currentPath)
 
     this.setState({
-      graphs: [data],
+      status: master.data,
       loading: false
     })
   }
 
   componentWillMount () {
-    console.log('=== componentWillMount >>> NodeTemplate')
-
     store.addListener(() => {
       this._processStore()
     })
@@ -43,27 +38,21 @@ export default class NodeTemplate extends Component {
     }
   }
 
-  componentDidUpdate () {
+  componentDidUpdate() {
     if (!this.state.loading) {
-      console.log('=== componentDidUpdate >>> loading false')
-
-      const currentPath = this.props.location.pathname
-      let node = _.find(store.state.nodes, (node) => node.url.split('/')[1] === currentPath.split('/')[1])
-      let data = _.find(node.children, (obj) => obj.url === currentPath)
-
-      ReactDOM.render(<LineMultiAxis data={[data]}/>, document.getElementById('LineMultiAxis'))
+      ReactDOM.render(<MasterGauge data={this.state.status}/>, document.getElementById('masterGauge'))
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
+    //console.log('=== componentDidMount >>> Master')
     if (!this.state.loading) {
-      console.log('=== componentDidMount >>> loading false')
-
-      ReactDOM.render(<LineMultiAxis data={this.state.graphs}/>, document.getElementById('LineMultiAxis'))
+      ReactDOM.render(<MasterGauge data={this.state.status}/>, document.getElementById('masterGauge'))
     }
   }
 
   render () {
+
     return (
       <div className='container'>
         <div className='section'>
@@ -82,10 +71,10 @@ export default class NodeTemplate extends Component {
 
               <div className={!this.state.loading ? 'card' : ''}>
                 <div className={!this.state.loading ? 'card-header' : ''}>
-                  <p className='card-header-title' style={{color: '#4468b0'}}>{!this.state.loading && 'Timeline'}</p>
+                  <p className='card-header-title' style={{color: '#4468b0'}}>{!this.state.loading && 'Status'}</p>
                 </div>
                 <div className={!this.state.loading ? 'card-content' : ''}>
-                  <div id='LineMultiAxis'/>
+                  <div id='masterGauge' className={!this.state.loading ? 'columns' : ''} style={{width: '100%'}}/>
                 </div>
               </div>
 

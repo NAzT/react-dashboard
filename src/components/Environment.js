@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import Menu from './Menu.js'
 import LineMultiAxis from './LineMultiAxis.jsx'
-import Gauge from './Gauge.jsx'
+import Gauge from './NodeGauge.jsx'
 import store from '../flux/stores/Menu'
 import _ from 'underscore'
 
@@ -22,35 +22,38 @@ export default class Environment extends Component {
 
   _processStore = () => {
     const currentPath = this.props.location.pathname
+    let data = _.find(store.state.nodes, (menu) => menu.url === currentPath)
 
-    let data = _.find(store.state, (menu) => menu.url === currentPath)
-
-    if (currentPath === '/') {
-      data = _.find(store.state, (menu) => menu)
-    }
-
-    this.setState({sensors: data})
-    const graphData = []
-
-    data.children.map(graph => {
-      graphData.push(graph)
+    this.setState({
+      sensors: data,
+      graphs: data.children,
+      loading: false
     })
-    this.setState({graphs: graphData})
-    this.setState({loading: false})
   }
 
   componentWillMount () {
+    // console.log('=== componentWillMount >>> environment')
+
     store.addListener(() => {
       this._processStore()
     })
 
-    if (store.state.length > 0) {
+    if (store.state.length !== 0) {
       this._processStore()
     }
   }
 
-  componentDidUpdate() {
+  componentDidUpdate () {
     if (!this.state.loading) {
+      // console.log('=== componentDidUpdate >>> loading false')
+      ReactDOM.render(<Gauge data={this.state.graphs}/>, document.getElementById('Gauge'))
+      ReactDOM.render(<LineMultiAxis data={this.state.graphs}/>, document.getElementById('LineMultiAxis'))
+    }
+  }
+
+  componentDidMount () {
+    if (!this.state.loading) {
+      // console.log('=== componentDidMount >>> loading false')
       ReactDOM.render(<Gauge data={this.state.graphs}/>, document.getElementById('Gauge'))
       ReactDOM.render(<LineMultiAxis data={this.state.graphs}/>, document.getElementById('LineMultiAxis'))
     }
@@ -75,23 +78,21 @@ export default class Environment extends Component {
               </div>
 
               <div className={!this.state.loading ? 'card' : ''}>
+                <div className={!this.state.loading ? 'card-header' : ''}>
+                  <p className='card-header-title' style={{color: '#4468b0'}}>{!this.state.loading && 'Average'}</p>
+                </div>
                 <div className={!this.state.loading ? 'card-content' : ''}>
-                    <div className='has-text-centered'>
-                      <p className='title' style={{color: '#4468b0'}}>{!this.state.loading && 'Average'}</p>
-                    </div>
-                    <br/>
-                    <div id='Gauge' className={!this.state.loading ? 'columns' : ''} style={{width: '100%'}}/>
+                  <div id='Gauge' className={!this.state.loading ? 'columns' : ''} style={{width: '100%'}}/>
                 </div>
               </div>
 
               <br/>
 
               <div className={!this.state.loading ? 'card' : ''}>
+                <div className={!this.state.loading ? 'card-header' : ''}>
+                  <p className='card-header-title' style={{color: '#4468b0'}}>{!this.state.loading && 'Timeline'}</p>
+                </div>
                 <div className={!this.state.loading ? 'card-content' : ''}>
-                  <div className='has-text-centered'>
-                    <p className='title' style={{color: '#4468b0'}}>{!this.state.loading && 'Timeline'}</p>
-                  </div>
-                  <br/>
                   <div id='LineMultiAxis'/>
                 </div>
               </div>

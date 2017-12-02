@@ -2,10 +2,9 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { HashRouter, Route, Switch, Redirect } from 'react-router-dom'
 import 'bulma/css/bulma.css'
+import Master from './components/Master'
 import Environment from './components/Environment'
-import Gas from './components/Gas'
 import Battery from './components/Battery'
-import Trash from './components/Trash'
 import NodeTemplate from './components/NodeTemplate'
 
 // import Debug from './Debug'
@@ -31,15 +30,11 @@ const PageNotFound = ({location}) => (
 const Main = (
   <HashRouter>
     <Switch>
-      <Route exact path='/' component={Environment}/>
+      <Route exact path='/' component={Master}/>
       <Route exact path='/environment' component={Environment}/>
       <Route exact path='/environment/node/:id' component={NodeTemplate}/>
-      {/*<Route exact path='/gas' component={Gas}/>*/}
-      {/*<Route exact path='/gas/node/:id' component={NodeTemplate}/>*/}
       <Route exact path='/battery' component={Battery}/>
       <Route exact path='/battery/node/:id' component={NodeTemplate}/>
-      {/*<Route exact path='/trash' component={Trash}/>*/}
-      {/*<Route exact path='/trash/node/:id' component={NodeTemplate}/>*/}
       <Route component={PageNotFound}/>
     </Switch>
   </HashRouter>

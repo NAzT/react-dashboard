@@ -5840,6 +5840,13 @@ var Menu = function (_Component) {
 
     var _this = _possibleConstructorReturn(this, (Menu.__proto__ || Object.getPrototypeOf(Menu)).call(this, props));
 
+    _this._processStore = function () {
+      _this.setState({
+        masterMenuItems: _Menu2.default.state.master,
+        nodeMenuItems: _Menu2.default.state.nodes
+      });
+    };
+
     _this.state = {
       currentUrl: props.url,
       activeMenu: {
@@ -5849,7 +5856,8 @@ var Menu = function (_Component) {
       activeSubMenu: {
         color: '#4468B0'
       },
-      menuItems: []
+      masterMenuItems: [],
+      nodeMenuItems: []
     };
     return _this;
   }
@@ -5860,11 +5868,13 @@ var Menu = function (_Component) {
       var _this2 = this;
 
       _Menu2.default.addListener(function () {
-        _this2.setState({ menuItems: _Menu2.default.state });
-        //console.log(this.state.menuItems)
-        // console.log('==== store menu ', store.state)
-        //console.log(`=== state`, store.state)
+        _this2._processStore();
+        //console.log(this.state.masterMenuItems)
       });
+
+      if (_Menu2.default.state.length !== 0) {
+        this._processStore();
+      }
     }
   }, {
     key: 'render',
@@ -5884,15 +5894,23 @@ var Menu = function (_Component) {
         _react2.default.createElement(
           'ul',
           { className: 'menu-list' },
-          _react2.default.createElement(
-            'li',
-            null,
-            _react2.default.createElement(
-              _reactRouterDom.NavLink,
-              { to: '/master' },
-              'CMMC'
-            )
-          )
+          this.state.masterMenuItems.map(function (menuItem) {
+            return _react2.default.createElement(
+              'li',
+              { key: (0, _uuid2.default)() },
+              _react2.default.createElement(
+                _reactRouterDom.NavLink,
+                { activeStyle: _this3.state.activeSubMenu, to: menuItem.url },
+                _react2.default.createElement(
+                  BoldSpan,
+                  null,
+                  _react2.default.createElement('i', { className: menuItem.icon }),
+                  ' ',
+                  menuItem.name
+                )
+              )
+            );
+          })
         ),
         _react2.default.createElement(
           'p',
@@ -5902,9 +5920,9 @@ var Menu = function (_Component) {
         _react2.default.createElement(
           'ul',
           { className: 'menu-list' },
-          this.state.menuItems.map(function (menuItem) {
+          this.state.nodeMenuItems.map(function (menuItem) {
 
-            var master = [];
+            var group = [];
             var nodes = [];
 
             menuItem.children.forEach(function (subMenu) {
@@ -5927,7 +5945,7 @@ var Menu = function (_Component) {
               ));
             });
 
-            master.push( // render menu
+            group.push( // render menu
             _react2.default.createElement(
               'li',
               { key: (0, _uuid2.default)() },
@@ -5951,7 +5969,7 @@ var Menu = function (_Component) {
               )
             ));
 
-            return master;
+            return group;
           })
         )
       );
@@ -5964,67 +5982,7 @@ var Menu = function (_Component) {
 exports.default = Menu;
 
 /***/ }),
-/* 20 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _utils = __webpack_require__(278);
-
-var _Dispatcher = __webpack_require__(74);
-
-var _Dispatcher2 = _interopRequireDefault(_Dispatcher);
-
-var _Constants = __webpack_require__(75);
-
-var _Constants2 = _interopRequireDefault(_Constants);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var state = {};
-
-var MyStore = function (_Store) {
-  _inherits(MyStore, _Store);
-
-  function MyStore(props) {
-    _classCallCheck(this, MyStore);
-
-    var _this = _possibleConstructorReturn(this, (MyStore.__proto__ || Object.getPrototypeOf(MyStore)).call(this, props));
-
-    _this.state = state;
-    return _this;
-  }
-
-  _createClass(MyStore, [{
-    key: '__onDispatch',
-    value: function __onDispatch(action) {
-      if (action.type === _Constants2.default.DONE_GET_DATA) {
-        Object.assign(this.state, action.data);
-        //console.log('========== store ', state)
-        this.__emitChange();
-      }
-    }
-  }]);
-
-  return MyStore;
-}(_utils.Store);
-
-exports.default = new MyStore(_Dispatcher2.default);
-
-/***/ }),
+/* 20 */,
 /* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -7032,58 +6990,7 @@ module.exports = toKey;
 
 
 /***/ }),
-/* 36 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(2);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactSvgGauge = __webpack_require__(426);
-
-var _reactSvgGauge2 = _interopRequireDefault(_reactSvgGauge);
-
-var _uuid = __webpack_require__(428);
-
-var _uuid2 = _interopRequireDefault(_uuid);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = function (props) {
-  return props.data.map(function (sensor) {
-    var gaugeData = sensor.chart.data;
-    var average = gaugeData.reduce(function (total, num) {
-      return total + num;
-    }) / gaugeData.length;
-    return _react2.default.createElement(
-      'div',
-      { className: 'column', key: (0, _uuid2.default)() },
-      _react2.default.createElement(_reactSvgGauge2.default, {
-        label: sensor.name,
-        value: average.toFixed(2),
-        valueLabelStyle: {
-          fontSize: '20px',
-          fontFamily: 'Kanit, sans-serif'
-        },
-        topLabelStyle: {
-          fontFamily: 'Kanit, sans-serif'
-        },
-        color: '#BFE6C7',
-        width: '180',
-        height: '150'
-      })
-    );
-  });
-};
-
-/***/ }),
+/* 36 */,
 /* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -11558,91 +11465,7 @@ var styled = _styled(StyledComponent, constructWithOptions);
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(3)))
 
 /***/ }),
-/* 70 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-// import store from '../flux/Store'
-// import sensors from './virtualData'
-//
-// const menuItems = [
-//   {
-//     id: 1,
-//     url: '/environment',
-//     name: 'สภาพแวดล้อม',
-//     icon: 'fa fa-envira',
-//     children: [
-//       ...sensors.nodes.map((item) => {
-//         return {
-//           id: item.id,
-//           name: item.name,
-//           url: `/environment/node/${item.id}`
-//         }
-//       })
-//     ]
-//   },
-//   {
-//     id: 2,
-//     url: '/gas',
-//     name: 'แก๊ส',
-//     icon: 'fa fa-flask',
-//     children: []
-//   },
-//   {
-//     id: 3,
-//     url: '/trash',
-//     name: 'ปริมาณขยะ',
-//     icon: 'fa fa-recycle',
-//     children: []
-//   },
-//   {
-//     id: 4,
-//     url: '/battery',
-//     name: 'แบตเตอรี่',
-//     icon: 'fa fa-battery-three-quarters',
-//     children: []
-//   }
-// ]
-
-// const menuGroupMapping = (url) => {
-//   let result = {}
-//   menuItems.forEach(menu => {
-//     menu.children.forEach(subMenu => {
-//       if (subMenu.url === url) {
-//         result = {
-//           name: menu.name,
-//           url: menu.url
-//         }
-//       }
-//     })
-//   })
-//   return result
-// }
-//
-// const menuNameMapping = {}
-// menuItems.forEach((menu, idx) => {
-//   menu.children.forEach(menuItem => {
-//     menuNameMapping[menuItem.url] = menuItem.name
-//   })
-// })
-
-
-// class MenuItems extends Component {
-//
-//   constructor (props) {
-//     super(props)
-//   }
-//
-//   componentDidMount() {
-//     console.log(`====== componentDidMount`)
-// export {
-//   menuItems,
-//   menuNameMapping,
-//   menuGroupMapping
-// }
-
-
-/***/ }),
+/* 70 */,
 /* 71 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -11930,171 +11753,8 @@ var ActionTypes = {
 exports.default = ActionTypes;
 
 /***/ }),
-/* 76 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-var sensors = {
-  master: [{
-    environment: [{
-      id: 1,
-      title: 'temperature',
-      value: 30
-    }, {
-      id: 2,
-      title: 'humidity',
-      value: 60
-    }, {
-      id: 3,
-      title: 'sound',
-      value: 45
-    }, {
-      id: 4,
-      title: 'pressure',
-      value: 1000
-    }],
-    trash: [{
-      id: 1,
-      title: 'trashed',
-      value: 30
-    }],
-    battery: [{
-      id: 1,
-      title: 'battery',
-      value: 30
-    }]
-  }],
-  nodes: [{
-    id: 1, name: 'หน้าชมรมด้านนอก',
-    chart: {
-      label: 'node 1',
-      labels: ['1', '2', '3', '4', '5'],
-      data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map(function (v) {
-        return Math.random() * v;
-      })
-    }
-  }, {
-    id: 2, name: 'ห้องชมรมชั้น 2',
-    chart: {
-      label: 'node 2',
-      labels: ['1', '2', '3', '4', '5'],
-      data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map(function (v) {
-        return Math.random() * v;
-      })
-    }
-  }, {
-    id: 3, name: 'ห้องชมรมชั้น 3',
-    chart: {
-      label: 'node 3',
-      labels: ['1', '2', '3', '4', '5'],
-      data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map(function (v) {
-        return Math.random() * v;
-      })
-    }
-  }, {
-    id: 4, name: 'โกดัง',
-    chart: {
-      label: 'node 4',
-      labels: ['1', '2', '3', '4', '5'],
-      data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map(function (v) {
-        return Math.random() * v;
-      })
-    }
-  }]
-};
-
-exports.default = sensors;
-
-/***/ }),
-/* 77 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(2);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactChartjs = __webpack_require__(78);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-var line_options = {
-  responsive: true,
-  title: {
-    display: false,
-    text: 'Chart.js Line Chart'
-  },
-  tooltips: {
-    mode: 'index',
-    intersect: false
-  },
-  hover: {
-    mode: 'nearest',
-    intersect: true
-  },
-  scales: {
-    yAxes: [{
-      display: true,
-      scaleLabel: {
-        display: true,
-        labelString: ''
-      }
-    }]
-  }
-};
-
-var LineChart = function LineChart(props) {
-
-  var data = {
-    lineTension: 0.5
-  };
-
-  if (props.lineTension !== undefined) {
-    data.lineTension = props.lineTension;
-  }
-
-  return _react2.default.createElement(_reactChartjs.Line, { data: {
-      labels: [].concat(_toConsumableArray(props.labels)),
-      datasets: [{
-        label: props.label,
-        fill: true,
-        lineTension: data.lineTension,
-        backgroundColor: props.backgroundColor,
-        borderColor: props.borderColor,
-        borderCapStyle: 'butt',
-        borderDash: [],
-        borderDashOffset: 0.0,
-        borderJoinStyle: 'miter',
-        pointBorderColor: props.pointBorderColor,
-        pointBackgroundColor: '#fff',
-        pointBorderWidth: 2,
-        pointHoverRadius: 5,
-        pointHoverBackgroundColor: 'rgba(75,192,192,1)',
-        pointHoverBorderColor: 'rgba(220,220,220,1)',
-        pointHoverBorderWidth: 2,
-        pointRadius: 3,
-        pointHitRadius: 5,
-        data: [].concat(_toConsumableArray(props.data))
-      }]
-    }, options: line_options });
-};
-
-exports.default = LineChart;
-
-/***/ }),
+/* 76 */,
+/* 77 */,
 /* 78 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -25575,21 +25235,17 @@ var _reactRouterDom = __webpack_require__(40);
 
 __webpack_require__(261);
 
+var _Master = __webpack_require__(458);
+
+var _Master2 = _interopRequireDefault(_Master);
+
 var _Environment = __webpack_require__(264);
 
 var _Environment2 = _interopRequireDefault(_Environment);
 
-var _Gas = __webpack_require__(431);
-
-var _Gas2 = _interopRequireDefault(_Gas);
-
 var _Battery = __webpack_require__(432);
 
 var _Battery2 = _interopRequireDefault(_Battery);
-
-var _Trash = __webpack_require__(433);
-
-var _Trash2 = _interopRequireDefault(_Trash);
 
 var _NodeTemplate = __webpack_require__(434);
 
@@ -25647,7 +25303,7 @@ var Main = _react2.default.createElement(
   _react2.default.createElement(
     _reactRouterDom.Switch,
     null,
-    _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: _Environment2.default }),
+    _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: _Master2.default }),
     _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/environment', component: _Environment2.default }),
     _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/environment/node/:id', component: _NodeTemplate2.default }),
     _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/battery', component: _Battery2.default }),
@@ -46753,9 +46409,9 @@ var _LineMultiAxis = __webpack_require__(425);
 
 var _LineMultiAxis2 = _interopRequireDefault(_LineMultiAxis);
 
-var _Gauge = __webpack_require__(36);
+var _NodeGauge = __webpack_require__(459);
 
-var _Gauge2 = _interopRequireDefault(_Gauge);
+var _NodeGauge2 = _interopRequireDefault(_NodeGauge);
 
 var _Menu3 = __webpack_require__(456);
 
@@ -46783,25 +46439,15 @@ var Environment = function (_Component) {
 
     _this._processStore = function () {
       var currentPath = _this.props.location.pathname;
-
-      var data = _underscore2.default.find(_Menu4.default.state, function (menu) {
+      var data = _underscore2.default.find(_Menu4.default.state.nodes, function (menu) {
         return menu.url === currentPath;
       });
 
-      if (currentPath === '/') {
-        data = _underscore2.default.find(_Menu4.default.state, function (menu) {
-          return menu;
-        });
-      }
-
-      _this.setState({ sensors: data });
-      var graphData = [];
-
-      data.children.map(function (graph) {
-        graphData.push(graph);
+      _this.setState({
+        sensors: data,
+        graphs: data.children,
+        loading: false
       });
-      _this.setState({ graphs: graphData });
-      _this.setState({ loading: false });
     };
 
     _this.state = {
@@ -46819,11 +46465,13 @@ var Environment = function (_Component) {
     value: function componentWillMount() {
       var _this2 = this;
 
+      // console.log('=== componentWillMount >>> environment')
+
       _Menu4.default.addListener(function () {
         _this2._processStore();
       });
 
-      if (_Menu4.default.state.length > 0) {
+      if (_Menu4.default.state.length !== 0) {
         this._processStore();
       }
     }
@@ -46831,7 +46479,17 @@ var Environment = function (_Component) {
     key: 'componentDidUpdate',
     value: function componentDidUpdate() {
       if (!this.state.loading) {
-        _reactDom2.default.render(_react2.default.createElement(_Gauge2.default, { data: this.state.graphs }), document.getElementById('Gauge'));
+        // console.log('=== componentDidUpdate >>> loading false')
+        _reactDom2.default.render(_react2.default.createElement(_NodeGauge2.default, { data: this.state.graphs }), document.getElementById('Gauge'));
+        _reactDom2.default.render(_react2.default.createElement(_LineMultiAxis2.default, { data: this.state.graphs }), document.getElementById('LineMultiAxis'));
+      }
+    }
+  }, {
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      if (!this.state.loading) {
+        // console.log('=== componentDidMount >>> loading false')
+        _reactDom2.default.render(_react2.default.createElement(_NodeGauge2.default, { data: this.state.graphs }), document.getElementById('Gauge'));
         _reactDom2.default.render(_react2.default.createElement(_LineMultiAxis2.default, { data: this.state.graphs }), document.getElementById('LineMultiAxis'));
       }
     }
@@ -46870,17 +46528,16 @@ var Environment = function (_Component) {
                 { className: !this.state.loading ? 'card' : '' },
                 _react2.default.createElement(
                   'div',
-                  { className: !this.state.loading ? 'card-content' : '' },
+                  { className: !this.state.loading ? 'card-header' : '' },
                   _react2.default.createElement(
-                    'div',
-                    { className: 'has-text-centered' },
-                    _react2.default.createElement(
-                      'p',
-                      { className: 'title', style: { color: '#4468b0' } },
-                      !this.state.loading && 'Average'
-                    )
-                  ),
-                  _react2.default.createElement('br', null),
+                    'p',
+                    { className: 'card-header-title', style: { color: '#4468b0' } },
+                    !this.state.loading && 'Average'
+                  )
+                ),
+                _react2.default.createElement(
+                  'div',
+                  { className: !this.state.loading ? 'card-content' : '' },
                   _react2.default.createElement('div', { id: 'Gauge', className: !this.state.loading ? 'columns' : '', style: { width: '100%' } })
                 )
               ),
@@ -46890,17 +46547,16 @@ var Environment = function (_Component) {
                 { className: !this.state.loading ? 'card' : '' },
                 _react2.default.createElement(
                   'div',
-                  { className: !this.state.loading ? 'card-content' : '' },
+                  { className: !this.state.loading ? 'card-header' : '' },
                   _react2.default.createElement(
-                    'div',
-                    { className: 'has-text-centered' },
-                    _react2.default.createElement(
-                      'p',
-                      { className: 'title', style: { color: '#4468b0' } },
-                      !this.state.loading && 'Timeline'
-                    )
-                  ),
-                  _react2.default.createElement('br', null),
+                    'p',
+                    { className: 'card-header-title', style: { color: '#4468b0' } },
+                    !this.state.loading && 'Timeline'
+                  )
+                ),
+                _react2.default.createElement(
+                  'div',
+                  { className: !this.state.loading ? 'card-content' : '' },
                   _react2.default.createElement('div', { id: 'LineMultiAxis' })
                 )
               )
@@ -66046,10 +65702,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var LineMultiAxis = function LineMultiAxis(props) {
 
-  console.log('==== found data line multi axis');
+  //console.log('==== found data line multi axis')
 
   var datasets = [];
   var yAxes = [];
+
+  //console.log(props.data)
 
   props.data.map(function (obj) {
 
@@ -66438,98 +66096,7 @@ module.exports = v4;
 
 
 /***/ }),
-/* 431 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(2);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _Menu = __webpack_require__(19);
-
-var _Menu2 = _interopRequireDefault(_Menu);
-
-var _Gauge = __webpack_require__(36);
-
-var _Gauge2 = _interopRequireDefault(_Gauge);
-
-var _virtualData = __webpack_require__(76);
-
-var _virtualData2 = _interopRequireDefault(_virtualData);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Gas = function (_Component) {
-  _inherits(Gas, _Component);
-
-  function Gas(props) {
-    _classCallCheck(this, Gas);
-
-    return _possibleConstructorReturn(this, (Gas.__proto__ || Object.getPrototypeOf(Gas)).call(this, props));
-  }
-
-  _createClass(Gas, [{
-    key: 'render',
-    value: function render() {
-
-      return _react2.default.createElement(
-        'div',
-        { className: 'container' },
-        _react2.default.createElement(
-          'div',
-          { className: 'section' },
-          _react2.default.createElement(
-            'div',
-            { className: 'columns' },
-            _react2.default.createElement(
-              'div',
-              { className: 'column is-3' },
-              _react2.default.createElement(_Menu2.default, { url: this.props.location.pathname })
-            ),
-            _react2.default.createElement(
-              'div',
-              { className: 'column is-9' },
-              _react2.default.createElement(
-                'div',
-                { className: 'card' },
-                _react2.default.createElement(
-                  'div',
-                  { className: 'card-content has-text-centered' },
-                  _react2.default.createElement(
-                    'p',
-                    { className: 'title' },
-                    'Not available'
-                  )
-                )
-              )
-            )
-          )
-        )
-      );
-    }
-  }]);
-
-  return Gas;
-}(_react.Component);
-
-exports.default = Gas;
-
-/***/ }),
+/* 431 */,
 /* 432 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -66546,17 +66113,29 @@ var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactDom = __webpack_require__(224);
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
 var _Menu = __webpack_require__(19);
 
 var _Menu2 = _interopRequireDefault(_Menu);
 
-var _Gauge = __webpack_require__(36);
+var _LineMultiAxis = __webpack_require__(425);
 
-var _Gauge2 = _interopRequireDefault(_Gauge);
+var _LineMultiAxis2 = _interopRequireDefault(_LineMultiAxis);
+
+var _NodeGauge = __webpack_require__(459);
+
+var _NodeGauge2 = _interopRequireDefault(_NodeGauge);
 
 var _Menu3 = __webpack_require__(456);
 
 var _Menu4 = _interopRequireDefault(_Menu3);
+
+var _underscore = __webpack_require__(457);
+
+var _underscore2 = _interopRequireDefault(_underscore);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -66574,10 +66153,25 @@ var Battery = function (_Component) {
 
     var _this = _possibleConstructorReturn(this, (Battery.__proto__ || Object.getPrototypeOf(Battery)).call(this, props));
 
+    _this._processStore = function () {
+      var currentPath = _this.props.location.pathname;
+      var data = _underscore2.default.find(_Menu4.default.state.nodes, function (menu) {
+        return menu.url === currentPath;
+      });
+
+      _this.setState({
+        sensors: data,
+        graphs: data.children,
+        loading: false
+      });
+    };
+
     _this.state = {
+      nodes: [],
+      loading: true,
       sensors: {},
-      battery: [],
-      loading: true
+      graphs: [],
+      gauges: []
     };
     return _this;
   }
@@ -66587,165 +66181,32 @@ var Battery = function (_Component) {
     value: function componentWillMount() {
       var _this2 = this;
 
-      _Menu4.default.addListener(function () {
-        // this.setState({
-        //   sensors: store.state
-        // })
-        // this.setState({
-        //   battery: this.state.sensors.master.map(obj => obj.battery)
-        // })
-        _this2.setState({
-          loading: false
-        });
-      });
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-
-      return _react2.default.createElement(
-        'div',
-        { className: 'container' },
-        _react2.default.createElement(
-          'div',
-          { className: 'section' },
-          _react2.default.createElement(
-            'div',
-            { className: 'columns' },
-            _react2.default.createElement(
-              'div',
-              { className: 'column is-3' },
-              _react2.default.createElement(_Menu2.default, { url: this.props.location.pathname })
-            ),
-            _react2.default.createElement(
-              'div',
-              { className: 'column is-9' },
-              _react2.default.createElement(
-                'div',
-                { className: this.state.loading ? 'card' : '' },
-                _react2.default.createElement(
-                  'div',
-                  { className: this.state.loading ? 'card-content has-text-centered' : '' },
-                  _react2.default.createElement('span', { className: this.state.loading && 'fa fa-refresh fa-spin fa-3x' || '' })
-                )
-              ),
-              _react2.default.createElement(
-                'div',
-                { className: !this.state.loading ? 'card' : '' },
-                _react2.default.createElement(
-                  'div',
-                  { className: !this.state.loading ? 'card-content' : '' },
-                  _react2.default.createElement('div', { className: 'columns' })
-                )
-              )
-            )
-          )
-        )
-      );
-    }
-  }]);
-
-  return Battery;
-}(_react.Component);
-
-exports.default = Battery;
-
-/***/ }),
-/* 433 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(2);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _Menu = __webpack_require__(19);
-
-var _Menu2 = _interopRequireDefault(_Menu);
-
-var _Gauge = __webpack_require__(36);
-
-var _Gauge2 = _interopRequireDefault(_Gauge);
-
-var _Menu3 = __webpack_require__(456);
-
-var _Menu4 = _interopRequireDefault(_Menu3);
-
-var _underscore = __webpack_require__(457);
-
-var _underscore2 = _interopRequireDefault(_underscore);
-
-var _reactDom = __webpack_require__(224);
-
-var _reactDom2 = _interopRequireDefault(_reactDom);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Trash = function (_Component) {
-  _inherits(Trash, _Component);
-
-  function Trash(props) {
-    _classCallCheck(this, Trash);
-
-    var _this = _possibleConstructorReturn(this, (Trash.__proto__ || Object.getPrototypeOf(Trash)).call(this, props));
-
-    _this._processStore = function () {
-      var currentPath = _this.props.location.pathname;
-      var data = _underscore2.default.find(_Menu4.default.state, function (menu) {
-        return menu.url === currentPath;
-      });
-
-      _this.setState({ sensors: data });
-
-      var graphData = [];
-
-      console.log(data);
-
-      data.children.map(function (v) {
-        console.log(v);
-      });
-
-      _this.setState({ graphs: graphData });
-      _this.setState({ loading: false });
-    };
-
-    _this.state = {
-      sensors: {},
-      trash: [],
-      gauges: [],
-      loading: true
-    };
-    return _this;
-  }
-
-  _createClass(Trash, [{
-    key: 'componentWillMount',
-    value: function componentWillMount() {
-      var _this2 = this;
+      // console.log('=== componentWillMount >>> battery')
 
       _Menu4.default.addListener(function () {
         _this2._processStore();
       });
+
+      if (_Menu4.default.state.length !== 0) {
+        this._processStore();
+      }
     }
   }, {
     key: 'componentDidUpdate',
     value: function componentDidUpdate() {
       if (!this.state.loading) {
-        _reactDom2.default.render(_react2.default.createElement(_Gauge2.default, { data: this.state.graphs }), document.getElementById('Gauge'));
+        // console.log('=== componentDidUpdate >>> loading false')
+        _reactDom2.default.render(_react2.default.createElement(_NodeGauge2.default, { data: this.state.graphs }), document.getElementById('Gauge'));
+        _reactDom2.default.render(_react2.default.createElement(_LineMultiAxis2.default, { data: this.state.graphs }), document.getElementById('LineMultiAxis'));
+      }
+    }
+  }, {
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      if (!this.state.loading) {
+        // console.log('=== componentDidMount >>> loading false')
+        _reactDom2.default.render(_react2.default.createElement(_NodeGauge2.default, { data: this.state.graphs }), document.getElementById('Gauge'));
+        _reactDom2.default.render(_react2.default.createElement(_LineMultiAxis2.default, { data: this.state.graphs }), document.getElementById('LineMultiAxis'));
       }
     }
   }, {
@@ -66768,13 +66229,13 @@ var Trash = function (_Component) {
             ),
             _react2.default.createElement(
               'div',
-              { className: 'column is-9' },
+              { className: 'column is-9 has-text-centered' },
               _react2.default.createElement(
                 'div',
                 { className: this.state.loading ? 'card' : '' },
                 _react2.default.createElement(
                   'div',
-                  { className: this.state.loading ? 'card-content has-text-centered' : '' },
+                  { className: this.state.loading ? 'card-content' : '' },
                   _react2.default.createElement('span', { className: this.state.loading && 'fa fa-refresh fa-spin fa-3x' || '' })
                 )
               ),
@@ -66783,8 +66244,36 @@ var Trash = function (_Component) {
                 { className: !this.state.loading ? 'card' : '' },
                 _react2.default.createElement(
                   'div',
+                  { className: !this.state.loading ? 'card-header' : '' },
+                  _react2.default.createElement(
+                    'p',
+                    { className: 'card-header-title', style: { color: '#4468b0' } },
+                    !this.state.loading && 'Average'
+                  )
+                ),
+                _react2.default.createElement(
+                  'div',
                   { className: !this.state.loading ? 'card-content' : '' },
                   _react2.default.createElement('div', { id: 'Gauge', className: !this.state.loading ? 'columns' : '', style: { width: '100%' } })
+                )
+              ),
+              _react2.default.createElement('br', null),
+              _react2.default.createElement(
+                'div',
+                { className: !this.state.loading ? 'card' : '' },
+                _react2.default.createElement(
+                  'div',
+                  { className: !this.state.loading ? 'card-header' : '' },
+                  _react2.default.createElement(
+                    'p',
+                    { className: 'card-header-title', style: { color: '#4468b0' } },
+                    !this.state.loading && 'Timeline'
+                  )
+                ),
+                _react2.default.createElement(
+                  'div',
+                  { className: !this.state.loading ? 'card-content' : '' },
+                  _react2.default.createElement('div', { id: 'LineMultiAxis' })
                 )
               )
             )
@@ -66794,12 +66283,13 @@ var Trash = function (_Component) {
     }
   }]);
 
-  return Trash;
+  return Battery;
 }(_react.Component);
 
-exports.default = Trash;
+exports.default = Battery;
 
 /***/ }),
+/* 433 */,
 /* 434 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -66812,35 +66302,35 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _templateObject = _taggedTemplateLiteral(['\n    font-family: \'Kanit\', sans-serif;\n    '], ['\n    font-family: \'Kanit\', sans-serif;\n    ']);
-
 var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
+
+var _reactDom = __webpack_require__(224);
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
 
 var _Menu = __webpack_require__(19);
 
 var _Menu2 = _interopRequireDefault(_Menu);
 
-var _reactRouterDom = __webpack_require__(40);
+var _LineMultiAxis = __webpack_require__(425);
 
-var _menuItems = __webpack_require__(70);
+var _LineMultiAxis2 = _interopRequireDefault(_LineMultiAxis);
 
-var _styledComponents = __webpack_require__(69);
+var _NodeGauge = __webpack_require__(459);
 
-var _styledComponents2 = _interopRequireDefault(_styledComponents);
+var _NodeGauge2 = _interopRequireDefault(_NodeGauge);
 
-var _Line = __webpack_require__(77);
+var _Menu3 = __webpack_require__(456);
 
-var _Line2 = _interopRequireDefault(_Line);
+var _Menu4 = _interopRequireDefault(_Menu3);
 
-var _Store = __webpack_require__(20);
+var _underscore = __webpack_require__(457);
 
-var _Store2 = _interopRequireDefault(_Store);
+var _underscore2 = _interopRequireDefault(_underscore);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -66848,61 +66338,83 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var EnvironmentType = function (_Component) {
-  _inherits(EnvironmentType, _Component);
+var NodeTemplate = function (_Component) {
+  _inherits(NodeTemplate, _Component);
 
-  function EnvironmentType(props) {
-    _classCallCheck(this, EnvironmentType);
+  function NodeTemplate(props) {
+    _classCallCheck(this, NodeTemplate);
 
-    var _this = _possibleConstructorReturn(this, (EnvironmentType.__proto__ || Object.getPrototypeOf(EnvironmentType)).call(this, props));
+    var _this = _possibleConstructorReturn(this, (NodeTemplate.__proto__ || Object.getPrototypeOf(NodeTemplate)).call(this, props));
 
-    _this.state = {
-      sensors: {},
-      node: [],
-      lineDefault: {
-        data: [],
-        labels: []
-      },
-      loading: true
+    _this._processStore = function () {
+      var currentPath = _this.props.location.pathname;
+      var node = _underscore2.default.find(_Menu4.default.state.nodes, function (node) {
+        return node.url.split('/')[1] === currentPath.split('/')[1];
+      });
+      var data = _underscore2.default.find(node.children, function (obj) {
+        return obj.url === currentPath;
+      });
+
+      _this.setState({
+        graphs: [data],
+        loading: false
+      });
     };
 
+    _this.state = {
+      nodes: [],
+      loading: true,
+      graphs: []
+    };
+
+    console.log('=== constructor');
     return _this;
   }
 
-  _createClass(EnvironmentType, [{
+  _createClass(NodeTemplate, [{
     key: 'componentWillMount',
     value: function componentWillMount() {
       var _this2 = this;
 
-      _Store2.default.addListener(function () {
+      console.log('=== componentWillMount >>> NodeTemplate');
 
-        _this2.setState({ sensors: _Store2.default.state });
-
-        console.log('===== node template : ', _this2.state.sensors);
-
-        _this2.setState({
-          node: _this2.state.sensors.nodes.filter(function (node) {
-            return node.id === parseInt(_this2.props.match.params.id);
-          })[0]
-        });
-
-        _this2.setState({
-          lineDefault: {
-            data: _this2.state.node.chart.data || [],
-            labels: _this2.state.node.chart.labels || []
-          }
-        });
-
-        _this2.setState({ loading: false });
+      _Menu4.default.addListener(function () {
+        _this2._processStore();
       });
+
+      if (_Menu4.default.state.length !== 0) {
+        this._processStore();
+      }
+    }
+  }, {
+    key: 'componentDidUpdate',
+    value: function componentDidUpdate() {
+      if (!this.state.loading) {
+        console.log('=== componentDidUpdate >>> loading false');
+
+        var currentPath = this.props.location.pathname;
+        var node = _underscore2.default.find(_Menu4.default.state.nodes, function (node) {
+          return node.url.split('/')[1] === currentPath.split('/')[1];
+        });
+        var data = _underscore2.default.find(node.children, function (obj) {
+          return obj.url === currentPath;
+        });
+
+        _reactDom2.default.render(_react2.default.createElement(_LineMultiAxis2.default, { data: [data] }), document.getElementById('LineMultiAxis'));
+      }
+    }
+  }, {
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      if (!this.state.loading) {
+        console.log('=== componentDidMount >>> loading false');
+
+        _reactDom2.default.render(_react2.default.createElement(_LineMultiAxis2.default, { data: this.state.graphs }), document.getElementById('LineMultiAxis'));
+      }
     }
   }, {
     key: 'render',
     value: function render() {
-
-      var StyledLink = (0, _styledComponents2.default)(_reactRouterDom.Link)(_templateObject);
-      var StyledA = _styledComponents2.default.a(_templateObject);
-
       return _react2.default.createElement(
         'div',
         { className: 'container' },
@@ -66919,61 +66431,32 @@ var EnvironmentType = function (_Component) {
             ),
             _react2.default.createElement(
               'div',
-              { className: 'column is-9' },
+              { className: 'column is-9 has-text-centered' },
               _react2.default.createElement(
                 'div',
-                { className: 'card' },
+                { className: this.state.loading ? 'card' : '' },
                 _react2.default.createElement(
                   'div',
-                  { className: 'card-content' },
+                  { className: this.state.loading ? 'card-content' : '' },
+                  _react2.default.createElement('span', { className: this.state.loading && 'fa fa-refresh fa-spin fa-3x' || '' })
+                )
+              ),
+              _react2.default.createElement(
+                'div',
+                { className: !this.state.loading ? 'card' : '' },
+                _react2.default.createElement(
+                  'div',
+                  { className: !this.state.loading ? 'card-header' : '' },
                   _react2.default.createElement(
-                    'div',
-                    { className: 'level-right' },
-                    _react2.default.createElement(
-                      'nav',
-                      { className: 'breadcrumb', 'aria-label': 'breadcrumbs' },
-                      _react2.default.createElement(
-                        'ul',
-                        null,
-                        _react2.default.createElement(
-                          'li',
-                          null,
-                          _react2.default.createElement(
-                            StyledLink,
-                            { to: (0, _menuItems.menuGroupMapping)(this.props.location.pathname).url },
-                            (0, _menuItems.menuGroupMapping)(this.props.location.pathname).name
-                          )
-                        ),
-                        _react2.default.createElement(
-                          'li',
-                          { className: 'is-active' },
-                          _react2.default.createElement(
-                            StyledA,
-                            null,
-                            _menuItems.menuNameMapping[this.props.location.pathname]
-                          ),
-                          _react2.default.createElement('span', { className: this.state.loading && 'fa fa-refresh fa-spin' || '' })
-                        )
-                      )
-                    ),
-                    _react2.default.createElement('br', null)
-                  ),
-                  _react2.default.createElement(
-                    'div',
-                    { className: 'columns' },
-                    _react2.default.createElement(
-                      'div',
-                      { className: 'column' },
-                      _react2.default.createElement(_Line2.default, { label: '\u0E1B\u0E23\u0E34\u0E21\u0E32\u0E13',
-                        data: this.state.lineDefault.data,
-                        labels: this.state.lineDefault.labels,
-                        backgroundColor: 'rgba(254, 178, 194, 0.5)',
-                        borderColor: 'rgba(254, 178, 194, 0.5)',
-                        pointBorderColor: 'rgba(255, 163, 102, 1)',
-                        lineTension: '0'
-                      })
-                    )
+                    'p',
+                    { className: 'card-header-title', style: { color: '#4468b0' } },
+                    !this.state.loading && 'Timeline'
                   )
+                ),
+                _react2.default.createElement(
+                  'div',
+                  { className: !this.state.loading ? 'card-content' : '' },
+                  _react2.default.createElement('div', { id: 'LineMultiAxis' })
                 )
               )
             )
@@ -66983,10 +66466,10 @@ var EnvironmentType = function (_Component) {
     }
   }]);
 
-  return EnvironmentType;
+  return NodeTemplate;
 }(_react.Component);
 
-exports.default = EnvironmentType;
+exports.default = NodeTemplate;
 
 /***/ }),
 /* 435 */
@@ -69527,6 +69010,270 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;//     Underscor
   }
 }.call(this));
 
+
+/***/ }),
+/* 458 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(2);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactDom = __webpack_require__(224);
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
+var _Menu = __webpack_require__(19);
+
+var _Menu2 = _interopRequireDefault(_Menu);
+
+var _MasterGauge = __webpack_require__(460);
+
+var _MasterGauge2 = _interopRequireDefault(_MasterGauge);
+
+var _Menu3 = __webpack_require__(456);
+
+var _Menu4 = _interopRequireDefault(_Menu3);
+
+var _underscore = __webpack_require__(457);
+
+var _underscore2 = _interopRequireDefault(_underscore);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Master = function (_Component) {
+  _inherits(Master, _Component);
+
+  function Master(props) {
+    _classCallCheck(this, Master);
+
+    var _this = _possibleConstructorReturn(this, (Master.__proto__ || Object.getPrototypeOf(Master)).call(this, props));
+
+    _this._processStore = function () {
+      var currentPath = _this.props.location.pathname;
+
+      var master = _underscore2.default.find(_Menu4.default.state.master, function (menu) {
+        return menu.url === currentPath;
+      });
+
+      _this.setState({
+        status: master.data,
+        loading: false
+      });
+    };
+
+    _this.state = {
+      nodes: [],
+      loading: true,
+      status: {}
+    };
+    return _this;
+  }
+
+  _createClass(Master, [{
+    key: 'componentWillMount',
+    value: function componentWillMount() {
+      var _this2 = this;
+
+      _Menu4.default.addListener(function () {
+        _this2._processStore();
+      });
+
+      if (_Menu4.default.state.length !== 0) {
+        this._processStore();
+      }
+    }
+  }, {
+    key: 'componentDidUpdate',
+    value: function componentDidUpdate() {
+      if (!this.state.loading) {
+        _reactDom2.default.render(_react2.default.createElement(_MasterGauge2.default, { data: this.state.status }), document.getElementById('masterGauge'));
+      }
+    }
+  }, {
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      //console.log('=== componentDidMount >>> Master')
+      if (!this.state.loading) {
+        _reactDom2.default.render(_react2.default.createElement(_MasterGauge2.default, { data: this.state.status }), document.getElementById('masterGauge'));
+      }
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+
+      return _react2.default.createElement(
+        'div',
+        { className: 'container' },
+        _react2.default.createElement(
+          'div',
+          { className: 'section' },
+          _react2.default.createElement(
+            'div',
+            { className: 'columns' },
+            _react2.default.createElement(
+              'div',
+              { className: 'column is-3' },
+              _react2.default.createElement(_Menu2.default, { url: this.props.location.pathname })
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: 'column is-9 has-text-centered' },
+              _react2.default.createElement(
+                'div',
+                { className: this.state.loading ? 'card' : '' },
+                _react2.default.createElement(
+                  'div',
+                  { className: this.state.loading ? 'card-content' : '' },
+                  _react2.default.createElement('span', { className: this.state.loading && 'fa fa-refresh fa-spin fa-3x' || '' })
+                )
+              ),
+              _react2.default.createElement(
+                'div',
+                { className: !this.state.loading ? 'card' : '' },
+                _react2.default.createElement(
+                  'div',
+                  { className: !this.state.loading ? 'card-header' : '' },
+                  _react2.default.createElement(
+                    'p',
+                    { className: 'card-header-title', style: { color: '#4468b0' } },
+                    !this.state.loading && 'Status'
+                  )
+                ),
+                _react2.default.createElement(
+                  'div',
+                  { className: !this.state.loading ? 'card-content' : '' },
+                  _react2.default.createElement('div', { id: 'masterGauge', className: !this.state.loading ? 'columns' : '', style: { width: '100%' } })
+                )
+              )
+            )
+          )
+        )
+      );
+    }
+  }]);
+
+  return Master;
+}(_react.Component);
+
+exports.default = Master;
+
+/***/ }),
+/* 459 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(2);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactSvgGauge = __webpack_require__(426);
+
+var _reactSvgGauge2 = _interopRequireDefault(_reactSvgGauge);
+
+var _uuid = __webpack_require__(428);
+
+var _uuid2 = _interopRequireDefault(_uuid);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = function (props) {
+  return props.data.map(function (sensor) {
+    var gaugeData = sensor.chart.data;
+    var average = gaugeData.reduce(function (total, num) {
+      return total + num;
+    }) / gaugeData.length;
+    return _react2.default.createElement(
+      'div',
+      { className: 'column', key: (0, _uuid2.default)() },
+      _react2.default.createElement(_reactSvgGauge2.default, {
+        label: sensor.name,
+        value: average.toFixed(2),
+        valueLabelStyle: {
+          fontSize: '20px',
+          fontFamily: 'Kanit, sans-serif'
+        },
+        topLabelStyle: {
+          fontFamily: 'Kanit, sans-serif'
+        },
+        color: '#BFE6C7',
+        width: '180',
+        height: '150'
+      })
+    );
+  });
+};
+
+/***/ }),
+/* 460 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(2);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactSvgGauge = __webpack_require__(426);
+
+var _reactSvgGauge2 = _interopRequireDefault(_reactSvgGauge);
+
+var _uuid = __webpack_require__(428);
+
+var _uuid2 = _interopRequireDefault(_uuid);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = function (props) {
+
+  return props.data.map(function (data) {
+
+    return _react2.default.createElement(
+      'div',
+      { className: 'column', key: (0, _uuid2.default)() },
+      _react2.default.createElement(_reactSvgGauge2.default, {
+        label: data.name,
+        value: data.value,
+        valueLabelStyle: {
+          fontSize: '20px',
+          fontFamily: 'Kanit, sans-serif'
+        },
+        topLabelStyle: {
+          fontFamily: 'Kanit, sans-serif'
+        },
+        color: '#BFE6C7',
+        width: '180',
+        height: '150'
+      })
+    );
+  });
+};
 
 /***/ })
 /******/ ]);
