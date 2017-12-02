@@ -12,7 +12,7 @@ export default (props) => {
           label={sensor.name}
           value={average.toFixed(2)}
           valueLabelStyle={{
-            fontSize: '25px',
+            fontSize: '20px',
             fontFamily: 'Kanit, sans-serif'
           }}
           topLabelStyle={{

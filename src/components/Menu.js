@@ -41,8 +41,20 @@ export default class Menu extends Component {
 
     return (
       <aside className='menu'>
+
         <p className='menu-label'>
-          Lab
+          Master
+        </p>
+        <ul className='menu-list'>
+          <li>
+            <NavLink to='/master'>
+              CMMC
+            </NavLink>
+          </li>
+        </ul>
+
+        <p className='menu-label'>
+          Nodes
         </p>
         <ul className='menu-list'>
           {
@@ -51,28 +63,28 @@ export default class Menu extends Component {
               const master = []
               let nodes = []
 
-              // menuItem.children.forEach(subMenu => { // render sub menu
-              //
-              //   nodes.push (
-              //     <li key={uuid()}>
-              //       <NavLink activeStyle={this.state.activeSubMenu} to={subMenu.url}>
-              //         <BoldSpan><i className='fa fa-code-fork'/> {subMenu.name}</BoldSpan>
-              //       </NavLink>
-              //     </li>
-              //   )
-              //
-              // })
+              menuItem.children.forEach(subMenu => { // render sub menu
+
+                nodes.push (
+                  <li key={uuid()}>
+                    <NavLink activeStyle={this.state.activeSubMenu} to={subMenu.url}>
+                      <BoldSpan><i className='fa fa-code-fork'/> {subMenu.name}</BoldSpan>
+                    </NavLink>
+                  </li>
+                )
+
+              })
 
               master.push ( // render menu
                 <li key={uuid()}>
                   <NavLink activeStyle={this.state.activeMenu} to={menuItem.url}>
                     <BoldSpan><i className={menuItem.icon}/> {menuItem.name}</BoldSpan>
                   </NavLink>
-                  {/*<ul>*/}
-                    {/*{*/}
-                      {/*nodes.map(node => node)*/}
-                    {/*}*/}
-                  {/*</ul>*/}
+                  <ul>
+                    {
+                      nodes.map(node => node)
+                    }
+                  </ul>
                 </li>
               )
 
@@ -80,7 +92,6 @@ export default class Menu extends Component {
 
             })
           }
-
         </ul>
       </aside>
     )

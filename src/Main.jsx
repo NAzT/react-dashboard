@@ -34,12 +34,12 @@ const Main = (
       <Route exact path='/' component={Environment}/>
       <Route exact path='/environment' component={Environment}/>
       <Route exact path='/environment/node/:id' component={NodeTemplate}/>
-      <Route exact path='/gas' component={Gas}/>
-      <Route exact path='/gas/node/:id' component={NodeTemplate}/>
+      {/*<Route exact path='/gas' component={Gas}/>*/}
+      {/*<Route exact path='/gas/node/:id' component={NodeTemplate}/>*/}
       <Route exact path='/battery' component={Battery}/>
       <Route exact path='/battery/node/:id' component={NodeTemplate}/>
-      <Route exact path='/trash' component={Trash}/>
-      <Route exact path='/trash/node/:id' component={NodeTemplate}/>
+      {/*<Route exact path='/trash' component={Trash}/>*/}
+      {/*<Route exact path='/trash/node/:id' component={NodeTemplate}/>*/}
       <Route component={PageNotFound}/>
     </Switch>
   </HashRouter>

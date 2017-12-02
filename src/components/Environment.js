@@ -76,12 +76,22 @@ export default class Environment extends Component {
 
               <div className={!this.state.loading ? 'card' : ''}>
                 <div className={!this.state.loading ? 'card-content' : ''}>
+                    <div className='has-text-centered'>
+                      <p className='title' style={{color: '#4468b0'}}>{!this.state.loading && 'Average'}</p>
+                    </div>
+                    <br/>
                     <div id='Gauge' className={!this.state.loading ? 'columns' : ''} style={{width: '100%'}}/>
                 </div>
               </div>
 
+              <br/>
+
               <div className={!this.state.loading ? 'card' : ''}>
                 <div className={!this.state.loading ? 'card-content' : ''}>
+                  <div className='has-text-centered'>
+                    <p className='title' style={{color: '#4468b0'}}>{!this.state.loading && 'Timeline'}</p>
+                  </div>
+                  <br/>
                   <div id='LineMultiAxis'/>
                 </div>
               </div>

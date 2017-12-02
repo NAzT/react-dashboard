@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import Menu from './Menu.js'
 import Gauge from './Gauge.jsx'
 import store from '../flux/stores/Menu'
+import _ from 'underscore'
+import ReactDOM from 'react-dom'
 
 export default class Trash extends Component {
 
@@ -10,18 +12,41 @@ export default class Trash extends Component {
     this.state = {
       sensors: {},
       trash: [],
+      gauges: [],
       loading: true
     }
   }
 
+  _processStore = () => {
+    const currentPath = this.props.location.pathname
+    let data = _.find(store.state, (menu) => menu.url === currentPath)
+
+    this.setState({sensors: data})
+
+    const graphData = []
+
+    console.log(data)
+
+    data.children.map(v => {
+      console.log(v)
+    })
+
+
+
+    this.setState({graphs: graphData})
+    this.setState({loading: false})
+  }
+
   componentWillMount () {
     store.addListener(() => {
-      // this.setState({
-      //   sensors: store.state
-      // })
-      // this.setState({trash: this.state.sensors.master.map(obj => obj.trash)})
-      this.setState({loading: false})
+      this._processStore()
     })
+  }
+
+  componentDidUpdate() {
+    if (!this.state.loading) {
+      ReactDOM.render(<Gauge data={this.state.graphs}/>, document.getElementById('Gauge'))
+    }
   }
 
   render () {
@@ -46,7 +71,9 @@ export default class Trash extends Component {
               <div className={!this.state.loading ? 'card' : ''}>
                 <div className={!this.state.loading ? 'card-content' : ''}>
 
-                  <div className="columns">
+                  <div id='Gauge' className={!this.state.loading ? 'columns' : ''} style={{width: '100%'}}/>
+
+                  {/*<div className="columns">*/}
                     {
                       // this.state.trash.map(trash => {
                       //
@@ -67,7 +94,7 @@ export default class Trash extends Component {
                       //
                       // })
                     }
-                  </div>
+                  {/*</div>*/}
 
                 </div>
               </div>
