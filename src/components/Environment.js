@@ -20,17 +20,33 @@ export default class Environment extends Component {
     }
   }
 
+  _processStore = () => {
+    const currentPath = this.props.location.pathname
+
+    let data = _.find(store.state, (menu) => menu.url === currentPath)
+
+    if (currentPath === '/') {
+      data = _.find(store.state, (menu) => menu)
+    }
+
+    this.setState({sensors: data})
+    const graphData = []
+
+    data.children.map(graph => {
+      graphData.push(graph)
+    })
+    this.setState({graphs: graphData})
+    this.setState({loading: false})
+  }
+
   componentWillMount () {
     store.addListener(() => {
-      const data = _.find(store.state, (menu) => menu.url === this.props.location.pathname)
-      this.setState({sensors: data})
-      const graphData = []
-      data.children.map(graph => {
-        graphData.push(graph)
-      })
-      this.setState({graphs: graphData})
-      this.setState({loading: false})
+      this._processStore()
     })
+
+    if (store.state.length > 0) {
+      this._processStore()
+    }
   }
 
   componentDidUpdate() {

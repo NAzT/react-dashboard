@@ -46752,6 +46752,29 @@ var Environment = function (_Component) {
 
     var _this = _possibleConstructorReturn(this, (Environment.__proto__ || Object.getPrototypeOf(Environment)).call(this, props));
 
+    _this._processStore = function () {
+      var currentPath = _this.props.location.pathname;
+
+      var data = _underscore2.default.find(_Menu4.default.state, function (menu) {
+        return menu.url === currentPath;
+      });
+
+      if (currentPath === '/') {
+        data = _underscore2.default.find(_Menu4.default.state, function (menu) {
+          return menu;
+        });
+      }
+
+      _this.setState({ sensors: data });
+      var graphData = [];
+
+      data.children.map(function (graph) {
+        graphData.push(graph);
+      });
+      _this.setState({ graphs: graphData });
+      _this.setState({ loading: false });
+    };
+
     _this.state = {
       nodes: [],
       loading: true,
@@ -46768,17 +46791,12 @@ var Environment = function (_Component) {
       var _this2 = this;
 
       _Menu4.default.addListener(function () {
-        var data = _underscore2.default.find(_Menu4.default.state, function (menu) {
-          return menu.url === _this2.props.location.pathname;
-        });
-        _this2.setState({ sensors: data });
-        var graphData = [];
-        data.children.map(function (graph) {
-          graphData.push(graph);
-        });
-        _this2.setState({ graphs: graphData });
-        _this2.setState({ loading: false });
+        _this2._processStore();
       });
+
+      if (_Menu4.default.state.length > 0) {
+        this._processStore();
+      }
     }
   }, {
     key: 'componentDidUpdate',
@@ -66039,7 +66057,7 @@ var LineMultiAxis = function LineMultiAxis(props) {
     }
   };
 
-  return _react2.default.createElement(_reactChartjs.Line, { data: line_data, options: line_option });
+  return _react2.default.createElement(_reactChartjs.Line, { data: line_data, options: line_option, key: (0, _uuid2.default)() });
 };
 
 exports.default = LineMultiAxis;

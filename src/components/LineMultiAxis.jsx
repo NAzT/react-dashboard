@@ -67,7 +67,7 @@ const LineMultiAxis = (props) => {
   }
 
   return (
-    <Line data={line_data} options={line_option}/>
+    <Line data={line_data} options={line_option} key={uuid()}/>
   )
 
 }
