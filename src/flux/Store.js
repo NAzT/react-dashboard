@@ -2,21 +2,27 @@ import { Store } from 'flux/utils'
 import AppDispatcher from './Dispatcher'
 import AppConstants from './Constants'
 
-let state = {}
+let state = []
 
 class MyStore extends Store {
 
   constructor (props) {
     super(props)
     this.state = state
+    this.__emitter.addListener('nat', function () {
+      console.log('.... nat')
+    })
   }
 
   __onDispatch (action) {
     if (action.type === AppConstants.DONE_GET_DATA) {
+
       Object.assign(this.state, action.data)
-      //console.log('========== store ', state)
       this.__emitChange()
+      this.__emitter.emit('nat', action.data)
+
     }
+
   }
 
 }

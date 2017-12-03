@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import Menu from './Menu.js'
 import MasterGauge from './MasterGauge.jsx'
-import store from '../flux/stores/Menu'
+import store from '../flux/Store'
 import _ from 'underscore'
 
 export default class Master extends Component {
@@ -13,7 +13,20 @@ export default class Master extends Component {
     this.state = {
       nodes: [],
       loading: true,
-      status: {},
+      status: {}
+    }
+
+    console.log('===== master', store.state)
+    store.__emitter.addListener('nat', function (...args) {
+      console.log(...args)
+    })
+    store.addListener(() => {
+      console.log('===== componentWillMount', store.state)
+      this._processStore()
+    })
+
+    if (store.state.length !== 0) {
+      this._processStore()
     }
   }
 
@@ -29,22 +42,16 @@ export default class Master extends Component {
   }
 
   componentWillMount () {
-    store.addListener(() => {
-      this._processStore()
-    })
 
-    if (store.state.length !== 0) {
-      this._processStore()
-    }
   }
 
-  componentDidUpdate() {
+  componentDidUpdate () {
     if (!this.state.loading) {
       ReactDOM.render(<MasterGauge data={this.state.status}/>, document.getElementById('masterGauge'))
     }
   }
 
-  componentDidMount() {
+  componentDidMount () {
     //console.log('=== componentDidMount >>> Master')
     if (!this.state.loading) {
       ReactDOM.render(<MasterGauge data={this.state.status}/>, document.getElementById('masterGauge'))

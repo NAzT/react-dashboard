@@ -7,17 +7,16 @@ import Environment from './components/Environment'
 import Battery from './components/Battery'
 import NodeTemplate from './components/NodeTemplate'
 
-// import Debug from './Debug'
 import Dispatcher from './flux/Dispatcher'
 import TypeActions from './flux/Constants'
-import API from './api/api.sensor.prod'
+import API from './api/prod.mqtt'
 
-API.CLOUD_FUNCTIONS.MENU((DATA) => {
-  Dispatcher.dispatch({
-    type: TypeActions.DONE_GET_MENU,
-    data: DATA
-  })
+
+API((DATA) => {
+  console.log(DATA)
 })
+
+
 
 const PageNotFound = ({location}) => (
   <div className="container">

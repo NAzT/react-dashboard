@@ -3170,6 +3170,10 @@ p-locate@^2.0.0:
   dependencies:
     p-limit "^1.1.0"
 
+"paho-mqtt@https://github.com/cmmakerclub/paho-mqtt.git":
+  version "1.0.3"
+  resolved "https://github.com/cmmakerclub/paho-mqtt.git#dfd84e75d6d1a677405a6c99944c266552d6b5ab"
+
 pako@~0.2.0:
   version "0.2.9"
   resolved "https://registry.yarnpkg.com/pako/-/pako-0.2.9.tgz#f3f7522f4ef782348da8161bad9ecfd51bf83a75"

@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import Menu from './Menu.js'
 import LineMultiAxis from './LineMultiAxis.jsx'
 import Gauge from './NodeGauge.jsx'
-import store from '../flux/stores/Menu'
+import store from '../flux/Store'
 import _ from 'underscore'
 
 export default class NodeTemplate extends Component {
