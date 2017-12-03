@@ -64,6 +64,7 @@ class MyStore extends Store {
     super(props)
     this.menu = menu
     this.state = []
+    this.SENSOR_NODES = {}
   }
 
   __onDispatch (action) {
@@ -76,7 +77,10 @@ class MyStore extends Store {
       Object.assign(this.menu, action.data)
       this.__emitChange()
     }
-
+    else if (action.type === AppConstants.SENSOR_NODE_COMING) {
+      this.SENSOR_NODES[action.data.name] = action.data.value
+      console.log('incomming data ... ', this.SENSOR_NODES)
+    }
   }
 
 }

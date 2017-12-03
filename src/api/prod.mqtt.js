@@ -38,7 +38,12 @@ export default (callback) => {
     const data = JSON.parse(message.payloadString)
     const sensor_node = data.cmmc_packet.sensor_node
     SENSOR_NODES[sensor_node.device_name] = sensor_node
-    console.log(SENSOR_NODES)
+
+    Dispatcher.dispatch({
+      type: TypeActions.SENSOR_NODE_COMING,
+      data: {name: sensor_node.device_name, value: sensor_node}
+    })
+
     // message = JSON.parse(message.payloadString)
     // Dispatcher.dispatch({
     //   type: TypeActions.DONE_GET_DATA,
