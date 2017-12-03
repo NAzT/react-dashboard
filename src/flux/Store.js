@@ -9,18 +9,12 @@ class MyStore extends Store {
   constructor (props) {
     super(props)
     this.state = state
-    this.__emitter.addListener('nat', function () {
-      console.log('.... nat')
-    })
   }
 
   __onDispatch (action) {
     if (action.type === AppConstants.DONE_GET_DATA) {
-
       Object.assign(this.state, action.data)
       this.__emitChange()
-      this.__emitter.emit('nat', action.data)
-
     }
 
   }
