@@ -15,7 +15,7 @@ export default (callback) => {
     const clientId = `clientId-${Math.random() * 100}`;
 
     let client = new Paho.MQTT.Client(hostname, port, clientId);
-    console.log(client)
+    console.log(client);
     client.onConnectionLost = onConnectionLost;
     client.onMessageArrived = onMessageArrived;
     client.connect({onSuccess: onConnect});
@@ -23,9 +23,6 @@ export default (callback) => {
     function onConnect () {
         console.log('onConnect...');
         client.subscribe('CMMC/NB-IOT/#');
-        // message = new Paho.MQTT.Message('Hello')
-        // message.destinationName = '/World'
-        // client.send(message)
     }
 
     function onConnectionLost (responseObject) {
@@ -45,11 +42,15 @@ export default (callback) => {
             data: {name: sensor_node.device_name, value: sensor_node}
         });
 
-        // message = JSON.parse(message.payloadString)
-        // Dispatcher.dispatch({
-        //   type: TypeActions.DONE_GET_DATA,
-        //   data: convertData
-        // })
     }
+
+    setInterval(function () {
+        console.log('dispatching ... MQTT DATA..');
+        Dispatcher.dispatch({
+            type: TypeActions.DONE_GET_DATA,
+            data: SENSOR_NODES,
+        });
+
+    }, 5000);
 
 }
