@@ -13,6 +13,7 @@ class MyStore extends Store {
   __onDispatch (action) {
     if (action.type === AppConstants.DONE_GET_DATA) {
       Object.assign(this.sensor_data, action.data)
+      console.log('this.sensor_data', this.sensor_data)
       this.__emitChange()
     }
     else if (action.type === AppConstants.DONE_GET_MENU) {

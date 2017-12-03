@@ -38,7 +38,7 @@ export default (callback) => {
     const sensor_node = data.cmmc_packet.sensor_node
     if (_.isUndefined(SENSOR_NODES[sensor_node.device_name])) {
       SENSOR_NODES[sensor_node.device_name] = data.cmmc_packet.sensor_node
-      SENSOR_DATA[sensor_node.device_name] = {
+      SENSOR_DATA[sensor_node.from] = {
         temperature: {
           chart: {
             data: [data.cmmc_packet.sensor_node.field1],
@@ -54,25 +54,17 @@ export default (callback) => {
       }
     }
     else {
-      SENSOR_DATA[sensor_node.device_name].temperature.chart.data.push(sensor_node.field1)
-      SENSOR_DATA[sensor_node.device_name].humidity.chart.data.push(sensor_node.field2)
+      SENSOR_DATA[sensor_node.from].temperature.chart.data.push(sensor_node.field1)
+      SENSOR_DATA[sensor_node.from].humidity.chart.data.push(sensor_node.field2)
 
-      SENSOR_DATA[sensor_node.device_name].temperature.chart.labels = [...SENSOR_DATA[sensor_node.device_name].temperature.chart.data]
-      SENSOR_DATA[sensor_node.device_name].humidity.chart.labels = [...SENSOR_DATA[sensor_node.device_name].humidity.chart.data]
+      SENSOR_DATA[sensor_node.from].temperature.chart.labels = [...SENSOR_DATA[sensor_node.from].temperature.chart.data]
+      SENSOR_DATA[sensor_node.from].humidity.chart.labels = [...SENSOR_DATA[sensor_node.from].humidity.chart.data]
     }
-    // console.log(SENSOR_NODES)
-
-    // Dispatcher.dispatch({
-    //   type: TypeActions.SENSOR_NODE_COMING,
-    //   data: {name: sensor_node.device_name, value: sensor_node}
-    // })
-
   }
 
   setInterval(function () {
     const subNodes = []
     _.keys(SENSOR_NODES).forEach((k, idx) => {
-      console.log(idx, k)
       subNodes.push({
         id: idx, name: k, url: `/environment/node/${SENSOR_NODES[k].from}`
       })
@@ -81,6 +73,11 @@ export default (callback) => {
     Dispatcher.dispatch({
       type: TypeActions.GOT_MENU_UPDATES,
       data: subNodes,
+    })
+
+    Dispatcher.dispatch({
+      type: TypeActions.DONE_GET_DATA,
+      data: SENSOR_DATA,
     })
 
   }, 2000)
