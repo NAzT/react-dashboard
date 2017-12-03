@@ -3,21 +3,16 @@ import AppDispatcher from './Dispatcher'
 import AppConstants from './Constants'
 import _ from 'underscore'
 
-let menu = {
-  master: [],
-  nodes: []
-}
-
 class MyStore extends Store {
   constructor (props) {
     super(props)
-    this.menu = menu
-    this.state = []
+    this.menu = {master: [], nodes: []}
+    this.sensor_data = {}
   }
 
   __onDispatch (action) {
     if (action.type === AppConstants.DONE_GET_DATA) {
-      Object.assign(this.menu, action.data)
+      Object.assign(this.sensor_data, action.data)
       this.__emitChange()
     }
     else if (action.type === AppConstants.DONE_GET_MENU) {
@@ -25,7 +20,7 @@ class MyStore extends Store {
       this.__emitChange()
     }
     else if (action.type === AppConstants.GOT_MENU_UPDATES) {
-      this.menu.nodes[0].children = _.clone(action.data)
+      Object.assign(this.menu.nodes[0].children, action.data)
       this.__emitChange()
     }
 

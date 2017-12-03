@@ -8,6 +8,7 @@ const _mapValue = (x, in_min, in_max, out_min, out_max) => {
   return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
 }
 const SENSOR_NODES = {}
+const SENSOR_DATA = {}
 export default (callback) => {
 
   const hostname = 'mqtt.cmmc.io'
@@ -35,7 +36,30 @@ export default (callback) => {
     console.log('onMessageArrived:' + message.payloadString)
     const data = JSON.parse(message.payloadString)
     const sensor_node = data.cmmc_packet.sensor_node
-    SENSOR_NODES[sensor_node.device_name] = data.cmmc_packet.sensor_node
+    if (_.isUndefined(SENSOR_NODES[sensor_node.device_name])) {
+      SENSOR_NODES[sensor_node.device_name] = data.cmmc_packet.sensor_node
+      SENSOR_DATA[sensor_node.device_name] = {
+        temperature: {
+          chart: {
+            data: [data.cmmc_packet.sensor_node.field1],
+            labels: [1],
+          }
+        },
+        humidity: {
+          chart: {
+            data: [data.cmmc_packet.sensor_node.field2],
+            labels: [1],
+          }
+        }
+      }
+    }
+    else {
+      SENSOR_DATA[sensor_node.device_name].temperature.chart.data.push(sensor_node.field1)
+      SENSOR_DATA[sensor_node.device_name].humidity.chart.data.push(sensor_node.field2)
+
+      SENSOR_DATA[sensor_node.device_name].temperature.chart.labels = [...SENSOR_DATA[sensor_node.device_name].temperature.chart.data]
+      SENSOR_DATA[sensor_node.device_name].humidity.chart.labels = [...SENSOR_DATA[sensor_node.device_name].humidity.chart.data]
+    }
     // console.log(SENSOR_NODES)
 
     // Dispatcher.dispatch({
