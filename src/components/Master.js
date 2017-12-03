@@ -29,9 +29,7 @@ export default class Master extends Component {
 
     _processStore = () => {
         const currentPath = this.props.location.pathname;
-
-        let master = _.find(store.state.master, (menu) => menu.url === currentPath);
-
+        let master = _.find(store.menu.master, (menu) => menu.url === currentPath);
         this.setState({
             status: master.data,
             loading: false
