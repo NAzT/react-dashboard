@@ -17,7 +17,7 @@ export default class Master extends Component {
     }
 
     console.log('===== master', store.state)
-    store.__emitter.addListener('nat', function (...args) {
+    store.__emitter.addListener('nat', function(...args) {
       console.log(...args)
     })
     store.addListener(() => {
