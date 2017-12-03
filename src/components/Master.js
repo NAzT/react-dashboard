@@ -16,28 +16,25 @@ export default class Master extends Component {
       status: {}
     }
 
-    console.log('===== master', store.state)
     store.addListener(() => {
-      console.log('===== componentWillMount', store.state)
       this._processStore()
     })
 
-    if (store.state.length !== 0) {
-      this._processStore()
-    }
   }
 
   _processStore = () => {
     const currentPath = this.props.location.pathname
     let master = _.find(store.menu.master, (menu) => menu.url === currentPath)
     this.setState({
-      status: master.data,
+      status: master.data || [1, 2, 3, 4],
       loading: false
     })
   }
 
   componentWillMount () {
-
+    if (store.menu.length !== 0) {
+      this._processStore()
+    }
   }
 
   componentDidUpdate () {

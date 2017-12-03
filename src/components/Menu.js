@@ -22,18 +22,18 @@ export default class Menu extends Component {
       masterMenuItems: [],
       nodeMenuItems: []
     }
-  }
 
-  _processStore = () => {
-    this.setState({masterMenuItems: store.menu.masterMenuItems, nodeMenuItems: store.menu.nodeMenuItems})
-  }
-
-  componentWillMount () {
     store.addListener(() => {
-      console.log('hello store has updates')
       this._processStore()
     })
 
+  }
+
+  _processStore = () => {
+    this.setState({masterMenuItems: store.menu.master, nodeMenuItems: store.menu.nodes})
+  }
+
+  componentWillMount () {
     if (store.menu.length !== 0) {
       this._processStore()
     }

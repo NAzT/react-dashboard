@@ -1,7 +1,7 @@
 import axois from 'axios'
 import TypeActions from '../flux/Constants'
 import Dispatcher from '../flux/Dispatcher'
-
+import _ from 'underscore'
 import Paho from '../mqttws31'
 
 const _mapValue = (x, in_min, in_max, out_min, out_max) => {
@@ -35,22 +35,30 @@ export default (callback) => {
     console.log('onMessageArrived:' + message.payloadString)
     const data = JSON.parse(message.payloadString)
     const sensor_node = data.cmmc_packet.sensor_node
-    SENSOR_NODES[sensor_node.device_name] = sensor_node
+    SENSOR_NODES[sensor_node.device_name] = data.cmmc_packet.sensor_node
+    // console.log(SENSOR_NODES)
 
-    Dispatcher.dispatch({
-      type: TypeActions.SENSOR_NODE_COMING,
-      data: {name: sensor_node.device_name, value: sensor_node}
-    })
+    // Dispatcher.dispatch({
+    //   type: TypeActions.SENSOR_NODE_COMING,
+    //   data: {name: sensor_node.device_name, value: sensor_node}
+    // })
 
   }
 
   setInterval(function () {
-    console.log('dispatching ... MQTT DATA..')
-    Dispatcher.dispatch({
-      type: TypeActions.DONE_GET_DATA,
-      data: SENSOR_NODES,
+    const subNodes = []
+    _.keys(SENSOR_NODES).forEach((k, idx) => {
+      console.log(idx, k)
+      subNodes.push({
+        id: idx, name: k, url: `/node/${SENSOR_NODES[k].from}`
+      })
     })
 
-  }, 5000)
+    Dispatcher.dispatch({
+      type: TypeActions.GOT_MENU_UPDATES,
+      data: subNodes,
+    })
+
+  }, 2000)
 
 }

@@ -16,12 +16,12 @@ API((DATA) => {
 })
 
 var menu = {
-  masterMenuItems: [{
+  master: [{
     'url': '/',
     'name': 'CMMC',
-    'icon': 'fa fa-pie-chart'
+    'icon': 'fa fa-pie-chart',
   }],
-  nodeMenuItems: [{
+  nodes: [{
     'id': 1,
     'url': '/environment',
     'name': 'สภาพแวดล้อม',
