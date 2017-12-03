@@ -50,7 +50,7 @@ export default (callback) => {
     _.keys(SENSOR_NODES).forEach((k, idx) => {
       console.log(idx, k)
       subNodes.push({
-        id: idx, name: k, url: `/node/${SENSOR_NODES[k].from}`
+        id: idx, name: k, url: `/environment/node/${SENSOR_NODES[k].from}`
       })
     })
 
