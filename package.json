@@ -33,7 +33,6 @@
     "key-mirror": "^1.0.1",
     "live-server": "^1.2.0",
     "node-sass": "^4.7.2",
-    "paho-mqtt": "https://github.com/cmmakerclub/paho-mqtt.git",
     "react": "^16.0.0",
     "react-chartjs-2": "^2.6.4",
     "react-dom": "^16.0.0",
