@@ -21,8 +21,7 @@ class MyStore extends Store {
       this.__emitChange()
     }
     else if (action.type === AppConstants.DONE_GET_MENU) {
-      this.menu.master = action.data.master
-      this.menu.nodes = action.data.nodes
+      Object.assign(this.menu, action.data)
       this.__emitChange()
     }
     else if (action.type === AppConstants.GOT_MENU_UPDATES) {
