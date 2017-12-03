@@ -1,6 +1,7 @@
-'use strict'
+'use strict';
 
-import { Dispatcher } from 'flux'
-const dispatcher = new Dispatcher
+import { Dispatcher } from 'flux';
 
-export default dispatcher
+const dispatcher = new Dispatcher;
+
+export default dispatcher;
