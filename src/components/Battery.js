@@ -22,7 +22,7 @@ export default class Battery extends Component {
 
   _processStore = () => {
     const currentPath = this.props.location.pathname
-    let data = _.find(store.state.nodes, (menu) => menu.url === currentPath)
+    let data = _.find(store.menu.nodes, (menu) => menu.url === currentPath)
 
     this.setState({
       sensors: data,
@@ -79,10 +79,12 @@ export default class Battery extends Component {
 
               <div className={!this.state.loading ? 'card' : ''}>
                 <div className={!this.state.loading ? 'card-header' : ''}>
-                  <p className='card-header-title' style={{color: '#4468b0'}}>{!this.state.loading && 'Average'}</p>
+                  <p className='card-header-title'
+                     style={{color: '#4468b0'}}>{!this.state.loading && 'Average'}</p>
                 </div>
                 <div className={!this.state.loading ? 'card-content' : ''}>
-                  <div id='Gauge' className={!this.state.loading ? 'columns' : ''} style={{width: '100%'}}/>
+                  <div id='Gauge' className={!this.state.loading ? 'columns' : ''}
+                       style={{width: '100%'}}/>
                 </div>
               </div>
 
@@ -90,7 +92,8 @@ export default class Battery extends Component {
 
               <div className={!this.state.loading ? 'card' : ''}>
                 <div className={!this.state.loading ? 'card-header' : ''}>
-                  <p className='card-header-title' style={{color: '#4468b0'}}>{!this.state.loading && 'Timeline'}</p>
+                  <p className='card-header-title'
+                     style={{color: '#4468b0'}}>{!this.state.loading && 'Timeline'}</p>
                 </div>
                 <div className={!this.state.loading ? 'card-content' : ''}>
                   <div id='LineMultiAxis'/>

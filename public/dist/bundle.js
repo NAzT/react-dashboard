@@ -1896,7 +1896,7 @@ function loadLocale(name) {
             module && module.exports) {
         try {
             oldLocale = globalLocale._abbr;
-            __webpack_require__(323)("./" + name);
+            __webpack_require__(325)("./" + name);
             // because defineLocale currently also sets the global locale, we
             // want to undo that for lazy loaded locales
             getSetGlobalLocale(oldLocale);
@@ -4531,7 +4531,7 @@ return hooks;
 
 })));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(49)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(51)(module)))
 
 /***/ }),
 /* 1 */
@@ -4541,9 +4541,9 @@ return hooks;
 
 
 module.exports = __webpack_require__(30);
-module.exports.easing = __webpack_require__(295);
-module.exports.canvas = __webpack_require__(296);
-module.exports.options = __webpack_require__(297);
+module.exports.easing = __webpack_require__(297);
+module.exports.canvas = __webpack_require__(298);
+module.exports.options = __webpack_require__(299);
 
 
 /***/ }),
@@ -5309,7 +5309,7 @@ module.exports = invariant;
 "use strict";
 
 
-var color = __webpack_require__(80);
+var color = __webpack_require__(82);
 var helpers = __webpack_require__(1);
 
 function interpolate(start, view, model, ease) {
@@ -5470,7 +5470,7 @@ module.exports = emptyFunction;
 /* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var freeGlobal = __webpack_require__(201);
+var freeGlobal = __webpack_require__(203);
 
 /** Detect free variable `self`. */
 var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
@@ -5489,10 +5489,10 @@ module.exports = root;
 
 
 module.exports = {};
-module.exports.Arc = __webpack_require__(303);
-module.exports.Line = __webpack_require__(304);
-module.exports.Point = __webpack_require__(305);
-module.exports.Rectangle = __webpack_require__(306);
+module.exports.Arc = __webpack_require__(305);
+module.exports.Line = __webpack_require__(306);
+module.exports.Point = __webpack_require__(307);
+module.exports.Rectangle = __webpack_require__(308);
 
 
 /***/ }),
@@ -5531,8 +5531,8 @@ module.exports = isArray;
 /* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseIsNative = __webpack_require__(353),
-    getValue = __webpack_require__(358);
+var baseIsNative = __webpack_require__(355),
+    getValue = __webpack_require__(360);
 
 /**
  * Gets the native function at `key` of `object`.
@@ -5846,11 +5846,11 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 var _utils = __webpack_require__(278);
 
-var _Dispatcher = __webpack_require__(214);
+var _Dispatcher = __webpack_require__(48);
 
 var _Dispatcher2 = _interopRequireDefault(_Dispatcher);
 
-var _Constants = __webpack_require__(215);
+var _Constants = __webpack_require__(49);
 
 var _Constants2 = _interopRequireDefault(_Constants);
 
@@ -5862,62 +5862,6 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var menu = {
-  masterMenuItems: [{
-    'url': '/',
-    'name': 'CMMC',
-    'icon': 'fa fa-pie-chart'
-  }],
-  nodeMenuItems: [{
-    'id': 1,
-    'url': '/environment',
-    'name': 'สภาพแวดล้อม',
-    'icon': 'fa fa-envira',
-    'children': [{
-      'id': 1,
-      'name': 'อุณหภูมิ หน้าชมรม',
-      'url': '/environment/node/1'
-    }, {
-      'id': 2,
-      'name': 'ความชื้น ห้องชมรมชั้น 2',
-      'url': '/environment/node/2'
-    }, {
-      'id': 3,
-      'name': 'เสียง ห้องชมรมชั้น 3',
-      'url': '/environment/node/3'
-    }, {
-      'id': 4,
-      'name': 'ความกดอากาศ โกดัง',
-      'url': '/environment/node/4'
-    }]
-  }, {
-    'id': 2,
-    'url': '/battery',
-    'name': 'แบตเตอรี่',
-    'icon': 'fa fa-battery-three-quarters',
-    'children': [{
-      'id': 1,
-      'name': 'เครื่อง หน้าชมรม',
-      'url': '/battery/node/1'
-    }, {
-      'id': 2,
-      'name': 'เครื่อง ห้องชมรมชั้น 2',
-      'url': '/battery/node/2'
-
-    }, {
-      'id': 3,
-      'name': 'เครื่อง ห้องชมรมชั้น 3',
-      'url': '/battery/node/3'
-
-    }, {
-      'id': 4,
-      'name': 'เครื่อง โกดัง',
-      'url': '/battery/node/4'
-
-    }]
-  }]
-};
-
 var MyStore = function (_Store) {
   _inherits(MyStore, _Store);
 
@@ -5926,8 +5870,8 @@ var MyStore = function (_Store) {
 
     var _this = _possibleConstructorReturn(this, (MyStore.__proto__ || Object.getPrototypeOf(MyStore)).call(this, props));
 
-    _this.menu = menu;
-    _this.state = [];
+    _this.menu = { master: [], nodes: [] };
+    _this.sensor_data = {};
     return _this;
   }
 
@@ -5935,11 +5879,16 @@ var MyStore = function (_Store) {
     key: '__onDispatch',
     value: function __onDispatch(action) {
       if (action.type === _Constants2.default.DONE_GET_DATA) {
-        Object.assign(this.menu, action.data);
+        Object.assign(this.sensor_data, action.data);
+        //console.log('this.sensor_data', this.sensor_data)
         this.__emitChange();
       } else if (action.type === _Constants2.default.DONE_GET_MENU) {
-        console.log('done get menu');
         Object.assign(this.menu, action.data);
+        this.__emitChange();
+      } else if (action.type === _Constants2.default.GOT_MENU_UPDATES) {
+        Object.assign(this.menu.nodes[0].children, action.data);
+        Object.assign(this.menu.nodes[1].children, action.data);
+        Object.assign(this.menu.master[0].children, action.data);
         this.__emitChange();
       }
     }
@@ -5952,662 +5901,6 @@ exports.default = new MyStore(_Dispatcher2.default);
 
 /***/ }),
 /* 21 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var helpers = __webpack_require__(1);
-
-/**
- * Namespace to hold static tick generation functions
- * @namespace Chart.Ticks
- */
-module.exports = {
-	/**
-	 * Namespace to hold generators for different types of ticks
-	 * @namespace Chart.Ticks.generators
-	 */
-	generators: {
-		/**
-		 * Interface for the options provided to the numeric tick generator
-		 * @interface INumericTickGenerationOptions
-		 */
-		/**
-		 * The maximum number of ticks to display
-		 * @name INumericTickGenerationOptions#maxTicks
-		 * @type Number
-		 */
-		/**
-		 * The distance between each tick.
-		 * @name INumericTickGenerationOptions#stepSize
-		 * @type Number
-		 * @optional
-		 */
-		/**
-		 * Forced minimum for the ticks. If not specified, the minimum of the data range is used to calculate the tick minimum
-		 * @name INumericTickGenerationOptions#min
-		 * @type Number
-		 * @optional
-		 */
-		/**
-		 * The maximum value of the ticks. If not specified, the maximum of the data range is used to calculate the tick maximum
-		 * @name INumericTickGenerationOptions#max
-		 * @type Number
-		 * @optional
-		 */
-
-		/**
-		 * Generate a set of linear ticks
-		 * @method Chart.Ticks.generators.linear
-		 * @param generationOptions {INumericTickGenerationOptions} the options used to generate the ticks
-		 * @param dataRange {IRange} the range of the data
-		 * @returns {Array<Number>} array of tick values
-		 */
-		linear: function(generationOptions, dataRange) {
-			var ticks = [];
-			// To get a "nice" value for the tick spacing, we will use the appropriately named
-			// "nice number" algorithm. See http://stackoverflow.com/questions/8506881/nice-label-algorithm-for-charts-with-minimum-ticks
-			// for details.
-
-			var spacing;
-			if (generationOptions.stepSize && generationOptions.stepSize > 0) {
-				spacing = generationOptions.stepSize;
-			} else {
-				var niceRange = helpers.niceNum(dataRange.max - dataRange.min, false);
-				spacing = helpers.niceNum(niceRange / (generationOptions.maxTicks - 1), true);
-			}
-			var niceMin = Math.floor(dataRange.min / spacing) * spacing;
-			var niceMax = Math.ceil(dataRange.max / spacing) * spacing;
-
-			// If min, max and stepSize is set and they make an evenly spaced scale use it.
-			if (generationOptions.min && generationOptions.max && generationOptions.stepSize) {
-				// If very close to our whole number, use it.
-				if (helpers.almostWhole((generationOptions.max - generationOptions.min) / generationOptions.stepSize, spacing / 1000)) {
-					niceMin = generationOptions.min;
-					niceMax = generationOptions.max;
-				}
-			}
-
-			var numSpaces = (niceMax - niceMin) / spacing;
-			// If very close to our rounded value, use it.
-			if (helpers.almostEquals(numSpaces, Math.round(numSpaces), spacing / 1000)) {
-				numSpaces = Math.round(numSpaces);
-			} else {
-				numSpaces = Math.ceil(numSpaces);
-			}
-
-			// Put the values into the ticks array
-			ticks.push(generationOptions.min !== undefined ? generationOptions.min : niceMin);
-			for (var j = 1; j < numSpaces; ++j) {
-				ticks.push(niceMin + (j * spacing));
-			}
-			ticks.push(generationOptions.max !== undefined ? generationOptions.max : niceMax);
-
-			return ticks;
-		},
-
-		/**
-		 * Generate a set of logarithmic ticks
-		 * @method Chart.Ticks.generators.logarithmic
-		 * @param generationOptions {INumericTickGenerationOptions} the options used to generate the ticks
-		 * @param dataRange {IRange} the range of the data
-		 * @returns {Array<Number>} array of tick values
-		 */
-		logarithmic: function(generationOptions, dataRange) {
-			var ticks = [];
-			var valueOrDefault = helpers.valueOrDefault;
-
-			// Figure out what the max number of ticks we can support it is based on the size of
-			// the axis area. For now, we say that the minimum tick spacing in pixels must be 50
-			// We also limit the maximum number of ticks to 11 which gives a nice 10 squares on
-			// the graph
-			var tickVal = valueOrDefault(generationOptions.min, Math.pow(10, Math.floor(helpers.log10(dataRange.min))));
-
-			var endExp = Math.floor(helpers.log10(dataRange.max));
-			var endSignificand = Math.ceil(dataRange.max / Math.pow(10, endExp));
-			var exp, significand;
-
-			if (tickVal === 0) {
-				exp = Math.floor(helpers.log10(dataRange.minNotZero));
-				significand = Math.floor(dataRange.minNotZero / Math.pow(10, exp));
-
-				ticks.push(tickVal);
-				tickVal = significand * Math.pow(10, exp);
-			} else {
-				exp = Math.floor(helpers.log10(tickVal));
-				significand = Math.floor(tickVal / Math.pow(10, exp));
-			}
-
-			do {
-				ticks.push(tickVal);
-
-				++significand;
-				if (significand === 10) {
-					significand = 1;
-					++exp;
-				}
-
-				tickVal = significand * Math.pow(10, exp);
-			} while (exp < endExp || (exp === endExp && significand < endSignificand));
-
-			var lastTick = valueOrDefault(generationOptions.max, tickVal);
-			ticks.push(lastTick);
-
-			return ticks;
-		}
-	},
-
-	/**
-	 * Namespace to hold formatters for different types of ticks
-	 * @namespace Chart.Ticks.formatters
-	 */
-	formatters: {
-		/**
-		 * Formatter for value labels
-		 * @method Chart.Ticks.formatters.values
-		 * @param value the value to display
-		 * @return {String|Array} the label to display
-		 */
-		values: function(value) {
-			return helpers.isArray(value) ? value : '' + value;
-		},
-
-		/**
-		 * Formatter for linear numeric ticks
-		 * @method Chart.Ticks.formatters.linear
-		 * @param tickValue {Number} the value to be formatted
-		 * @param index {Number} the position of the tickValue parameter in the ticks array
-		 * @param ticks {Array<Number>} the list of ticks being converted
-		 * @return {String} string representation of the tickValue parameter
-		 */
-		linear: function(tickValue, index, ticks) {
-			// If we have lots of ticks, don't use the ones
-			var delta = ticks.length > 3 ? ticks[2] - ticks[1] : ticks[1] - ticks[0];
-
-			// If we have a number like 2.5 as the delta, figure out how many decimal places we need
-			if (Math.abs(delta) > 1) {
-				if (tickValue !== Math.floor(tickValue)) {
-					// not an integer
-					delta = tickValue - Math.floor(tickValue);
-				}
-			}
-
-			var logDelta = helpers.log10(Math.abs(delta));
-			var tickString = '';
-
-			if (tickValue !== 0) {
-				var numDecimal = -1 * Math.floor(logDelta);
-				numDecimal = Math.max(Math.min(numDecimal, 20), 0); // toFixed has a max of 20 decimal places
-				tickString = tickValue.toFixed(numDecimal);
-			} else {
-				tickString = '0'; // never show decimal places for 0
-			}
-
-			return tickString;
-		},
-
-		logarithmic: function(tickValue, index, ticks) {
-			var remain = tickValue / (Math.pow(10, Math.floor(helpers.log10(tickValue))));
-
-			if (tickValue === 0) {
-				return '0';
-			} else if (remain === 1 || remain === 2 || remain === 5 || index === 0 || index === ticks.length - 1) {
-				return tickValue.toExponential();
-			}
-			return '';
-		}
-	}
-};
-
-
-/***/ }),
-/* 22 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var Symbol = __webpack_require__(33),
-    getRawTag = __webpack_require__(354),
-    objectToString = __webpack_require__(355);
-
-/** `Object#toString` result references. */
-var nullTag = '[object Null]',
-    undefinedTag = '[object Undefined]';
-
-/** Built-in value references. */
-var symToStringTag = Symbol ? Symbol.toStringTag : undefined;
-
-/**
- * The base implementation of `getTag` without fallbacks for buggy environments.
- *
- * @private
- * @param {*} value The value to query.
- * @returns {string} Returns the `toStringTag`.
- */
-function baseGetTag(value) {
-  if (value == null) {
-    return value === undefined ? undefinedTag : nullTag;
-  }
-  return (symToStringTag && symToStringTag in Object(value))
-    ? getRawTag(value)
-    : objectToString(value);
-}
-
-module.exports = baseGetTag;
-
-
-/***/ }),
-/* 23 */
-/***/ (function(module, exports) {
-
-/**
- * Checks if `value` is object-like. A value is object-like if it's not `null`
- * and has a `typeof` result of "object".
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
- * @example
- *
- * _.isObjectLike({});
- * // => true
- *
- * _.isObjectLike([1, 2, 3]);
- * // => true
- *
- * _.isObjectLike(_.noop);
- * // => false
- *
- * _.isObjectLike(null);
- * // => false
- */
-function isObjectLike(value) {
-  return value != null && typeof value == 'object';
-}
-
-module.exports = isObjectLike;
-
-
-/***/ }),
-/* 24 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {/**
- * Copyright (c) 2013-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
-
-
-
-var emptyObject = {};
-
-if (process.env.NODE_ENV !== 'production') {
-  Object.freeze(emptyObject);
-}
-
-module.exports = emptyObject;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
-
-/***/ }),
-/* 25 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {/**
- * Copyright (c) 2014-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
-
-
-
-var emptyFunction = __webpack_require__(11);
-
-/**
- * Similar to invariant but only logs a warning if the condition is not met.
- * This can be used to log issues in development environments in critical
- * paths. Removing the logging code for production environments will keep the
- * same logic and follow the same code paths.
- */
-
-var warning = emptyFunction;
-
-if (process.env.NODE_ENV !== 'production') {
-  var printWarning = function printWarning(format) {
-    for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-      args[_key - 1] = arguments[_key];
-    }
-
-    var argIndex = 0;
-    var message = 'Warning: ' + format.replace(/%s/g, function () {
-      return args[argIndex++];
-    });
-    if (typeof console !== 'undefined') {
-      console.error(message);
-    }
-    try {
-      // --- Welcome to debugging React ---
-      // This error was thrown as a convenience so that you can use this stack
-      // to find the callsite that caused this warning to fire.
-      throw new Error(message);
-    } catch (x) {}
-  };
-
-  warning = function warning(condition, format) {
-    if (format === undefined) {
-      throw new Error('`warning(condition, format, ...args)` requires a warning ' + 'message argument');
-    }
-
-    if (format.indexOf('Failed Composite propType: ') === 0) {
-      return; // Ignore CompositeComponent proptype check.
-    }
-
-    if (!condition) {
-      for (var _len2 = arguments.length, args = Array(_len2 > 2 ? _len2 - 2 : 0), _key2 = 2; _key2 < _len2; _key2++) {
-        args[_key2 - 2] = arguments[_key2];
-      }
-
-      printWarning.apply(undefined, [format].concat(args));
-    }
-  };
-}
-
-module.exports = warning;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
-
-/***/ }),
-/* 26 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return createLocation; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return locationsAreEqual; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_resolve_pathname__ = __webpack_require__(64);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_value_equal__ = __webpack_require__(65);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__PathUtils__ = __webpack_require__(19);
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-
-
-
-
-var createLocation = function createLocation(path, state, key, currentLocation) {
-  var location = void 0;
-  if (typeof path === 'string') {
-    // Two-arg form: push(path, state)
-    location = Object(__WEBPACK_IMPORTED_MODULE_2__PathUtils__["d" /* parsePath */])(path);
-    location.state = state;
-  } else {
-    // One-arg form: push(location)
-    location = _extends({}, path);
-
-    if (location.pathname === undefined) location.pathname = '';
-
-    if (location.search) {
-      if (location.search.charAt(0) !== '?') location.search = '?' + location.search;
-    } else {
-      location.search = '';
-    }
-
-    if (location.hash) {
-      if (location.hash.charAt(0) !== '#') location.hash = '#' + location.hash;
-    } else {
-      location.hash = '';
-    }
-
-    if (state !== undefined && location.state === undefined) location.state = state;
-  }
-
-  try {
-    location.pathname = decodeURI(location.pathname);
-  } catch (e) {
-    if (e instanceof URIError) {
-      throw new URIError('Pathname "' + location.pathname + '" could not be decoded. ' + 'This is likely caused by an invalid percent-encoding.');
-    } else {
-      throw e;
-    }
-  }
-
-  if (key) location.key = key;
-
-  if (currentLocation) {
-    // Resolve incomplete/relative pathname relative to current location.
-    if (!location.pathname) {
-      location.pathname = currentLocation.pathname;
-    } else if (location.pathname.charAt(0) !== '/') {
-      location.pathname = Object(__WEBPACK_IMPORTED_MODULE_0_resolve_pathname__["default"])(location.pathname, currentLocation.pathname);
-    }
-  } else {
-    // When there is no prior location and pathname is empty, set it to /
-    if (!location.pathname) {
-      location.pathname = '/';
-    }
-  }
-
-  return location;
-};
-
-var locationsAreEqual = function locationsAreEqual(a, b) {
-  return a.pathname === b.pathname && a.search === b.search && a.hash === b.hash && a.key === b.key && Object(__WEBPACK_IMPORTED_MODULE_1_value_equal__["default"])(a.state, b.state);
-};
-
-/***/ }),
-/* 27 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _templateObject = _taggedTemplateLiteral(['\n      font-weight: bold;\n      font-family: \'Kanit\', sans-serif;\n    '], ['\n      font-weight: bold;\n      font-family: \'Kanit\', sans-serif;\n    ']);
-
-var _react = __webpack_require__(2);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactRouterDom = __webpack_require__(63);
-
-__webpack_require__(264);
-
-var _styledComponents = __webpack_require__(272);
-
-var _styledComponents2 = _interopRequireDefault(_styledComponents);
-
-var _Store = __webpack_require__(20);
-
-var _Store2 = _interopRequireDefault(_Store);
-
-var _uuid = __webpack_require__(28);
-
-var _uuid2 = _interopRequireDefault(_uuid);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-//import { menuItems } from '../data/menuItems'
-
-
-var Menu = function (_Component) {
-  _inherits(Menu, _Component);
-
-  function Menu(props) {
-    _classCallCheck(this, Menu);
-
-    var _this = _possibleConstructorReturn(this, (Menu.__proto__ || Object.getPrototypeOf(Menu)).call(this, props));
-
-    _this._processStore = function () {
-      _this.setState({ masterMenuItems: _Store2.default.menu.masterMenuItems, nodeMenuItems: _Store2.default.menu.nodeMenuItems });
-    };
-
-    _this.state = {
-      currentUrl: props.url,
-      activeMenu: {
-        backgroundColor: 'hsl(217, 71%, 50%)',
-        color: 'white'
-      },
-      activeSubMenu: {
-        color: '#4468B0'
-      },
-      masterMenuItems: [],
-      nodeMenuItems: []
-    };
-    return _this;
-  }
-
-  _createClass(Menu, [{
-    key: 'componentWillMount',
-    value: function componentWillMount() {
-      var _this2 = this;
-
-      _Store2.default.addListener(function () {
-        console.log('hello store has updates');
-        _this2._processStore();
-      });
-
-      if (_Store2.default.menu.length !== 0) {
-        this._processStore();
-      }
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var _this3 = this;
-
-      var BoldSpan = _styledComponents2.default.span(_templateObject);
-
-      return _react2.default.createElement(
-        'aside',
-        { className: 'menu' },
-        _react2.default.createElement(
-          'p',
-          { className: 'menu-label' },
-          'Master'
-        ),
-        _react2.default.createElement(
-          'ul',
-          { className: 'menu-list' },
-          this.state.masterMenuItems.map(function (menuItem) {
-            return _react2.default.createElement(
-              'li',
-              { key: (0, _uuid2.default)() },
-              _react2.default.createElement(
-                _reactRouterDom.NavLink,
-                { activeStyle: _this3.state.activeSubMenu, to: menuItem.url },
-                _react2.default.createElement(
-                  BoldSpan,
-                  null,
-                  _react2.default.createElement('i', { className: menuItem.icon }),
-                  ' ',
-                  menuItem.name
-                )
-              )
-            );
-          })
-        ),
-        _react2.default.createElement(
-          'p',
-          { className: 'menu-label' },
-          'Nodes'
-        ),
-        _react2.default.createElement(
-          'ul',
-          { className: 'menu-list' },
-          this.state.nodeMenuItems.map(function (menuItem) {
-
-            var group = [];
-            var nodes = [];
-
-            menuItem.children.forEach(function (subMenu) {
-              // render sub menu
-
-              nodes.push(_react2.default.createElement(
-                'li',
-                { key: (0, _uuid2.default)() },
-                _react2.default.createElement(
-                  _reactRouterDom.NavLink,
-                  { activeStyle: _this3.state.activeSubMenu, to: subMenu.url },
-                  _react2.default.createElement(
-                    BoldSpan,
-                    null,
-                    _react2.default.createElement('i', { className: 'fa fa-code-fork' }),
-                    ' ',
-                    subMenu.name
-                  )
-                )
-              ));
-            });
-
-            group.push( // render menu
-            _react2.default.createElement(
-              'li',
-              { key: (0, _uuid2.default)() },
-              _react2.default.createElement(
-                _reactRouterDom.NavLink,
-                { activeStyle: _this3.state.activeMenu, to: menuItem.url },
-                _react2.default.createElement(
-                  BoldSpan,
-                  null,
-                  _react2.default.createElement('i', { className: menuItem.icon }),
-                  ' ',
-                  menuItem.name
-                )
-              ),
-              _react2.default.createElement(
-                'ul',
-                null,
-                nodes.map(function (node) {
-                  return node;
-                })
-              )
-            ));
-
-            return group;
-          })
-        )
-      );
-    }
-  }]);
-
-  return Menu;
-}(_react.Component);
-
-exports.default = Menu;
-
-/***/ }),
-/* 28 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var v1 = __webpack_require__(288);
-var v4 = __webpack_require__(289);
-
-var uuid = v4;
-uuid.v1 = v1;
-uuid.v4 = v4;
-
-module.exports = uuid;
-
-
-/***/ }),
-/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;//     Underscore.js 1.8.3
@@ -8162,6 +7455,662 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;//     Underscor
 
 
 /***/ }),
+/* 22 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var helpers = __webpack_require__(1);
+
+/**
+ * Namespace to hold static tick generation functions
+ * @namespace Chart.Ticks
+ */
+module.exports = {
+	/**
+	 * Namespace to hold generators for different types of ticks
+	 * @namespace Chart.Ticks.generators
+	 */
+	generators: {
+		/**
+		 * Interface for the options provided to the numeric tick generator
+		 * @interface INumericTickGenerationOptions
+		 */
+		/**
+		 * The maximum number of ticks to display
+		 * @name INumericTickGenerationOptions#maxTicks
+		 * @type Number
+		 */
+		/**
+		 * The distance between each tick.
+		 * @name INumericTickGenerationOptions#stepSize
+		 * @type Number
+		 * @optional
+		 */
+		/**
+		 * Forced minimum for the ticks. If not specified, the minimum of the data range is used to calculate the tick minimum
+		 * @name INumericTickGenerationOptions#min
+		 * @type Number
+		 * @optional
+		 */
+		/**
+		 * The maximum value of the ticks. If not specified, the maximum of the data range is used to calculate the tick maximum
+		 * @name INumericTickGenerationOptions#max
+		 * @type Number
+		 * @optional
+		 */
+
+		/**
+		 * Generate a set of linear ticks
+		 * @method Chart.Ticks.generators.linear
+		 * @param generationOptions {INumericTickGenerationOptions} the options used to generate the ticks
+		 * @param dataRange {IRange} the range of the data
+		 * @returns {Array<Number>} array of tick values
+		 */
+		linear: function(generationOptions, dataRange) {
+			var ticks = [];
+			// To get a "nice" value for the tick spacing, we will use the appropriately named
+			// "nice number" algorithm. See http://stackoverflow.com/questions/8506881/nice-label-algorithm-for-charts-with-minimum-ticks
+			// for details.
+
+			var spacing;
+			if (generationOptions.stepSize && generationOptions.stepSize > 0) {
+				spacing = generationOptions.stepSize;
+			} else {
+				var niceRange = helpers.niceNum(dataRange.max - dataRange.min, false);
+				spacing = helpers.niceNum(niceRange / (generationOptions.maxTicks - 1), true);
+			}
+			var niceMin = Math.floor(dataRange.min / spacing) * spacing;
+			var niceMax = Math.ceil(dataRange.max / spacing) * spacing;
+
+			// If min, max and stepSize is set and they make an evenly spaced scale use it.
+			if (generationOptions.min && generationOptions.max && generationOptions.stepSize) {
+				// If very close to our whole number, use it.
+				if (helpers.almostWhole((generationOptions.max - generationOptions.min) / generationOptions.stepSize, spacing / 1000)) {
+					niceMin = generationOptions.min;
+					niceMax = generationOptions.max;
+				}
+			}
+
+			var numSpaces = (niceMax - niceMin) / spacing;
+			// If very close to our rounded value, use it.
+			if (helpers.almostEquals(numSpaces, Math.round(numSpaces), spacing / 1000)) {
+				numSpaces = Math.round(numSpaces);
+			} else {
+				numSpaces = Math.ceil(numSpaces);
+			}
+
+			// Put the values into the ticks array
+			ticks.push(generationOptions.min !== undefined ? generationOptions.min : niceMin);
+			for (var j = 1; j < numSpaces; ++j) {
+				ticks.push(niceMin + (j * spacing));
+			}
+			ticks.push(generationOptions.max !== undefined ? generationOptions.max : niceMax);
+
+			return ticks;
+		},
+
+		/**
+		 * Generate a set of logarithmic ticks
+		 * @method Chart.Ticks.generators.logarithmic
+		 * @param generationOptions {INumericTickGenerationOptions} the options used to generate the ticks
+		 * @param dataRange {IRange} the range of the data
+		 * @returns {Array<Number>} array of tick values
+		 */
+		logarithmic: function(generationOptions, dataRange) {
+			var ticks = [];
+			var valueOrDefault = helpers.valueOrDefault;
+
+			// Figure out what the max number of ticks we can support it is based on the size of
+			// the axis area. For now, we say that the minimum tick spacing in pixels must be 50
+			// We also limit the maximum number of ticks to 11 which gives a nice 10 squares on
+			// the graph
+			var tickVal = valueOrDefault(generationOptions.min, Math.pow(10, Math.floor(helpers.log10(dataRange.min))));
+
+			var endExp = Math.floor(helpers.log10(dataRange.max));
+			var endSignificand = Math.ceil(dataRange.max / Math.pow(10, endExp));
+			var exp, significand;
+
+			if (tickVal === 0) {
+				exp = Math.floor(helpers.log10(dataRange.minNotZero));
+				significand = Math.floor(dataRange.minNotZero / Math.pow(10, exp));
+
+				ticks.push(tickVal);
+				tickVal = significand * Math.pow(10, exp);
+			} else {
+				exp = Math.floor(helpers.log10(tickVal));
+				significand = Math.floor(tickVal / Math.pow(10, exp));
+			}
+
+			do {
+				ticks.push(tickVal);
+
+				++significand;
+				if (significand === 10) {
+					significand = 1;
+					++exp;
+				}
+
+				tickVal = significand * Math.pow(10, exp);
+			} while (exp < endExp || (exp === endExp && significand < endSignificand));
+
+			var lastTick = valueOrDefault(generationOptions.max, tickVal);
+			ticks.push(lastTick);
+
+			return ticks;
+		}
+	},
+
+	/**
+	 * Namespace to hold formatters for different types of ticks
+	 * @namespace Chart.Ticks.formatters
+	 */
+	formatters: {
+		/**
+		 * Formatter for value labels
+		 * @method Chart.Ticks.formatters.values
+		 * @param value the value to display
+		 * @return {String|Array} the label to display
+		 */
+		values: function(value) {
+			return helpers.isArray(value) ? value : '' + value;
+		},
+
+		/**
+		 * Formatter for linear numeric ticks
+		 * @method Chart.Ticks.formatters.linear
+		 * @param tickValue {Number} the value to be formatted
+		 * @param index {Number} the position of the tickValue parameter in the ticks array
+		 * @param ticks {Array<Number>} the list of ticks being converted
+		 * @return {String} string representation of the tickValue parameter
+		 */
+		linear: function(tickValue, index, ticks) {
+			// If we have lots of ticks, don't use the ones
+			var delta = ticks.length > 3 ? ticks[2] - ticks[1] : ticks[1] - ticks[0];
+
+			// If we have a number like 2.5 as the delta, figure out how many decimal places we need
+			if (Math.abs(delta) > 1) {
+				if (tickValue !== Math.floor(tickValue)) {
+					// not an integer
+					delta = tickValue - Math.floor(tickValue);
+				}
+			}
+
+			var logDelta = helpers.log10(Math.abs(delta));
+			var tickString = '';
+
+			if (tickValue !== 0) {
+				var numDecimal = -1 * Math.floor(logDelta);
+				numDecimal = Math.max(Math.min(numDecimal, 20), 0); // toFixed has a max of 20 decimal places
+				tickString = tickValue.toFixed(numDecimal);
+			} else {
+				tickString = '0'; // never show decimal places for 0
+			}
+
+			return tickString;
+		},
+
+		logarithmic: function(tickValue, index, ticks) {
+			var remain = tickValue / (Math.pow(10, Math.floor(helpers.log10(tickValue))));
+
+			if (tickValue === 0) {
+				return '0';
+			} else if (remain === 1 || remain === 2 || remain === 5 || index === 0 || index === ticks.length - 1) {
+				return tickValue.toExponential();
+			}
+			return '';
+		}
+	}
+};
+
+
+/***/ }),
+/* 23 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var Symbol = __webpack_require__(33),
+    getRawTag = __webpack_require__(356),
+    objectToString = __webpack_require__(357);
+
+/** `Object#toString` result references. */
+var nullTag = '[object Null]',
+    undefinedTag = '[object Undefined]';
+
+/** Built-in value references. */
+var symToStringTag = Symbol ? Symbol.toStringTag : undefined;
+
+/**
+ * The base implementation of `getTag` without fallbacks for buggy environments.
+ *
+ * @private
+ * @param {*} value The value to query.
+ * @returns {string} Returns the `toStringTag`.
+ */
+function baseGetTag(value) {
+  if (value == null) {
+    return value === undefined ? undefinedTag : nullTag;
+  }
+  return (symToStringTag && symToStringTag in Object(value))
+    ? getRawTag(value)
+    : objectToString(value);
+}
+
+module.exports = baseGetTag;
+
+
+/***/ }),
+/* 24 */
+/***/ (function(module, exports) {
+
+/**
+ * Checks if `value` is object-like. A value is object-like if it's not `null`
+ * and has a `typeof` result of "object".
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+ * @example
+ *
+ * _.isObjectLike({});
+ * // => true
+ *
+ * _.isObjectLike([1, 2, 3]);
+ * // => true
+ *
+ * _.isObjectLike(_.noop);
+ * // => false
+ *
+ * _.isObjectLike(null);
+ * // => false
+ */
+function isObjectLike(value) {
+  return value != null && typeof value == 'object';
+}
+
+module.exports = isObjectLike;
+
+
+/***/ }),
+/* 25 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+
+
+var emptyObject = {};
+
+if (process.env.NODE_ENV !== 'production') {
+  Object.freeze(emptyObject);
+}
+
+module.exports = emptyObject;
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+
+/***/ }),
+/* 26 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {/**
+ * Copyright (c) 2014-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+
+
+var emptyFunction = __webpack_require__(11);
+
+/**
+ * Similar to invariant but only logs a warning if the condition is not met.
+ * This can be used to log issues in development environments in critical
+ * paths. Removing the logging code for production environments will keep the
+ * same logic and follow the same code paths.
+ */
+
+var warning = emptyFunction;
+
+if (process.env.NODE_ENV !== 'production') {
+  var printWarning = function printWarning(format) {
+    for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+      args[_key - 1] = arguments[_key];
+    }
+
+    var argIndex = 0;
+    var message = 'Warning: ' + format.replace(/%s/g, function () {
+      return args[argIndex++];
+    });
+    if (typeof console !== 'undefined') {
+      console.error(message);
+    }
+    try {
+      // --- Welcome to debugging React ---
+      // This error was thrown as a convenience so that you can use this stack
+      // to find the callsite that caused this warning to fire.
+      throw new Error(message);
+    } catch (x) {}
+  };
+
+  warning = function warning(condition, format) {
+    if (format === undefined) {
+      throw new Error('`warning(condition, format, ...args)` requires a warning ' + 'message argument');
+    }
+
+    if (format.indexOf('Failed Composite propType: ') === 0) {
+      return; // Ignore CompositeComponent proptype check.
+    }
+
+    if (!condition) {
+      for (var _len2 = arguments.length, args = Array(_len2 > 2 ? _len2 - 2 : 0), _key2 = 2; _key2 < _len2; _key2++) {
+        args[_key2 - 2] = arguments[_key2];
+      }
+
+      printWarning.apply(undefined, [format].concat(args));
+    }
+  };
+}
+
+module.exports = warning;
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+
+/***/ }),
+/* 27 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return createLocation; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return locationsAreEqual; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_resolve_pathname__ = __webpack_require__(66);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_value_equal__ = __webpack_require__(67);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__PathUtils__ = __webpack_require__(19);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+
+
+
+
+var createLocation = function createLocation(path, state, key, currentLocation) {
+  var location = void 0;
+  if (typeof path === 'string') {
+    // Two-arg form: push(path, state)
+    location = Object(__WEBPACK_IMPORTED_MODULE_2__PathUtils__["d" /* parsePath */])(path);
+    location.state = state;
+  } else {
+    // One-arg form: push(location)
+    location = _extends({}, path);
+
+    if (location.pathname === undefined) location.pathname = '';
+
+    if (location.search) {
+      if (location.search.charAt(0) !== '?') location.search = '?' + location.search;
+    } else {
+      location.search = '';
+    }
+
+    if (location.hash) {
+      if (location.hash.charAt(0) !== '#') location.hash = '#' + location.hash;
+    } else {
+      location.hash = '';
+    }
+
+    if (state !== undefined && location.state === undefined) location.state = state;
+  }
+
+  try {
+    location.pathname = decodeURI(location.pathname);
+  } catch (e) {
+    if (e instanceof URIError) {
+      throw new URIError('Pathname "' + location.pathname + '" could not be decoded. ' + 'This is likely caused by an invalid percent-encoding.');
+    } else {
+      throw e;
+    }
+  }
+
+  if (key) location.key = key;
+
+  if (currentLocation) {
+    // Resolve incomplete/relative pathname relative to current location.
+    if (!location.pathname) {
+      location.pathname = currentLocation.pathname;
+    } else if (location.pathname.charAt(0) !== '/') {
+      location.pathname = Object(__WEBPACK_IMPORTED_MODULE_0_resolve_pathname__["default"])(location.pathname, currentLocation.pathname);
+    }
+  } else {
+    // When there is no prior location and pathname is empty, set it to /
+    if (!location.pathname) {
+      location.pathname = '/';
+    }
+  }
+
+  return location;
+};
+
+var locationsAreEqual = function locationsAreEqual(a, b) {
+  return a.pathname === b.pathname && a.search === b.search && a.hash === b.hash && a.key === b.key && Object(__WEBPACK_IMPORTED_MODULE_1_value_equal__["default"])(a.state, b.state);
+};
+
+/***/ }),
+/* 28 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _templateObject = _taggedTemplateLiteral(['\n      font-weight: bold;\n      font-family: \'Kanit\', sans-serif;\n    '], ['\n      font-weight: bold;\n      font-family: \'Kanit\', sans-serif;\n    ']);
+
+var _react = __webpack_require__(2);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRouterDom = __webpack_require__(65);
+
+__webpack_require__(264);
+
+var _styledComponents = __webpack_require__(272);
+
+var _styledComponents2 = _interopRequireDefault(_styledComponents);
+
+var _Store = __webpack_require__(20);
+
+var _Store2 = _interopRequireDefault(_Store);
+
+var _uuid = __webpack_require__(29);
+
+var _uuid2 = _interopRequireDefault(_uuid);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+//import { menuItems } from '../data/menuItems'
+
+
+var Menu = function (_Component) {
+  _inherits(Menu, _Component);
+
+  function Menu(props) {
+    _classCallCheck(this, Menu);
+
+    var _this = _possibleConstructorReturn(this, (Menu.__proto__ || Object.getPrototypeOf(Menu)).call(this, props));
+
+    _this._processStore = function () {
+      _this.setState({ masterMenuItems: _Store2.default.menu.master, nodeMenuItems: _Store2.default.menu.nodes });
+    };
+
+    _this.state = {
+      currentUrl: props.url,
+      activeMenu: {
+        backgroundColor: 'hsl(217, 71%, 50%)',
+        color: 'white'
+      },
+      activeSubMenu: {
+        color: '#4468B0'
+      },
+      masterMenuItems: [],
+      nodeMenuItems: []
+    };
+
+    _Store2.default.addListener(function () {
+      _this._processStore();
+    });
+
+    return _this;
+  }
+
+  _createClass(Menu, [{
+    key: 'componentWillMount',
+    value: function componentWillMount() {
+      if (this.state.masterMenuItems.length !== 0) {
+        this._processStore();
+      }
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _this2 = this;
+
+      var BoldSpan = _styledComponents2.default.span(_templateObject);
+
+      return _react2.default.createElement(
+        'aside',
+        { className: 'menu' },
+        _react2.default.createElement(
+          'p',
+          { className: 'menu-label' },
+          'Master'
+        ),
+        _react2.default.createElement(
+          'ul',
+          { className: 'menu-list' },
+          this.state.masterMenuItems.map(function (menuItem) {
+
+            var nodes = [];
+
+            menuItem.children.forEach(function (subMenu) {
+              // render sub menu
+
+              nodes.push(_react2.default.createElement(
+                'li',
+                { key: (0, _uuid2.default)() },
+                _react2.default.createElement(
+                  _reactRouterDom.NavLink,
+                  { activeStyle: _this2.state.activeSubMenu, to: subMenu.url },
+                  _react2.default.createElement(
+                    BoldSpan,
+                    null,
+                    _react2.default.createElement('i', { className: 'fa fa-code-fork' }),
+                    ' ',
+                    subMenu.name
+                  )
+                )
+              ));
+            });
+
+            return _react2.default.createElement(
+              'li',
+              { key: (0, _uuid2.default)() },
+              _react2.default.createElement(
+                _reactRouterDom.NavLink,
+                { activeStyle: _this2.state.activeSubMenu, to: menuItem.url },
+                _react2.default.createElement(
+                  BoldSpan,
+                  null,
+                  _react2.default.createElement('i', { className: menuItem.icon }),
+                  ' ',
+                  menuItem.name
+                )
+              ),
+              _react2.default.createElement(
+                'ul',
+                null,
+                nodes.map(function (node) {
+                  return node;
+                })
+              )
+            );
+          })
+        ),
+        _react2.default.createElement(
+          'p',
+          { className: 'menu-label' },
+          'Nodes'
+        ),
+        _react2.default.createElement(
+          'ul',
+          { className: 'menu-list' },
+          this.state.nodeMenuItems.map(function (menuItem) {
+
+            var group = [];
+
+            group.push( // render menu
+            _react2.default.createElement(
+              'li',
+              { key: (0, _uuid2.default)() },
+              _react2.default.createElement(
+                _reactRouterDom.NavLink,
+                { activeStyle: _this2.state.activeMenu, to: menuItem.url },
+                _react2.default.createElement(
+                  BoldSpan,
+                  null,
+                  _react2.default.createElement('i', { className: menuItem.icon }),
+                  ' ',
+                  menuItem.name
+                )
+              )
+            ));
+
+            return group;
+          })
+        )
+      );
+    }
+  }]);
+
+  return Menu;
+}(_react.Component);
+
+exports.default = Menu;
+
+/***/ }),
+/* 29 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var v1 = __webpack_require__(290);
+var v4 = __webpack_require__(291);
+
+var uuid = v4;
+uuid.v1 = v1;
+uuid.v4 = v4;
+
+module.exports = uuid;
+
+
+/***/ }),
 /* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8511,11 +8460,11 @@ helpers.getValueAtIndexOrDefault = helpers.valueAtIndexOrDefault;
 /* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var listCacheClear = __webpack_require__(343),
-    listCacheDelete = __webpack_require__(344),
-    listCacheGet = __webpack_require__(345),
-    listCacheHas = __webpack_require__(346),
-    listCacheSet = __webpack_require__(347);
+var listCacheClear = __webpack_require__(345),
+    listCacheDelete = __webpack_require__(346),
+    listCacheGet = __webpack_require__(347),
+    listCacheHas = __webpack_require__(348),
+    listCacheSet = __webpack_require__(349);
 
 /**
  * Creates an list cache object.
@@ -8549,7 +8498,7 @@ module.exports = ListCache;
 /* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var eq = __webpack_require__(199);
+var eq = __webpack_require__(201);
 
 /**
  * Gets the index at which the `key` is found in `array` of key-value pairs.
@@ -8637,7 +8586,7 @@ module.exports = nativeCreate;
 /* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isKeyable = __webpack_require__(367);
+var isKeyable = __webpack_require__(369);
 
 /**
  * Gets the data for `map`.
@@ -8661,8 +8610,8 @@ module.exports = getMapData;
 /* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseGetTag = __webpack_require__(22),
-    isObjectLike = __webpack_require__(23);
+var baseGetTag = __webpack_require__(23),
+    isObjectLike = __webpack_require__(24);
 
 /** `Object#toString` result references. */
 var symbolTag = '[object Symbol]';
@@ -8735,7 +8684,7 @@ module.exports = toKey;
 
 if (process.env.NODE_ENV !== 'production') {
   var invariant = __webpack_require__(6);
-  var warning = __webpack_require__(25);
+  var warning = __webpack_require__(26);
   var ReactPropTypesSecret = __webpack_require__(40);
   var loggedTypeFailures = {};
 }
@@ -8888,11 +8837,11 @@ exports.locationsAreEqual = exports.createLocation = undefined;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-var _resolvePathname = __webpack_require__(64);
+var _resolvePathname = __webpack_require__(66);
 
 var _resolvePathname2 = _interopRequireDefault(_resolvePathname);
 
-var _valueEqual = __webpack_require__(65);
+var _valueEqual = __webpack_require__(67);
 
 var _valueEqual2 = _interopRequireDefault(_valueEqual);
 
@@ -9354,13 +9303,49 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _flux = __webpack_require__(288);
+
+var dispatcher = new _flux.Dispatcher();
+
+exports.default = dispatcher;
+
+/***/ }),
+/* 49 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var ActionTypes = {
+  START_GET_DATA: 'START_GET_DATA',
+  DONE_GET_DATA: 'DONE_GET_DATA',
+  DONE_GET_MENU: 'DONE_GET_MENU',
+  GOT_MENU_UPDATES: 'GOT_MENU_UPDATES'
+};
+
+exports.default = ActionTypes;
+
+/***/ }),
+/* 50 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
 var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactChartjs = __webpack_require__(292);
+var _reactChartjs = __webpack_require__(294);
 
-var _uuid = __webpack_require__(28);
+var _uuid = __webpack_require__(29);
 
 var _uuid2 = _interopRequireDefault(_uuid);
 
@@ -9375,7 +9360,7 @@ var LineMultiAxis = function LineMultiAxis(props) {
 
   //console.log(props.data)
 
-  props.data.map(function (obj) {
+  props.data.map(function (chart) {
 
     var key = (0, _uuid2.default)();
     var r = parseInt((Math.random() * 255).toFixed(0));
@@ -9383,7 +9368,7 @@ var LineMultiAxis = function LineMultiAxis(props) {
     var b = parseInt((Math.random() * 255).toFixed(0));
 
     datasets.push({
-      label: obj.name,
+      label: chart.label,
       fill: true,
       lineTension: 0,
       backgroundColor: 'rgba(' + r + ', ' + g + ', ' + b + ', 0.3)',
@@ -9401,7 +9386,7 @@ var LineMultiAxis = function LineMultiAxis(props) {
       //pointHoverBorderWidth: 2,
       pointRadius: 3,
       //pointHitRadius: 5,
-      data: obj.chart.data,
+      data: chart.data,
       yAxisID: key
     });
 
@@ -9437,7 +9422,7 @@ var LineMultiAxis = function LineMultiAxis(props) {
 exports.default = LineMultiAxis;
 
 /***/ }),
-/* 49 */
+/* 51 */
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -9465,11 +9450,11 @@ module.exports = function(module) {
 
 
 /***/ }),
-/* 50 */
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseIsEqualDeep = __webpack_require__(342),
-    isObjectLike = __webpack_require__(23);
+var baseIsEqualDeep = __webpack_require__(344),
+    isObjectLike = __webpack_require__(24);
 
 /**
  * The base implementation of `_.isEqual` which supports partial comparisons
@@ -9499,7 +9484,7 @@ module.exports = baseIsEqual;
 
 
 /***/ }),
-/* 51 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var getNative = __webpack_require__(15),
@@ -9512,14 +9497,14 @@ module.exports = Map;
 
 
 /***/ }),
-/* 52 */
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var mapCacheClear = __webpack_require__(359),
-    mapCacheDelete = __webpack_require__(366),
-    mapCacheGet = __webpack_require__(368),
-    mapCacheHas = __webpack_require__(369),
-    mapCacheSet = __webpack_require__(370);
+var mapCacheClear = __webpack_require__(361),
+    mapCacheDelete = __webpack_require__(368),
+    mapCacheGet = __webpack_require__(370),
+    mapCacheHas = __webpack_require__(371),
+    mapCacheSet = __webpack_require__(372);
 
 /**
  * Creates a map cache object to store key-value pairs.
@@ -9550,12 +9535,12 @@ module.exports = MapCache;
 
 
 /***/ }),
-/* 53 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var arrayLikeKeys = __webpack_require__(387),
-    baseKeys = __webpack_require__(394),
-    isArrayLike = __webpack_require__(208);
+var arrayLikeKeys = __webpack_require__(389),
+    baseKeys = __webpack_require__(396),
+    isArrayLike = __webpack_require__(210);
 
 /**
  * Creates an array of the own enumerable property names of `object`.
@@ -9593,7 +9578,7 @@ module.exports = keys;
 
 
 /***/ }),
-/* 54 */
+/* 56 */
 /***/ (function(module, exports) {
 
 /** Used as references for various `Number` constants. */
@@ -9634,7 +9619,7 @@ module.exports = isLength;
 
 
 /***/ }),
-/* 55 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isArray = __webpack_require__(14),
@@ -9669,7 +9654,7 @@ module.exports = isKey;
 
 
 /***/ }),
-/* 56 */
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9683,11 +9668,11 @@ var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactSvgGauge = __webpack_require__(79);
+var _reactSvgGauge = __webpack_require__(81);
 
 var _reactSvgGauge2 = _interopRequireDefault(_reactSvgGauge);
 
-var _uuid = __webpack_require__(28);
+var _uuid = __webpack_require__(29);
 
 var _uuid2 = _interopRequireDefault(_uuid);
 
@@ -9721,7 +9706,7 @@ exports.default = function (props) {
 };
 
 /***/ }),
-/* 57 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9821,7 +9806,7 @@ module.exports = defaults;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
-/* 58 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9860,7 +9845,7 @@ var ExecutionEnvironment = {
 module.exports = ExecutionEnvironment;
 
 /***/ }),
-/* 59 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9941,7 +9926,7 @@ module.exports = EventListener;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
-/* 60 */
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9983,7 +9968,7 @@ function getActiveElement(doc) /*?DOMElement*/{
 module.exports = getActiveElement;
 
 /***/ }),
-/* 61 */
+/* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10026,7 +10011,7 @@ function containsNode(outerNode, innerNode) {
 module.exports = containsNode;
 
 /***/ }),
-/* 62 */
+/* 64 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10056,7 +10041,7 @@ function focusNode(node) {
 module.exports = focusNode;
 
 /***/ }),
-/* 63 */
+/* 65 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -10065,7 +10050,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "BrowserRouter", function() { return __WEBPACK_IMPORTED_MODULE_0__BrowserRouter__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__HashRouter__ = __webpack_require__(236);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "HashRouter", function() { return __WEBPACK_IMPORTED_MODULE_1__HashRouter__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Link__ = __webpack_require__(67);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Link__ = __webpack_require__(69);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Link", function() { return __WEBPACK_IMPORTED_MODULE_2__Link__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__MemoryRouter__ = __webpack_require__(238);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "MemoryRouter", function() { return __WEBPACK_IMPORTED_MODULE_3__MemoryRouter__["a"]; });
@@ -10075,7 +10060,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Prompt", function() { return __WEBPACK_IMPORTED_MODULE_5__Prompt__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Redirect__ = __webpack_require__(246);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Redirect", function() { return __WEBPACK_IMPORTED_MODULE_6__Redirect__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__Route__ = __webpack_require__(68);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__Route__ = __webpack_require__(70);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Route", function() { return __WEBPACK_IMPORTED_MODULE_7__Route__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__Router__ = __webpack_require__(44);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Router", function() { return __WEBPACK_IMPORTED_MODULE_8__Router__["a"]; });
@@ -10115,7 +10100,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /***/ }),
-/* 64 */
+/* 66 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -10192,7 +10177,7 @@ function resolvePathname(to) {
 /* harmony default export */ __webpack_exports__["default"] = (resolvePathname);
 
 /***/ }),
-/* 65 */
+/* 67 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -10237,7 +10222,7 @@ function valueEqual(a, b) {
 /* harmony default export */ __webpack_exports__["default"] = (valueEqual);
 
 /***/ }),
-/* 66 */
+/* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10298,7 +10283,7 @@ var isExtraneousPopstateEvent = exports.isExtraneousPopstateEvent = function isE
 };
 
 /***/ }),
-/* 67 */
+/* 69 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -10408,18 +10393,18 @@ Link.contextTypes = {
 /* harmony default export */ __webpack_exports__["a"] = (Link);
 
 /***/ }),
-/* 68 */
+/* 70 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react_router_es_Route__ = __webpack_require__(69);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react_router_es_Route__ = __webpack_require__(71);
 // Written in this round about way for babel-transform-imports
 
 
 /* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_0_react_router_es_Route__["a" /* default */]);
 
 /***/ }),
-/* 69 */
+/* 71 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -10568,7 +10553,7 @@ Route.childContextTypes = {
 /* harmony default export */ __webpack_exports__["a"] = (Route);
 
 /***/ }),
-/* 70 */
+/* 72 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -10634,7 +10619,7 @@ var isExtraneousPopstateEvent = function isExtraneousPopstateEvent(event) {
 };
 
 /***/ }),
-/* 71 */
+/* 73 */
 /***/ (function(module, exports) {
 
 /*
@@ -10716,7 +10701,7 @@ function toComment(sourceMap) {
 
 
 /***/ }),
-/* 72 */
+/* 74 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -11088,7 +11073,7 @@ function updateLink (link, options, obj) {
 
 
 /***/ }),
-/* 73 */
+/* 75 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11170,7 +11155,7 @@ module.exports = FluxStoreGroup;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
-/* 74 */
+/* 76 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11285,7 +11270,7 @@ module.exports = FluxStore;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
-/* 75 */
+/* 77 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11339,7 +11324,7 @@ var EmitterSubscription = (function (_EventSubscription) {
 module.exports = EmitterSubscription;
 
 /***/ }),
-/* 76 */
+/* 78 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {// Unique ID creation requires a high quality random # generator.  In the
@@ -11376,10 +11361,10 @@ if (!rng) {
 
 module.exports = rng;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(77)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(79)))
 
 /***/ }),
-/* 77 */
+/* 79 */
 /***/ (function(module, exports) {
 
 var g;
@@ -11406,7 +11391,7 @@ module.exports = g;
 
 
 /***/ }),
-/* 78 */
+/* 80 */
 /***/ (function(module, exports) {
 
 /**
@@ -11435,7 +11420,7 @@ module.exports = bytesToUuid;
 
 
 /***/ }),
-/* 79 */
+/* 81 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11604,12 +11589,12 @@ exports.default = Gauge;
 module.exports = exports['default'];
 
 /***/ }),
-/* 80 */
+/* 82 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* MIT license */
-var convert = __webpack_require__(299);
-var string = __webpack_require__(301);
+var convert = __webpack_require__(301);
+var string = __webpack_require__(303);
 
 var Color = function (obj) {
 	if (obj instanceof Color) {
@@ -12095,7 +12080,7 @@ module.exports = Color;
 
 
 /***/ }),
-/* 81 */
+/* 83 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12432,15 +12417,15 @@ module.exports = {
 
 
 /***/ }),
-/* 82 */
+/* 84 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var helpers = __webpack_require__(1);
-var basic = __webpack_require__(307);
-var dom = __webpack_require__(308);
+var basic = __webpack_require__(309);
+var dom = __webpack_require__(310);
 
 // @TODO Make possible to select another platform at build time.
 var implementation = dom._enabled ? dom : basic;
@@ -12513,7 +12498,7 @@ module.exports = helpers.extend({
 
 
 /***/ }),
-/* 83 */
+/* 85 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -12591,7 +12576,7 @@ return af;
 
 
 /***/ }),
-/* 84 */
+/* 86 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -12738,7 +12723,7 @@ return ar;
 
 
 /***/ }),
-/* 85 */
+/* 87 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -12802,7 +12787,7 @@ return arDz;
 
 
 /***/ }),
-/* 86 */
+/* 88 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -12866,7 +12851,7 @@ return arKw;
 
 
 /***/ }),
-/* 87 */
+/* 89 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -12997,7 +12982,7 @@ return arLy;
 
 
 /***/ }),
-/* 88 */
+/* 90 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -13062,7 +13047,7 @@ return arMa;
 
 
 /***/ }),
-/* 89 */
+/* 91 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -13172,7 +13157,7 @@ return arSa;
 
 
 /***/ }),
-/* 90 */
+/* 92 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -13236,7 +13221,7 @@ return arTn;
 
 
 /***/ }),
-/* 91 */
+/* 93 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -13346,7 +13331,7 @@ return az;
 
 
 /***/ }),
-/* 92 */
+/* 94 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -13485,7 +13470,7 @@ return be;
 
 
 /***/ }),
-/* 93 */
+/* 95 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -13580,7 +13565,7 @@ return bg;
 
 
 /***/ }),
-/* 94 */
+/* 96 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -13704,7 +13689,7 @@ return bn;
 
 
 /***/ }),
-/* 95 */
+/* 97 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -13828,7 +13813,7 @@ return bo;
 
 
 /***/ }),
-/* 96 */
+/* 98 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -13941,7 +13926,7 @@ return br;
 
 
 /***/ }),
-/* 97 */
+/* 99 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -14089,7 +14074,7 @@ return bs;
 
 
 /***/ }),
-/* 98 */
+/* 100 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -14182,7 +14167,7 @@ return ca;
 
 
 /***/ }),
-/* 99 */
+/* 101 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -14359,7 +14344,7 @@ return cs;
 
 
 /***/ }),
-/* 100 */
+/* 102 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -14427,7 +14412,7 @@ return cv;
 
 
 /***/ }),
-/* 101 */
+/* 103 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -14513,7 +14498,7 @@ return cy;
 
 
 /***/ }),
-/* 102 */
+/* 104 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -14578,7 +14563,7 @@ return da;
 
 
 /***/ }),
-/* 103 */
+/* 105 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -14661,7 +14646,7 @@ return de;
 
 
 /***/ }),
-/* 104 */
+/* 106 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -14745,7 +14730,7 @@ return deAt;
 
 
 /***/ }),
-/* 105 */
+/* 107 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -14828,7 +14813,7 @@ return deCh;
 
 
 /***/ }),
-/* 106 */
+/* 108 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -14933,7 +14918,7 @@ return dv;
 
 
 /***/ }),
-/* 107 */
+/* 109 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -15038,7 +15023,7 @@ return el;
 
 
 /***/ }),
-/* 108 */
+/* 110 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -15110,7 +15095,7 @@ return enAu;
 
 
 /***/ }),
-/* 109 */
+/* 111 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -15178,7 +15163,7 @@ return enCa;
 
 
 /***/ }),
-/* 110 */
+/* 112 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -15250,7 +15235,7 @@ return enGb;
 
 
 /***/ }),
-/* 111 */
+/* 113 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -15322,7 +15307,7 @@ return enIe;
 
 
 /***/ }),
-/* 112 */
+/* 114 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -15394,7 +15379,7 @@ return enNz;
 
 
 /***/ }),
-/* 113 */
+/* 115 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -15472,7 +15457,7 @@ return eo;
 
 
 /***/ }),
-/* 114 */
+/* 116 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -15560,7 +15545,7 @@ return es;
 
 
 /***/ }),
-/* 115 */
+/* 117 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -15647,7 +15632,7 @@ return esDo;
 
 
 /***/ }),
-/* 116 */
+/* 118 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -15732,7 +15717,7 @@ return et;
 
 
 /***/ }),
-/* 117 */
+/* 119 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -15803,7 +15788,7 @@ return eu;
 
 
 /***/ }),
-/* 118 */
+/* 120 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -15915,7 +15900,7 @@ return fa;
 
 
 /***/ }),
-/* 119 */
+/* 121 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -16027,7 +16012,7 @@ return fi;
 
 
 /***/ }),
-/* 120 */
+/* 122 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -16092,7 +16077,7 @@ return fo;
 
 
 /***/ }),
-/* 121 */
+/* 123 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -16180,7 +16165,7 @@ return fr;
 
 
 /***/ }),
-/* 122 */
+/* 124 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -16259,7 +16244,7 @@ return frCa;
 
 
 /***/ }),
-/* 123 */
+/* 125 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -16342,7 +16327,7 @@ return frCh;
 
 
 /***/ }),
-/* 124 */
+/* 126 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -16422,7 +16407,7 @@ return fy;
 
 
 /***/ }),
-/* 125 */
+/* 127 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -16503,7 +16488,7 @@ return gd;
 
 
 /***/ }),
-/* 126 */
+/* 128 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -16585,7 +16570,7 @@ return gl;
 
 
 /***/ }),
-/* 127 */
+/* 129 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -16712,7 +16697,7 @@ return gomLatn;
 
 
 /***/ }),
-/* 128 */
+/* 130 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -16816,7 +16801,7 @@ return he;
 
 
 /***/ }),
-/* 129 */
+/* 131 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -16945,7 +16930,7 @@ return hi;
 
 
 /***/ }),
-/* 130 */
+/* 132 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -17095,7 +17080,7 @@ return hr;
 
 
 /***/ }),
-/* 131 */
+/* 133 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -17209,7 +17194,7 @@ return hu;
 
 
 /***/ }),
-/* 132 */
+/* 134 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -17309,7 +17294,7 @@ return hyAm;
 
 
 /***/ }),
-/* 133 */
+/* 135 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -17397,7 +17382,7 @@ return id;
 
 
 /***/ }),
-/* 134 */
+/* 136 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -17529,7 +17514,7 @@ return is;
 
 
 /***/ }),
-/* 135 */
+/* 137 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -17604,7 +17589,7 @@ return it;
 
 
 /***/ }),
-/* 136 */
+/* 138 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -17689,7 +17674,7 @@ return ja;
 
 
 /***/ }),
-/* 137 */
+/* 139 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -17777,7 +17762,7 @@ return jv;
 
 
 /***/ }),
-/* 138 */
+/* 140 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -17871,7 +17856,7 @@ return ka;
 
 
 /***/ }),
-/* 139 */
+/* 141 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -17963,7 +17948,7 @@ return kk;
 
 
 /***/ }),
-/* 140 */
+/* 142 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -18026,7 +18011,7 @@ return km;
 
 
 /***/ }),
-/* 141 */
+/* 143 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -18157,7 +18142,7 @@ return kn;
 
 
 /***/ }),
-/* 142 */
+/* 144 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -18231,7 +18216,7 @@ return ko;
 
 
 /***/ }),
-/* 143 */
+/* 145 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -18324,7 +18309,7 @@ return ky;
 
 
 /***/ }),
-/* 144 */
+/* 146 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -18466,7 +18451,7 @@ return lb;
 
 
 /***/ }),
-/* 145 */
+/* 147 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -18541,7 +18526,7 @@ return lo;
 
 
 /***/ }),
-/* 146 */
+/* 148 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -18663,7 +18648,7 @@ return lt;
 
 
 /***/ }),
-/* 147 */
+/* 149 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -18765,7 +18750,7 @@ return lv;
 
 
 /***/ }),
-/* 148 */
+/* 150 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -18881,7 +18866,7 @@ return me;
 
 
 /***/ }),
-/* 149 */
+/* 151 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -18950,7 +18935,7 @@ return mi;
 
 
 /***/ }),
-/* 150 */
+/* 152 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -19045,7 +19030,7 @@ return mk;
 
 
 /***/ }),
-/* 151 */
+/* 153 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -19131,7 +19116,7 @@ return ml;
 
 
 /***/ }),
-/* 152 */
+/* 154 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -19295,7 +19280,7 @@ return mr;
 
 
 /***/ }),
-/* 153 */
+/* 155 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -19382,7 +19367,7 @@ return ms;
 
 
 /***/ }),
-/* 154 */
+/* 156 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -19470,7 +19455,7 @@ return msMy;
 
 
 /***/ }),
-/* 155 */
+/* 157 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -19571,7 +19556,7 @@ return my;
 
 
 /***/ }),
-/* 156 */
+/* 158 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -19639,7 +19624,7 @@ return nb;
 
 
 /***/ }),
-/* 157 */
+/* 159 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -19767,7 +19752,7 @@ return ne;
 
 
 /***/ }),
-/* 158 */
+/* 160 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -19860,7 +19845,7 @@ return nl;
 
 
 /***/ }),
-/* 159 */
+/* 161 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -19953,7 +19938,7 @@ return nlBe;
 
 
 /***/ }),
-/* 160 */
+/* 162 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -20018,7 +20003,7 @@ return nn;
 
 
 /***/ }),
-/* 161 */
+/* 163 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -20147,7 +20132,7 @@ return paIn;
 
 
 /***/ }),
-/* 162 */
+/* 164 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -20259,7 +20244,7 @@ return pl;
 
 
 /***/ }),
-/* 163 */
+/* 165 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -20329,7 +20314,7 @@ return pt;
 
 
 /***/ }),
-/* 164 */
+/* 166 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -20395,7 +20380,7 @@ return ptBr;
 
 
 /***/ }),
-/* 165 */
+/* 167 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -20475,7 +20460,7 @@ return ro;
 
 
 /***/ }),
-/* 166 */
+/* 168 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -20663,7 +20648,7 @@ return ru;
 
 
 /***/ }),
-/* 167 */
+/* 169 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -20766,7 +20751,7 @@ return sd;
 
 
 /***/ }),
-/* 168 */
+/* 170 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -20832,7 +20817,7 @@ return se;
 
 
 /***/ }),
-/* 169 */
+/* 171 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -20908,7 +20893,7 @@ return si;
 
 
 /***/ }),
-/* 170 */
+/* 172 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -21063,7 +21048,7 @@ return sk;
 
 
 /***/ }),
-/* 171 */
+/* 173 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -21230,7 +21215,7 @@ return sl;
 
 
 /***/ }),
-/* 172 */
+/* 174 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -21305,7 +21290,7 @@ return sq;
 
 
 /***/ }),
-/* 173 */
+/* 175 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -21420,7 +21405,7 @@ return sr;
 
 
 /***/ }),
-/* 174 */
+/* 176 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -21535,7 +21520,7 @@ return srCyrl;
 
 
 /***/ }),
-/* 175 */
+/* 177 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -21629,7 +21614,7 @@ return ss;
 
 
 /***/ }),
-/* 176 */
+/* 178 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -21703,7 +21688,7 @@ return sv;
 
 
 /***/ }),
-/* 177 */
+/* 179 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -21767,7 +21752,7 @@ return sw;
 
 
 /***/ }),
-/* 178 */
+/* 180 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -21902,7 +21887,7 @@ return ta;
 
 
 /***/ }),
-/* 179 */
+/* 181 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -21996,7 +21981,7 @@ return te;
 
 
 /***/ }),
-/* 180 */
+/* 182 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -22069,7 +22054,7 @@ return tet;
 
 
 /***/ }),
-/* 181 */
+/* 183 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -22141,7 +22126,7 @@ return th;
 
 
 /***/ }),
-/* 182 */
+/* 184 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -22208,7 +22193,7 @@ return tlPh;
 
 
 /***/ }),
-/* 183 */
+/* 185 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -22333,7 +22318,7 @@ return tlh;
 
 
 /***/ }),
-/* 184 */
+/* 186 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -22428,7 +22413,7 @@ return tr;
 
 
 /***/ }),
-/* 185 */
+/* 187 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -22524,7 +22509,7 @@ return tzl;
 
 
 /***/ }),
-/* 186 */
+/* 188 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -22587,7 +22572,7 @@ return tzm;
 
 
 /***/ }),
-/* 187 */
+/* 189 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -22650,7 +22635,7 @@ return tzmLatn;
 
 
 /***/ }),
-/* 188 */
+/* 190 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -22806,7 +22791,7 @@ return uk;
 
 
 /***/ }),
-/* 189 */
+/* 191 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -22910,7 +22895,7 @@ return ur;
 
 
 /***/ }),
-/* 190 */
+/* 192 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -22973,7 +22958,7 @@ return uz;
 
 
 /***/ }),
-/* 191 */
+/* 193 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -23036,7 +23021,7 @@ return uzLatn;
 
 
 /***/ }),
-/* 192 */
+/* 194 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -23120,7 +23105,7 @@ return vi;
 
 
 /***/ }),
-/* 193 */
+/* 195 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -23193,7 +23178,7 @@ return xPseudo;
 
 
 /***/ }),
-/* 194 */
+/* 196 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -23258,7 +23243,7 @@ return yo;
 
 
 /***/ }),
-/* 195 */
+/* 197 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -23374,7 +23359,7 @@ return zhCn;
 
 
 /***/ }),
-/* 196 */
+/* 198 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -23484,7 +23469,7 @@ return zhHk;
 
 
 /***/ }),
-/* 197 */
+/* 199 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -23593,15 +23578,15 @@ return zhTw;
 
 
 /***/ }),
-/* 198 */
+/* 200 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var ListCache = __webpack_require__(31),
-    stackClear = __webpack_require__(348),
-    stackDelete = __webpack_require__(349),
-    stackGet = __webpack_require__(350),
-    stackHas = __webpack_require__(351),
-    stackSet = __webpack_require__(352);
+    stackClear = __webpack_require__(350),
+    stackDelete = __webpack_require__(351),
+    stackGet = __webpack_require__(352),
+    stackHas = __webpack_require__(353),
+    stackSet = __webpack_require__(354);
 
 /**
  * Creates a stack cache object to store key-value pairs.
@@ -23626,7 +23611,7 @@ module.exports = Stack;
 
 
 /***/ }),
-/* 199 */
+/* 201 */
 /***/ (function(module, exports) {
 
 /**
@@ -23669,10 +23654,10 @@ module.exports = eq;
 
 
 /***/ }),
-/* 200 */
+/* 202 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseGetTag = __webpack_require__(22),
+var baseGetTag = __webpack_require__(23),
     isObject = __webpack_require__(34);
 
 /** `Object#toString` result references. */
@@ -23712,7 +23697,7 @@ module.exports = isFunction;
 
 
 /***/ }),
-/* 201 */
+/* 203 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/** Detect free variable `global` from Node.js. */
@@ -23720,10 +23705,10 @@ var freeGlobal = typeof global == 'object' && global && global.Object === Object
 
 module.exports = freeGlobal;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(77)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(79)))
 
 /***/ }),
-/* 202 */
+/* 204 */
 /***/ (function(module, exports) {
 
 /** Used for built-in method references. */
@@ -23755,12 +23740,12 @@ module.exports = toSource;
 
 
 /***/ }),
-/* 203 */
+/* 205 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var SetCache = __webpack_require__(371),
-    arraySome = __webpack_require__(374),
-    cacheHas = __webpack_require__(375);
+var SetCache = __webpack_require__(373),
+    arraySome = __webpack_require__(376),
+    cacheHas = __webpack_require__(377);
 
 /** Used to compose bitmasks for value comparisons. */
 var COMPARE_PARTIAL_FLAG = 1,
@@ -23844,11 +23829,11 @@ module.exports = equalArrays;
 
 
 /***/ }),
-/* 204 */
+/* 206 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseIsArguments = __webpack_require__(389),
-    isObjectLike = __webpack_require__(23);
+var baseIsArguments = __webpack_require__(391),
+    isObjectLike = __webpack_require__(24);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -23886,11 +23871,11 @@ module.exports = isArguments;
 
 
 /***/ }),
-/* 205 */
+/* 207 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module) {var root = __webpack_require__(12),
-    stubFalse = __webpack_require__(390);
+    stubFalse = __webpack_require__(392);
 
 /** Detect free variable `exports`. */
 var freeExports = typeof exports == 'object' && exports && !exports.nodeType && exports;
@@ -23928,10 +23913,10 @@ var isBuffer = nativeIsBuffer || stubFalse;
 
 module.exports = isBuffer;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(49)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(51)(module)))
 
 /***/ }),
-/* 206 */
+/* 208 */
 /***/ (function(module, exports) {
 
 /** Used as references for various `Number` constants. */
@@ -23959,12 +23944,12 @@ module.exports = isIndex;
 
 
 /***/ }),
-/* 207 */
+/* 209 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseIsTypedArray = __webpack_require__(391),
-    baseUnary = __webpack_require__(392),
-    nodeUtil = __webpack_require__(393);
+var baseIsTypedArray = __webpack_require__(393),
+    baseUnary = __webpack_require__(394),
+    nodeUtil = __webpack_require__(395);
 
 /* Node.js helper references. */
 var nodeIsTypedArray = nodeUtil && nodeUtil.isTypedArray;
@@ -23992,11 +23977,11 @@ module.exports = isTypedArray;
 
 
 /***/ }),
-/* 208 */
+/* 210 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isFunction = __webpack_require__(200),
-    isLength = __webpack_require__(54);
+var isFunction = __webpack_require__(202),
+    isLength = __webpack_require__(56);
 
 /**
  * Checks if `value` is array-like. A value is considered array-like if it's
@@ -24031,14 +24016,14 @@ module.exports = isArrayLike;
 
 
 /***/ }),
-/* 209 */
+/* 211 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseMatches = __webpack_require__(405),
-    baseMatchesProperty = __webpack_require__(408),
-    identity = __webpack_require__(419),
+var baseMatches = __webpack_require__(407),
+    baseMatchesProperty = __webpack_require__(410),
+    identity = __webpack_require__(421),
     isArray = __webpack_require__(14),
-    property = __webpack_require__(420);
+    property = __webpack_require__(422);
 
 /**
  * The base implementation of `_.iteratee`.
@@ -24068,7 +24053,7 @@ module.exports = baseIteratee;
 
 
 /***/ }),
-/* 210 */
+/* 212 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isObject = __webpack_require__(34);
@@ -24089,7 +24074,7 @@ module.exports = isStrictComparable;
 
 
 /***/ }),
-/* 211 */
+/* 213 */
 /***/ (function(module, exports) {
 
 /**
@@ -24115,10 +24100,10 @@ module.exports = matchesStrictComparable;
 
 
 /***/ }),
-/* 212 */
+/* 214 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var castPath = __webpack_require__(213),
+var castPath = __webpack_require__(215),
     toKey = __webpack_require__(38);
 
 /**
@@ -24145,13 +24130,13 @@ module.exports = baseGet;
 
 
 /***/ }),
-/* 213 */
+/* 215 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isArray = __webpack_require__(14),
-    isKey = __webpack_require__(55),
-    stringToPath = __webpack_require__(410),
-    toString = __webpack_require__(413);
+    isKey = __webpack_require__(57),
+    stringToPath = __webpack_require__(412),
+    toString = __webpack_require__(415);
 
 /**
  * Casts `value` to a path array if it's not one.
@@ -24170,41 +24155,6 @@ function castPath(value, object) {
 
 module.exports = castPath;
 
-
-/***/ }),
-/* 214 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _flux = __webpack_require__(430);
-
-var dispatcher = new _flux.Dispatcher();
-
-exports.default = dispatcher;
-
-/***/ }),
-/* 215 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-var ActionTypes = {
-  START_GET_DATA: 'START_GET_DATA',
-  DONE_GET_DATA: 'DONE_GET_DATA',
-  DONE_GET_MENU: 'DONE_GET_MENU'
-};
-
-exports.default = ActionTypes;
 
 /***/ }),
 /* 216 */
@@ -24490,7 +24440,7 @@ var _reactDom = __webpack_require__(17);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _reactRouterDom = __webpack_require__(63);
+var _reactRouterDom = __webpack_require__(65);
 
 __webpack_require__(260);
 
@@ -24498,23 +24448,23 @@ var _Master = __webpack_require__(263);
 
 var _Master2 = _interopRequireDefault(_Master);
 
-var _Environment = __webpack_require__(291);
+var _Environment = __webpack_require__(293);
 
 var _Environment2 = _interopRequireDefault(_Environment);
 
-var _Battery = __webpack_require__(428);
+var _Battery = __webpack_require__(430);
 
 var _Battery2 = _interopRequireDefault(_Battery);
 
-var _NodeTemplate = __webpack_require__(429);
+var _NodeTemplate = __webpack_require__(431);
 
 var _NodeTemplate2 = _interopRequireDefault(_NodeTemplate);
 
-var _Dispatcher = __webpack_require__(214);
+var _Dispatcher = __webpack_require__(48);
 
 var _Dispatcher2 = _interopRequireDefault(_Dispatcher);
 
-var _Constants = __webpack_require__(215);
+var _Constants = __webpack_require__(49);
 
 var _Constants2 = _interopRequireDefault(_Constants);
 
@@ -24524,63 +24474,27 @@ var _prod2 = _interopRequireDefault(_prod);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-(0, _prod2.default)(function (DATA) {
-  console.log(DATA);
-});
+(0, _prod2.default)();
 
 var menu = {
-  masterMenuItems: [{
+  master: [{
     'url': '/',
     'name': 'CMMC',
-    'icon': 'fa fa-pie-chart'
+    'icon': 'fa fa-pie-chart',
+    'children': []
   }],
-  nodeMenuItems: [{
+  nodes: [{
     'id': 1,
     'url': '/environment',
     'name': 'สภาพแวดล้อม',
     'icon': 'fa fa-envira',
-    'children': [{
-      'id': 1,
-      'name': 'อุณหภูมิ หน้าชมรม',
-      'url': '/environment/node/1'
-    }, {
-      'id': 2,
-      'name': 'ความชื้น ห้องชมรมชั้น 2',
-      'url': '/environment/node/2'
-    }, {
-      'id': 3,
-      'name': 'เสียง ห้องชมรมชั้น 3',
-      'url': '/environment/node/3'
-    }, {
-      'id': 4,
-      'name': 'ความกดอากาศ โกดัง',
-      'url': '/environment/node/4'
-    }]
+    'children': []
   }, {
     'id': 2,
     'url': '/battery',
     'name': 'แบตเตอรี่',
     'icon': 'fa fa-battery-three-quarters',
-    'children': [{
-      'id': 1,
-      'name': 'เครื่อง หน้าชมรม',
-      'url': '/battery/node/1'
-    }, {
-      'id': 2,
-      'name': 'เครื่อง ห้องชมรมชั้น 2',
-      'url': '/battery/node/2'
-
-    }, {
-      'id': 3,
-      'name': 'เครื่อง ห้องชมรมชั้น 3',
-      'url': '/battery/node/3'
-
-    }, {
-      'id': 4,
-      'name': 'เครื่อง โกดัง',
-      'url': '/battery/node/4'
-
-    }]
+    'children': []
   }]
 };
 
@@ -24619,9 +24533,8 @@ var Main = _react2.default.createElement(
     null,
     _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: _Master2.default }),
     _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/environment', component: _Environment2.default }),
-    _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/environment/node/:id', component: _NodeTemplate2.default }),
+    _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/node/:id', component: _NodeTemplate2.default }),
     _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/battery', component: _Battery2.default }),
-    _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/battery/node/:id', component: _NodeTemplate2.default }),
     _react2.default.createElement(_reactRouterDom.Route, { component: PageNotFound })
   )
 );
@@ -24641,7 +24554,7 @@ _reactDom2.default.render(Main, document.getElementById('app'));
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-var m=__webpack_require__(16),n=__webpack_require__(24),p=__webpack_require__(11);
+var m=__webpack_require__(16),n=__webpack_require__(25),p=__webpack_require__(11);
 function q(a){for(var b=arguments.length-1,e="Minified React error #"+a+"; visit http://facebook.github.io/react/docs/error-decoder.html?invariant\x3d"+a,d=0;d<b;d++)e+="\x26args[]\x3d"+encodeURIComponent(arguments[d+1]);b=Error(e+" for the full message or use the non-minified dev environment for full errors and additional helpful warnings.");b.name="Invariant Violation";b.framesToPop=1;throw b;}
 var r={isMounted:function(){return!1},enqueueForceUpdate:function(){},enqueueReplaceState:function(){},enqueueSetState:function(){}};function t(a,b,e){this.props=a;this.context=b;this.refs=n;this.updater=e||r}t.prototype.isReactComponent={};t.prototype.setState=function(a,b){"object"!==typeof a&&"function"!==typeof a&&null!=a?q("85"):void 0;this.updater.enqueueSetState(this,a,b,"setState")};t.prototype.forceUpdate=function(a){this.updater.enqueueForceUpdate(this,a,"forceUpdate")};
 function u(a,b,e){this.props=a;this.context=b;this.refs=n;this.updater=e||r}function v(){}v.prototype=t.prototype;var w=u.prototype=new v;w.constructor=u;m(w,t.prototype);w.isPureReactComponent=!0;function x(a,b,e){this.props=a;this.context=b;this.refs=n;this.updater=e||r}var y=x.prototype=new v;y.constructor=x;m(y,t.prototype);y.unstable_isAsyncReactComponent=!0;y.render=function(){return this.props.children};
@@ -24679,8 +24592,8 @@ if (process.env.NODE_ENV !== "production") {
 
 var _assign = __webpack_require__(16);
 var invariant = __webpack_require__(6);
-var emptyObject = __webpack_require__(24);
-var warning = __webpack_require__(25);
+var emptyObject = __webpack_require__(25);
+var warning = __webpack_require__(26);
 var emptyFunction = __webpack_require__(11);
 var checkPropTypes = __webpack_require__(39);
 
@@ -26024,7 +25937,7 @@ module.exports = react;
 /*
  Modernizr 3.0.0pre (Custom Build) | MIT
 */
-var aa=__webpack_require__(2),m=__webpack_require__(58),A=__webpack_require__(16),B=__webpack_require__(11),ca=__webpack_require__(59),da=__webpack_require__(60),ea=__webpack_require__(41),ha=__webpack_require__(61),ia=__webpack_require__(62),C=__webpack_require__(24);
+var aa=__webpack_require__(2),m=__webpack_require__(60),A=__webpack_require__(16),B=__webpack_require__(11),ca=__webpack_require__(61),da=__webpack_require__(62),ea=__webpack_require__(41),ha=__webpack_require__(63),ia=__webpack_require__(64),C=__webpack_require__(25);
 function D(a){for(var b=arguments.length-1,c="Minified React error #"+a+"; visit http://facebook.github.io/react/docs/error-decoder.html?invariant\x3d"+a,d=0;d<b;d++)c+="\x26args[]\x3d"+encodeURIComponent(arguments[d+1]);b=Error(c+" for the full message or use the non-minified dev environment for full errors and additional helpful warnings.");b.name="Invariant Violation";b.framesToPop=1;throw b;}aa?void 0:D("227");
 var la={children:!0,dangerouslySetInnerHTML:!0,defaultValue:!0,defaultChecked:!0,innerHTML:!0,suppressContentEditableWarning:!0,suppressHydrationWarning:!0,style:!0};function qa(a,b){return(a&b)===b}
 var ra={MUST_USE_PROPERTY:1,HAS_BOOLEAN_VALUE:4,HAS_NUMERIC_VALUE:8,HAS_POSITIVE_NUMERIC_VALUE:24,HAS_OVERLOADED_BOOLEAN_VALUE:32,HAS_STRING_BOOLEAN_VALUE:64,injectDOMPropertyConfig:function(a){var b=ra,c=a.Properties||{},d=a.DOMAttributeNamespaces||{},e=a.DOMAttributeNames||{};a=a.DOMMutationMethods||{};for(var f in c){sa.hasOwnProperty(f)?D("48",f):void 0;var g=f.toLowerCase(),k=c[f];g={attributeName:g,attributeNamespace:null,propertyName:f,mutationMethod:null,mustUseProperty:qa(k,b.MUST_USE_PROPERTY),
@@ -26320,16 +26233,16 @@ if (process.env.NODE_ENV !== "production") {
 
 var React = __webpack_require__(2);
 var invariant = __webpack_require__(6);
-var warning = __webpack_require__(25);
-var ExecutionEnvironment = __webpack_require__(58);
+var warning = __webpack_require__(26);
+var ExecutionEnvironment = __webpack_require__(60);
 var _assign = __webpack_require__(16);
 var emptyFunction$1 = __webpack_require__(11);
-var EventListener = __webpack_require__(59);
-var getActiveElement = __webpack_require__(60);
+var EventListener = __webpack_require__(61);
+var getActiveElement = __webpack_require__(62);
 var shallowEqual = __webpack_require__(41);
-var containsNode = __webpack_require__(61);
-var focusNode = __webpack_require__(62);
-var emptyObject = __webpack_require__(24);
+var containsNode = __webpack_require__(63);
+var focusNode = __webpack_require__(64);
+var emptyObject = __webpack_require__(25);
 var checkPropTypes = __webpack_require__(39);
 var hyphenateStyleName = __webpack_require__(228);
 var camelizeStyleName = __webpack_require__(230);
@@ -41945,7 +41858,7 @@ BrowserRouter.propTypes = {
 
 var emptyFunction = __webpack_require__(11);
 var invariant = __webpack_require__(6);
-var warning = __webpack_require__(25);
+var warning = __webpack_require__(26);
 var assign = __webpack_require__(16);
 
 var ReactPropTypesSecret = __webpack_require__(40);
@@ -42573,7 +42486,7 @@ var _createTransitionManager = __webpack_require__(43);
 
 var _createTransitionManager2 = _interopRequireDefault(_createTransitionManager);
 
-var _DOMUtils = __webpack_require__(66);
+var _DOMUtils = __webpack_require__(68);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -42950,7 +42863,7 @@ var _createTransitionManager = __webpack_require__(43);
 
 var _createTransitionManager2 = _interopRequireDefault(_createTransitionManager);
 
-var _DOMUtils = __webpack_require__(66);
+var _DOMUtils = __webpack_require__(68);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -43516,8 +43429,8 @@ exports.default = createMemoryHistory;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Route__ = __webpack_require__(68);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Link__ = __webpack_require__(67);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Route__ = __webpack_require__(70);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Link__ = __webpack_require__(69);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -44261,7 +44174,7 @@ Redirect.contextTypes = {
 /* unused harmony reexport createHashHistory */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__createMemoryHistory__ = __webpack_require__(251);
 /* unused harmony reexport createMemoryHistory */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__LocationUtils__ = __webpack_require__(26);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__LocationUtils__ = __webpack_require__(27);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_3__LocationUtils__["a"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_3__LocationUtils__["b"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__PathUtils__ = __webpack_require__(19);
@@ -44286,10 +44199,10 @@ Redirect.contextTypes = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_warning___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_warning__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_invariant__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__LocationUtils__ = __webpack_require__(26);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__LocationUtils__ = __webpack_require__(27);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__PathUtils__ = __webpack_require__(19);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__createTransitionManager__ = __webpack_require__(47);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__DOMUtils__ = __webpack_require__(70);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__DOMUtils__ = __webpack_require__(72);
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
@@ -44590,10 +44503,10 @@ var createBrowserHistory = function createBrowserHistory() {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_warning___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_warning__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_invariant___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_invariant__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__LocationUtils__ = __webpack_require__(26);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__LocationUtils__ = __webpack_require__(27);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__PathUtils__ = __webpack_require__(19);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__createTransitionManager__ = __webpack_require__(47);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__DOMUtils__ = __webpack_require__(70);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__DOMUtils__ = __webpack_require__(72);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 
@@ -44910,7 +44823,7 @@ var createHashHistory = function createHashHistory() {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_warning__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_warning___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_warning__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__PathUtils__ = __webpack_require__(19);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__LocationUtils__ = __webpack_require__(26);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__LocationUtils__ = __webpack_require__(27);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__createTransitionManager__ = __webpack_require__(47);
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
@@ -45402,7 +45315,7 @@ Switch.propTypes = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_hoist_non_react_statics__ = __webpack_require__(259);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_hoist_non_react_statics___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_hoist_non_react_statics__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Route__ = __webpack_require__(69);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Route__ = __webpack_require__(71);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
@@ -45523,7 +45436,7 @@ var transform;
 var options = {"hmr":true}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(72)(content, options);
+var update = __webpack_require__(74)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -45543,7 +45456,7 @@ if(false) {
 /* 261 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(71)(undefined);
+exports = module.exports = __webpack_require__(73)(undefined);
 // imports
 
 
@@ -45669,11 +45582,11 @@ var _reactDom = __webpack_require__(17);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _Menu = __webpack_require__(27);
+var _Menu = __webpack_require__(28);
 
 var _Menu2 = _interopRequireDefault(_Menu);
 
-var _MasterGauge = __webpack_require__(290);
+var _MasterGauge = __webpack_require__(292);
 
 var _MasterGauge2 = _interopRequireDefault(_MasterGauge);
 
@@ -45681,7 +45594,7 @@ var _Store = __webpack_require__(20);
 
 var _Store2 = _interopRequireDefault(_Store);
 
-var _underscore = __webpack_require__(29);
+var _underscore = __webpack_require__(21);
 
 var _underscore2 = _interopRequireDefault(_underscore);
 
@@ -45703,13 +45616,11 @@ var Master = function (_Component) {
 
     _this._processStore = function () {
       var currentPath = _this.props.location.pathname;
-
-      var master = _underscore2.default.find(_Store2.default.state.master, function (menu) {
+      var master = _underscore2.default.find(_Store2.default.menu.master, function (menu) {
         return menu.url === currentPath;
       });
-
       _this.setState({
-        status: master.data,
+        status: master.data || [1, 2, 3, 4],
         loading: false
       });
     };
@@ -45720,26 +45631,20 @@ var Master = function (_Component) {
       status: {}
     };
 
-    console.log('===== master', _Store2.default.state);
-    _Store2.default.__emitter.addListener('nat', function () {
-      var _console;
-
-      (_console = console).log.apply(_console, arguments);
-    });
     _Store2.default.addListener(function () {
-      console.log('===== componentWillMount', _Store2.default.state);
       _this._processStore();
     });
 
-    if (_Store2.default.state.length !== 0) {
-      _this._processStore();
-    }
     return _this;
   }
 
   _createClass(Master, [{
     key: 'componentWillMount',
-    value: function componentWillMount() {}
+    value: function componentWillMount() {
+      if (_Store2.default.menu.length !== 0) {
+        this._processStore();
+      }
+    }
   }, {
     key: 'componentDidUpdate',
     value: function componentDidUpdate() {
@@ -45793,14 +45698,16 @@ var Master = function (_Component) {
                   { className: !this.state.loading ? 'card-header' : '' },
                   _react2.default.createElement(
                     'p',
-                    { className: 'card-header-title', style: { color: '#4468b0' } },
+                    { className: 'card-header-title',
+                      style: { color: '#4468b0' } },
                     !this.state.loading && 'Status'
                   )
                 ),
                 _react2.default.createElement(
                   'div',
                   { className: !this.state.loading ? 'card-content' : '' },
-                  _react2.default.createElement('div', { id: 'masterGauge', className: !this.state.loading ? 'columns' : '', style: { width: '100%' } })
+                  _react2.default.createElement('div', { id: 'masterGauge', className: !this.state.loading ? 'columns' : '',
+                    style: { width: '100%' } })
                 )
               )
             )
@@ -45830,7 +45737,7 @@ var transform;
 var options = {"hmr":true}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(72)(content, options);
+var update = __webpack_require__(74)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -45850,7 +45757,7 @@ if(false) {
 /* 265 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(71)(undefined);
+exports = module.exports = __webpack_require__(73)(undefined);
 // imports
 
 
@@ -49895,7 +49802,7 @@ module.exports = function hoistNonReactStatics(targetComponent, sourceComponent,
 module.exports.Container = __webpack_require__(279);
 module.exports.Mixin = __webpack_require__(281);
 module.exports.ReduceStore = __webpack_require__(282);
-module.exports.Store = __webpack_require__(74);
+module.exports.Store = __webpack_require__(76);
 
 
 /***/ }),
@@ -50192,7 +50099,7 @@ module.exports = { create: create, createFunctional: createFunctional };
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-var FluxStoreGroup = __webpack_require__(73);
+var FluxStoreGroup = __webpack_require__(75);
 
 function shallowArrayEqual(a, b) {
   if (a === b) {
@@ -50323,7 +50230,7 @@ module.exports = FluxContainerSubscriptions;
 
 
 
-var FluxStoreGroup = __webpack_require__(73);
+var FluxStoreGroup = __webpack_require__(75);
 
 var invariant = __webpack_require__(6);
 
@@ -50456,7 +50363,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var FluxStore = __webpack_require__(74);
+var FluxStore = __webpack_require__(76);
 
 var abstractMethod = __webpack_require__(287);
 var invariant = __webpack_require__(6);
@@ -50574,7 +50481,7 @@ module.exports = FluxReduceStore;
 
 var fbemitter = {
   EventEmitter: __webpack_require__(284),
-  EmitterSubscription : __webpack_require__(75)
+  EmitterSubscription : __webpack_require__(77)
 };
 
 module.exports = fbemitter;
@@ -50601,7 +50508,7 @@ module.exports = fbemitter;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-var EmitterSubscription = __webpack_require__(75);
+var EmitterSubscription = __webpack_require__(77);
 var EventSubscriptionVendor = __webpack_require__(286);
 
 var emptyFunction = __webpack_require__(11);
@@ -50975,8 +50882,262 @@ module.exports = abstractMethod;
 /* 288 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var rng = __webpack_require__(76);
-var bytesToUuid = __webpack_require__(78);
+/**
+ * Copyright (c) 2014-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ */
+
+module.exports.Dispatcher = __webpack_require__(289);
+
+
+/***/ }),
+/* 289 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {/**
+ * Copyright (c) 2014-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * @providesModule Dispatcher
+ * 
+ * @preventMunge
+ */
+
+
+
+exports.__esModule = true;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+var invariant = __webpack_require__(6);
+
+var _prefix = 'ID_';
+
+/**
+ * Dispatcher is used to broadcast payloads to registered callbacks. This is
+ * different from generic pub-sub systems in two ways:
+ *
+ *   1) Callbacks are not subscribed to particular events. Every payload is
+ *      dispatched to every registered callback.
+ *   2) Callbacks can be deferred in whole or part until other callbacks have
+ *      been executed.
+ *
+ * For example, consider this hypothetical flight destination form, which
+ * selects a default city when a country is selected:
+ *
+ *   var flightDispatcher = new Dispatcher();
+ *
+ *   // Keeps track of which country is selected
+ *   var CountryStore = {country: null};
+ *
+ *   // Keeps track of which city is selected
+ *   var CityStore = {city: null};
+ *
+ *   // Keeps track of the base flight price of the selected city
+ *   var FlightPriceStore = {price: null}
+ *
+ * When a user changes the selected city, we dispatch the payload:
+ *
+ *   flightDispatcher.dispatch({
+ *     actionType: 'city-update',
+ *     selectedCity: 'paris'
+ *   });
+ *
+ * This payload is digested by `CityStore`:
+ *
+ *   flightDispatcher.register(function(payload) {
+ *     if (payload.actionType === 'city-update') {
+ *       CityStore.city = payload.selectedCity;
+ *     }
+ *   });
+ *
+ * When the user selects a country, we dispatch the payload:
+ *
+ *   flightDispatcher.dispatch({
+ *     actionType: 'country-update',
+ *     selectedCountry: 'australia'
+ *   });
+ *
+ * This payload is digested by both stores:
+ *
+ *   CountryStore.dispatchToken = flightDispatcher.register(function(payload) {
+ *     if (payload.actionType === 'country-update') {
+ *       CountryStore.country = payload.selectedCountry;
+ *     }
+ *   });
+ *
+ * When the callback to update `CountryStore` is registered, we save a reference
+ * to the returned token. Using this token with `waitFor()`, we can guarantee
+ * that `CountryStore` is updated before the callback that updates `CityStore`
+ * needs to query its data.
+ *
+ *   CityStore.dispatchToken = flightDispatcher.register(function(payload) {
+ *     if (payload.actionType === 'country-update') {
+ *       // `CountryStore.country` may not be updated.
+ *       flightDispatcher.waitFor([CountryStore.dispatchToken]);
+ *       // `CountryStore.country` is now guaranteed to be updated.
+ *
+ *       // Select the default city for the new country
+ *       CityStore.city = getDefaultCityForCountry(CountryStore.country);
+ *     }
+ *   });
+ *
+ * The usage of `waitFor()` can be chained, for example:
+ *
+ *   FlightPriceStore.dispatchToken =
+ *     flightDispatcher.register(function(payload) {
+ *       switch (payload.actionType) {
+ *         case 'country-update':
+ *         case 'city-update':
+ *           flightDispatcher.waitFor([CityStore.dispatchToken]);
+ *           FlightPriceStore.price =
+ *             getFlightPriceStore(CountryStore.country, CityStore.city);
+ *           break;
+ *     }
+ *   });
+ *
+ * The `country-update` payload will be guaranteed to invoke the stores'
+ * registered callbacks in order: `CountryStore`, `CityStore`, then
+ * `FlightPriceStore`.
+ */
+
+var Dispatcher = (function () {
+  function Dispatcher() {
+    _classCallCheck(this, Dispatcher);
+
+    this._callbacks = {};
+    this._isDispatching = false;
+    this._isHandled = {};
+    this._isPending = {};
+    this._lastID = 1;
+  }
+
+  /**
+   * Registers a callback to be invoked with every dispatched payload. Returns
+   * a token that can be used with `waitFor()`.
+   */
+
+  Dispatcher.prototype.register = function register(callback) {
+    var id = _prefix + this._lastID++;
+    this._callbacks[id] = callback;
+    return id;
+  };
+
+  /**
+   * Removes a callback based on its token.
+   */
+
+  Dispatcher.prototype.unregister = function unregister(id) {
+    !this._callbacks[id] ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Dispatcher.unregister(...): `%s` does not map to a registered callback.', id) : invariant(false) : undefined;
+    delete this._callbacks[id];
+  };
+
+  /**
+   * Waits for the callbacks specified to be invoked before continuing execution
+   * of the current callback. This method should only be used by a callback in
+   * response to a dispatched payload.
+   */
+
+  Dispatcher.prototype.waitFor = function waitFor(ids) {
+    !this._isDispatching ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Dispatcher.waitFor(...): Must be invoked while dispatching.') : invariant(false) : undefined;
+    for (var ii = 0; ii < ids.length; ii++) {
+      var id = ids[ii];
+      if (this._isPending[id]) {
+        !this._isHandled[id] ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Dispatcher.waitFor(...): Circular dependency detected while ' + 'waiting for `%s`.', id) : invariant(false) : undefined;
+        continue;
+      }
+      !this._callbacks[id] ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Dispatcher.waitFor(...): `%s` does not map to a registered callback.', id) : invariant(false) : undefined;
+      this._invokeCallback(id);
+    }
+  };
+
+  /**
+   * Dispatches a payload to all registered callbacks.
+   */
+
+  Dispatcher.prototype.dispatch = function dispatch(payload) {
+    !!this._isDispatching ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Dispatch.dispatch(...): Cannot dispatch in the middle of a dispatch.') : invariant(false) : undefined;
+    this._startDispatching(payload);
+    try {
+      for (var id in this._callbacks) {
+        if (this._isPending[id]) {
+          continue;
+        }
+        this._invokeCallback(id);
+      }
+    } finally {
+      this._stopDispatching();
+    }
+  };
+
+  /**
+   * Is this Dispatcher currently dispatching.
+   */
+
+  Dispatcher.prototype.isDispatching = function isDispatching() {
+    return this._isDispatching;
+  };
+
+  /**
+   * Call the callback stored with the given id. Also do some internal
+   * bookkeeping.
+   *
+   * @internal
+   */
+
+  Dispatcher.prototype._invokeCallback = function _invokeCallback(id) {
+    this._isPending[id] = true;
+    this._callbacks[id](this._pendingPayload);
+    this._isHandled[id] = true;
+  };
+
+  /**
+   * Set up bookkeeping needed when dispatching.
+   *
+   * @internal
+   */
+
+  Dispatcher.prototype._startDispatching = function _startDispatching(payload) {
+    for (var id in this._callbacks) {
+      this._isPending[id] = false;
+      this._isHandled[id] = false;
+    }
+    this._pendingPayload = payload;
+    this._isDispatching = true;
+  };
+
+  /**
+   * Clear bookkeeping used for dispatching.
+   *
+   * @internal
+   */
+
+  Dispatcher.prototype._stopDispatching = function _stopDispatching() {
+    delete this._pendingPayload;
+    this._isDispatching = false;
+  };
+
+  return Dispatcher;
+})();
+
+module.exports = Dispatcher;
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+
+/***/ }),
+/* 290 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var rng = __webpack_require__(78);
+var bytesToUuid = __webpack_require__(80);
 
 // **`v1()` - Generate time-based UUID**
 //
@@ -51078,11 +51239,11 @@ module.exports = v1;
 
 
 /***/ }),
-/* 289 */
+/* 291 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var rng = __webpack_require__(76);
-var bytesToUuid = __webpack_require__(78);
+var rng = __webpack_require__(78);
+var bytesToUuid = __webpack_require__(80);
 
 function v4(options, buf, offset) {
   var i = buf && offset || 0;
@@ -51113,7 +51274,7 @@ module.exports = v4;
 
 
 /***/ }),
-/* 290 */
+/* 292 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -51127,11 +51288,11 @@ var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactSvgGauge = __webpack_require__(79);
+var _reactSvgGauge = __webpack_require__(81);
 
 var _reactSvgGauge2 = _interopRequireDefault(_reactSvgGauge);
 
-var _uuid = __webpack_require__(28);
+var _uuid = __webpack_require__(29);
 
 var _uuid2 = _interopRequireDefault(_uuid);
 
@@ -51163,7 +51324,7 @@ exports.default = function (props) {
 };
 
 /***/ }),
-/* 291 */
+/* 293 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -51183,15 +51344,15 @@ var _reactDom = __webpack_require__(17);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _Menu = __webpack_require__(27);
+var _Menu = __webpack_require__(28);
 
 var _Menu2 = _interopRequireDefault(_Menu);
 
-var _LineMultiAxis = __webpack_require__(48);
+var _LineMultiAxis = __webpack_require__(50);
 
 var _LineMultiAxis2 = _interopRequireDefault(_LineMultiAxis);
 
-var _NodeGauge = __webpack_require__(56);
+var _NodeGauge = __webpack_require__(58);
 
 var _NodeGauge2 = _interopRequireDefault(_NodeGauge);
 
@@ -51199,7 +51360,7 @@ var _Store = __webpack_require__(20);
 
 var _Store2 = _interopRequireDefault(_Store);
 
-var _underscore = __webpack_require__(29);
+var _underscore = __webpack_require__(21);
 
 var _underscore2 = _interopRequireDefault(_underscore);
 
@@ -51221,7 +51382,7 @@ var Environment = function (_Component) {
 
     _this._processStore = function () {
       var currentPath = _this.props.location.pathname;
-      var data = _underscore2.default.find(_Store2.default.state.nodes, function (menu) {
+      var data = _underscore2.default.find(_Store2.default.menu.nodes, function (menu) {
         return menu.url === currentPath;
       });
 
@@ -51313,14 +51474,16 @@ var Environment = function (_Component) {
                   { className: !this.state.loading ? 'card-header' : '' },
                   _react2.default.createElement(
                     'p',
-                    { className: 'card-header-title', style: { color: '#4468b0' } },
+                    { className: 'card-header-title',
+                      style: { color: '#4468b0' } },
                     !this.state.loading && 'Average'
                   )
                 ),
                 _react2.default.createElement(
                   'div',
                   { className: !this.state.loading ? 'card-content' : '' },
-                  _react2.default.createElement('div', { id: 'Gauge', className: !this.state.loading ? 'columns' : '', style: { width: '100%' } })
+                  _react2.default.createElement('div', { id: 'Gauge', className: !this.state.loading ? 'columns' : '',
+                    style: { width: '100%' } })
                 )
               ),
               _react2.default.createElement('br', null),
@@ -51332,7 +51495,8 @@ var Environment = function (_Component) {
                   { className: !this.state.loading ? 'card-header' : '' },
                   _react2.default.createElement(
                     'p',
-                    { className: 'card-header-title', style: { color: '#4468b0' } },
+                    { className: 'card-header-title',
+                      style: { color: '#4468b0' } },
                     !this.state.loading && 'Timeline'
                   )
                 ),
@@ -51355,7 +51519,7 @@ var Environment = function (_Component) {
 exports.default = Environment;
 
 /***/ }),
-/* 292 */
+/* 294 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -51374,11 +51538,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_chart_js__ = __webpack_require__(293);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_chart_js__ = __webpack_require__(295);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_chart_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_chart_js__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_lodash_isEqual__ = __webpack_require__(341);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_lodash_isEqual__ = __webpack_require__(343);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_lodash_isEqual___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_lodash_isEqual__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_lodash_find__ = __webpack_require__(403);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_lodash_find__ = __webpack_require__(405);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_lodash_find___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_lodash_find__);
 /* harmony reexport (default from non-hamory) */ __webpack_require__.d(__webpack_exports__, "Chart", function() { return __WEBPACK_IMPORTED_MODULE_2_chart_js___default.a; });
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
@@ -51884,66 +52048,66 @@ var defaults = __WEBPACK_IMPORTED_MODULE_2_chart_js___default.a.defaults;
 
 
 /***/ }),
-/* 293 */
+/* 295 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
  * @namespace Chart
  */
-var Chart = __webpack_require__(294)();
+var Chart = __webpack_require__(296)();
 
 Chart.helpers = __webpack_require__(1);
 
 // @todo dispatch these helpers into appropriated helpers/helpers.* file and write unit tests!
-__webpack_require__(298)(Chart);
+__webpack_require__(300)(Chart);
 
 Chart.defaults = __webpack_require__(4);
 Chart.Element = __webpack_require__(10);
 Chart.elements = __webpack_require__(13);
-Chart.Interaction = __webpack_require__(81);
-Chart.platform = __webpack_require__(82);
+Chart.Interaction = __webpack_require__(83);
+Chart.platform = __webpack_require__(84);
 
-__webpack_require__(309)(Chart);
-__webpack_require__(310)(Chart);
 __webpack_require__(311)(Chart);
 __webpack_require__(312)(Chart);
 __webpack_require__(313)(Chart);
 __webpack_require__(314)(Chart);
 __webpack_require__(315)(Chart);
 __webpack_require__(316)(Chart);
-
 __webpack_require__(317)(Chart);
 __webpack_require__(318)(Chart);
+
 __webpack_require__(319)(Chart);
 __webpack_require__(320)(Chart);
 __webpack_require__(321)(Chart);
 __webpack_require__(322)(Chart);
+__webpack_require__(323)(Chart);
+__webpack_require__(324)(Chart);
 
 // Controllers must be loaded after elements
 // See Chart.core.datasetController.dataElementType
-__webpack_require__(324)(Chart);
-__webpack_require__(325)(Chart);
 __webpack_require__(326)(Chart);
 __webpack_require__(327)(Chart);
 __webpack_require__(328)(Chart);
 __webpack_require__(329)(Chart);
 __webpack_require__(330)(Chart);
-
 __webpack_require__(331)(Chart);
 __webpack_require__(332)(Chart);
+
 __webpack_require__(333)(Chart);
 __webpack_require__(334)(Chart);
 __webpack_require__(335)(Chart);
 __webpack_require__(336)(Chart);
 __webpack_require__(337)(Chart);
+__webpack_require__(338)(Chart);
+__webpack_require__(339)(Chart);
 
 // Loading built-it plugins
 var plugins = [];
 
 plugins.push(
-	__webpack_require__(338)(Chart),
-	__webpack_require__(339)(Chart),
-	__webpack_require__(340)(Chart)
+	__webpack_require__(340)(Chart),
+	__webpack_require__(341)(Chart),
+	__webpack_require__(342)(Chart)
 );
 
 Chart.plugins.register(plugins);
@@ -51968,7 +52132,7 @@ Chart.canvasHelpers = Chart.helpers.canvas;
 
 
 /***/ }),
-/* 294 */
+/* 296 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -52024,7 +52188,7 @@ module.exports = function() {
 
 
 /***/ }),
-/* 295 */
+/* 297 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -52281,7 +52445,7 @@ helpers.easingEffects = effects;
 
 
 /***/ }),
-/* 296 */
+/* 298 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -52502,7 +52666,7 @@ helpers.drawRoundedRectangle = function(ctx) {
 
 
 /***/ }),
-/* 297 */
+/* 299 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -52605,7 +52769,7 @@ module.exports = {
 
 
 /***/ }),
-/* 298 */
+/* 300 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -52613,7 +52777,7 @@ module.exports = {
 /* global document: false */
 
 
-var color = __webpack_require__(80);
+var color = __webpack_require__(82);
 var defaults = __webpack_require__(4);
 var helpers = __webpack_require__(1);
 
@@ -53215,10 +53379,10 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 299 */
+/* 301 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var conversions = __webpack_require__(300);
+var conversions = __webpack_require__(302);
 
 var convert = function() {
    return new Converter();
@@ -53312,7 +53476,7 @@ Converter.prototype.getValues = function(space) {
 module.exports = convert;
 
 /***/ }),
-/* 300 */
+/* 302 */
 /***/ (function(module, exports) {
 
 /* MIT license */
@@ -54016,11 +54180,11 @@ for (var key in cssKeywords) {
 
 
 /***/ }),
-/* 301 */
+/* 303 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* MIT license */
-var colorNames = __webpack_require__(302);
+var colorNames = __webpack_require__(304);
 
 module.exports = {
    getRgba: getRgba,
@@ -54243,7 +54407,7 @@ for (var name in colorNames) {
 
 
 /***/ }),
-/* 302 */
+/* 304 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -54402,7 +54566,7 @@ module.exports = {
 
 
 /***/ }),
-/* 303 */
+/* 305 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -54516,7 +54680,7 @@ module.exports = Element.extend({
 
 
 /***/ }),
-/* 304 */
+/* 306 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -54614,7 +54778,7 @@ module.exports = Element.extend({
 
 
 /***/ }),
-/* 305 */
+/* 307 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -54727,7 +54891,7 @@ module.exports = Element.extend({
 
 
 /***/ }),
-/* 306 */
+/* 308 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -54951,7 +55115,7 @@ module.exports = Element.extend({
 
 
 /***/ }),
-/* 307 */
+/* 309 */
 /***/ (function(module, exports) {
 
 /**
@@ -54972,7 +55136,7 @@ module.exports = {
 
 
 /***/ }),
-/* 308 */
+/* 310 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -55436,7 +55600,7 @@ helpers.removeEvent = removeEventListener;
 
 
 /***/ }),
-/* 309 */
+/* 311 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -55838,7 +56002,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 310 */
+/* 312 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -56017,7 +56181,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 311 */
+/* 313 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -56025,8 +56189,8 @@ module.exports = function(Chart) {
 
 var defaults = __webpack_require__(4);
 var helpers = __webpack_require__(1);
-var Interaction = __webpack_require__(81);
-var platform = __webpack_require__(82);
+var Interaction = __webpack_require__(83);
+var platform = __webpack_require__(84);
 
 module.exports = function(Chart) {
 	var plugins = Chart.plugins;
@@ -56928,7 +57092,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 312 */
+/* 314 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -57265,7 +57429,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 313 */
+/* 315 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -57694,7 +57858,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 314 */
+/* 316 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -57746,7 +57910,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 315 */
+/* 317 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -57755,7 +57919,7 @@ module.exports = function(Chart) {
 var defaults = __webpack_require__(4);
 var Element = __webpack_require__(10);
 var helpers = __webpack_require__(1);
-var Ticks = __webpack_require__(21);
+var Ticks = __webpack_require__(22);
 
 defaults._set('scale', {
 	display: true,
@@ -58684,7 +58848,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 316 */
+/* 318 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -59639,14 +59803,14 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 317 */
+/* 319 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var helpers = __webpack_require__(1);
-var Ticks = __webpack_require__(21);
+var Ticks = __webpack_require__(22);
 
 module.exports = function(Chart) {
 
@@ -59778,7 +59942,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 318 */
+/* 320 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -59918,7 +60082,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 319 */
+/* 321 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -59926,7 +60090,7 @@ module.exports = function(Chart) {
 
 var defaults = __webpack_require__(4);
 var helpers = __webpack_require__(1);
-var Ticks = __webpack_require__(21);
+var Ticks = __webpack_require__(22);
 
 module.exports = function(Chart) {
 
@@ -60117,14 +60281,14 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 320 */
+/* 322 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var helpers = __webpack_require__(1);
-var Ticks = __webpack_require__(21);
+var Ticks = __webpack_require__(22);
 
 module.exports = function(Chart) {
 
@@ -60368,7 +60532,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 321 */
+/* 323 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -60376,7 +60540,7 @@ module.exports = function(Chart) {
 
 var defaults = __webpack_require__(4);
 var helpers = __webpack_require__(1);
-var Ticks = __webpack_require__(21);
+var Ticks = __webpack_require__(22);
 
 module.exports = function(Chart) {
 
@@ -60905,7 +61069,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 322 */
+/* 324 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -61668,240 +61832,240 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 323 */
+/* 325 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
-	"./af": 83,
-	"./af.js": 83,
-	"./ar": 84,
-	"./ar-dz": 85,
-	"./ar-dz.js": 85,
-	"./ar-kw": 86,
-	"./ar-kw.js": 86,
-	"./ar-ly": 87,
-	"./ar-ly.js": 87,
-	"./ar-ma": 88,
-	"./ar-ma.js": 88,
-	"./ar-sa": 89,
-	"./ar-sa.js": 89,
-	"./ar-tn": 90,
-	"./ar-tn.js": 90,
-	"./ar.js": 84,
-	"./az": 91,
-	"./az.js": 91,
-	"./be": 92,
-	"./be.js": 92,
-	"./bg": 93,
-	"./bg.js": 93,
-	"./bn": 94,
-	"./bn.js": 94,
-	"./bo": 95,
-	"./bo.js": 95,
-	"./br": 96,
-	"./br.js": 96,
-	"./bs": 97,
-	"./bs.js": 97,
-	"./ca": 98,
-	"./ca.js": 98,
-	"./cs": 99,
-	"./cs.js": 99,
-	"./cv": 100,
-	"./cv.js": 100,
-	"./cy": 101,
-	"./cy.js": 101,
-	"./da": 102,
-	"./da.js": 102,
-	"./de": 103,
-	"./de-at": 104,
-	"./de-at.js": 104,
-	"./de-ch": 105,
-	"./de-ch.js": 105,
-	"./de.js": 103,
-	"./dv": 106,
-	"./dv.js": 106,
-	"./el": 107,
-	"./el.js": 107,
-	"./en-au": 108,
-	"./en-au.js": 108,
-	"./en-ca": 109,
-	"./en-ca.js": 109,
-	"./en-gb": 110,
-	"./en-gb.js": 110,
-	"./en-ie": 111,
-	"./en-ie.js": 111,
-	"./en-nz": 112,
-	"./en-nz.js": 112,
-	"./eo": 113,
-	"./eo.js": 113,
-	"./es": 114,
-	"./es-do": 115,
-	"./es-do.js": 115,
-	"./es.js": 114,
-	"./et": 116,
-	"./et.js": 116,
-	"./eu": 117,
-	"./eu.js": 117,
-	"./fa": 118,
-	"./fa.js": 118,
-	"./fi": 119,
-	"./fi.js": 119,
-	"./fo": 120,
-	"./fo.js": 120,
-	"./fr": 121,
-	"./fr-ca": 122,
-	"./fr-ca.js": 122,
-	"./fr-ch": 123,
-	"./fr-ch.js": 123,
-	"./fr.js": 121,
-	"./fy": 124,
-	"./fy.js": 124,
-	"./gd": 125,
-	"./gd.js": 125,
-	"./gl": 126,
-	"./gl.js": 126,
-	"./gom-latn": 127,
-	"./gom-latn.js": 127,
-	"./he": 128,
-	"./he.js": 128,
-	"./hi": 129,
-	"./hi.js": 129,
-	"./hr": 130,
-	"./hr.js": 130,
-	"./hu": 131,
-	"./hu.js": 131,
-	"./hy-am": 132,
-	"./hy-am.js": 132,
-	"./id": 133,
-	"./id.js": 133,
-	"./is": 134,
-	"./is.js": 134,
-	"./it": 135,
-	"./it.js": 135,
-	"./ja": 136,
-	"./ja.js": 136,
-	"./jv": 137,
-	"./jv.js": 137,
-	"./ka": 138,
-	"./ka.js": 138,
-	"./kk": 139,
-	"./kk.js": 139,
-	"./km": 140,
-	"./km.js": 140,
-	"./kn": 141,
-	"./kn.js": 141,
-	"./ko": 142,
-	"./ko.js": 142,
-	"./ky": 143,
-	"./ky.js": 143,
-	"./lb": 144,
-	"./lb.js": 144,
-	"./lo": 145,
-	"./lo.js": 145,
-	"./lt": 146,
-	"./lt.js": 146,
-	"./lv": 147,
-	"./lv.js": 147,
-	"./me": 148,
-	"./me.js": 148,
-	"./mi": 149,
-	"./mi.js": 149,
-	"./mk": 150,
-	"./mk.js": 150,
-	"./ml": 151,
-	"./ml.js": 151,
-	"./mr": 152,
-	"./mr.js": 152,
-	"./ms": 153,
-	"./ms-my": 154,
-	"./ms-my.js": 154,
-	"./ms.js": 153,
-	"./my": 155,
-	"./my.js": 155,
-	"./nb": 156,
-	"./nb.js": 156,
-	"./ne": 157,
-	"./ne.js": 157,
-	"./nl": 158,
-	"./nl-be": 159,
-	"./nl-be.js": 159,
-	"./nl.js": 158,
-	"./nn": 160,
-	"./nn.js": 160,
-	"./pa-in": 161,
-	"./pa-in.js": 161,
-	"./pl": 162,
-	"./pl.js": 162,
-	"./pt": 163,
-	"./pt-br": 164,
-	"./pt-br.js": 164,
-	"./pt.js": 163,
-	"./ro": 165,
-	"./ro.js": 165,
-	"./ru": 166,
-	"./ru.js": 166,
-	"./sd": 167,
-	"./sd.js": 167,
-	"./se": 168,
-	"./se.js": 168,
-	"./si": 169,
-	"./si.js": 169,
-	"./sk": 170,
-	"./sk.js": 170,
-	"./sl": 171,
-	"./sl.js": 171,
-	"./sq": 172,
-	"./sq.js": 172,
-	"./sr": 173,
-	"./sr-cyrl": 174,
-	"./sr-cyrl.js": 174,
-	"./sr.js": 173,
-	"./ss": 175,
-	"./ss.js": 175,
-	"./sv": 176,
-	"./sv.js": 176,
-	"./sw": 177,
-	"./sw.js": 177,
-	"./ta": 178,
-	"./ta.js": 178,
-	"./te": 179,
-	"./te.js": 179,
-	"./tet": 180,
-	"./tet.js": 180,
-	"./th": 181,
-	"./th.js": 181,
-	"./tl-ph": 182,
-	"./tl-ph.js": 182,
-	"./tlh": 183,
-	"./tlh.js": 183,
-	"./tr": 184,
-	"./tr.js": 184,
-	"./tzl": 185,
-	"./tzl.js": 185,
-	"./tzm": 186,
-	"./tzm-latn": 187,
-	"./tzm-latn.js": 187,
-	"./tzm.js": 186,
-	"./uk": 188,
-	"./uk.js": 188,
-	"./ur": 189,
-	"./ur.js": 189,
-	"./uz": 190,
-	"./uz-latn": 191,
-	"./uz-latn.js": 191,
-	"./uz.js": 190,
-	"./vi": 192,
-	"./vi.js": 192,
-	"./x-pseudo": 193,
-	"./x-pseudo.js": 193,
-	"./yo": 194,
-	"./yo.js": 194,
-	"./zh-cn": 195,
-	"./zh-cn.js": 195,
-	"./zh-hk": 196,
-	"./zh-hk.js": 196,
-	"./zh-tw": 197,
-	"./zh-tw.js": 197
+	"./af": 85,
+	"./af.js": 85,
+	"./ar": 86,
+	"./ar-dz": 87,
+	"./ar-dz.js": 87,
+	"./ar-kw": 88,
+	"./ar-kw.js": 88,
+	"./ar-ly": 89,
+	"./ar-ly.js": 89,
+	"./ar-ma": 90,
+	"./ar-ma.js": 90,
+	"./ar-sa": 91,
+	"./ar-sa.js": 91,
+	"./ar-tn": 92,
+	"./ar-tn.js": 92,
+	"./ar.js": 86,
+	"./az": 93,
+	"./az.js": 93,
+	"./be": 94,
+	"./be.js": 94,
+	"./bg": 95,
+	"./bg.js": 95,
+	"./bn": 96,
+	"./bn.js": 96,
+	"./bo": 97,
+	"./bo.js": 97,
+	"./br": 98,
+	"./br.js": 98,
+	"./bs": 99,
+	"./bs.js": 99,
+	"./ca": 100,
+	"./ca.js": 100,
+	"./cs": 101,
+	"./cs.js": 101,
+	"./cv": 102,
+	"./cv.js": 102,
+	"./cy": 103,
+	"./cy.js": 103,
+	"./da": 104,
+	"./da.js": 104,
+	"./de": 105,
+	"./de-at": 106,
+	"./de-at.js": 106,
+	"./de-ch": 107,
+	"./de-ch.js": 107,
+	"./de.js": 105,
+	"./dv": 108,
+	"./dv.js": 108,
+	"./el": 109,
+	"./el.js": 109,
+	"./en-au": 110,
+	"./en-au.js": 110,
+	"./en-ca": 111,
+	"./en-ca.js": 111,
+	"./en-gb": 112,
+	"./en-gb.js": 112,
+	"./en-ie": 113,
+	"./en-ie.js": 113,
+	"./en-nz": 114,
+	"./en-nz.js": 114,
+	"./eo": 115,
+	"./eo.js": 115,
+	"./es": 116,
+	"./es-do": 117,
+	"./es-do.js": 117,
+	"./es.js": 116,
+	"./et": 118,
+	"./et.js": 118,
+	"./eu": 119,
+	"./eu.js": 119,
+	"./fa": 120,
+	"./fa.js": 120,
+	"./fi": 121,
+	"./fi.js": 121,
+	"./fo": 122,
+	"./fo.js": 122,
+	"./fr": 123,
+	"./fr-ca": 124,
+	"./fr-ca.js": 124,
+	"./fr-ch": 125,
+	"./fr-ch.js": 125,
+	"./fr.js": 123,
+	"./fy": 126,
+	"./fy.js": 126,
+	"./gd": 127,
+	"./gd.js": 127,
+	"./gl": 128,
+	"./gl.js": 128,
+	"./gom-latn": 129,
+	"./gom-latn.js": 129,
+	"./he": 130,
+	"./he.js": 130,
+	"./hi": 131,
+	"./hi.js": 131,
+	"./hr": 132,
+	"./hr.js": 132,
+	"./hu": 133,
+	"./hu.js": 133,
+	"./hy-am": 134,
+	"./hy-am.js": 134,
+	"./id": 135,
+	"./id.js": 135,
+	"./is": 136,
+	"./is.js": 136,
+	"./it": 137,
+	"./it.js": 137,
+	"./ja": 138,
+	"./ja.js": 138,
+	"./jv": 139,
+	"./jv.js": 139,
+	"./ka": 140,
+	"./ka.js": 140,
+	"./kk": 141,
+	"./kk.js": 141,
+	"./km": 142,
+	"./km.js": 142,
+	"./kn": 143,
+	"./kn.js": 143,
+	"./ko": 144,
+	"./ko.js": 144,
+	"./ky": 145,
+	"./ky.js": 145,
+	"./lb": 146,
+	"./lb.js": 146,
+	"./lo": 147,
+	"./lo.js": 147,
+	"./lt": 148,
+	"./lt.js": 148,
+	"./lv": 149,
+	"./lv.js": 149,
+	"./me": 150,
+	"./me.js": 150,
+	"./mi": 151,
+	"./mi.js": 151,
+	"./mk": 152,
+	"./mk.js": 152,
+	"./ml": 153,
+	"./ml.js": 153,
+	"./mr": 154,
+	"./mr.js": 154,
+	"./ms": 155,
+	"./ms-my": 156,
+	"./ms-my.js": 156,
+	"./ms.js": 155,
+	"./my": 157,
+	"./my.js": 157,
+	"./nb": 158,
+	"./nb.js": 158,
+	"./ne": 159,
+	"./ne.js": 159,
+	"./nl": 160,
+	"./nl-be": 161,
+	"./nl-be.js": 161,
+	"./nl.js": 160,
+	"./nn": 162,
+	"./nn.js": 162,
+	"./pa-in": 163,
+	"./pa-in.js": 163,
+	"./pl": 164,
+	"./pl.js": 164,
+	"./pt": 165,
+	"./pt-br": 166,
+	"./pt-br.js": 166,
+	"./pt.js": 165,
+	"./ro": 167,
+	"./ro.js": 167,
+	"./ru": 168,
+	"./ru.js": 168,
+	"./sd": 169,
+	"./sd.js": 169,
+	"./se": 170,
+	"./se.js": 170,
+	"./si": 171,
+	"./si.js": 171,
+	"./sk": 172,
+	"./sk.js": 172,
+	"./sl": 173,
+	"./sl.js": 173,
+	"./sq": 174,
+	"./sq.js": 174,
+	"./sr": 175,
+	"./sr-cyrl": 176,
+	"./sr-cyrl.js": 176,
+	"./sr.js": 175,
+	"./ss": 177,
+	"./ss.js": 177,
+	"./sv": 178,
+	"./sv.js": 178,
+	"./sw": 179,
+	"./sw.js": 179,
+	"./ta": 180,
+	"./ta.js": 180,
+	"./te": 181,
+	"./te.js": 181,
+	"./tet": 182,
+	"./tet.js": 182,
+	"./th": 183,
+	"./th.js": 183,
+	"./tl-ph": 184,
+	"./tl-ph.js": 184,
+	"./tlh": 185,
+	"./tlh.js": 185,
+	"./tr": 186,
+	"./tr.js": 186,
+	"./tzl": 187,
+	"./tzl.js": 187,
+	"./tzm": 188,
+	"./tzm-latn": 189,
+	"./tzm-latn.js": 189,
+	"./tzm.js": 188,
+	"./uk": 190,
+	"./uk.js": 190,
+	"./ur": 191,
+	"./ur.js": 191,
+	"./uz": 192,
+	"./uz-latn": 193,
+	"./uz-latn.js": 193,
+	"./uz.js": 192,
+	"./vi": 194,
+	"./vi.js": 194,
+	"./x-pseudo": 195,
+	"./x-pseudo.js": 195,
+	"./yo": 196,
+	"./yo.js": 196,
+	"./zh-cn": 197,
+	"./zh-cn.js": 197,
+	"./zh-hk": 198,
+	"./zh-hk.js": 198,
+	"./zh-tw": 199,
+	"./zh-tw.js": 199
 };
 function webpackContext(req) {
 	return __webpack_require__(webpackContextResolve(req));
@@ -61917,10 +62081,10 @@ webpackContext.keys = function webpackContextKeys() {
 };
 webpackContext.resolve = webpackContextResolve;
 module.exports = webpackContext;
-webpackContext.id = 323;
+webpackContext.id = 325;
 
 /***/ }),
-/* 324 */
+/* 326 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -62348,7 +62512,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 325 */
+/* 327 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -62535,7 +62699,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 326 */
+/* 328 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -62841,7 +63005,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 327 */
+/* 329 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -63181,7 +63345,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 328 */
+/* 330 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -63410,7 +63574,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 329 */
+/* 331 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -63585,7 +63749,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 330 */
+/* 332 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -63634,7 +63798,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 331 */
+/* 333 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -63652,7 +63816,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 332 */
+/* 334 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -63669,7 +63833,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 333 */
+/* 335 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -63687,7 +63851,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 334 */
+/* 336 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -63705,7 +63869,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 335 */
+/* 337 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -63723,7 +63887,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 336 */
+/* 338 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -63741,7 +63905,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 337 */
+/* 339 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -63756,7 +63920,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 338 */
+/* 340 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -64084,7 +64248,7 @@ module.exports = function() {
 
 
 /***/ }),
-/* 339 */
+/* 341 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -64658,7 +64822,7 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 340 */
+/* 342 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -64908,10 +65072,10 @@ module.exports = function(Chart) {
 
 
 /***/ }),
-/* 341 */
+/* 343 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseIsEqual = __webpack_require__(50);
+var baseIsEqual = __webpack_require__(52);
 
 /**
  * Performs a deep comparison between two values to determine if they are
@@ -64949,17 +65113,17 @@ module.exports = isEqual;
 
 
 /***/ }),
-/* 342 */
+/* 344 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Stack = __webpack_require__(198),
-    equalArrays = __webpack_require__(203),
-    equalByTag = __webpack_require__(376),
-    equalObjects = __webpack_require__(380),
-    getTag = __webpack_require__(398),
+var Stack = __webpack_require__(200),
+    equalArrays = __webpack_require__(205),
+    equalByTag = __webpack_require__(378),
+    equalObjects = __webpack_require__(382),
+    getTag = __webpack_require__(400),
     isArray = __webpack_require__(14),
-    isBuffer = __webpack_require__(205),
-    isTypedArray = __webpack_require__(207);
+    isBuffer = __webpack_require__(207),
+    isTypedArray = __webpack_require__(209);
 
 /** Used to compose bitmasks for value comparisons. */
 var COMPARE_PARTIAL_FLAG = 1;
@@ -65038,7 +65202,7 @@ module.exports = baseIsEqualDeep;
 
 
 /***/ }),
-/* 343 */
+/* 345 */
 /***/ (function(module, exports) {
 
 /**
@@ -65057,7 +65221,7 @@ module.exports = listCacheClear;
 
 
 /***/ }),
-/* 344 */
+/* 346 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var assocIndexOf = __webpack_require__(32);
@@ -65098,7 +65262,7 @@ module.exports = listCacheDelete;
 
 
 /***/ }),
-/* 345 */
+/* 347 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var assocIndexOf = __webpack_require__(32);
@@ -65123,7 +65287,7 @@ module.exports = listCacheGet;
 
 
 /***/ }),
-/* 346 */
+/* 348 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var assocIndexOf = __webpack_require__(32);
@@ -65145,7 +65309,7 @@ module.exports = listCacheHas;
 
 
 /***/ }),
-/* 347 */
+/* 349 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var assocIndexOf = __webpack_require__(32);
@@ -65177,7 +65341,7 @@ module.exports = listCacheSet;
 
 
 /***/ }),
-/* 348 */
+/* 350 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var ListCache = __webpack_require__(31);
@@ -65198,7 +65362,7 @@ module.exports = stackClear;
 
 
 /***/ }),
-/* 349 */
+/* 351 */
 /***/ (function(module, exports) {
 
 /**
@@ -65222,7 +65386,7 @@ module.exports = stackDelete;
 
 
 /***/ }),
-/* 350 */
+/* 352 */
 /***/ (function(module, exports) {
 
 /**
@@ -65242,7 +65406,7 @@ module.exports = stackGet;
 
 
 /***/ }),
-/* 351 */
+/* 353 */
 /***/ (function(module, exports) {
 
 /**
@@ -65262,12 +65426,12 @@ module.exports = stackHas;
 
 
 /***/ }),
-/* 352 */
+/* 354 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var ListCache = __webpack_require__(31),
-    Map = __webpack_require__(51),
-    MapCache = __webpack_require__(52);
+    Map = __webpack_require__(53),
+    MapCache = __webpack_require__(54);
 
 /** Used as the size to enable large array optimizations. */
 var LARGE_ARRAY_SIZE = 200;
@@ -65302,13 +65466,13 @@ module.exports = stackSet;
 
 
 /***/ }),
-/* 353 */
+/* 355 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isFunction = __webpack_require__(200),
-    isMasked = __webpack_require__(356),
+var isFunction = __webpack_require__(202),
+    isMasked = __webpack_require__(358),
     isObject = __webpack_require__(34),
-    toSource = __webpack_require__(202);
+    toSource = __webpack_require__(204);
 
 /**
  * Used to match `RegExp`
@@ -65355,7 +65519,7 @@ module.exports = baseIsNative;
 
 
 /***/ }),
-/* 354 */
+/* 356 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Symbol = __webpack_require__(33);
@@ -65407,7 +65571,7 @@ module.exports = getRawTag;
 
 
 /***/ }),
-/* 355 */
+/* 357 */
 /***/ (function(module, exports) {
 
 /** Used for built-in method references. */
@@ -65435,10 +65599,10 @@ module.exports = objectToString;
 
 
 /***/ }),
-/* 356 */
+/* 358 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var coreJsData = __webpack_require__(357);
+var coreJsData = __webpack_require__(359);
 
 /** Used to detect methods masquerading as native. */
 var maskSrcKey = (function() {
@@ -65461,7 +65625,7 @@ module.exports = isMasked;
 
 
 /***/ }),
-/* 357 */
+/* 359 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var root = __webpack_require__(12);
@@ -65473,7 +65637,7 @@ module.exports = coreJsData;
 
 
 /***/ }),
-/* 358 */
+/* 360 */
 /***/ (function(module, exports) {
 
 /**
@@ -65492,12 +65656,12 @@ module.exports = getValue;
 
 
 /***/ }),
-/* 359 */
+/* 361 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Hash = __webpack_require__(360),
+var Hash = __webpack_require__(362),
     ListCache = __webpack_require__(31),
-    Map = __webpack_require__(51);
+    Map = __webpack_require__(53);
 
 /**
  * Removes all key-value entries from the map.
@@ -65519,14 +65683,14 @@ module.exports = mapCacheClear;
 
 
 /***/ }),
-/* 360 */
+/* 362 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var hashClear = __webpack_require__(361),
-    hashDelete = __webpack_require__(362),
-    hashGet = __webpack_require__(363),
-    hashHas = __webpack_require__(364),
-    hashSet = __webpack_require__(365);
+var hashClear = __webpack_require__(363),
+    hashDelete = __webpack_require__(364),
+    hashGet = __webpack_require__(365),
+    hashHas = __webpack_require__(366),
+    hashSet = __webpack_require__(367);
 
 /**
  * Creates a hash object.
@@ -65557,7 +65721,7 @@ module.exports = Hash;
 
 
 /***/ }),
-/* 361 */
+/* 363 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var nativeCreate = __webpack_require__(35);
@@ -65578,7 +65742,7 @@ module.exports = hashClear;
 
 
 /***/ }),
-/* 362 */
+/* 364 */
 /***/ (function(module, exports) {
 
 /**
@@ -65601,7 +65765,7 @@ module.exports = hashDelete;
 
 
 /***/ }),
-/* 363 */
+/* 365 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var nativeCreate = __webpack_require__(35);
@@ -65637,7 +65801,7 @@ module.exports = hashGet;
 
 
 /***/ }),
-/* 364 */
+/* 366 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var nativeCreate = __webpack_require__(35);
@@ -65666,7 +65830,7 @@ module.exports = hashHas;
 
 
 /***/ }),
-/* 365 */
+/* 367 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var nativeCreate = __webpack_require__(35);
@@ -65695,7 +65859,7 @@ module.exports = hashSet;
 
 
 /***/ }),
-/* 366 */
+/* 368 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var getMapData = __webpack_require__(36);
@@ -65719,7 +65883,7 @@ module.exports = mapCacheDelete;
 
 
 /***/ }),
-/* 367 */
+/* 369 */
 /***/ (function(module, exports) {
 
 /**
@@ -65740,7 +65904,7 @@ module.exports = isKeyable;
 
 
 /***/ }),
-/* 368 */
+/* 370 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var getMapData = __webpack_require__(36);
@@ -65762,7 +65926,7 @@ module.exports = mapCacheGet;
 
 
 /***/ }),
-/* 369 */
+/* 371 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var getMapData = __webpack_require__(36);
@@ -65784,7 +65948,7 @@ module.exports = mapCacheHas;
 
 
 /***/ }),
-/* 370 */
+/* 372 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var getMapData = __webpack_require__(36);
@@ -65812,12 +65976,12 @@ module.exports = mapCacheSet;
 
 
 /***/ }),
-/* 371 */
+/* 373 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var MapCache = __webpack_require__(52),
-    setCacheAdd = __webpack_require__(372),
-    setCacheHas = __webpack_require__(373);
+var MapCache = __webpack_require__(54),
+    setCacheAdd = __webpack_require__(374),
+    setCacheHas = __webpack_require__(375);
 
 /**
  *
@@ -65845,7 +66009,7 @@ module.exports = SetCache;
 
 
 /***/ }),
-/* 372 */
+/* 374 */
 /***/ (function(module, exports) {
 
 /** Used to stand-in for `undefined` hash values. */
@@ -65870,7 +66034,7 @@ module.exports = setCacheAdd;
 
 
 /***/ }),
-/* 373 */
+/* 375 */
 /***/ (function(module, exports) {
 
 /**
@@ -65890,7 +66054,7 @@ module.exports = setCacheHas;
 
 
 /***/ }),
-/* 374 */
+/* 376 */
 /***/ (function(module, exports) {
 
 /**
@@ -65919,7 +66083,7 @@ module.exports = arraySome;
 
 
 /***/ }),
-/* 375 */
+/* 377 */
 /***/ (function(module, exports) {
 
 /**
@@ -65938,15 +66102,15 @@ module.exports = cacheHas;
 
 
 /***/ }),
-/* 376 */
+/* 378 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Symbol = __webpack_require__(33),
-    Uint8Array = __webpack_require__(377),
-    eq = __webpack_require__(199),
-    equalArrays = __webpack_require__(203),
-    mapToArray = __webpack_require__(378),
-    setToArray = __webpack_require__(379);
+    Uint8Array = __webpack_require__(379),
+    eq = __webpack_require__(201),
+    equalArrays = __webpack_require__(205),
+    mapToArray = __webpack_require__(380),
+    setToArray = __webpack_require__(381);
 
 /** Used to compose bitmasks for value comparisons. */
 var COMPARE_PARTIAL_FLAG = 1,
@@ -66056,7 +66220,7 @@ module.exports = equalByTag;
 
 
 /***/ }),
-/* 377 */
+/* 379 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var root = __webpack_require__(12);
@@ -66068,7 +66232,7 @@ module.exports = Uint8Array;
 
 
 /***/ }),
-/* 378 */
+/* 380 */
 /***/ (function(module, exports) {
 
 /**
@@ -66092,7 +66256,7 @@ module.exports = mapToArray;
 
 
 /***/ }),
-/* 379 */
+/* 381 */
 /***/ (function(module, exports) {
 
 /**
@@ -66116,10 +66280,10 @@ module.exports = setToArray;
 
 
 /***/ }),
-/* 380 */
+/* 382 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var getAllKeys = __webpack_require__(381);
+var getAllKeys = __webpack_require__(383);
 
 /** Used to compose bitmasks for value comparisons. */
 var COMPARE_PARTIAL_FLAG = 1;
@@ -66211,12 +66375,12 @@ module.exports = equalObjects;
 
 
 /***/ }),
-/* 381 */
+/* 383 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseGetAllKeys = __webpack_require__(382),
-    getSymbols = __webpack_require__(384),
-    keys = __webpack_require__(53);
+var baseGetAllKeys = __webpack_require__(384),
+    getSymbols = __webpack_require__(386),
+    keys = __webpack_require__(55);
 
 /**
  * Creates an array of own enumerable property names and symbols of `object`.
@@ -66233,10 +66397,10 @@ module.exports = getAllKeys;
 
 
 /***/ }),
-/* 382 */
+/* 384 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var arrayPush = __webpack_require__(383),
+var arrayPush = __webpack_require__(385),
     isArray = __webpack_require__(14);
 
 /**
@@ -66259,7 +66423,7 @@ module.exports = baseGetAllKeys;
 
 
 /***/ }),
-/* 383 */
+/* 385 */
 /***/ (function(module, exports) {
 
 /**
@@ -66285,11 +66449,11 @@ module.exports = arrayPush;
 
 
 /***/ }),
-/* 384 */
+/* 386 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var arrayFilter = __webpack_require__(385),
-    stubArray = __webpack_require__(386);
+var arrayFilter = __webpack_require__(387),
+    stubArray = __webpack_require__(388);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -66321,7 +66485,7 @@ module.exports = getSymbols;
 
 
 /***/ }),
-/* 385 */
+/* 387 */
 /***/ (function(module, exports) {
 
 /**
@@ -66352,7 +66516,7 @@ module.exports = arrayFilter;
 
 
 /***/ }),
-/* 386 */
+/* 388 */
 /***/ (function(module, exports) {
 
 /**
@@ -66381,15 +66545,15 @@ module.exports = stubArray;
 
 
 /***/ }),
-/* 387 */
+/* 389 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseTimes = __webpack_require__(388),
-    isArguments = __webpack_require__(204),
+var baseTimes = __webpack_require__(390),
+    isArguments = __webpack_require__(206),
     isArray = __webpack_require__(14),
-    isBuffer = __webpack_require__(205),
-    isIndex = __webpack_require__(206),
-    isTypedArray = __webpack_require__(207);
+    isBuffer = __webpack_require__(207),
+    isIndex = __webpack_require__(208),
+    isTypedArray = __webpack_require__(209);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -66436,7 +66600,7 @@ module.exports = arrayLikeKeys;
 
 
 /***/ }),
-/* 388 */
+/* 390 */
 /***/ (function(module, exports) {
 
 /**
@@ -66462,11 +66626,11 @@ module.exports = baseTimes;
 
 
 /***/ }),
-/* 389 */
+/* 391 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseGetTag = __webpack_require__(22),
-    isObjectLike = __webpack_require__(23);
+var baseGetTag = __webpack_require__(23),
+    isObjectLike = __webpack_require__(24);
 
 /** `Object#toString` result references. */
 var argsTag = '[object Arguments]';
@@ -66486,7 +66650,7 @@ module.exports = baseIsArguments;
 
 
 /***/ }),
-/* 390 */
+/* 392 */
 /***/ (function(module, exports) {
 
 /**
@@ -66510,12 +66674,12 @@ module.exports = stubFalse;
 
 
 /***/ }),
-/* 391 */
+/* 393 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseGetTag = __webpack_require__(22),
-    isLength = __webpack_require__(54),
-    isObjectLike = __webpack_require__(23);
+var baseGetTag = __webpack_require__(23),
+    isLength = __webpack_require__(56),
+    isObjectLike = __webpack_require__(24);
 
 /** `Object#toString` result references. */
 var argsTag = '[object Arguments]',
@@ -66576,7 +66740,7 @@ module.exports = baseIsTypedArray;
 
 
 /***/ }),
-/* 392 */
+/* 394 */
 /***/ (function(module, exports) {
 
 /**
@@ -66596,10 +66760,10 @@ module.exports = baseUnary;
 
 
 /***/ }),
-/* 393 */
+/* 395 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(module) {var freeGlobal = __webpack_require__(201);
+/* WEBPACK VAR INJECTION */(function(module) {var freeGlobal = __webpack_require__(203);
 
 /** Detect free variable `exports`. */
 var freeExports = typeof exports == 'object' && exports && !exports.nodeType && exports;
@@ -66622,14 +66786,14 @@ var nodeUtil = (function() {
 
 module.exports = nodeUtil;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(49)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(51)(module)))
 
 /***/ }),
-/* 394 */
+/* 396 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isPrototype = __webpack_require__(395),
-    nativeKeys = __webpack_require__(396);
+var isPrototype = __webpack_require__(397),
+    nativeKeys = __webpack_require__(398);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -66661,7 +66825,7 @@ module.exports = baseKeys;
 
 
 /***/ }),
-/* 395 */
+/* 397 */
 /***/ (function(module, exports) {
 
 /** Used for built-in method references. */
@@ -66685,10 +66849,10 @@ module.exports = isPrototype;
 
 
 /***/ }),
-/* 396 */
+/* 398 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var overArg = __webpack_require__(397);
+var overArg = __webpack_require__(399);
 
 /* Built-in method references for those with the same name as other `lodash` methods. */
 var nativeKeys = overArg(Object.keys, Object);
@@ -66697,7 +66861,7 @@ module.exports = nativeKeys;
 
 
 /***/ }),
-/* 397 */
+/* 399 */
 /***/ (function(module, exports) {
 
 /**
@@ -66718,16 +66882,16 @@ module.exports = overArg;
 
 
 /***/ }),
-/* 398 */
+/* 400 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var DataView = __webpack_require__(399),
-    Map = __webpack_require__(51),
-    Promise = __webpack_require__(400),
-    Set = __webpack_require__(401),
-    WeakMap = __webpack_require__(402),
-    baseGetTag = __webpack_require__(22),
-    toSource = __webpack_require__(202);
+var DataView = __webpack_require__(401),
+    Map = __webpack_require__(53),
+    Promise = __webpack_require__(402),
+    Set = __webpack_require__(403),
+    WeakMap = __webpack_require__(404),
+    baseGetTag = __webpack_require__(23),
+    toSource = __webpack_require__(204);
 
 /** `Object#toString` result references. */
 var mapTag = '[object Map]',
@@ -66782,7 +66946,7 @@ module.exports = getTag;
 
 
 /***/ }),
-/* 399 */
+/* 401 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var getNative = __webpack_require__(15),
@@ -66795,7 +66959,7 @@ module.exports = DataView;
 
 
 /***/ }),
-/* 400 */
+/* 402 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var getNative = __webpack_require__(15),
@@ -66808,7 +66972,7 @@ module.exports = Promise;
 
 
 /***/ }),
-/* 401 */
+/* 403 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var getNative = __webpack_require__(15),
@@ -66821,7 +66985,7 @@ module.exports = Set;
 
 
 /***/ }),
-/* 402 */
+/* 404 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var getNative = __webpack_require__(15),
@@ -66834,11 +66998,11 @@ module.exports = WeakMap;
 
 
 /***/ }),
-/* 403 */
+/* 405 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var createFind = __webpack_require__(404),
-    findIndex = __webpack_require__(423);
+var createFind = __webpack_require__(406),
+    findIndex = __webpack_require__(425);
 
 /**
  * Iterates over elements of `collection`, returning the first element
@@ -66882,12 +67046,12 @@ module.exports = find;
 
 
 /***/ }),
-/* 404 */
+/* 406 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseIteratee = __webpack_require__(209),
-    isArrayLike = __webpack_require__(208),
-    keys = __webpack_require__(53);
+var baseIteratee = __webpack_require__(211),
+    isArrayLike = __webpack_require__(210),
+    keys = __webpack_require__(55);
 
 /**
  * Creates a `_.find` or `_.findLast` function.
@@ -66913,12 +67077,12 @@ module.exports = createFind;
 
 
 /***/ }),
-/* 405 */
+/* 407 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseIsMatch = __webpack_require__(406),
-    getMatchData = __webpack_require__(407),
-    matchesStrictComparable = __webpack_require__(211);
+var baseIsMatch = __webpack_require__(408),
+    getMatchData = __webpack_require__(409),
+    matchesStrictComparable = __webpack_require__(213);
 
 /**
  * The base implementation of `_.matches` which doesn't clone `source`.
@@ -66941,11 +67105,11 @@ module.exports = baseMatches;
 
 
 /***/ }),
-/* 406 */
+/* 408 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Stack = __webpack_require__(198),
-    baseIsEqual = __webpack_require__(50);
+var Stack = __webpack_require__(200),
+    baseIsEqual = __webpack_require__(52);
 
 /** Used to compose bitmasks for value comparisons. */
 var COMPARE_PARTIAL_FLAG = 1,
@@ -67009,11 +67173,11 @@ module.exports = baseIsMatch;
 
 
 /***/ }),
-/* 407 */
+/* 409 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isStrictComparable = __webpack_require__(210),
-    keys = __webpack_require__(53);
+var isStrictComparable = __webpack_require__(212),
+    keys = __webpack_require__(55);
 
 /**
  * Gets the property names, values, and compare flags of `object`.
@@ -67039,15 +67203,15 @@ module.exports = getMatchData;
 
 
 /***/ }),
-/* 408 */
+/* 410 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseIsEqual = __webpack_require__(50),
-    get = __webpack_require__(409),
-    hasIn = __webpack_require__(416),
-    isKey = __webpack_require__(55),
-    isStrictComparable = __webpack_require__(210),
-    matchesStrictComparable = __webpack_require__(211),
+var baseIsEqual = __webpack_require__(52),
+    get = __webpack_require__(411),
+    hasIn = __webpack_require__(418),
+    isKey = __webpack_require__(57),
+    isStrictComparable = __webpack_require__(212),
+    matchesStrictComparable = __webpack_require__(213),
     toKey = __webpack_require__(38);
 
 /** Used to compose bitmasks for value comparisons. */
@@ -67078,10 +67242,10 @@ module.exports = baseMatchesProperty;
 
 
 /***/ }),
-/* 409 */
+/* 411 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseGet = __webpack_require__(212);
+var baseGet = __webpack_require__(214);
 
 /**
  * Gets the value at `path` of `object`. If the resolved value is
@@ -67117,10 +67281,10 @@ module.exports = get;
 
 
 /***/ }),
-/* 410 */
+/* 412 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var memoizeCapped = __webpack_require__(411);
+var memoizeCapped = __webpack_require__(413);
 
 /** Used to match property names within property paths. */
 var reLeadingDot = /^\./,
@@ -67151,10 +67315,10 @@ module.exports = stringToPath;
 
 
 /***/ }),
-/* 411 */
+/* 413 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var memoize = __webpack_require__(412);
+var memoize = __webpack_require__(414);
 
 /** Used as the maximum memoize cache size. */
 var MAX_MEMOIZE_SIZE = 500;
@@ -67183,10 +67347,10 @@ module.exports = memoizeCapped;
 
 
 /***/ }),
-/* 412 */
+/* 414 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var MapCache = __webpack_require__(52);
+var MapCache = __webpack_require__(54);
 
 /** Error message constants. */
 var FUNC_ERROR_TEXT = 'Expected a function';
@@ -67262,10 +67426,10 @@ module.exports = memoize;
 
 
 /***/ }),
-/* 413 */
+/* 415 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseToString = __webpack_require__(414);
+var baseToString = __webpack_require__(416);
 
 /**
  * Converts `value` to a string. An empty string is returned for `null`
@@ -67296,11 +67460,11 @@ module.exports = toString;
 
 
 /***/ }),
-/* 414 */
+/* 416 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Symbol = __webpack_require__(33),
-    arrayMap = __webpack_require__(415),
+    arrayMap = __webpack_require__(417),
     isArray = __webpack_require__(14),
     isSymbol = __webpack_require__(37);
 
@@ -67339,7 +67503,7 @@ module.exports = baseToString;
 
 
 /***/ }),
-/* 415 */
+/* 417 */
 /***/ (function(module, exports) {
 
 /**
@@ -67366,11 +67530,11 @@ module.exports = arrayMap;
 
 
 /***/ }),
-/* 416 */
+/* 418 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseHasIn = __webpack_require__(417),
-    hasPath = __webpack_require__(418);
+var baseHasIn = __webpack_require__(419),
+    hasPath = __webpack_require__(420);
 
 /**
  * Checks if `path` is a direct or inherited property of `object`.
@@ -67406,7 +67570,7 @@ module.exports = hasIn;
 
 
 /***/ }),
-/* 417 */
+/* 419 */
 /***/ (function(module, exports) {
 
 /**
@@ -67425,14 +67589,14 @@ module.exports = baseHasIn;
 
 
 /***/ }),
-/* 418 */
+/* 420 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var castPath = __webpack_require__(213),
-    isArguments = __webpack_require__(204),
+var castPath = __webpack_require__(215),
+    isArguments = __webpack_require__(206),
     isArray = __webpack_require__(14),
-    isIndex = __webpack_require__(206),
-    isLength = __webpack_require__(54),
+    isIndex = __webpack_require__(208),
+    isLength = __webpack_require__(56),
     toKey = __webpack_require__(38);
 
 /**
@@ -67470,7 +67634,7 @@ module.exports = hasPath;
 
 
 /***/ }),
-/* 419 */
+/* 421 */
 /***/ (function(module, exports) {
 
 /**
@@ -67497,12 +67661,12 @@ module.exports = identity;
 
 
 /***/ }),
-/* 420 */
+/* 422 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseProperty = __webpack_require__(421),
-    basePropertyDeep = __webpack_require__(422),
-    isKey = __webpack_require__(55),
+var baseProperty = __webpack_require__(423),
+    basePropertyDeep = __webpack_require__(424),
+    isKey = __webpack_require__(57),
     toKey = __webpack_require__(38);
 
 /**
@@ -67535,7 +67699,7 @@ module.exports = property;
 
 
 /***/ }),
-/* 421 */
+/* 423 */
 /***/ (function(module, exports) {
 
 /**
@@ -67555,10 +67719,10 @@ module.exports = baseProperty;
 
 
 /***/ }),
-/* 422 */
+/* 424 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseGet = __webpack_require__(212);
+var baseGet = __webpack_require__(214);
 
 /**
  * A specialized version of `baseProperty` which supports deep paths.
@@ -67577,12 +67741,12 @@ module.exports = basePropertyDeep;
 
 
 /***/ }),
-/* 423 */
+/* 425 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseFindIndex = __webpack_require__(424),
-    baseIteratee = __webpack_require__(209),
-    toInteger = __webpack_require__(425);
+var baseFindIndex = __webpack_require__(426),
+    baseIteratee = __webpack_require__(211),
+    toInteger = __webpack_require__(427);
 
 /* Built-in method references for those with the same name as other `lodash` methods. */
 var nativeMax = Math.max;
@@ -67638,7 +67802,7 @@ module.exports = findIndex;
 
 
 /***/ }),
-/* 424 */
+/* 426 */
 /***/ (function(module, exports) {
 
 /**
@@ -67668,10 +67832,10 @@ module.exports = baseFindIndex;
 
 
 /***/ }),
-/* 425 */
+/* 427 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var toFinite = __webpack_require__(426);
+var toFinite = __webpack_require__(428);
 
 /**
  * Converts `value` to an integer.
@@ -67710,10 +67874,10 @@ module.exports = toInteger;
 
 
 /***/ }),
-/* 426 */
+/* 428 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var toNumber = __webpack_require__(427);
+var toNumber = __webpack_require__(429);
 
 /** Used as references for various `Number` constants. */
 var INFINITY = 1 / 0,
@@ -67758,7 +67922,7 @@ module.exports = toFinite;
 
 
 /***/ }),
-/* 427 */
+/* 429 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isObject = __webpack_require__(34),
@@ -67830,7 +67994,7 @@ module.exports = toNumber;
 
 
 /***/ }),
-/* 428 */
+/* 430 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -67850,15 +68014,15 @@ var _reactDom = __webpack_require__(17);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _Menu = __webpack_require__(27);
+var _Menu = __webpack_require__(28);
 
 var _Menu2 = _interopRequireDefault(_Menu);
 
-var _LineMultiAxis = __webpack_require__(48);
+var _LineMultiAxis = __webpack_require__(50);
 
 var _LineMultiAxis2 = _interopRequireDefault(_LineMultiAxis);
 
-var _NodeGauge = __webpack_require__(56);
+var _NodeGauge = __webpack_require__(58);
 
 var _NodeGauge2 = _interopRequireDefault(_NodeGauge);
 
@@ -67866,7 +68030,7 @@ var _Store = __webpack_require__(20);
 
 var _Store2 = _interopRequireDefault(_Store);
 
-var _underscore = __webpack_require__(29);
+var _underscore = __webpack_require__(21);
 
 var _underscore2 = _interopRequireDefault(_underscore);
 
@@ -67888,7 +68052,7 @@ var Battery = function (_Component) {
 
     _this._processStore = function () {
       var currentPath = _this.props.location.pathname;
-      var data = _underscore2.default.find(_Store2.default.state.nodes, function (menu) {
+      var data = _underscore2.default.find(_Store2.default.menu.nodes, function (menu) {
         return menu.url === currentPath;
       });
 
@@ -67980,14 +68144,16 @@ var Battery = function (_Component) {
                   { className: !this.state.loading ? 'card-header' : '' },
                   _react2.default.createElement(
                     'p',
-                    { className: 'card-header-title', style: { color: '#4468b0' } },
+                    { className: 'card-header-title',
+                      style: { color: '#4468b0' } },
                     !this.state.loading && 'Average'
                   )
                 ),
                 _react2.default.createElement(
                   'div',
                   { className: !this.state.loading ? 'card-content' : '' },
-                  _react2.default.createElement('div', { id: 'Gauge', className: !this.state.loading ? 'columns' : '', style: { width: '100%' } })
+                  _react2.default.createElement('div', { id: 'Gauge', className: !this.state.loading ? 'columns' : '',
+                    style: { width: '100%' } })
                 )
               ),
               _react2.default.createElement('br', null),
@@ -67999,7 +68165,8 @@ var Battery = function (_Component) {
                   { className: !this.state.loading ? 'card-header' : '' },
                   _react2.default.createElement(
                     'p',
-                    { className: 'card-header-title', style: { color: '#4468b0' } },
+                    { className: 'card-header-title',
+                      style: { color: '#4468b0' } },
                     !this.state.loading && 'Timeline'
                   )
                 ),
@@ -68022,7 +68189,7 @@ var Battery = function (_Component) {
 exports.default = Battery;
 
 /***/ }),
-/* 429 */
+/* 431 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -68042,15 +68209,15 @@ var _reactDom = __webpack_require__(17);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _Menu = __webpack_require__(27);
+var _Menu = __webpack_require__(28);
 
 var _Menu2 = _interopRequireDefault(_Menu);
 
-var _LineMultiAxis = __webpack_require__(48);
+var _LineMultiAxis = __webpack_require__(50);
 
 var _LineMultiAxis2 = _interopRequireDefault(_LineMultiAxis);
 
-var _NodeGauge = __webpack_require__(56);
+var _NodeGauge = __webpack_require__(58);
 
 var _NodeGauge2 = _interopRequireDefault(_NodeGauge);
 
@@ -68058,7 +68225,7 @@ var _Store = __webpack_require__(20);
 
 var _Store2 = _interopRequireDefault(_Store);
 
-var _underscore = __webpack_require__(29);
+var _underscore = __webpack_require__(21);
 
 var _underscore2 = _interopRequireDefault(_underscore);
 
@@ -68080,23 +68247,45 @@ var NodeTemplate = function (_Component) {
 
     _this._processStore = function () {
       var currentPath = _this.props.location.pathname;
-      var node = _underscore2.default.find(_Store2.default.state.nodes, function (node) {
-        return node.url.split('/')[1] === currentPath.split('/')[1];
-      });
-      var data = _underscore2.default.find(node.children, function (obj) {
-        return obj.url === currentPath;
-      });
 
-      _this.setState({
-        graphs: [data],
-        loading: false
-      });
+      if (_Store2.default.sensor_data[_this.props.match.params.id]) {
+
+        _this.setState({ sensorData: _Store2.default.sensor_data[_this.props.match.params.id] });
+
+        _this.setState({
+          graphs: Object.assign({}, _this.state.sensorData.temperature.chart),
+          loading: false
+        });
+      }
     };
+
+    _this.shouldUpdateGraph = 0;
 
     _this.state = {
       nodes: [],
       loading: true,
-      graphs: []
+      graphs: {
+        data: [],
+        labels: ''
+      },
+      masterMenuItems: [],
+      nodeMenuItems: [],
+      sensorData: {
+        temperature: {
+          chart: {
+            label: 'temperature',
+            data: [],
+            labels: [1]
+          }
+        },
+        humidity: {
+          chart: {
+            label: 'humidity',
+            data: [],
+            labels: [1]
+          }
+        }
+      }
     };
 
     console.log('=== constructor');
@@ -68114,25 +68303,16 @@ var NodeTemplate = function (_Component) {
         _this2._processStore();
       });
 
-      if (_Store2.default.state.length !== 0) {
-        this._processStore();
-      }
+      // if (this.state.masterMenuItems.length !== 0) {
+      //   this._processStore()
+      // }
     }
   }, {
     key: 'componentDidUpdate',
     value: function componentDidUpdate() {
       if (!this.state.loading) {
-        console.log('=== componentDidUpdate >>> loading false');
 
-        var currentPath = this.props.location.pathname;
-        var node = _underscore2.default.find(_Store2.default.state.nodes, function (node) {
-          return node.url.split('/')[1] === currentPath.split('/')[1];
-        });
-        var data = _underscore2.default.find(node.children, function (obj) {
-          return obj.url === currentPath;
-        });
-
-        _reactDom2.default.render(_react2.default.createElement(_LineMultiAxis2.default, { data: [data] }), document.getElementById('LineMultiAxis'));
+        _reactDom2.default.render(_react2.default.createElement(_LineMultiAxis2.default, { data: [this.state.graphs] }), document.getElementById('LineMultiAxis'));
       }
     }
   }, {
@@ -68141,7 +68321,7 @@ var NodeTemplate = function (_Component) {
       if (!this.state.loading) {
         console.log('=== componentDidMount >>> loading false');
 
-        _reactDom2.default.render(_react2.default.createElement(_LineMultiAxis2.default, { data: this.state.graphs }), document.getElementById('LineMultiAxis'));
+        _reactDom2.default.render(_react2.default.createElement(_LineMultiAxis2.default, { data: [this.state.graphs] }), document.getElementById('LineMultiAxis'));
       }
     }
   }, {
@@ -68204,260 +68384,6 @@ var NodeTemplate = function (_Component) {
 exports.default = NodeTemplate;
 
 /***/ }),
-/* 430 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/**
- * Copyright (c) 2014-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- */
-
-module.exports.Dispatcher = __webpack_require__(431);
-
-
-/***/ }),
-/* 431 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {/**
- * Copyright (c) 2014-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- *
- * @providesModule Dispatcher
- * 
- * @preventMunge
- */
-
-
-
-exports.__esModule = true;
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-var invariant = __webpack_require__(6);
-
-var _prefix = 'ID_';
-
-/**
- * Dispatcher is used to broadcast payloads to registered callbacks. This is
- * different from generic pub-sub systems in two ways:
- *
- *   1) Callbacks are not subscribed to particular events. Every payload is
- *      dispatched to every registered callback.
- *   2) Callbacks can be deferred in whole or part until other callbacks have
- *      been executed.
- *
- * For example, consider this hypothetical flight destination form, which
- * selects a default city when a country is selected:
- *
- *   var flightDispatcher = new Dispatcher();
- *
- *   // Keeps track of which country is selected
- *   var CountryStore = {country: null};
- *
- *   // Keeps track of which city is selected
- *   var CityStore = {city: null};
- *
- *   // Keeps track of the base flight price of the selected city
- *   var FlightPriceStore = {price: null}
- *
- * When a user changes the selected city, we dispatch the payload:
- *
- *   flightDispatcher.dispatch({
- *     actionType: 'city-update',
- *     selectedCity: 'paris'
- *   });
- *
- * This payload is digested by `CityStore`:
- *
- *   flightDispatcher.register(function(payload) {
- *     if (payload.actionType === 'city-update') {
- *       CityStore.city = payload.selectedCity;
- *     }
- *   });
- *
- * When the user selects a country, we dispatch the payload:
- *
- *   flightDispatcher.dispatch({
- *     actionType: 'country-update',
- *     selectedCountry: 'australia'
- *   });
- *
- * This payload is digested by both stores:
- *
- *   CountryStore.dispatchToken = flightDispatcher.register(function(payload) {
- *     if (payload.actionType === 'country-update') {
- *       CountryStore.country = payload.selectedCountry;
- *     }
- *   });
- *
- * When the callback to update `CountryStore` is registered, we save a reference
- * to the returned token. Using this token with `waitFor()`, we can guarantee
- * that `CountryStore` is updated before the callback that updates `CityStore`
- * needs to query its data.
- *
- *   CityStore.dispatchToken = flightDispatcher.register(function(payload) {
- *     if (payload.actionType === 'country-update') {
- *       // `CountryStore.country` may not be updated.
- *       flightDispatcher.waitFor([CountryStore.dispatchToken]);
- *       // `CountryStore.country` is now guaranteed to be updated.
- *
- *       // Select the default city for the new country
- *       CityStore.city = getDefaultCityForCountry(CountryStore.country);
- *     }
- *   });
- *
- * The usage of `waitFor()` can be chained, for example:
- *
- *   FlightPriceStore.dispatchToken =
- *     flightDispatcher.register(function(payload) {
- *       switch (payload.actionType) {
- *         case 'country-update':
- *         case 'city-update':
- *           flightDispatcher.waitFor([CityStore.dispatchToken]);
- *           FlightPriceStore.price =
- *             getFlightPriceStore(CountryStore.country, CityStore.city);
- *           break;
- *     }
- *   });
- *
- * The `country-update` payload will be guaranteed to invoke the stores'
- * registered callbacks in order: `CountryStore`, `CityStore`, then
- * `FlightPriceStore`.
- */
-
-var Dispatcher = (function () {
-  function Dispatcher() {
-    _classCallCheck(this, Dispatcher);
-
-    this._callbacks = {};
-    this._isDispatching = false;
-    this._isHandled = {};
-    this._isPending = {};
-    this._lastID = 1;
-  }
-
-  /**
-   * Registers a callback to be invoked with every dispatched payload. Returns
-   * a token that can be used with `waitFor()`.
-   */
-
-  Dispatcher.prototype.register = function register(callback) {
-    var id = _prefix + this._lastID++;
-    this._callbacks[id] = callback;
-    return id;
-  };
-
-  /**
-   * Removes a callback based on its token.
-   */
-
-  Dispatcher.prototype.unregister = function unregister(id) {
-    !this._callbacks[id] ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Dispatcher.unregister(...): `%s` does not map to a registered callback.', id) : invariant(false) : undefined;
-    delete this._callbacks[id];
-  };
-
-  /**
-   * Waits for the callbacks specified to be invoked before continuing execution
-   * of the current callback. This method should only be used by a callback in
-   * response to a dispatched payload.
-   */
-
-  Dispatcher.prototype.waitFor = function waitFor(ids) {
-    !this._isDispatching ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Dispatcher.waitFor(...): Must be invoked while dispatching.') : invariant(false) : undefined;
-    for (var ii = 0; ii < ids.length; ii++) {
-      var id = ids[ii];
-      if (this._isPending[id]) {
-        !this._isHandled[id] ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Dispatcher.waitFor(...): Circular dependency detected while ' + 'waiting for `%s`.', id) : invariant(false) : undefined;
-        continue;
-      }
-      !this._callbacks[id] ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Dispatcher.waitFor(...): `%s` does not map to a registered callback.', id) : invariant(false) : undefined;
-      this._invokeCallback(id);
-    }
-  };
-
-  /**
-   * Dispatches a payload to all registered callbacks.
-   */
-
-  Dispatcher.prototype.dispatch = function dispatch(payload) {
-    !!this._isDispatching ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Dispatch.dispatch(...): Cannot dispatch in the middle of a dispatch.') : invariant(false) : undefined;
-    this._startDispatching(payload);
-    try {
-      for (var id in this._callbacks) {
-        if (this._isPending[id]) {
-          continue;
-        }
-        this._invokeCallback(id);
-      }
-    } finally {
-      this._stopDispatching();
-    }
-  };
-
-  /**
-   * Is this Dispatcher currently dispatching.
-   */
-
-  Dispatcher.prototype.isDispatching = function isDispatching() {
-    return this._isDispatching;
-  };
-
-  /**
-   * Call the callback stored with the given id. Also do some internal
-   * bookkeeping.
-   *
-   * @internal
-   */
-
-  Dispatcher.prototype._invokeCallback = function _invokeCallback(id) {
-    this._isPending[id] = true;
-    this._callbacks[id](this._pendingPayload);
-    this._isHandled[id] = true;
-  };
-
-  /**
-   * Set up bookkeeping needed when dispatching.
-   *
-   * @internal
-   */
-
-  Dispatcher.prototype._startDispatching = function _startDispatching(payload) {
-    for (var id in this._callbacks) {
-      this._isPending[id] = false;
-      this._isHandled[id] = false;
-    }
-    this._pendingPayload = payload;
-    this._isDispatching = true;
-  };
-
-  /**
-   * Clear bookkeeping used for dispatching.
-   *
-   * @internal
-   */
-
-  Dispatcher.prototype._stopDispatching = function _stopDispatching() {
-    delete this._pendingPayload;
-    this._isDispatching = false;
-  };
-
-  return Dispatcher;
-})();
-
-module.exports = Dispatcher;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
-
-/***/ }),
 /* 432 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -68472,43 +68398,47 @@ var _axios = __webpack_require__(433);
 
 var _axios2 = _interopRequireDefault(_axios);
 
+var _Constants = __webpack_require__(49);
+
+var _Constants2 = _interopRequireDefault(_Constants);
+
+var _Dispatcher = __webpack_require__(48);
+
+var _Dispatcher2 = _interopRequireDefault(_Dispatcher);
+
+var _underscore = __webpack_require__(21);
+
+var _underscore2 = _interopRequireDefault(_underscore);
+
 var _mqttws = __webpack_require__(452);
 
 var _mqttws2 = _interopRequireDefault(_mqttws);
 
-var _Constants = __webpack_require__(215);
-
-var _Constants2 = _interopRequireDefault(_Constants);
-
-var _Dispatcher = __webpack_require__(214);
-
-var _Dispatcher2 = _interopRequireDefault(_Dispatcher);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 var _mapValue = function _mapValue(x, in_min, in_max, out_min, out_max) {
   return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 };
 var SENSOR_NODES = {};
+var SENSOR_DATA = {};
 
-exports.default = function (callback) {
+exports.default = function () {
 
-  var Paho = _mqttws2.default;
   var hostname = 'mqtt.cmmc.io';
   var port = 9001;
   var clientId = 'clientId-' + Math.random() * 100;
 
-  var client = new Paho.MQTT.Client(hostname, port, clientId);
+  var client = new _mqttws2.default.MQTT.Client(hostname, port, clientId);
+
   client.onConnectionLost = onConnectionLost;
   client.onMessageArrived = onMessageArrived;
   client.connect({ onSuccess: onConnect });
 
   function onConnect() {
-    console.log('onConnect');
+    console.log('onConnect...');
     client.subscribe('CMMC/NB-IOT/#');
-    // message = new Paho.MQTT.Message('Hello')
-    // message.destinationName = '/World'
-    // client.send(message)
   }
 
   function onConnectionLost(responseObject) {
@@ -68521,14 +68451,52 @@ exports.default = function (callback) {
     console.log('onMessageArrived:' + message.payloadString);
     var data = JSON.parse(message.payloadString);
     var sensor_node = data.cmmc_packet.sensor_node;
-    SENSOR_NODES[sensor_node.device_name] = sensor_node;
-    console.log(SENSOR_NODES);
-    // message = JSON.parse(message.payloadString)
-    // Dispatcher.dispatch({
-    //   type: TypeActions.DONE_GET_DATA,
-    //   data: convertData
-    // })
+
+    if (_underscore2.default.isUndefined(SENSOR_NODES[sensor_node.device_name])) {
+      SENSOR_NODES[sensor_node.device_name] = data.cmmc_packet.sensor_node;
+      SENSOR_DATA[sensor_node.device_name] = {
+        temperature: {
+          chart: {
+            label: 'temperature',
+            data: [data.cmmc_packet.sensor_node.field1],
+            labels: [1]
+          }
+        },
+        humidity: {
+          chart: {
+            label: 'humidity',
+            data: [data.cmmc_packet.sensor_node.field2],
+            labels: [1]
+          }
+        }
+      };
+    } else {
+      SENSOR_DATA[sensor_node.device_name].temperature.chart.data.push(sensor_node.field1);
+      SENSOR_DATA[sensor_node.device_name].humidity.chart.data.push(sensor_node.field2);
+
+      SENSOR_DATA[sensor_node.device_name].temperature.chart.labels = [].concat(_toConsumableArray(SENSOR_DATA[sensor_node.device_name].temperature.chart.data));
+      SENSOR_DATA[sensor_node.device_name].humidity.chart.labels = [].concat(_toConsumableArray(SENSOR_DATA[sensor_node.device_name].humidity.chart.data));
+    }
   }
+
+  setInterval(function () {
+    var subNodes = [];
+    _underscore2.default.keys(SENSOR_NODES).forEach(function (k, idx) {
+      subNodes.push({
+        id: idx, name: k, url: '/node/' + SENSOR_NODES[k].device_name
+      });
+    });
+
+    _Dispatcher2.default.dispatch({
+      type: _Constants2.default.GOT_MENU_UPDATES,
+      data: subNodes
+    });
+
+    _Dispatcher2.default.dispatch({
+      type: _Constants2.default.DONE_GET_DATA,
+      data: SENSOR_DATA
+    });
+  }, 2000);
 };
 
 /***/ }),
@@ -68547,7 +68515,7 @@ module.exports = __webpack_require__(434);
 var utils = __webpack_require__(8);
 var bind = __webpack_require__(216);
 var Axios = __webpack_require__(436);
-var defaults = __webpack_require__(57);
+var defaults = __webpack_require__(59);
 
 /**
  * Create an instance of Axios
@@ -68630,7 +68598,7 @@ function isSlowBuffer (obj) {
 "use strict";
 
 
-var defaults = __webpack_require__(57);
+var defaults = __webpack_require__(59);
 var utils = __webpack_require__(8);
 var InterceptorManager = __webpack_require__(445);
 var dispatchRequest = __webpack_require__(446);
@@ -69171,7 +69139,7 @@ module.exports = InterceptorManager;
 var utils = __webpack_require__(8);
 var transformData = __webpack_require__(447);
 var isCancel = __webpack_require__(219);
-var defaults = __webpack_require__(57);
+var defaults = __webpack_require__(59);
 var isAbsoluteURL = __webpack_require__(448);
 var combineURLs = __webpack_require__(449);
 
@@ -69423,10 +69391,17 @@ module.exports = function spread(callback) {
 
 /***/ }),
 /* 452 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 /*******************************************************************************
  * Copyright (c) 2013 IBM Corp.
  *
@@ -69443,12 +69418,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
  *    Andrew Banks - initial API and implementation and initial documentation
  *******************************************************************************/
 
-
 // Only expose a single object name in the global namespace.
 // Everything must go through this module. Global Paho.MQTT module
 // only has a single public function, client, which returns
 // a Paho.MQTT client object given connection details.
- 
+
 /**
  * Send and receive messages using web browsers.
  * <p> 
@@ -69512,29 +69486,30 @@ function onMessageArrived(message) {
 // if (typeof Paho === "undefined") {
 // 	Paho = {};
 // }
-var Paho  = {}
+var Paho = {};
 
-/* harmony default export */ __webpack_exports__["default"] = (Paho);
+exports.default = Paho;
 
-Paho.MQTT = (function (global) {
+
+Paho.MQTT = function (global) {
 
 	// Private variables below, these are only visible inside the function closure
 	// which is used to define the module. 
 
 	var version = "@VERSION@";
 	var buildLevel = "@BUILDLEVEL@";
-	
+
 	/** 
-	 * Unique message type identifiers, with associated
-	 * associated integer values.
-	 * @private 
-	 */
+  * Unique message type identifiers, with associated
+  * associated integer values.
+  * @private 
+  */
 	var MESSAGE_TYPE = {
-		CONNECT: 1, 
-		CONNACK: 2, 
+		CONNECT: 1,
+		CONNACK: 2,
 		PUBLISH: 3,
 		PUBACK: 4,
-		PUBREC: 5, 
+		PUBREC: 5,
 		PUBREL: 6,
 		PUBCOMP: 7,
 		SUBSCRIBE: 8,
@@ -69545,141 +69520,139 @@ Paho.MQTT = (function (global) {
 		PINGRESP: 13,
 		DISCONNECT: 14
 	};
-	
+
 	// Collection of utility methods used to simplify module code 
 	// and promote the DRY pattern.  
 
 	/**
-	 * Validate an object's parameter names to ensure they 
-	 * match a list of expected variables name for this option
-	 * type. Used to ensure option object passed into the API don't
-	 * contain erroneous parameters.
-	 * @param {Object} obj - User options object
-	 * @param {Object} keys - valid keys and types that may exist in obj. 
-	 * @throws {Error} Invalid option parameter found. 
-	 * @private 
-	 */
-	var validate = function(obj, keys) {
+  * Validate an object's parameter names to ensure they 
+  * match a list of expected variables name for this option
+  * type. Used to ensure option object passed into the API don't
+  * contain erroneous parameters.
+  * @param {Object} obj - User options object
+  * @param {Object} keys - valid keys and types that may exist in obj. 
+  * @throws {Error} Invalid option parameter found. 
+  * @private 
+  */
+	var validate = function validate(obj, keys) {
 		for (var key in obj) {
-			if (obj.hasOwnProperty(key)) {       		
+			if (obj.hasOwnProperty(key)) {
 				if (keys.hasOwnProperty(key)) {
-					if (typeof obj[key] !== keys[key])
-					   throw new Error(format(ERROR.INVALID_TYPE, [typeof obj[key], key]));
-				} else {	
+					if (_typeof(obj[key]) !== keys[key]) throw new Error(format(ERROR.INVALID_TYPE, [_typeof(obj[key]), key]));
+				} else {
 					var errorStr = "Unknown property, " + key + ". Valid properties are:";
-					for (var key in keys)
-						if (keys.hasOwnProperty(key))
-							errorStr = errorStr+" "+key;
-					throw new Error(errorStr);
+					for (var key in keys) {
+						if (keys.hasOwnProperty(key)) errorStr = errorStr + " " + key;
+					}throw new Error(errorStr);
 				}
 			}
 		}
 	};
 
 	/**
-	 * Return a new function which runs the user function bound
-	 * to a fixed scope. 
-	 * @param {function} User function
-	 * @param {object} Function scope  
-	 * @return {function} User function bound to another scope
-	 * @private 
-	 */
-	var scope = function (f, scope) {
+  * Return a new function which runs the user function bound
+  * to a fixed scope. 
+  * @param {function} User function
+  * @param {object} Function scope  
+  * @return {function} User function bound to another scope
+  * @private 
+  */
+	var scope = function scope(f, _scope) {
 		return function () {
-			return f.apply(scope, arguments);
+			return f.apply(_scope, arguments);
 		};
 	};
-	
+
 	/** 
-	 * Unique message type identifiers, with associated
-	 * associated integer values.
-	 * @private 
-	 */
+  * Unique message type identifiers, with associated
+  * associated integer values.
+  * @private 
+  */
 	var ERROR = {
-		OK: {code:0, text:"AMQJSC0000I OK."},
-		CONNECT_TIMEOUT: {code:1, text:"AMQJSC0001E Connect timed out."},
-		SUBSCRIBE_TIMEOUT: {code:2, text:"AMQJS0002E Subscribe timed out."}, 
-		UNSUBSCRIBE_TIMEOUT: {code:3, text:"AMQJS0003E Unsubscribe timed out."},
-		PING_TIMEOUT: {code:4, text:"AMQJS0004E Ping timed out."},
-		INTERNAL_ERROR: {code:5, text:"AMQJS0005E Internal error. Error Message: {0}, Stack trace: {1}"},
-		CONNACK_RETURNCODE: {code:6, text:"AMQJS0006E Bad Connack return code:{0} {1}."},
-		SOCKET_ERROR: {code:7, text:"AMQJS0007E Socket error:{0}."},
-		SOCKET_CLOSE: {code:8, text:"AMQJS0008I Socket closed."},
-		MALFORMED_UTF: {code:9, text:"AMQJS0009E Malformed UTF data:{0} {1} {2}."},
-		UNSUPPORTED: {code:10, text:"AMQJS0010E {0} is not supported by this browser."},
-		INVALID_STATE: {code:11, text:"AMQJS0011E Invalid state {0}."},
-		INVALID_TYPE: {code:12, text:"AMQJS0012E Invalid type {0} for {1}."},
-		INVALID_ARGUMENT: {code:13, text:"AMQJS0013E Invalid argument {0} for {1}."},
-		UNSUPPORTED_OPERATION: {code:14, text:"AMQJS0014E Unsupported operation."},
-		INVALID_STORED_DATA: {code:15, text:"AMQJS0015E Invalid data in local storage key={0} value={1}."},
-		INVALID_MQTT_MESSAGE_TYPE: {code:16, text:"AMQJS0016E Invalid MQTT message type {0}."},
-		MALFORMED_UNICODE: {code:17, text:"AMQJS0017E Malformed Unicode string:{0} {1}."}
+		OK: { code: 0, text: "AMQJSC0000I OK." },
+		CONNECT_TIMEOUT: { code: 1, text: "AMQJSC0001E Connect timed out." },
+		SUBSCRIBE_TIMEOUT: { code: 2, text: "AMQJS0002E Subscribe timed out." },
+		UNSUBSCRIBE_TIMEOUT: { code: 3, text: "AMQJS0003E Unsubscribe timed out." },
+		PING_TIMEOUT: { code: 4, text: "AMQJS0004E Ping timed out." },
+		INTERNAL_ERROR: { code: 5, text: "AMQJS0005E Internal error. Error Message: {0}, Stack trace: {1}" },
+		CONNACK_RETURNCODE: { code: 6, text: "AMQJS0006E Bad Connack return code:{0} {1}." },
+		SOCKET_ERROR: { code: 7, text: "AMQJS0007E Socket error:{0}." },
+		SOCKET_CLOSE: { code: 8, text: "AMQJS0008I Socket closed." },
+		MALFORMED_UTF: { code: 9, text: "AMQJS0009E Malformed UTF data:{0} {1} {2}." },
+		UNSUPPORTED: { code: 10, text: "AMQJS0010E {0} is not supported by this browser." },
+		INVALID_STATE: { code: 11, text: "AMQJS0011E Invalid state {0}." },
+		INVALID_TYPE: { code: 12, text: "AMQJS0012E Invalid type {0} for {1}." },
+		INVALID_ARGUMENT: { code: 13, text: "AMQJS0013E Invalid argument {0} for {1}." },
+		UNSUPPORTED_OPERATION: { code: 14, text: "AMQJS0014E Unsupported operation." },
+		INVALID_STORED_DATA: { code: 15, text: "AMQJS0015E Invalid data in local storage key={0} value={1}." },
+		INVALID_MQTT_MESSAGE_TYPE: { code: 16, text: "AMQJS0016E Invalid MQTT message type {0}." },
+		MALFORMED_UNICODE: { code: 17, text: "AMQJS0017E Malformed Unicode string:{0} {1}." }
 	};
-	
+
 	/** CONNACK RC Meaning. */
 	var CONNACK_RC = {
-		0:"Connection Accepted",
-		1:"Connection Refused: unacceptable protocol version",
-		2:"Connection Refused: identifier rejected",
-		3:"Connection Refused: server unavailable",
-		4:"Connection Refused: bad user name or password",
-		5:"Connection Refused: not authorized"
+		0: "Connection Accepted",
+		1: "Connection Refused: unacceptable protocol version",
+		2: "Connection Refused: identifier rejected",
+		3: "Connection Refused: server unavailable",
+		4: "Connection Refused: bad user name or password",
+		5: "Connection Refused: not authorized"
 	};
 
 	/**
-	 * Format an error message text.
-	 * @private
-	 * @param {error} ERROR.KEY value above.
-	 * @param {substitutions} [array] substituted into the text.
-	 * @return the text with the substitutions made.
-	 */
-	var format = function(error, substitutions) {
+  * Format an error message text.
+  * @private
+  * @param {error} ERROR.KEY value above.
+  * @param {substitutions} [array] substituted into the text.
+  * @return the text with the substitutions made.
+  */
+	var format = function format(error, substitutions) {
 		var text = error.text;
 		if (substitutions) {
-		  var field,start;
-		  for (var i=0; i<substitutions.length; i++) {
-			field = "{"+i+"}";
-			start = text.indexOf(field);
-			if(start > 0) {
-				var part1 = text.substring(0,start);
-				var part2 = text.substring(start+field.length);
-				text = part1+substitutions[i]+part2;
+			var field, start;
+			for (var i = 0; i < substitutions.length; i++) {
+				field = "{" + i + "}";
+				start = text.indexOf(field);
+				if (start > 0) {
+					var part1 = text.substring(0, start);
+					var part2 = text.substring(start + field.length);
+					text = part1 + substitutions[i] + part2;
+				}
 			}
-		  }
 		}
 		return text;
 	};
-	
+
 	//MQTT protocol and version          6    M    Q    I    s    d    p    3
-	var MqttProtoIdentifierv3 = [0x00,0x06,0x4d,0x51,0x49,0x73,0x64,0x70,0x03];
+	var MqttProtoIdentifierv3 = [0x00, 0x06, 0x4d, 0x51, 0x49, 0x73, 0x64, 0x70, 0x03];
 	//MQTT proto/version for 311         4    M    Q    T    T    4
-	var MqttProtoIdentifierv4 = [0x00,0x04,0x4d,0x51,0x54,0x54,0x04];
-	
+	var MqttProtoIdentifierv4 = [0x00, 0x04, 0x4d, 0x51, 0x54, 0x54, 0x04];
+
 	/**
-	 * Construct an MQTT wire protocol message.
-	 * @param type MQTT packet type.
-	 * @param options optional wire message attributes.
-	 * 
-	 * Optional properties
-	 * 
-	 * messageIdentifier: message ID in the range [0..65535]
-	 * payloadMessage:	Application Message - PUBLISH only
-	 * connectStrings:	array of 0 or more Strings to be put into the CONNECT payload
-	 * topics:			array of strings (SUBSCRIBE, UNSUBSCRIBE)
-	 * requestQoS:		array of QoS values [0..2]
-	 *  
-	 * "Flag" properties 
-	 * cleanSession:	true if present / false if absent (CONNECT)
-	 * willMessage:  	true if present / false if absent (CONNECT)
-	 * isRetained:		true if present / false if absent (CONNECT)
-	 * userName:		true if present / false if absent (CONNECT)
-	 * password:		true if present / false if absent (CONNECT)
-	 * keepAliveInterval:	integer [0..65535]  (CONNECT)
-	 *
-	 * @private
-	 * @ignore
-	 */
-	var WireMessage = function (type, options) { 	
+  * Construct an MQTT wire protocol message.
+  * @param type MQTT packet type.
+  * @param options optional wire message attributes.
+  * 
+  * Optional properties
+  * 
+  * messageIdentifier: message ID in the range [0..65535]
+  * payloadMessage:	Application Message - PUBLISH only
+  * connectStrings:	array of 0 or more Strings to be put into the CONNECT payload
+  * topics:			array of strings (SUBSCRIBE, UNSUBSCRIBE)
+  * requestQoS:		array of QoS values [0..2]
+  *  
+  * "Flag" properties 
+  * cleanSession:	true if present / false if absent (CONNECT)
+  * willMessage:  	true if present / false if absent (CONNECT)
+  * isRetained:		true if present / false if absent (CONNECT)
+  * userName:		true if present / false if absent (CONNECT)
+  * password:		true if present / false if absent (CONNECT)
+  * keepAliveInterval:	integer [0..65535]  (CONNECT)
+  *
+  * @private
+  * @ignore
+  */
+	var WireMessage = function WireMessage(type, options) {
 		this.type = type;
 		for (var name in options) {
 			if (options.hasOwnProperty(name)) {
@@ -69687,28 +69660,27 @@ Paho.MQTT = (function (global) {
 			}
 		}
 	};
-	
-	WireMessage.prototype.encode = function() {
+
+	WireMessage.prototype.encode = function () {
 		// Compute the first byte of the fixed header
-		var first = ((this.type & 0x0f) << 4);
-		
+		var first = (this.type & 0x0f) << 4;
+
 		/*
-		 * Now calculate the length of the variable header + payload by adding up the lengths
-		 * of all the component parts
-		 */
+   * Now calculate the length of the variable header + payload by adding up the lengths
+   * of all the component parts
+   */
 
 		var remLength = 0;
 		var topicStrLength = new Array();
 		var destinationNameLength = 0;
-		
-		// if the message contains a messageIdentifier then we need two bytes for that
-		if (this.messageIdentifier != undefined)
-			remLength += 2;
 
-		switch(this.type) {
+		// if the message contains a messageIdentifier then we need two bytes for that
+		if (this.messageIdentifier != undefined) remLength += 2;
+
+		switch (this.type) {
 			// If this a Connect then we need to include 12 bytes for its header
 			case MESSAGE_TYPE.CONNECT:
-				switch(this.mqttVersion) {
+				switch (this.mqttVersion) {
 					case 3:
 						remLength += MqttProtoIdentifierv3.length + 3;
 						break;
@@ -69722,20 +69694,17 @@ Paho.MQTT = (function (global) {
 					remLength += UTF8Length(this.willMessage.destinationName) + 2;
 					// Will message is always a string, sent as UTF-8 characters with a preceding length.
 					var willMessagePayloadBytes = this.willMessage.payloadBytes;
-					if (!(willMessagePayloadBytes instanceof Uint8Array))
-						willMessagePayloadBytes = new Uint8Array(payloadBytes);
-					remLength += willMessagePayloadBytes.byteLength +2;
+					if (!(willMessagePayloadBytes instanceof Uint8Array)) willMessagePayloadBytes = new Uint8Array(payloadBytes);
+					remLength += willMessagePayloadBytes.byteLength + 2;
 				}
-				if (this.userName != undefined)
-					remLength += UTF8Length(this.userName) + 2;	
-				if (this.password != undefined)
-					remLength += UTF8Length(this.password) + 2;
-			break;
+				if (this.userName != undefined) remLength += UTF8Length(this.userName) + 2;
+				if (this.password != undefined) remLength += UTF8Length(this.password) + 2;
+				break;
 
 			// Subscribe, Unsubscribe can both contain topic strings
-			case MESSAGE_TYPE.SUBSCRIBE:	        	
+			case MESSAGE_TYPE.SUBSCRIBE:
 				first |= 0x02; // Qos = 1;
-				for ( var i = 0; i < this.topics.length; i++) {
+				for (var i = 0; i < this.topics.length; i++) {
 					topicStrLength[i] = UTF8Length(this.topics[i]);
 					remLength += topicStrLength[i] + 2;
 				}
@@ -69745,7 +69714,7 @@ Paho.MQTT = (function (global) {
 
 			case MESSAGE_TYPE.UNSUBSCRIBE:
 				first |= 0x02; // Qos = 1;
-				for ( var i = 0; i < this.topics.length; i++) {
+				for (var i = 0; i < this.topics.length; i++) {
 					topicStrLength[i] = UTF8Length(this.topics[i]);
 					remLength += topicStrLength[i] + 2;
 				}
@@ -69757,16 +69726,13 @@ Paho.MQTT = (function (global) {
 
 			case MESSAGE_TYPE.PUBLISH:
 				if (this.payloadMessage.duplicate) first |= 0x08;
-				first  = first |= (this.payloadMessage.qos << 1);
+				first = first |= this.payloadMessage.qos << 1;
 				if (this.payloadMessage.retained) first |= 0x01;
 				destinationNameLength = UTF8Length(this.payloadMessage.destinationName);
-				remLength += destinationNameLength + 2;	   
+				remLength += destinationNameLength + 2;
 				var payloadBytes = this.payloadMessage.payloadBytes;
-				remLength += payloadBytes.byteLength;  
-				if (payloadBytes instanceof ArrayBuffer)
-					payloadBytes = new Uint8Array(payloadBytes);
-				else if (!(payloadBytes instanceof Uint8Array))
-					payloadBytes = new Uint8Array(payloadBytes.buffer);
+				remLength += payloadBytes.byteLength;
+				if (payloadBytes instanceof ArrayBuffer) payloadBytes = new Uint8Array(payloadBytes);else if (!(payloadBytes instanceof Uint8Array)) payloadBytes = new Uint8Array(payloadBytes.buffer);
 				break;
 
 			case MESSAGE_TYPE.DISCONNECT:
@@ -69778,108 +69744,99 @@ Paho.MQTT = (function (global) {
 
 		// Now we can allocate a buffer for the message
 
-		var mbi = encodeMBI(remLength);  // Convert the length to MQTT MBI format
-		var pos = mbi.length + 1;        // Offset of start of variable header
+		var mbi = encodeMBI(remLength); // Convert the length to MQTT MBI format
+		var pos = mbi.length + 1; // Offset of start of variable header
 		var buffer = new ArrayBuffer(remLength + pos);
-		var byteStream = new Uint8Array(buffer);    // view it as a sequence of bytes
+		var byteStream = new Uint8Array(buffer); // view it as a sequence of bytes
 
 		//Write the fixed header into the buffer
 		byteStream[0] = first;
-		byteStream.set(mbi,1);
+		byteStream.set(mbi, 1);
 
 		// If this is a PUBLISH then the variable header starts with a topic
-		if (this.type == MESSAGE_TYPE.PUBLISH)
-			pos = writeString(this.payloadMessage.destinationName, destinationNameLength, byteStream, pos);
+		if (this.type == MESSAGE_TYPE.PUBLISH) pos = writeString(this.payloadMessage.destinationName, destinationNameLength, byteStream, pos);
 		// If this is a CONNECT then the variable header contains the protocol name/version, flags and keepalive time
-		
+
 		else if (this.type == MESSAGE_TYPE.CONNECT) {
-			switch (this.mqttVersion) {
-				case 3:
-					byteStream.set(MqttProtoIdentifierv3, pos);
-					pos += MqttProtoIdentifierv3.length;
-					break;
-				case 4:
-					byteStream.set(MqttProtoIdentifierv4, pos);
-					pos += MqttProtoIdentifierv4.length;
-					break;
-			}
-			var connectFlags = 0;
-			if (this.cleanSession) 
-				connectFlags = 0x02;
-			if (this.willMessage != undefined ) {
-				connectFlags |= 0x04;
-				connectFlags |= (this.willMessage.qos<<3);
-				if (this.willMessage.retained) {
-					connectFlags |= 0x20;
+				switch (this.mqttVersion) {
+					case 3:
+						byteStream.set(MqttProtoIdentifierv3, pos);
+						pos += MqttProtoIdentifierv3.length;
+						break;
+					case 4:
+						byteStream.set(MqttProtoIdentifierv4, pos);
+						pos += MqttProtoIdentifierv4.length;
+						break;
 				}
+				var connectFlags = 0;
+				if (this.cleanSession) connectFlags = 0x02;
+				if (this.willMessage != undefined) {
+					connectFlags |= 0x04;
+					connectFlags |= this.willMessage.qos << 3;
+					if (this.willMessage.retained) {
+						connectFlags |= 0x20;
+					}
+				}
+				if (this.userName != undefined) connectFlags |= 0x80;
+				if (this.password != undefined) connectFlags |= 0x40;
+				byteStream[pos++] = connectFlags;
+				pos = writeUint16(this.keepAliveInterval, byteStream, pos);
 			}
-			if (this.userName != undefined)
-				connectFlags |= 0x80;
-			if (this.password != undefined)
-				connectFlags |= 0x40;
-			byteStream[pos++] = connectFlags; 
-			pos = writeUint16 (this.keepAliveInterval, byteStream, pos);
-		}
 
 		// Output the messageIdentifier - if there is one
-		if (this.messageIdentifier != undefined)
-			pos = writeUint16 (this.messageIdentifier, byteStream, pos);
+		if (this.messageIdentifier != undefined) pos = writeUint16(this.messageIdentifier, byteStream, pos);
 
-		switch(this.type) {
+		switch (this.type) {
 			case MESSAGE_TYPE.CONNECT:
-				pos = writeString(this.clientId, UTF8Length(this.clientId), byteStream, pos); 
+				pos = writeString(this.clientId, UTF8Length(this.clientId), byteStream, pos);
 				if (this.willMessage != undefined) {
 					pos = writeString(this.willMessage.destinationName, UTF8Length(this.willMessage.destinationName), byteStream, pos);
 					pos = writeUint16(willMessagePayloadBytes.byteLength, byteStream, pos);
 					byteStream.set(willMessagePayloadBytes, pos);
 					pos += willMessagePayloadBytes.byteLength;
-					
 				}
-			if (this.userName != undefined)
-				pos = writeString(this.userName, UTF8Length(this.userName), byteStream, pos);
-			if (this.password != undefined) 
-				pos = writeString(this.password, UTF8Length(this.password), byteStream, pos);
-			break;
-
-			case MESSAGE_TYPE.PUBLISH:	
-				// PUBLISH has a text or binary payload, if text do not add a 2 byte length field, just the UTF characters.	
-				byteStream.set(payloadBytes, pos);
-					
+				if (this.userName != undefined) pos = writeString(this.userName, UTF8Length(this.userName), byteStream, pos);
+				if (this.password != undefined) pos = writeString(this.password, UTF8Length(this.password), byteStream, pos);
 				break;
 
-//    	    case MESSAGE_TYPE.PUBREC:	
-//    	    case MESSAGE_TYPE.PUBREL:	
-//    	    case MESSAGE_TYPE.PUBCOMP:	
-//    	    	break;
+			case MESSAGE_TYPE.PUBLISH:
+				// PUBLISH has a text or binary payload, if text do not add a 2 byte length field, just the UTF characters.	
+				byteStream.set(payloadBytes, pos);
+
+				break;
+
+			//    	    case MESSAGE_TYPE.PUBREC:	
+			//    	    case MESSAGE_TYPE.PUBREL:	
+			//    	    case MESSAGE_TYPE.PUBCOMP:	
+			//    	    	break;
 
 			case MESSAGE_TYPE.SUBSCRIBE:
 				// SUBSCRIBE has a list of topic strings and request QoS
-				for (var i=0; i<this.topics.length; i++) {
+				for (var i = 0; i < this.topics.length; i++) {
 					pos = writeString(this.topics[i], topicStrLength[i], byteStream, pos);
 					byteStream[pos++] = this.requestedQos[i];
 				}
 				break;
 
-			case MESSAGE_TYPE.UNSUBSCRIBE:	
+			case MESSAGE_TYPE.UNSUBSCRIBE:
 				// UNSUBSCRIBE has a list of topic strings
-				for (var i=0; i<this.topics.length; i++)
+				for (var i = 0; i < this.topics.length; i++) {
 					pos = writeString(this.topics[i], topicStrLength[i], byteStream, pos);
-				break;
+				}break;
 
 			default:
-				// Do nothing.
+			// Do nothing.
 		}
 
 		return buffer;
-	}	
+	};
 
-	function decodeMessage(input,pos) {
-	    var startingPos = pos;
+	function decodeMessage(input, pos) {
+		var startingPos = pos;
 		var first = input[pos];
 		var type = first >> 4;
 		var messageInfo = first &= 0x0f;
 		pos += 1;
-		
 
 		// Decode the remaining length (MBI format)
 
@@ -69888,30 +69845,29 @@ Paho.MQTT = (function (global) {
 		var multiplier = 1;
 		do {
 			if (pos == input.length) {
-			    return [null,startingPos];
+				return [null, startingPos];
 			}
 			digit = input[pos++];
-			remLength += ((digit & 0x7F) * multiplier);
+			remLength += (digit & 0x7F) * multiplier;
 			multiplier *= 128;
 		} while ((digit & 0x80) != 0);
-		
-		var endPos = pos+remLength;
+
+		var endPos = pos + remLength;
 		if (endPos > input.length) {
-		    return [null,startingPos];
+			return [null, startingPos];
 		}
 
 		var wireMessage = new WireMessage(type);
-		switch(type) {
+		switch (type) {
 			case MESSAGE_TYPE.CONNACK:
 				var connectAcknowledgeFlags = input[pos++];
-				if (connectAcknowledgeFlags & 0x01)
-					wireMessage.sessionPresent = true;
+				if (connectAcknowledgeFlags & 0x01) wireMessage.sessionPresent = true;
 				wireMessage.returnCode = input[pos++];
 				break;
-			
-			case MESSAGE_TYPE.PUBLISH:     	    	
-				var qos = (messageInfo >> 1) & 0x03;
-							
+
+			case MESSAGE_TYPE.PUBLISH:
+				var qos = messageInfo >> 1 & 0x03;
+
 				var len = readUint16(input, pos);
 				pos += 2;
 				var topicName = parseUTF8(input, pos, len);
@@ -69921,58 +69877,56 @@ Paho.MQTT = (function (global) {
 					wireMessage.messageIdentifier = readUint16(input, pos);
 					pos += 2;
 				}
-				
+
 				var message = new Paho.MQTT.Message(input.subarray(pos, endPos));
-				if ((messageInfo & 0x01) == 0x01) 
-					message.retained = true;
-				if ((messageInfo & 0x08) == 0x08)
-					message.duplicate =  true;
+				if ((messageInfo & 0x01) == 0x01) message.retained = true;
+				if ((messageInfo & 0x08) == 0x08) message.duplicate = true;
 				message.qos = qos;
 				message.destinationName = topicName;
-				wireMessage.payloadMessage = message;	
+				wireMessage.payloadMessage = message;
 				break;
-			
-			case  MESSAGE_TYPE.PUBACK:
-			case  MESSAGE_TYPE.PUBREC:	    
-			case  MESSAGE_TYPE.PUBREL:    
-			case  MESSAGE_TYPE.PUBCOMP:
-			case  MESSAGE_TYPE.UNSUBACK:    	    	
+
+			case MESSAGE_TYPE.PUBACK:
+			case MESSAGE_TYPE.PUBREC:
+			case MESSAGE_TYPE.PUBREL:
+			case MESSAGE_TYPE.PUBCOMP:
+			case MESSAGE_TYPE.UNSUBACK:
 				wireMessage.messageIdentifier = readUint16(input, pos);
 				break;
-				
-			case  MESSAGE_TYPE.SUBACK:
+
+			case MESSAGE_TYPE.SUBACK:
 				wireMessage.messageIdentifier = readUint16(input, pos);
 				pos += 2;
-				wireMessage.returnCode = input.subarray(pos, endPos);	
+				wireMessage.returnCode = input.subarray(pos, endPos);
 				break;
-		
+
 			default:
 				;
 		}
-				
-		return [wireMessage,endPos];	
+
+		return [wireMessage, endPos];
 	}
 
 	function writeUint16(input, buffer, offset) {
-		buffer[offset++] = input >> 8;      //MSB
-		buffer[offset++] = input % 256;     //LSB 
+		buffer[offset++] = input >> 8; //MSB
+		buffer[offset++] = input % 256; //LSB 
 		return offset;
-	}	
+	}
 
 	function writeString(input, utf8Length, buffer, offset) {
 		offset = writeUint16(utf8Length, buffer, offset);
 		stringToUTF8(input, buffer, offset);
 		return offset + utf8Length;
-	}	
+	}
 
 	function readUint16(buffer, offset) {
-		return 256*buffer[offset] + buffer[offset+1];
-	}	
+		return 256 * buffer[offset] + buffer[offset + 1];
+	}
 
 	/**
-	 * Encodes an MQTT Multi-Byte Integer
-	 * @private 
-	 */
+  * Encodes an MQTT Multi-Byte Integer
+  * @private 
+  */
 	function encodeMBI(number) {
 		var output = new Array(1);
 		var numBytes = 0;
@@ -69984,197 +69938,175 @@ Paho.MQTT = (function (global) {
 				digit |= 0x80;
 			}
 			output[numBytes++] = digit;
-		} while ( (number > 0) && (numBytes<4) );
+		} while (number > 0 && numBytes < 4);
 
 		return output;
 	}
 
 	/**
-	 * Takes a String and calculates its length in bytes when encoded in UTF8.
-	 * @private
-	 */
+  * Takes a String and calculates its length in bytes when encoded in UTF8.
+  * @private
+  */
 	function UTF8Length(input) {
 		var output = 0;
-		for (var i = 0; i<input.length; i++) 
-		{
+		for (var i = 0; i < input.length; i++) {
 			var charCode = input.charCodeAt(i);
-				if (charCode > 0x7FF)
-				   {
-					  // Surrogate pair means its a 4 byte character
-					  if (0xD800 <= charCode && charCode <= 0xDBFF)
-						{
-						  i++;
-						  output++;
-						}
-				   output +=3;
-				   }
-			else if (charCode > 0x7F)
-				output +=2;
-			else
-				output++;
-		} 
+			if (charCode > 0x7FF) {
+				// Surrogate pair means its a 4 byte character
+				if (0xD800 <= charCode && charCode <= 0xDBFF) {
+					i++;
+					output++;
+				}
+				output += 3;
+			} else if (charCode > 0x7F) output += 2;else output++;
+		}
 		return output;
 	}
-	
+
 	/**
-	 * Takes a String and writes it into an array as UTF8 encoded bytes.
-	 * @private
-	 */
+  * Takes a String and writes it into an array as UTF8 encoded bytes.
+  * @private
+  */
 	function stringToUTF8(input, output, start) {
 		var pos = start;
-		for (var i = 0; i<input.length; i++) {
+		for (var i = 0; i < input.length; i++) {
 			var charCode = input.charCodeAt(i);
-			
+
 			// Check for a surrogate pair.
 			if (0xD800 <= charCode && charCode <= 0xDBFF) {
 				var lowCharCode = input.charCodeAt(++i);
 				if (isNaN(lowCharCode)) {
 					throw new Error(format(ERROR.MALFORMED_UNICODE, [charCode, lowCharCode]));
 				}
-				charCode = ((charCode - 0xD800)<<10) + (lowCharCode - 0xDC00) + 0x10000;
-			
+				charCode = (charCode - 0xD800 << 10) + (lowCharCode - 0xDC00) + 0x10000;
 			}
-			
+
 			if (charCode <= 0x7F) {
 				output[pos++] = charCode;
 			} else if (charCode <= 0x7FF) {
-				output[pos++] = charCode>>6  & 0x1F | 0xC0;
-				output[pos++] = charCode     & 0x3F | 0x80;
-			} else if (charCode <= 0xFFFF) {    				    
-				output[pos++] = charCode>>12 & 0x0F | 0xE0;
-				output[pos++] = charCode>>6  & 0x3F | 0x80;   
-				output[pos++] = charCode     & 0x3F | 0x80;   
+				output[pos++] = charCode >> 6 & 0x1F | 0xC0;
+				output[pos++] = charCode & 0x3F | 0x80;
+			} else if (charCode <= 0xFFFF) {
+				output[pos++] = charCode >> 12 & 0x0F | 0xE0;
+				output[pos++] = charCode >> 6 & 0x3F | 0x80;
+				output[pos++] = charCode & 0x3F | 0x80;
 			} else {
-				output[pos++] = charCode>>18 & 0x07 | 0xF0;
-				output[pos++] = charCode>>12 & 0x3F | 0x80;
-				output[pos++] = charCode>>6  & 0x3F | 0x80;
-				output[pos++] = charCode     & 0x3F | 0x80;
+				output[pos++] = charCode >> 18 & 0x07 | 0xF0;
+				output[pos++] = charCode >> 12 & 0x3F | 0x80;
+				output[pos++] = charCode >> 6 & 0x3F | 0x80;
+				output[pos++] = charCode & 0x3F | 0x80;
 			};
-		} 
+		}
 		return output;
 	}
-	
+
 	function parseUTF8(input, offset, length) {
 		var output = "";
 		var utf16;
 		var pos = offset;
 
-		while (pos < offset+length)
-		{
+		while (pos < offset + length) {
 			var byte1 = input[pos++];
-			if (byte1 < 128)
-				utf16 = byte1;
-			else 
-			{
-				var byte2 = input[pos++]-128;
-				if (byte2 < 0) 
-					throw new Error(format(ERROR.MALFORMED_UTF, [byte1.toString(16), byte2.toString(16),""]));
-				if (byte1 < 0xE0)             // 2 byte character
-					utf16 = 64*(byte1-0xC0) + byte2;
-				else 
-				{ 
-					var byte3 = input[pos++]-128;
-					if (byte3 < 0) 
-						throw new Error(format(ERROR.MALFORMED_UTF, [byte1.toString(16), byte2.toString(16), byte3.toString(16)]));
-					if (byte1 < 0xF0)        // 3 byte character
-						utf16 = 4096*(byte1-0xE0) + 64*byte2 + byte3;
-								else
-								{
-								   var byte4 = input[pos++]-128;
-								   if (byte4 < 0) 
-						throw new Error(format(ERROR.MALFORMED_UTF, [byte1.toString(16), byte2.toString(16), byte3.toString(16), byte4.toString(16)]));
-								   if (byte1 < 0xF8)        // 4 byte character 
-										   utf16 = 262144*(byte1-0xF0) + 4096*byte2 + 64*byte3 + byte4;
-					   else                     // longer encodings are not supported  
-						throw new Error(format(ERROR.MALFORMED_UTF, [byte1.toString(16), byte2.toString(16), byte3.toString(16), byte4.toString(16)]));
-								}
+			if (byte1 < 128) utf16 = byte1;else {
+				var byte2 = input[pos++] - 128;
+				if (byte2 < 0) throw new Error(format(ERROR.MALFORMED_UTF, [byte1.toString(16), byte2.toString(16), ""]));
+				if (byte1 < 0xE0) // 2 byte character
+					utf16 = 64 * (byte1 - 0xC0) + byte2;else {
+					var byte3 = input[pos++] - 128;
+					if (byte3 < 0) throw new Error(format(ERROR.MALFORMED_UTF, [byte1.toString(16), byte2.toString(16), byte3.toString(16)]));
+					if (byte1 < 0xF0) // 3 byte character
+						utf16 = 4096 * (byte1 - 0xE0) + 64 * byte2 + byte3;else {
+						var byte4 = input[pos++] - 128;
+						if (byte4 < 0) throw new Error(format(ERROR.MALFORMED_UTF, [byte1.toString(16), byte2.toString(16), byte3.toString(16), byte4.toString(16)]));
+						if (byte1 < 0xF8) // 4 byte character 
+							utf16 = 262144 * (byte1 - 0xF0) + 4096 * byte2 + 64 * byte3 + byte4;else // longer encodings are not supported  
+							throw new Error(format(ERROR.MALFORMED_UTF, [byte1.toString(16), byte2.toString(16), byte3.toString(16), byte4.toString(16)]));
+					}
 				}
-			}  
+			}
 
-				if (utf16 > 0xFFFF)   // 4 byte character - express as a surrogate pair
-				  {
-					 utf16 -= 0x10000;
-					 output += String.fromCharCode(0xD800 + (utf16 >> 10)); // lead character
-					 utf16 = 0xDC00 + (utf16 & 0x3FF);  // trail character
-				  }
+			if (utf16 > 0xFFFF) // 4 byte character - express as a surrogate pair
+				{
+					utf16 -= 0x10000;
+					output += String.fromCharCode(0xD800 + (utf16 >> 10)); // lead character
+					utf16 = 0xDC00 + (utf16 & 0x3FF); // trail character
+				}
 			output += String.fromCharCode(utf16);
 		}
 		return output;
 	}
-	
+
 	/** 
-	 * Repeat keepalive requests, monitor responses.
-	 * @ignore
-	 */
-	var Pinger = function(client, window, keepAliveInterval) { 
-		this._client = client;        	
+  * Repeat keepalive requests, monitor responses.
+  * @ignore
+  */
+	var Pinger = function Pinger(client, window, keepAliveInterval) {
+		this._client = client;
 		this._window = window;
-		this._keepAliveInterval = keepAliveInterval*1000;     	
+		this._keepAliveInterval = keepAliveInterval * 1000;
 		this.isReset = false;
-		
-		var pingReq = new WireMessage(MESSAGE_TYPE.PINGREQ).encode(); 
-		
-		var doTimeout = function (pinger) {
+
+		var pingReq = new WireMessage(MESSAGE_TYPE.PINGREQ).encode();
+
+		var doTimeout = function doTimeout(pinger) {
 			return function () {
 				return doPing.apply(pinger);
 			};
 		};
-		
+
 		/** @ignore */
-		var doPing = function() { 
+		var doPing = function doPing() {
 			if (!this.isReset) {
 				this._client._trace("Pinger.doPing", "Timed out");
-				this._client._disconnected( ERROR.PING_TIMEOUT.code , format(ERROR.PING_TIMEOUT));
+				this._client._disconnected(ERROR.PING_TIMEOUT.code, format(ERROR.PING_TIMEOUT));
 			} else {
 				this.isReset = false;
 				this._client._trace("Pinger.doPing", "send PINGREQ");
-				this._client.socket.send(pingReq); 
+				this._client.socket.send(pingReq);
 				this.timeout = this._window.setTimeout(doTimeout(this), this._keepAliveInterval);
 			}
-		}
+		};
 
-		this.reset = function() {
+		this.reset = function () {
 			this.isReset = true;
 			this._window.clearTimeout(this.timeout);
-			if (this._keepAliveInterval > 0)
-				this.timeout = setTimeout(doTimeout(this), this._keepAliveInterval);
-		}
+			if (this._keepAliveInterval > 0) this.timeout = setTimeout(doTimeout(this), this._keepAliveInterval);
+		};
 
-		this.cancel = function() {
+		this.cancel = function () {
 			this._window.clearTimeout(this.timeout);
-		}
-	 }; 
+		};
+	};
 
 	/**
-	 * Monitor request completion.
-	 * @ignore
-	 */
-	var Timeout = function(client, window, timeoutSeconds, action, args) {
+  * Monitor request completion.
+  * @ignore
+  */
+	var Timeout = function Timeout(client, window, timeoutSeconds, action, args) {
 		this._window = window;
-		if (!timeoutSeconds)
-			timeoutSeconds = 30;
-		
-		var doTimeout = function (action, client, args) {
+		if (!timeoutSeconds) timeoutSeconds = 30;
+
+		var doTimeout = function doTimeout(action, client, args) {
 			return function () {
 				return action.apply(client, args);
 			};
 		};
 		this.timeout = setTimeout(doTimeout(action, client, args), timeoutSeconds * 1000);
-		
-		this.cancel = function() {
+
+		this.cancel = function () {
 			this._window.clearTimeout(this.timeout);
-		}
-	}; 
-	
+		};
+	};
+
 	/*
-	 * Internal implementation of the Websockets MQTT V3.1 client.
-	 * 
-	 * @name Paho.MQTT.ClientImpl @constructor 
-	 * @param {String} host the DNS nameof the webSocket host. 
-	 * @param {Number} port the port number for that host.
-	 * @param {String} clientId the MQ client identifier.
-	 */
-	var ClientImpl = function (uri, host, port, path, clientId) {
+  * Internal implementation of the Websockets MQTT V3.1 client.
+  * 
+  * @name Paho.MQTT.ClientImpl @constructor 
+  * @param {String} host the DNS nameof the webSocket host. 
+  * @param {Number} port the port number for that host.
+  * @param {String} clientId the MQ client identifier.
+  */
+	var ClientImpl = function ClientImpl(uri, host, port, path, clientId) {
 		// Check dependencies are satisfied in this browser.
 		if (!("WebSocket" in global && global["WebSocket"] !== null)) {
 			throw new Error(format(ERROR.UNSUPPORTED, ["WebSocket"]));
@@ -70197,7 +70129,7 @@ Paho.MQTT = (function (global) {
 		// The conditional inclusion of path in the key is for backward
 		// compatibility to when the path was not configurable and assumed to
 		// be /mqtt
-		this._localKey=host+":"+port+(path!="/mqtt"?":"+path:"")+":"+clientId+":";
+		this._localKey = host + ":" + port + (path != "/mqtt" ? ":" + path : "") + ":" + clientId + ":";
 
 		// Create private instance-only message queue
 		// Internal queue of messages to be sent, in sending order. 
@@ -70218,16 +70150,14 @@ Paho.MQTT = (function (global) {
 		// Unique identifier for SEND messages, incrementing
 		// counter as messages are sent.
 		this._message_identifier = 1;
-		
+
 		// Used to determine the transmission sequence of stored sent messages.
 		this._sequence = 0;
-		
 
 		// Load the local state, if any, from the saved version, only restore state relevant to this client.   	
-		for (var key in localStorage)
-			if (   key.indexOf("Sent:"+this._localKey) == 0  		    
-				|| key.indexOf("Received:"+this._localKey) == 0)
-			this.restore(key);
+		for (var key in localStorage) {
+			if (key.indexOf("Sent:" + this._localKey) == 0 || key.indexOf("Received:" + this._localKey) == 0) this.restore(key);
+		}
 	};
 
 	// Messaging Client public instance members. 
@@ -70242,8 +70172,8 @@ Paho.MQTT = (function (global) {
 	/* true once we have received an acknowledgement to a CONNECT packet. */
 	ClientImpl.prototype.connected = false;
 	/* The largest message identifier allowed, may not be larger than 2**16 but 
-	 * if set smaller reduces the maximum number of outbound messages allowed.
-	 */ 
+  * if set smaller reduces the maximum number of outbound messages allowed.
+  */
 	ClientImpl.prototype.maxMessageIdentifier = 65536;
 	ClientImpl.prototype.connectOptions;
 	ClientImpl.prototype.hostIndex;
@@ -70257,112 +70187,103 @@ Paho.MQTT = (function (global) {
 	ClientImpl.prototype.sendPinger = null;
 	/* The receivePinger monitors how long we allow before we require evidence that the server is alive. */
 	ClientImpl.prototype.receivePinger = null;
-	
+
 	ClientImpl.prototype.receiveBuffer = null;
-	
+
 	ClientImpl.prototype._traceBuffer = null;
 	ClientImpl.prototype._MAX_TRACE_ENTRIES = 100;
 
 	ClientImpl.prototype.connect = function (connectOptions) {
-		var connectOptionsMasked = this._traceMask(connectOptions, "password"); 
+		var connectOptionsMasked = this._traceMask(connectOptions, "password");
 		this._trace("Client.connect", connectOptionsMasked, this.socket, this.connected);
-		
-		if (this.connected) 
-			throw new Error(format(ERROR.INVALID_STATE, ["already connected"]));
-		if (this.socket)
-			throw new Error(format(ERROR.INVALID_STATE, ["already connected"]));
-		
+
+		if (this.connected) throw new Error(format(ERROR.INVALID_STATE, ["already connected"]));
+		if (this.socket) throw new Error(format(ERROR.INVALID_STATE, ["already connected"]));
+
 		this.connectOptions = connectOptions;
-		
+
 		if (connectOptions.uris) {
 			this.hostIndex = 0;
-			this._doConnect(connectOptions.uris[0]);  
+			this._doConnect(connectOptions.uris[0]);
 		} else {
-			this._doConnect(this.uri);  		
+			this._doConnect(this.uri);
 		}
-		
 	};
 
 	ClientImpl.prototype.subscribe = function (filter, subscribeOptions) {
 		this._trace("Client.subscribe", filter, subscribeOptions);
-			  
-		if (!this.connected)
-			throw new Error(format(ERROR.INVALID_STATE, ["not connected"]));
-		
+
+		if (!this.connected) throw new Error(format(ERROR.INVALID_STATE, ["not connected"]));
+
 		var wireMessage = new WireMessage(MESSAGE_TYPE.SUBSCRIBE);
-		wireMessage.topics=[filter];
-		if (subscribeOptions.qos != undefined)
-			wireMessage.requestedQos = [subscribeOptions.qos];
-		else 
-			wireMessage.requestedQos = [0];
-		
+		wireMessage.topics = [filter];
+		if (subscribeOptions.qos != undefined) wireMessage.requestedQos = [subscribeOptions.qos];else wireMessage.requestedQos = [0];
+
 		if (subscribeOptions.onSuccess) {
-			wireMessage.onSuccess = function(grantedQos) {subscribeOptions.onSuccess({invocationContext:subscribeOptions.invocationContext,grantedQos:grantedQos});};
+			wireMessage.onSuccess = function (grantedQos) {
+				subscribeOptions.onSuccess({ invocationContext: subscribeOptions.invocationContext, grantedQos: grantedQos });
+			};
 		}
 
 		if (subscribeOptions.onFailure) {
-			wireMessage.onFailure = function(errorCode) {subscribeOptions.onFailure({invocationContext:subscribeOptions.invocationContext,errorCode:errorCode});};
+			wireMessage.onFailure = function (errorCode) {
+				subscribeOptions.onFailure({ invocationContext: subscribeOptions.invocationContext, errorCode: errorCode });
+			};
 		}
 
 		if (subscribeOptions.timeout) {
-			wireMessage.timeOut = new Timeout(this, window, subscribeOptions.timeout, subscribeOptions.onFailure
-					, [{invocationContext:subscribeOptions.invocationContext, 
-						errorCode:ERROR.SUBSCRIBE_TIMEOUT.code, 
-						errorMessage:format(ERROR.SUBSCRIBE_TIMEOUT)}]);
+			wireMessage.timeOut = new Timeout(this, window, subscribeOptions.timeout, subscribeOptions.onFailure, [{ invocationContext: subscribeOptions.invocationContext,
+				errorCode: ERROR.SUBSCRIBE_TIMEOUT.code,
+				errorMessage: format(ERROR.SUBSCRIBE_TIMEOUT) }]);
 		}
-		
+
 		// All subscriptions return a SUBACK. 
 		this._requires_ack(wireMessage);
 		this._schedule_message(wireMessage);
 	};
 
 	/** @ignore */
-	ClientImpl.prototype.unsubscribe = function(filter, unsubscribeOptions) {  
+	ClientImpl.prototype.unsubscribe = function (filter, unsubscribeOptions) {
 		this._trace("Client.unsubscribe", filter, unsubscribeOptions);
-		
-		if (!this.connected)
-		   throw new Error(format(ERROR.INVALID_STATE, ["not connected"]));
-		
+
+		if (!this.connected) throw new Error(format(ERROR.INVALID_STATE, ["not connected"]));
+
 		var wireMessage = new WireMessage(MESSAGE_TYPE.UNSUBSCRIBE);
 		wireMessage.topics = [filter];
-		
+
 		if (unsubscribeOptions.onSuccess) {
-			wireMessage.callback = function() {unsubscribeOptions.onSuccess({invocationContext:unsubscribeOptions.invocationContext});};
+			wireMessage.callback = function () {
+				unsubscribeOptions.onSuccess({ invocationContext: unsubscribeOptions.invocationContext });
+			};
 		}
 		if (unsubscribeOptions.timeout) {
-			wireMessage.timeOut = new Timeout(this, window, unsubscribeOptions.timeout, unsubscribeOptions.onFailure
-					, [{invocationContext:unsubscribeOptions.invocationContext,
-						errorCode:ERROR.UNSUBSCRIBE_TIMEOUT.code,
-						errorMessage:format(ERROR.UNSUBSCRIBE_TIMEOUT)}]);
+			wireMessage.timeOut = new Timeout(this, window, unsubscribeOptions.timeout, unsubscribeOptions.onFailure, [{ invocationContext: unsubscribeOptions.invocationContext,
+				errorCode: ERROR.UNSUBSCRIBE_TIMEOUT.code,
+				errorMessage: format(ERROR.UNSUBSCRIBE_TIMEOUT) }]);
 		}
-	 
+
 		// All unsubscribes return a SUBACK.         
 		this._requires_ack(wireMessage);
 		this._schedule_message(wireMessage);
 	};
-	 
+
 	ClientImpl.prototype.send = function (message) {
 		this._trace("Client.send", message);
 
-		if (!this.connected)
-		   throw new Error(format(ERROR.INVALID_STATE, ["not connected"]));
-		
+		if (!this.connected) throw new Error(format(ERROR.INVALID_STATE, ["not connected"]));
+
 		wireMessage = new WireMessage(MESSAGE_TYPE.PUBLISH);
 		wireMessage.payloadMessage = message;
-		
-		if (message.qos > 0)
-			this._requires_ack(wireMessage);
-		else if (this.onMessageDelivered)
-			this._notify_msg_sent[wireMessage] = this.onMessageDelivered(wireMessage.payloadMessage);
+
+		if (message.qos > 0) this._requires_ack(wireMessage);else if (this.onMessageDelivered) this._notify_msg_sent[wireMessage] = this.onMessageDelivered(wireMessage.payloadMessage);
 		this._schedule_message(wireMessage);
 	};
-	
+
 	ClientImpl.prototype.disconnect = function () {
 		this._trace("Client.disconnect");
 
-		if (!this.socket)
-			throw new Error(format(ERROR.INVALID_STATE, ["not connecting or connected"]));
-		
+		if (!this.socket) throw new Error(format(ERROR.INVALID_STATE, ["not connecting or connected"]));
+
 		wireMessage = new WireMessage(MESSAGE_TYPE.DISCONNECT);
 
 		// Run the disconnected call back as soon as the message has been sent,
@@ -70372,37 +70293,36 @@ Paho.MQTT = (function (global) {
 
 		this._schedule_message(wireMessage);
 	};
-	
+
 	ClientImpl.prototype.getTraceLog = function () {
-		if ( this._traceBuffer !== null ) {
+		if (this._traceBuffer !== null) {
 			this._trace("Client.getTraceLog", new Date());
 			this._trace("Client.getTraceLog in flight messages", this._sentMessages.length);
-			for (var key in this._sentMessages)
-				this._trace("_sentMessages ",key, this._sentMessages[key]);
-			for (var key in this._receivedMessages)
-				this._trace("_receivedMessages ",key, this._receivedMessages[key]);
-			
-			return this._traceBuffer;
+			for (var key in this._sentMessages) {
+				this._trace("_sentMessages ", key, this._sentMessages[key]);
+			}for (var key in this._receivedMessages) {
+				this._trace("_receivedMessages ", key, this._receivedMessages[key]);
+			}return this._traceBuffer;
 		}
 	};
-	
+
 	ClientImpl.prototype.startTrace = function () {
-		if ( this._traceBuffer === null ) {
+		if (this._traceBuffer === null) {
 			this._traceBuffer = [];
 		}
 		this._trace("Client.startTrace", new Date(), version);
 	};
-	
+
 	ClientImpl.prototype.stopTrace = function () {
 		delete this._traceBuffer;
 	};
 
-	ClientImpl.prototype._doConnect = function (wsurl) { 	        
+	ClientImpl.prototype._doConnect = function (wsurl) {
 		// When the socket is open, this client will send the CONNECT WireMessage using the saved parameters. 
 		if (this.connectOptions.useSSL) {
-		    var uriParts = wsurl.split(":");
-		    uriParts[0] = "wss";
-		    wsurl = uriParts.join(":");
+			var uriParts = wsurl.split(":");
+			uriParts[0] = "wss";
+			wsurl = uriParts.join(":");
 		}
 		this.connected = false;
 		if (this.connectOptions.mqttVersion < 4) {
@@ -70411,19 +70331,18 @@ Paho.MQTT = (function (global) {
 			this.socket = new WebSocket(wsurl, ["mqtt"]);
 		}
 		this.socket.binaryType = 'arraybuffer';
-		
+
 		this.socket.onopen = scope(this._on_socket_open, this);
 		this.socket.onmessage = scope(this._on_socket_message, this);
 		this.socket.onerror = scope(this._on_socket_error, this);
 		this.socket.onclose = scope(this._on_socket_close, this);
-		
+
 		this.sendPinger = new Pinger(this, window, this.connectOptions.keepAliveInterval);
 		this.receivePinger = new Pinger(this, window, this.connectOptions.keepAliveInterval);
-		
-		this._connectTimeout = new Timeout(this, window, this.connectOptions.timeout, this._disconnected,  [ERROR.CONNECT_TIMEOUT.code, format(ERROR.CONNECT_TIMEOUT)]);
+
+		this._connectTimeout = new Timeout(this, window, this.connectOptions.timeout, this._disconnected, [ERROR.CONNECT_TIMEOUT.code, format(ERROR.CONNECT_TIMEOUT)]);
 	};
 
-	
 	// Schedule a new message to be sent over the WebSockets
 	// connection. CONNECT messages cause WebSocket connection
 	// to be started. All other messages are queued internally
@@ -70437,96 +70356,87 @@ Paho.MQTT = (function (global) {
 		}
 	};
 
-	ClientImpl.prototype.store = function(prefix, wireMessage) {
-		var storedMessage = {type:wireMessage.type, messageIdentifier:wireMessage.messageIdentifier, version:1};
-		
-		switch(wireMessage.type) {
-		  case MESSAGE_TYPE.PUBLISH:
-			  if(wireMessage.pubRecReceived)
-				  storedMessage.pubRecReceived = true;
-			  
-			  // Convert the payload to a hex string.
-			  storedMessage.payloadMessage = {};
-			  var hex = "";
-			  var messageBytes = wireMessage.payloadMessage.payloadBytes;
-			  for (var i=0; i<messageBytes.length; i++) {
-				if (messageBytes[i] <= 0xF)
-				  hex = hex+"0"+messageBytes[i].toString(16);
-				else 
-				  hex = hex+messageBytes[i].toString(16);
-			  }
-			  storedMessage.payloadMessage.payloadHex = hex;
-			  
-			  storedMessage.payloadMessage.qos = wireMessage.payloadMessage.qos;
-			  storedMessage.payloadMessage.destinationName = wireMessage.payloadMessage.destinationName;
-			  if (wireMessage.payloadMessage.duplicate) 
-				  storedMessage.payloadMessage.duplicate = true;
-			  if (wireMessage.payloadMessage.retained) 
-				  storedMessage.payloadMessage.retained = true;	   
-			  
-			  // Add a sequence number to sent messages.
-			  if ( prefix.indexOf("Sent:") == 0 ) {
-				  if ( wireMessage.sequence === undefined )
-					  wireMessage.sequence = ++this._sequence;
-				  storedMessage.sequence = wireMessage.sequence;
-			  }
-			  break;    
-			  
+	ClientImpl.prototype.store = function (prefix, wireMessage) {
+		var storedMessage = { type: wireMessage.type, messageIdentifier: wireMessage.messageIdentifier, version: 1 };
+
+		switch (wireMessage.type) {
+			case MESSAGE_TYPE.PUBLISH:
+				if (wireMessage.pubRecReceived) storedMessage.pubRecReceived = true;
+
+				// Convert the payload to a hex string.
+				storedMessage.payloadMessage = {};
+				var hex = "";
+				var messageBytes = wireMessage.payloadMessage.payloadBytes;
+				for (var i = 0; i < messageBytes.length; i++) {
+					if (messageBytes[i] <= 0xF) hex = hex + "0" + messageBytes[i].toString(16);else hex = hex + messageBytes[i].toString(16);
+				}
+				storedMessage.payloadMessage.payloadHex = hex;
+
+				storedMessage.payloadMessage.qos = wireMessage.payloadMessage.qos;
+				storedMessage.payloadMessage.destinationName = wireMessage.payloadMessage.destinationName;
+				if (wireMessage.payloadMessage.duplicate) storedMessage.payloadMessage.duplicate = true;
+				if (wireMessage.payloadMessage.retained) storedMessage.payloadMessage.retained = true;
+
+				// Add a sequence number to sent messages.
+				if (prefix.indexOf("Sent:") == 0) {
+					if (wireMessage.sequence === undefined) wireMessage.sequence = ++this._sequence;
+					storedMessage.sequence = wireMessage.sequence;
+				}
+				break;
+
 			default:
 				throw Error(format(ERROR.INVALID_STORED_DATA, [key, storedMessage]));
 		}
-		localStorage.setItem(prefix+this._localKey+wireMessage.messageIdentifier, JSON.stringify(storedMessage));
+		localStorage.setItem(prefix + this._localKey + wireMessage.messageIdentifier, JSON.stringify(storedMessage));
 	};
-	
-	ClientImpl.prototype.restore = function(key) {    	
+
+	ClientImpl.prototype.restore = function (key) {
 		var value = localStorage.getItem(key);
 		var storedMessage = JSON.parse(value);
-		
+
 		var wireMessage = new WireMessage(storedMessage.type, storedMessage);
-		
-		switch(storedMessage.type) {
-		  case MESSAGE_TYPE.PUBLISH:
-			  // Replace the payload message with a Message object.
-			  var hex = storedMessage.payloadMessage.payloadHex;
-			  var buffer = new ArrayBuffer((hex.length)/2);
-			  var byteStream = new Uint8Array(buffer); 
-			  var i = 0;
-			  while (hex.length >= 2) { 
-				  var x = parseInt(hex.substring(0, 2), 16);
-				  hex = hex.substring(2, hex.length);
-				  byteStream[i++] = x;
-			  }
-			  var payloadMessage = new Paho.MQTT.Message(byteStream);
-			  
-			  payloadMessage.qos = storedMessage.payloadMessage.qos;
-			  payloadMessage.destinationName = storedMessage.payloadMessage.destinationName;
-			  if (storedMessage.payloadMessage.duplicate) 
-				  payloadMessage.duplicate = true;
-			  if (storedMessage.payloadMessage.retained) 
-				  payloadMessage.retained = true;	 
-			  wireMessage.payloadMessage = payloadMessage;
-			  
-			  break;    
-			  
+
+		switch (storedMessage.type) {
+			case MESSAGE_TYPE.PUBLISH:
+				// Replace the payload message with a Message object.
+				var hex = storedMessage.payloadMessage.payloadHex;
+				var buffer = new ArrayBuffer(hex.length / 2);
+				var byteStream = new Uint8Array(buffer);
+				var i = 0;
+				while (hex.length >= 2) {
+					var x = parseInt(hex.substring(0, 2), 16);
+					hex = hex.substring(2, hex.length);
+					byteStream[i++] = x;
+				}
+				var payloadMessage = new Paho.MQTT.Message(byteStream);
+
+				payloadMessage.qos = storedMessage.payloadMessage.qos;
+				payloadMessage.destinationName = storedMessage.payloadMessage.destinationName;
+				if (storedMessage.payloadMessage.duplicate) payloadMessage.duplicate = true;
+				if (storedMessage.payloadMessage.retained) payloadMessage.retained = true;
+				wireMessage.payloadMessage = payloadMessage;
+
+				break;
+
 			default:
-			  throw Error(format(ERROR.INVALID_STORED_DATA, [key, value]));
+				throw Error(format(ERROR.INVALID_STORED_DATA, [key, value]));
 		}
-							
-		if (key.indexOf("Sent:"+this._localKey) == 0) {
+
+		if (key.indexOf("Sent:" + this._localKey) == 0) {
 			wireMessage.payloadMessage.duplicate = true;
-			this._sentMessages[wireMessage.messageIdentifier] = wireMessage;    		    
-		} else if (key.indexOf("Received:"+this._localKey) == 0) {
+			this._sentMessages[wireMessage.messageIdentifier] = wireMessage;
+		} else if (key.indexOf("Received:" + this._localKey) == 0) {
 			this._receivedMessages[wireMessage.messageIdentifier] = wireMessage;
 		}
 	};
-	
+
 	ClientImpl.prototype._process_queue = function () {
 		var message = null;
 		// Process messages in order they were added
 		var fifo = this._msg_queue.reverse();
 
 		// Send all queued messages down socket connection
-		while ((message = fifo.pop())) {
+		while (message = fifo.pop()) {
 			this._socket_send(message);
 			// Notify listeners that message was successfully sent
 			if (this._notify_msg_sent[message]) {
@@ -70537,16 +70447,15 @@ Paho.MQTT = (function (global) {
 	};
 
 	/**
-	 * Expect an ACK response for this message. Add message to the set of in progress
-	 * messages and set an unused identifier in this message.
-	 * @ignore
-	 */
+  * Expect an ACK response for this message. Add message to the set of in progress
+  * messages and set an unused identifier in this message.
+  * @ignore
+  */
 	ClientImpl.prototype._requires_ack = function (wireMessage) {
 		var messageCount = Object.keys(this._sentMessages).length;
-		if (messageCount > this.maxMessageIdentifier)
-			throw Error ("Too many messages:"+messageCount);
+		if (messageCount > this.maxMessageIdentifier) throw Error("Too many messages:" + messageCount);
 
-		while(this._sentMessages[this._message_identifier] !== undefined) {
+		while (this._sentMessages[this._message_identifier] !== undefined) {
 			this._message_identifier++;
 		}
 		wireMessage.messageIdentifier = this._message_identifier;
@@ -70560,252 +70469,247 @@ Paho.MQTT = (function (global) {
 	};
 
 	/** 
-	 * Called when the underlying websocket has been opened.
-	 * @ignore
-	 */
-	ClientImpl.prototype._on_socket_open = function () {      
+  * Called when the underlying websocket has been opened.
+  * @ignore
+  */
+	ClientImpl.prototype._on_socket_open = function () {
 		// Create the CONNECT message object.
-		var wireMessage = new WireMessage(MESSAGE_TYPE.CONNECT, this.connectOptions); 
+		var wireMessage = new WireMessage(MESSAGE_TYPE.CONNECT, this.connectOptions);
 		wireMessage.clientId = this.clientId;
 		this._socket_send(wireMessage);
 	};
 
 	/** 
-	 * Called when the underlying websocket has received a complete packet.
-	 * @ignore
-	 */
+  * Called when the underlying websocket has received a complete packet.
+  * @ignore
+  */
 	ClientImpl.prototype._on_socket_message = function (event) {
 		this._trace("Client._on_socket_message", event.data);
 		var messages = this._deframeMessages(event.data);
-		for (var i = 0; i < messages.length; i+=1) {
-		    this._handleMessage(messages[i]);
+		for (var i = 0; i < messages.length; i += 1) {
+			this._handleMessage(messages[i]);
 		}
-	}
-	
-	ClientImpl.prototype._deframeMessages = function(data) {
+	};
+
+	ClientImpl.prototype._deframeMessages = function (data) {
 		var byteArray = new Uint8Array(data);
-	    if (this.receiveBuffer) {
-	        var newData = new Uint8Array(this.receiveBuffer.length+byteArray.length);
-	        newData.set(this.receiveBuffer);
-	        newData.set(byteArray,this.receiveBuffer.length);
-	        byteArray = newData;
-	        delete this.receiveBuffer;
-	    }
+		if (this.receiveBuffer) {
+			var newData = new Uint8Array(this.receiveBuffer.length + byteArray.length);
+			newData.set(this.receiveBuffer);
+			newData.set(byteArray, this.receiveBuffer.length);
+			byteArray = newData;
+			delete this.receiveBuffer;
+		}
 		try {
-		    var offset = 0;
-		    var messages = [];
-		    while(offset < byteArray.length) {
-		        var result = decodeMessage(byteArray,offset);
-		        var wireMessage = result[0];
-		        offset = result[1];
-		        if (wireMessage !== null) {
-		            messages.push(wireMessage);
-		        } else {
-		            break;
-		        }
-		    }
-		    if (offset < byteArray.length) {
-		    	this.receiveBuffer = byteArray.subarray(offset);
-		    }
+			var offset = 0;
+			var messages = [];
+			while (offset < byteArray.length) {
+				var result = decodeMessage(byteArray, offset);
+				var wireMessage = result[0];
+				offset = result[1];
+				if (wireMessage !== null) {
+					messages.push(wireMessage);
+				} else {
+					break;
+				}
+			}
+			if (offset < byteArray.length) {
+				this.receiveBuffer = byteArray.subarray(offset);
+			}
 		} catch (error) {
-			this._disconnected(ERROR.INTERNAL_ERROR.code , format(ERROR.INTERNAL_ERROR, [error.message,error.stack.toString()]));
+			this._disconnected(ERROR.INTERNAL_ERROR.code, format(ERROR.INTERNAL_ERROR, [error.message, error.stack.toString()]));
 			return;
 		}
 		return messages;
-	}
-	
-	ClientImpl.prototype._handleMessage = function(wireMessage) {
-		
+	};
+
+	ClientImpl.prototype._handleMessage = function (wireMessage) {
+
 		this._trace("Client._handleMessage", wireMessage);
 
 		try {
-			switch(wireMessage.type) {
-			case MESSAGE_TYPE.CONNACK:
-				this._connectTimeout.cancel();
-				
-				// If we have started using clean session then clear up the local state.
-				if (this.connectOptions.cleanSession) {
-					for (var key in this._sentMessages) {	    		
-						var sentMessage = this._sentMessages[key];
-						localStorage.removeItem("Sent:"+this._localKey+sentMessage.messageIdentifier);
-					}
-					this._sentMessages = {};
+			switch (wireMessage.type) {
+				case MESSAGE_TYPE.CONNACK:
+					this._connectTimeout.cancel();
 
-					for (var key in this._receivedMessages) {
-						var receivedMessage = this._receivedMessages[key];
-						localStorage.removeItem("Received:"+this._localKey+receivedMessage.messageIdentifier);
+					// If we have started using clean session then clear up the local state.
+					if (this.connectOptions.cleanSession) {
+						for (var key in this._sentMessages) {
+							var sentMessage = this._sentMessages[key];
+							localStorage.removeItem("Sent:" + this._localKey + sentMessage.messageIdentifier);
+						}
+						this._sentMessages = {};
+
+						for (var key in this._receivedMessages) {
+							var receivedMessage = this._receivedMessages[key];
+							localStorage.removeItem("Received:" + this._localKey + receivedMessage.messageIdentifier);
+						}
+						this._receivedMessages = {};
 					}
-					this._receivedMessages = {};
-				}
-				// Client connected and ready for business.
-				if (wireMessage.returnCode === 0) {
-					this.connected = true;
-					// Jump to the end of the list of uris and stop looking for a good host.
-					if (this.connectOptions.uris)
-						this.hostIndex = this.connectOptions.uris.length;
-				} else {
-					this._disconnected(ERROR.CONNACK_RETURNCODE.code , format(ERROR.CONNACK_RETURNCODE, [wireMessage.returnCode, CONNACK_RC[wireMessage.returnCode]]));
-					break;
-				}
-				
-				// Resend messages.
-				var sequencedMessages = new Array();
-				for (var msgId in this._sentMessages) {
-					if (this._sentMessages.hasOwnProperty(msgId))
-						sequencedMessages.push(this._sentMessages[msgId]);
-				}
-		  
-				// Sort sentMessages into the original sent order.
-				var sequencedMessages = sequencedMessages.sort(function(a,b) {return a.sequence - b.sequence;} );
-				for (var i=0, len=sequencedMessages.length; i<len; i++) {
-					var sentMessage = sequencedMessages[i];
-					if (sentMessage.type == MESSAGE_TYPE.PUBLISH && sentMessage.pubRecReceived) {
-						var pubRelMessage = new WireMessage(MESSAGE_TYPE.PUBREL, {messageIdentifier:sentMessage.messageIdentifier});
-						this._schedule_message(pubRelMessage);
+					// Client connected and ready for business.
+					if (wireMessage.returnCode === 0) {
+						this.connected = true;
+						// Jump to the end of the list of uris and stop looking for a good host.
+						if (this.connectOptions.uris) this.hostIndex = this.connectOptions.uris.length;
 					} else {
-						this._schedule_message(sentMessage);
-					};
-				}
-
-				// Execute the connectOptions.onSuccess callback if there is one.
-				if (this.connectOptions.onSuccess) {
-					this.connectOptions.onSuccess({invocationContext:this.connectOptions.invocationContext});
-				}
-
-				// Process all queued messages now that the connection is established. 
-				this._process_queue();
-				break;
-		
-			case MESSAGE_TYPE.PUBLISH:
-				this._receivePublish(wireMessage);
-				break;
-
-			case MESSAGE_TYPE.PUBACK:
-				var sentMessage = this._sentMessages[wireMessage.messageIdentifier];
-				 // If this is a re flow of a PUBACK after we have restarted receivedMessage will not exist.
-				if (sentMessage) {
-					delete this._sentMessages[wireMessage.messageIdentifier];
-					localStorage.removeItem("Sent:"+this._localKey+wireMessage.messageIdentifier);
-					if (this.onMessageDelivered)
-						this.onMessageDelivered(sentMessage.payloadMessage);
-				}
-				break;
-			
-			case MESSAGE_TYPE.PUBREC:
-				var sentMessage = this._sentMessages[wireMessage.messageIdentifier];
-				// If this is a re flow of a PUBREC after we have restarted receivedMessage will not exist.
-				if (sentMessage) {
-					sentMessage.pubRecReceived = true;
-					var pubRelMessage = new WireMessage(MESSAGE_TYPE.PUBREL, {messageIdentifier:wireMessage.messageIdentifier});
-					this.store("Sent:", sentMessage);
-					this._schedule_message(pubRelMessage);
-				}
-				break;
-								
-			case MESSAGE_TYPE.PUBREL:
-				var receivedMessage = this._receivedMessages[wireMessage.messageIdentifier];
-				localStorage.removeItem("Received:"+this._localKey+wireMessage.messageIdentifier);
-				// If this is a re flow of a PUBREL after we have restarted receivedMessage will not exist.
-				if (receivedMessage) {
-					this._receiveMessage(receivedMessage);
-					delete this._receivedMessages[wireMessage.messageIdentifier];
-				}
-				// Always flow PubComp, we may have previously flowed PubComp but the server lost it and restarted.
-				var pubCompMessage = new WireMessage(MESSAGE_TYPE.PUBCOMP, {messageIdentifier:wireMessage.messageIdentifier});
-				this._schedule_message(pubCompMessage);                    
-				break;
-
-			case MESSAGE_TYPE.PUBCOMP: 
-				var sentMessage = this._sentMessages[wireMessage.messageIdentifier];
-				delete this._sentMessages[wireMessage.messageIdentifier];
-				localStorage.removeItem("Sent:"+this._localKey+wireMessage.messageIdentifier);
-				if (this.onMessageDelivered)
-					this.onMessageDelivered(sentMessage.payloadMessage);
-				break;
-				
-			case MESSAGE_TYPE.SUBACK:
-				var sentMessage = this._sentMessages[wireMessage.messageIdentifier];
-				if (sentMessage) {
-					if(sentMessage.timeOut)
-						sentMessage.timeOut.cancel();
-					// This will need to be fixed when we add multiple topic support
-          			if (wireMessage.returnCode[0] === 0x80) {
-						if (sentMessage.onFailure) {
-							sentMessage.onFailure(wireMessage.returnCode);
-						} 
-					} else if (sentMessage.onSuccess) {
-						sentMessage.onSuccess(wireMessage.returnCode);
+						this._disconnected(ERROR.CONNACK_RETURNCODE.code, format(ERROR.CONNACK_RETURNCODE, [wireMessage.returnCode, CONNACK_RC[wireMessage.returnCode]]));
+						break;
 					}
-					delete this._sentMessages[wireMessage.messageIdentifier];
-				}
-				break;
-				
-			case MESSAGE_TYPE.UNSUBACK:
-				var sentMessage = this._sentMessages[wireMessage.messageIdentifier];
-				if (sentMessage) { 
-					if (sentMessage.timeOut)
-						sentMessage.timeOut.cancel();
-					if (sentMessage.callback) {
-						sentMessage.callback();
+
+					// Resend messages.
+					var sequencedMessages = new Array();
+					for (var msgId in this._sentMessages) {
+						if (this._sentMessages.hasOwnProperty(msgId)) sequencedMessages.push(this._sentMessages[msgId]);
 					}
+
+					// Sort sentMessages into the original sent order.
+					var sequencedMessages = sequencedMessages.sort(function (a, b) {
+						return a.sequence - b.sequence;
+					});
+					for (var i = 0, len = sequencedMessages.length; i < len; i++) {
+						var sentMessage = sequencedMessages[i];
+						if (sentMessage.type == MESSAGE_TYPE.PUBLISH && sentMessage.pubRecReceived) {
+							var pubRelMessage = new WireMessage(MESSAGE_TYPE.PUBREL, { messageIdentifier: sentMessage.messageIdentifier });
+							this._schedule_message(pubRelMessage);
+						} else {
+							this._schedule_message(sentMessage);
+						};
+					}
+
+					// Execute the connectOptions.onSuccess callback if there is one.
+					if (this.connectOptions.onSuccess) {
+						this.connectOptions.onSuccess({ invocationContext: this.connectOptions.invocationContext });
+					}
+
+					// Process all queued messages now that the connection is established. 
+					this._process_queue();
+					break;
+
+				case MESSAGE_TYPE.PUBLISH:
+					this._receivePublish(wireMessage);
+					break;
+
+				case MESSAGE_TYPE.PUBACK:
+					var sentMessage = this._sentMessages[wireMessage.messageIdentifier];
+					// If this is a re flow of a PUBACK after we have restarted receivedMessage will not exist.
+					if (sentMessage) {
+						delete this._sentMessages[wireMessage.messageIdentifier];
+						localStorage.removeItem("Sent:" + this._localKey + wireMessage.messageIdentifier);
+						if (this.onMessageDelivered) this.onMessageDelivered(sentMessage.payloadMessage);
+					}
+					break;
+
+				case MESSAGE_TYPE.PUBREC:
+					var sentMessage = this._sentMessages[wireMessage.messageIdentifier];
+					// If this is a re flow of a PUBREC after we have restarted receivedMessage will not exist.
+					if (sentMessage) {
+						sentMessage.pubRecReceived = true;
+						var pubRelMessage = new WireMessage(MESSAGE_TYPE.PUBREL, { messageIdentifier: wireMessage.messageIdentifier });
+						this.store("Sent:", sentMessage);
+						this._schedule_message(pubRelMessage);
+					}
+					break;
+
+				case MESSAGE_TYPE.PUBREL:
+					var receivedMessage = this._receivedMessages[wireMessage.messageIdentifier];
+					localStorage.removeItem("Received:" + this._localKey + wireMessage.messageIdentifier);
+					// If this is a re flow of a PUBREL after we have restarted receivedMessage will not exist.
+					if (receivedMessage) {
+						this._receiveMessage(receivedMessage);
+						delete this._receivedMessages[wireMessage.messageIdentifier];
+					}
+					// Always flow PubComp, we may have previously flowed PubComp but the server lost it and restarted.
+					var pubCompMessage = new WireMessage(MESSAGE_TYPE.PUBCOMP, { messageIdentifier: wireMessage.messageIdentifier });
+					this._schedule_message(pubCompMessage);
+					break;
+
+				case MESSAGE_TYPE.PUBCOMP:
+					var sentMessage = this._sentMessages[wireMessage.messageIdentifier];
 					delete this._sentMessages[wireMessage.messageIdentifier];
-				}
+					localStorage.removeItem("Sent:" + this._localKey + wireMessage.messageIdentifier);
+					if (this.onMessageDelivered) this.onMessageDelivered(sentMessage.payloadMessage);
+					break;
 
-				break;
-				
-			case MESSAGE_TYPE.PINGRESP:
-				/* The sendPinger or receivePinger may have sent a ping, the receivePinger has already been reset. */
-				this.sendPinger.reset();
-				break;
-				
-			case MESSAGE_TYPE.DISCONNECT:
-				// Clients do not expect to receive disconnect packets.
-				this._disconnected(ERROR.INVALID_MQTT_MESSAGE_TYPE.code , format(ERROR.INVALID_MQTT_MESSAGE_TYPE, [wireMessage.type]));
-				break;
+				case MESSAGE_TYPE.SUBACK:
+					var sentMessage = this._sentMessages[wireMessage.messageIdentifier];
+					if (sentMessage) {
+						if (sentMessage.timeOut) sentMessage.timeOut.cancel();
+						// This will need to be fixed when we add multiple topic support
+						if (wireMessage.returnCode[0] === 0x80) {
+							if (sentMessage.onFailure) {
+								sentMessage.onFailure(wireMessage.returnCode);
+							}
+						} else if (sentMessage.onSuccess) {
+							sentMessage.onSuccess(wireMessage.returnCode);
+						}
+						delete this._sentMessages[wireMessage.messageIdentifier];
+					}
+					break;
 
-			default:
-				this._disconnected(ERROR.INVALID_MQTT_MESSAGE_TYPE.code , format(ERROR.INVALID_MQTT_MESSAGE_TYPE, [wireMessage.type]));
+				case MESSAGE_TYPE.UNSUBACK:
+					var sentMessage = this._sentMessages[wireMessage.messageIdentifier];
+					if (sentMessage) {
+						if (sentMessage.timeOut) sentMessage.timeOut.cancel();
+						if (sentMessage.callback) {
+							sentMessage.callback();
+						}
+						delete this._sentMessages[wireMessage.messageIdentifier];
+					}
+
+					break;
+
+				case MESSAGE_TYPE.PINGRESP:
+					/* The sendPinger or receivePinger may have sent a ping, the receivePinger has already been reset. */
+					this.sendPinger.reset();
+					break;
+
+				case MESSAGE_TYPE.DISCONNECT:
+					// Clients do not expect to receive disconnect packets.
+					this._disconnected(ERROR.INVALID_MQTT_MESSAGE_TYPE.code, format(ERROR.INVALID_MQTT_MESSAGE_TYPE, [wireMessage.type]));
+					break;
+
+				default:
+					this._disconnected(ERROR.INVALID_MQTT_MESSAGE_TYPE.code, format(ERROR.INVALID_MQTT_MESSAGE_TYPE, [wireMessage.type]));
 			};
 		} catch (error) {
-			this._disconnected(ERROR.INTERNAL_ERROR.code , format(ERROR.INTERNAL_ERROR, [error.message,error.stack.toString()]));
+			this._disconnected(ERROR.INTERNAL_ERROR.code, format(ERROR.INTERNAL_ERROR, [error.message, error.stack.toString()]));
 			return;
 		}
 	};
-	
+
 	/** @ignore */
 	ClientImpl.prototype._on_socket_error = function (error) {
-		this._disconnected(ERROR.SOCKET_ERROR.code , format(ERROR.SOCKET_ERROR, [error.data]));
+		this._disconnected(ERROR.SOCKET_ERROR.code, format(ERROR.SOCKET_ERROR, [error.data]));
 	};
 
 	/** @ignore */
 	ClientImpl.prototype._on_socket_close = function () {
-		this._disconnected(ERROR.SOCKET_CLOSE.code , format(ERROR.SOCKET_CLOSE));
+		this._disconnected(ERROR.SOCKET_CLOSE.code, format(ERROR.SOCKET_CLOSE));
 	};
 
 	/** @ignore */
 	ClientImpl.prototype._socket_send = function (wireMessage) {
-		
+
 		if (wireMessage.type == 1) {
-			var wireMessageMasked = this._traceMask(wireMessage, "password"); 
+			var wireMessageMasked = this._traceMask(wireMessage, "password");
 			this._trace("Client._socket_send", wireMessageMasked);
-		}
-		else this._trace("Client._socket_send", wireMessage);
-		
+		} else this._trace("Client._socket_send", wireMessage);
+
 		this.socket.send(wireMessage.encode());
 		/* We have proved to the server we are alive. */
 		this.sendPinger.reset();
 	};
-	
+
 	/** @ignore */
 	ClientImpl.prototype._receivePublish = function (wireMessage) {
-		switch(wireMessage.payloadMessage.qos) {
+		switch (wireMessage.payloadMessage.qos) {
 			case "undefined":
 			case 0:
 				this._receiveMessage(wireMessage);
 				break;
 
 			case 1:
-				var pubAckMessage = new WireMessage(MESSAGE_TYPE.PUBACK, {messageIdentifier:wireMessage.messageIdentifier});
+				var pubAckMessage = new WireMessage(MESSAGE_TYPE.PUBACK, { messageIdentifier: wireMessage.messageIdentifier });
 				this._schedule_message(pubAckMessage);
 				this._receiveMessage(wireMessage);
 				break;
@@ -70813,13 +70717,13 @@ Paho.MQTT = (function (global) {
 			case 2:
 				this._receivedMessages[wireMessage.messageIdentifier] = wireMessage;
 				this.store("Received:", wireMessage);
-				var pubRecMessage = new WireMessage(MESSAGE_TYPE.PUBREC, {messageIdentifier:wireMessage.messageIdentifier});
+				var pubRecMessage = new WireMessage(MESSAGE_TYPE.PUBREC, { messageIdentifier: wireMessage.messageIdentifier });
 				this._schedule_message(pubRecMessage);
 
 				break;
 
 			default:
-				throw Error("Invaild qos="+wireMmessage.payloadMessage.qos);
+				throw Error("Invaild qos=" + wireMmessage.payloadMessage.qos);
 		};
 	};
 
@@ -70831,65 +70735,61 @@ Paho.MQTT = (function (global) {
 	};
 
 	/**
-	 * Client has disconnected either at its own request or because the server
-	 * or network disconnected it. Remove all non-durable state.
-	 * @param {errorCode} [number] the error number.
-	 * @param {errorText} [string] the error text.
-	 * @ignore
-	 */
+  * Client has disconnected either at its own request or because the server
+  * or network disconnected it. Remove all non-durable state.
+  * @param {errorCode} [number] the error number.
+  * @param {errorText} [string] the error text.
+  * @ignore
+  */
 	ClientImpl.prototype._disconnected = function (errorCode, errorText) {
 		this._trace("Client._disconnected", errorCode, errorText);
-		
+
 		this.sendPinger.cancel();
 		this.receivePinger.cancel();
-		if (this._connectTimeout)
-			this._connectTimeout.cancel();
+		if (this._connectTimeout) this._connectTimeout.cancel();
 		// Clear message buffers.
 		this._msg_queue = [];
 		this._notify_msg_sent = {};
-	   
+
 		if (this.socket) {
 			// Cancel all socket callbacks so that they cannot be driven again by this socket.
 			this.socket.onopen = null;
 			this.socket.onmessage = null;
 			this.socket.onerror = null;
 			this.socket.onclose = null;
-			if (this.socket.readyState === 1)
-				this.socket.close();
-			delete this.socket;           
+			if (this.socket.readyState === 1) this.socket.close();
+			delete this.socket;
 		}
-		
-		if (this.connectOptions.uris && this.hostIndex < this.connectOptions.uris.length-1) {
+
+		if (this.connectOptions.uris && this.hostIndex < this.connectOptions.uris.length - 1) {
 			// Try the next host.
 			this.hostIndex++;
 			this._doConnect(this.connectOptions.uris[this.hostIndex]);
-		
 		} else {
-		
+
 			if (errorCode === undefined) {
 				errorCode = ERROR.OK.code;
 				errorText = format(ERROR.OK);
 			}
-			
+
 			// Run any application callbacks last as they may attempt to reconnect and hence create a new socket.
 			if (this.connected) {
 				this.connected = false;
 				// Execute the connectionLostCallback if there is one, and we were connected.       
-				if (this.onConnectionLost)
-					this.onConnectionLost({errorCode:errorCode, errorMessage:errorText});      	
+				if (this.onConnectionLost) this.onConnectionLost({ errorCode: errorCode, errorMessage: errorText });
 			} else {
 				// Otherwise we never had a connection, so indicate that the connect has failed.
 				if (this.connectOptions.mqttVersion === 4 && this.connectOptions.mqttVersionExplicit === false) {
-					this._trace("Failed to connect V4, dropping back to V3")
+					this._trace("Failed to connect V4, dropping back to V3");
 					this.connectOptions.mqttVersion = 3;
 					if (this.connectOptions.uris) {
 						this.hostIndex = 0;
-						this._doConnect(this.connectOptions.uris[0]);  
+						this._doConnect(this.connectOptions.uris[0]);
 					} else {
 						this._doConnect(this.uri);
-					}	
-				} else if(this.connectOptions.onFailure) {
-					this.connectOptions.onFailure({invocationContext:this.connectOptions.invocationContext, errorCode:errorCode, errorMessage:errorText});
+					}
+				} else if (this.connectOptions.onFailure) {
+					this.connectOptions.onFailure({ invocationContext: this.connectOptions.invocationContext, errorCode: errorCode, errorMessage: errorText });
 				}
 			}
 		}
@@ -70899,38 +70799,31 @@ Paho.MQTT = (function (global) {
 	ClientImpl.prototype._trace = function () {
 		// Pass trace message back to client's callback function
 		if (this.traceFunction) {
-			for (var i in arguments)
-			{	
-				if (typeof arguments[i] !== "undefined")
-					arguments[i] = JSON.stringify(arguments[i]);
+			for (var i in arguments) {
+				if (typeof arguments[i] !== "undefined") arguments[i] = JSON.stringify(arguments[i]);
 			}
 			var record = Array.prototype.slice.call(arguments).join("");
-			this.traceFunction ({severity: "Debug", message: record	});
+			this.traceFunction({ severity: "Debug", message: record });
 		}
 
 		//buffer style trace
-		if ( this._traceBuffer !== null ) {  
+		if (this._traceBuffer !== null) {
 			for (var i = 0, max = arguments.length; i < max; i++) {
-				if ( this._traceBuffer.length == this._MAX_TRACE_ENTRIES ) {    
-					this._traceBuffer.shift();              
+				if (this._traceBuffer.length == this._MAX_TRACE_ENTRIES) {
+					this._traceBuffer.shift();
 				}
-				if (i === 0) this._traceBuffer.push(arguments[i]);
-				else if (typeof arguments[i] === "undefined" ) this._traceBuffer.push(arguments[i]);
-				else this._traceBuffer.push("  "+JSON.stringify(arguments[i]));
-		   };
+				if (i === 0) this._traceBuffer.push(arguments[i]);else if (typeof arguments[i] === "undefined") this._traceBuffer.push(arguments[i]);else this._traceBuffer.push("  " + JSON.stringify(arguments[i]));
+			};
 		};
 	};
-	
+
 	/** @ignore */
 	ClientImpl.prototype._traceMask = function (traceObject, masked) {
 		var traceObjectMasked = {};
 		for (var attr in traceObject) {
 			if (traceObject.hasOwnProperty(attr)) {
-				if (attr == masked) 
-					traceObjectMasked[attr] = "******";
-				else
-					traceObjectMasked[attr] = traceObject[attr];
-			} 
+				if (attr == masked) traceObjectMasked[attr] = "******";else traceObjectMasked[attr] = traceObject[attr];
+			}
 		}
 		return traceObjectMasked;
 	};
@@ -70938,221 +70831,235 @@ Paho.MQTT = (function (global) {
 	// ------------------------------------------------------------------------
 	// Public Programming interface.
 	// ------------------------------------------------------------------------
-	
+
 	/** 
-	 * The JavaScript application communicates to the server using a {@link Paho.MQTT.Client} object. 
-	 * <p>
-	 * Most applications will create just one Client object and then call its connect() method,
-	 * however applications can create more than one Client object if they wish. 
-	 * In this case the combination of host, port and clientId attributes must be different for each Client object.
-	 * <p>
-	 * The send, subscribe and unsubscribe methods are implemented as asynchronous JavaScript methods 
-	 * (even though the underlying protocol exchange might be synchronous in nature). 
-	 * This means they signal their completion by calling back to the application, 
-	 * via Success or Failure callback functions provided by the application on the method in question. 
-	 * Such callbacks are called at most once per method invocation and do not persist beyond the lifetime 
-	 * of the script that made the invocation.
-	 * <p>
-	 * In contrast there are some callback functions, most notably <i>onMessageArrived</i>, 
-	 * that are defined on the {@link Paho.MQTT.Client} object.  
-	 * These may get called multiple times, and aren't directly related to specific method invocations made by the client. 
-	 *
-	 * @name Paho.MQTT.Client    
-	 * 
-	 * @constructor
-	 *  
-	 * @param {string} host - the address of the messaging server, as a fully qualified WebSocket URI, as a DNS name or dotted decimal IP address.
-	 * @param {number} port - the port number to connect to - only required if host is not a URI
-	 * @param {string} path - the path on the host to connect to - only used if host is not a URI. Default: '/mqtt'.
-	 * @param {string} clientId - the Messaging client identifier, between 1 and 23 characters in length.
-	 * 
-	 * @property {string} host - <i>read only</i> the server's DNS hostname or dotted decimal IP address.
-	 * @property {number} port - <i>read only</i> the server's port.
-	 * @property {string} path - <i>read only</i> the server's path.
-	 * @property {string} clientId - <i>read only</i> used when connecting to the server.
-	 * @property {function} onConnectionLost - called when a connection has been lost. 
-	 *                            after a connect() method has succeeded.
-	 *                            Establish the call back used when a connection has been lost. The connection may be
-	 *                            lost because the client initiates a disconnect or because the server or network 
-	 *                            cause the client to be disconnected. The disconnect call back may be called without 
-	 *                            the connectionComplete call back being invoked if, for example the client fails to 
-	 *                            connect.
-	 *                            A single response object parameter is passed to the onConnectionLost callback containing the following fields:
-	 *                            <ol>   
-	 *                            <li>errorCode
-	 *                            <li>errorMessage       
-	 *                            </ol>
-	 * @property {function} onMessageDelivered called when a message has been delivered. 
-	 *                            All processing that this Client will ever do has been completed. So, for example,
-	 *                            in the case of a Qos=2 message sent by this client, the PubComp flow has been received from the server
-	 *                            and the message has been removed from persistent storage before this callback is invoked. 
-	 *                            Parameters passed to the onMessageDelivered callback are:
-	 *                            <ol>   
-	 *                            <li>{@link Paho.MQTT.Message} that was delivered.
-	 *                            </ol>    
-	 * @property {function} onMessageArrived called when a message has arrived in this Paho.MQTT.client. 
-	 *                            Parameters passed to the onMessageArrived callback are:
-	 *                            <ol>   
-	 *                            <li>{@link Paho.MQTT.Message} that has arrived.
-	 *                            </ol>    
-	 */
-	var Client = function (host, port, path, clientId) {
-	    
-	    var uri;
-	    
-		if (typeof host !== "string")
-			throw new Error(format(ERROR.INVALID_TYPE, [typeof host, "host"]));
-	    
-	    if (arguments.length == 2) {
-	        // host: must be full ws:// uri
-	        // port: clientId
-	        clientId = port;
-	        uri = host;
-	        var match = uri.match(/^(wss?):\/\/((\[(.+)\])|([^\/]+?))(:(\d+))?(\/.*)$/);
-	        if (match) {
-	            host = match[4]||match[2];
-	            port = parseInt(match[7]);
-	            path = match[8];
-	        } else {
-	            throw new Error(format(ERROR.INVALID_ARGUMENT,[host,"host"]));
-	        }
-	    } else {
-	        if (arguments.length == 3) {
+  * The JavaScript application communicates to the server using a {@link Paho.MQTT.Client} object. 
+  * <p>
+  * Most applications will create just one Client object and then call its connect() method,
+  * however applications can create more than one Client object if they wish. 
+  * In this case the combination of host, port and clientId attributes must be different for each Client object.
+  * <p>
+  * The send, subscribe and unsubscribe methods are implemented as asynchronous JavaScript methods 
+  * (even though the underlying protocol exchange might be synchronous in nature). 
+  * This means they signal their completion by calling back to the application, 
+  * via Success or Failure callback functions provided by the application on the method in question. 
+  * Such callbacks are called at most once per method invocation and do not persist beyond the lifetime 
+  * of the script that made the invocation.
+  * <p>
+  * In contrast there are some callback functions, most notably <i>onMessageArrived</i>, 
+  * that are defined on the {@link Paho.MQTT.Client} object.  
+  * These may get called multiple times, and aren't directly related to specific method invocations made by the client. 
+  *
+  * @name Paho.MQTT.Client    
+  * 
+  * @constructor
+  *  
+  * @param {string} host - the address of the messaging server, as a fully qualified WebSocket URI, as a DNS name or dotted decimal IP address.
+  * @param {number} port - the port number to connect to - only required if host is not a URI
+  * @param {string} path - the path on the host to connect to - only used if host is not a URI. Default: '/mqtt'.
+  * @param {string} clientId - the Messaging client identifier, between 1 and 23 characters in length.
+  * 
+  * @property {string} host - <i>read only</i> the server's DNS hostname or dotted decimal IP address.
+  * @property {number} port - <i>read only</i> the server's port.
+  * @property {string} path - <i>read only</i> the server's path.
+  * @property {string} clientId - <i>read only</i> used when connecting to the server.
+  * @property {function} onConnectionLost - called when a connection has been lost. 
+  *                            after a connect() method has succeeded.
+  *                            Establish the call back used when a connection has been lost. The connection may be
+  *                            lost because the client initiates a disconnect or because the server or network 
+  *                            cause the client to be disconnected. The disconnect call back may be called without 
+  *                            the connectionComplete call back being invoked if, for example the client fails to 
+  *                            connect.
+  *                            A single response object parameter is passed to the onConnectionLost callback containing the following fields:
+  *                            <ol>   
+  *                            <li>errorCode
+  *                            <li>errorMessage       
+  *                            </ol>
+  * @property {function} onMessageDelivered called when a message has been delivered. 
+  *                            All processing that this Client will ever do has been completed. So, for example,
+  *                            in the case of a Qos=2 message sent by this client, the PubComp flow has been received from the server
+  *                            and the message has been removed from persistent storage before this callback is invoked. 
+  *                            Parameters passed to the onMessageDelivered callback are:
+  *                            <ol>   
+  *                            <li>{@link Paho.MQTT.Message} that was delivered.
+  *                            </ol>    
+  * @property {function} onMessageArrived called when a message has arrived in this Paho.MQTT.client. 
+  *                            Parameters passed to the onMessageArrived callback are:
+  *                            <ol>   
+  *                            <li>{@link Paho.MQTT.Message} that has arrived.
+  *                            </ol>    
+  */
+	var Client = function Client(host, port, path, clientId) {
+
+		var uri;
+
+		if (typeof host !== "string") throw new Error(format(ERROR.INVALID_TYPE, [typeof host === "undefined" ? "undefined" : _typeof(host), "host"]));
+
+		if (arguments.length == 2) {
+			// host: must be full ws:// uri
+			// port: clientId
+			clientId = port;
+			uri = host;
+			var match = uri.match(/^(wss?):\/\/((\[(.+)\])|([^\/]+?))(:(\d+))?(\/.*)$/);
+			if (match) {
+				host = match[4] || match[2];
+				port = parseInt(match[7]);
+				path = match[8];
+			} else {
+				throw new Error(format(ERROR.INVALID_ARGUMENT, [host, "host"]));
+			}
+		} else {
+			if (arguments.length == 3) {
 				clientId = path;
 				path = "/mqtt";
 			}
-			if (typeof port !== "number" || port < 0)
-				throw new Error(format(ERROR.INVALID_TYPE, [typeof port, "port"]));
-			if (typeof path !== "string")
-				throw new Error(format(ERROR.INVALID_TYPE, [typeof path, "path"]));
-			
-			var ipv6AddSBracket = (host.indexOf(":") != -1 && host.slice(0,1) != "[" && host.slice(-1) != "]");
-			uri = "ws://"+(ipv6AddSBracket?"["+host+"]":host)+":"+port+path;
+			if (typeof port !== "number" || port < 0) throw new Error(format(ERROR.INVALID_TYPE, [typeof port === "undefined" ? "undefined" : _typeof(port), "port"]));
+			if (typeof path !== "string") throw new Error(format(ERROR.INVALID_TYPE, [typeof path === "undefined" ? "undefined" : _typeof(path), "path"]));
+
+			var ipv6AddSBracket = host.indexOf(":") != -1 && host.slice(0, 1) != "[" && host.slice(-1) != "]";
+			uri = "ws://" + (ipv6AddSBracket ? "[" + host + "]" : host) + ":" + port + path;
 		}
 
 		var clientIdLength = 0;
-		for (var i = 0; i<clientId.length; i++) {
-			var charCode = clientId.charCodeAt(i);                   
-			if (0xD800 <= charCode && charCode <= 0xDBFF)  {    			
-				 i++; // Surrogate pair.
-			}   		   
+		for (var i = 0; i < clientId.length; i++) {
+			var charCode = clientId.charCodeAt(i);
+			if (0xD800 <= charCode && charCode <= 0xDBFF) {
+				i++; // Surrogate pair.
+			}
 			clientIdLength++;
-		}     	   	
-		if (typeof clientId !== "string" || clientIdLength > 65535)
-			throw new Error(format(ERROR.INVALID_ARGUMENT, [clientId, "clientId"])); 
-		
+		}
+		if (typeof clientId !== "string" || clientIdLength > 65535) throw new Error(format(ERROR.INVALID_ARGUMENT, [clientId, "clientId"]));
+
 		var client = new ClientImpl(uri, host, port, path, clientId);
-		this._getHost =  function() { return host; };
-		this._setHost = function() { throw new Error(format(ERROR.UNSUPPORTED_OPERATION)); };
-			
-		this._getPort = function() { return port; };
-		this._setPort = function() { throw new Error(format(ERROR.UNSUPPORTED_OPERATION)); };
-
-		this._getPath = function() { return path; };
-		this._setPath = function() { throw new Error(format(ERROR.UNSUPPORTED_OPERATION)); };
-
-		this._getURI = function() { return uri; };
-		this._setURI = function() { throw new Error(format(ERROR.UNSUPPORTED_OPERATION)); };
-		
-		this._getClientId = function() { return client.clientId; };
-		this._setClientId = function() { throw new Error(format(ERROR.UNSUPPORTED_OPERATION)); };
-		
-		this._getOnConnectionLost = function() { return client.onConnectionLost; };
-		this._setOnConnectionLost = function(newOnConnectionLost) { 
-			if (typeof newOnConnectionLost === "function")
-				client.onConnectionLost = newOnConnectionLost;
-			else 
-				throw new Error(format(ERROR.INVALID_TYPE, [typeof newOnConnectionLost, "onConnectionLost"]));
+		this._getHost = function () {
+			return host;
+		};
+		this._setHost = function () {
+			throw new Error(format(ERROR.UNSUPPORTED_OPERATION));
 		};
 
-		this._getOnMessageDelivered = function() { return client.onMessageDelivered; };
-		this._setOnMessageDelivered = function(newOnMessageDelivered) { 
-			if (typeof newOnMessageDelivered === "function")
-				client.onMessageDelivered = newOnMessageDelivered;
-			else 
-				throw new Error(format(ERROR.INVALID_TYPE, [typeof newOnMessageDelivered, "onMessageDelivered"]));
+		this._getPort = function () {
+			return port;
 		};
-	   
-		this._getOnMessageArrived = function() { return client.onMessageArrived; };
-		this._setOnMessageArrived = function(newOnMessageArrived) { 
-			if (typeof newOnMessageArrived === "function")
-				client.onMessageArrived = newOnMessageArrived;
-			else 
-				throw new Error(format(ERROR.INVALID_TYPE, [typeof newOnMessageArrived, "onMessageArrived"]));
+		this._setPort = function () {
+			throw new Error(format(ERROR.UNSUPPORTED_OPERATION));
 		};
 
-		this._getTrace = function() { return client.traceFunction; };
-		this._setTrace = function(trace) {
-			if(typeof trace === "function"){
+		this._getPath = function () {
+			return path;
+		};
+		this._setPath = function () {
+			throw new Error(format(ERROR.UNSUPPORTED_OPERATION));
+		};
+
+		this._getURI = function () {
+			return uri;
+		};
+		this._setURI = function () {
+			throw new Error(format(ERROR.UNSUPPORTED_OPERATION));
+		};
+
+		this._getClientId = function () {
+			return client.clientId;
+		};
+		this._setClientId = function () {
+			throw new Error(format(ERROR.UNSUPPORTED_OPERATION));
+		};
+
+		this._getOnConnectionLost = function () {
+			return client.onConnectionLost;
+		};
+		this._setOnConnectionLost = function (newOnConnectionLost) {
+			if (typeof newOnConnectionLost === "function") client.onConnectionLost = newOnConnectionLost;else throw new Error(format(ERROR.INVALID_TYPE, [typeof newOnConnectionLost === "undefined" ? "undefined" : _typeof(newOnConnectionLost), "onConnectionLost"]));
+		};
+
+		this._getOnMessageDelivered = function () {
+			return client.onMessageDelivered;
+		};
+		this._setOnMessageDelivered = function (newOnMessageDelivered) {
+			if (typeof newOnMessageDelivered === "function") client.onMessageDelivered = newOnMessageDelivered;else throw new Error(format(ERROR.INVALID_TYPE, [typeof newOnMessageDelivered === "undefined" ? "undefined" : _typeof(newOnMessageDelivered), "onMessageDelivered"]));
+		};
+
+		this._getOnMessageArrived = function () {
+			return client.onMessageArrived;
+		};
+		this._setOnMessageArrived = function (newOnMessageArrived) {
+			if (typeof newOnMessageArrived === "function") client.onMessageArrived = newOnMessageArrived;else throw new Error(format(ERROR.INVALID_TYPE, [typeof newOnMessageArrived === "undefined" ? "undefined" : _typeof(newOnMessageArrived), "onMessageArrived"]));
+		};
+
+		this._getTrace = function () {
+			return client.traceFunction;
+		};
+		this._setTrace = function (trace) {
+			if (typeof trace === "function") {
 				client.traceFunction = trace;
-			}else{
-				throw new Error(format(ERROR.INVALID_TYPE, [typeof trace, "onTrace"]));
+			} else {
+				throw new Error(format(ERROR.INVALID_TYPE, [typeof trace === "undefined" ? "undefined" : _typeof(trace), "onTrace"]));
 			}
 		};
-		
+
 		/** 
-		 * Connect this Messaging client to its server. 
-		 * 
-		 * @name Paho.MQTT.Client#connect
-		 * @function
-		 * @param {Object} connectOptions - attributes used with the connection. 
-		 * @param {number} connectOptions.timeout - If the connect has not succeeded within this 
-		 *                    number of seconds, it is deemed to have failed.
-		 *                    The default is 30 seconds.
-		 * @param {string} connectOptions.userName - Authentication username for this connection.
-		 * @param {string} connectOptions.password - Authentication password for this connection.
-		 * @param {Paho.MQTT.Message} connectOptions.willMessage - sent by the server when the client
-		 *                    disconnects abnormally.
-		 * @param {Number} connectOptions.keepAliveInterval - the server disconnects this client if
-		 *                    there is no activity for this number of seconds.
-		 *                    The default value of 60 seconds is assumed if not set.
-		 * @param {boolean} connectOptions.cleanSession - if true(default) the client and server 
-		 *                    persistent state is deleted on successful connect.
-		 * @param {boolean} connectOptions.useSSL - if present and true, use an SSL Websocket connection.
-		 * @param {object} connectOptions.invocationContext - passed to the onSuccess callback or onFailure callback.
-		 * @param {function} connectOptions.onSuccess - called when the connect acknowledgement 
-		 *                    has been received from the server.
-		 * A single response object parameter is passed to the onSuccess callback containing the following fields:
-		 * <ol>
-		 * <li>invocationContext as passed in to the onSuccess method in the connectOptions.       
-		 * </ol>
-		 * @config {function} [onFailure] called when the connect request has failed or timed out.
-		 * A single response object parameter is passed to the onFailure callback containing the following fields:
-		 * <ol>
-		 * <li>invocationContext as passed in to the onFailure method in the connectOptions.       
-		 * <li>errorCode a number indicating the nature of the error.
-		 * <li>errorMessage text describing the error.      
-		 * </ol>
-		 * @config {Array} [hosts] If present this contains either a set of hostnames or fully qualified
-		 * WebSocket URIs (ws://example.com:1883/mqtt), that are tried in order in place 
-		 * of the host and port paramater on the construtor. The hosts are tried one at at time in order until
-		 * one of then succeeds.
-		 * @config {Array} [ports] If present the set of ports matching the hosts. If hosts contains URIs, this property
-		 * is not used.
-		 * @throws {InvalidState} if the client is not in disconnected state. The client must have received connectionLost
-		 * or disconnected before calling connect for a second or subsequent time.
-		 */
+   * Connect this Messaging client to its server. 
+   * 
+   * @name Paho.MQTT.Client#connect
+   * @function
+   * @param {Object} connectOptions - attributes used with the connection. 
+   * @param {number} connectOptions.timeout - If the connect has not succeeded within this 
+   *                    number of seconds, it is deemed to have failed.
+   *                    The default is 30 seconds.
+   * @param {string} connectOptions.userName - Authentication username for this connection.
+   * @param {string} connectOptions.password - Authentication password for this connection.
+   * @param {Paho.MQTT.Message} connectOptions.willMessage - sent by the server when the client
+   *                    disconnects abnormally.
+   * @param {Number} connectOptions.keepAliveInterval - the server disconnects this client if
+   *                    there is no activity for this number of seconds.
+   *                    The default value of 60 seconds is assumed if not set.
+   * @param {boolean} connectOptions.cleanSession - if true(default) the client and server 
+   *                    persistent state is deleted on successful connect.
+   * @param {boolean} connectOptions.useSSL - if present and true, use an SSL Websocket connection.
+   * @param {object} connectOptions.invocationContext - passed to the onSuccess callback or onFailure callback.
+   * @param {function} connectOptions.onSuccess - called when the connect acknowledgement 
+   *                    has been received from the server.
+   * A single response object parameter is passed to the onSuccess callback containing the following fields:
+   * <ol>
+   * <li>invocationContext as passed in to the onSuccess method in the connectOptions.       
+   * </ol>
+   * @config {function} [onFailure] called when the connect request has failed or timed out.
+   * A single response object parameter is passed to the onFailure callback containing the following fields:
+   * <ol>
+   * <li>invocationContext as passed in to the onFailure method in the connectOptions.       
+   * <li>errorCode a number indicating the nature of the error.
+   * <li>errorMessage text describing the error.      
+   * </ol>
+   * @config {Array} [hosts] If present this contains either a set of hostnames or fully qualified
+   * WebSocket URIs (ws://example.com:1883/mqtt), that are tried in order in place 
+   * of the host and port paramater on the construtor. The hosts are tried one at at time in order until
+   * one of then succeeds.
+   * @config {Array} [ports] If present the set of ports matching the hosts. If hosts contains URIs, this property
+   * is not used.
+   * @throws {InvalidState} if the client is not in disconnected state. The client must have received connectionLost
+   * or disconnected before calling connect for a second or subsequent time.
+   */
 		this.connect = function (connectOptions) {
-			connectOptions = connectOptions || {} ;
-			validate(connectOptions,  {timeout:"number",
-									   userName:"string", 
-									   password:"string", 
-									   willMessage:"object", 
-									   keepAliveInterval:"number", 
-									   cleanSession:"boolean", 
-									   useSSL:"boolean",
-									   invocationContext:"object", 
-									   onSuccess:"function", 
-									   onFailure:"function",
-									   hosts:"object",
-									   ports:"object",
-									   mqttVersion:"number",
-									   mqttVersionExplicit:"boolean",
-									   uris: "object"});
-			
+			connectOptions = connectOptions || {};
+			validate(connectOptions, { timeout: "number",
+				userName: "string",
+				password: "string",
+				willMessage: "object",
+				keepAliveInterval: "number",
+				cleanSession: "boolean",
+				useSSL: "boolean",
+				invocationContext: "object",
+				onSuccess: "function",
+				onFailure: "function",
+				hosts: "object",
+				ports: "object",
+				mqttVersion: "number",
+				mqttVersionExplicit: "boolean",
+				uris: "object" });
+
 			// If no keep alive interval is set, assume 60 seconds.
-			if (connectOptions.keepAliveInterval === undefined)
-				connectOptions.keepAliveInterval = 60;
+			if (connectOptions.keepAliveInterval === undefined) connectOptions.keepAliveInterval = 60;
 
 			if (connectOptions.mqttVersion > 4 || connectOptions.mqttVersion < 3) {
 				throw new Error(format(ERROR.INVALID_ARGUMENT, [connectOptions.mqttVersion, "connectOptions.mqttVersion"]));
@@ -71166,350 +71073,346 @@ Paho.MQTT = (function (global) {
 			}
 
 			//Check that if password is set, so is username
-			if (connectOptions.password !== undefined && connectOptions.userName === undefined)
-				throw new Error(format(ERROR.INVALID_ARGUMENT, [connectOptions.password, "connectOptions.password"]))
+			if (connectOptions.password !== undefined && connectOptions.userName === undefined) throw new Error(format(ERROR.INVALID_ARGUMENT, [connectOptions.password, "connectOptions.password"]));
 
 			if (connectOptions.willMessage) {
-				if (!(connectOptions.willMessage instanceof Message))
-					throw new Error(format(ERROR.INVALID_TYPE, [connectOptions.willMessage, "connectOptions.willMessage"]));
+				if (!(connectOptions.willMessage instanceof Message)) throw new Error(format(ERROR.INVALID_TYPE, [connectOptions.willMessage, "connectOptions.willMessage"]));
 				// The will message must have a payload that can be represented as a string.
 				// Cause the willMessage to throw an exception if this is not the case.
 				connectOptions.willMessage.stringPayload;
-				
-				if (typeof connectOptions.willMessage.destinationName === "undefined")
-					throw new Error(format(ERROR.INVALID_TYPE, [typeof connectOptions.willMessage.destinationName, "connectOptions.willMessage.destinationName"]));
+
+				if (typeof connectOptions.willMessage.destinationName === "undefined") throw new Error(format(ERROR.INVALID_TYPE, [_typeof(connectOptions.willMessage.destinationName), "connectOptions.willMessage.destinationName"]));
 			}
-			if (typeof connectOptions.cleanSession === "undefined")
-				connectOptions.cleanSession = true;
+			if (typeof connectOptions.cleanSession === "undefined") connectOptions.cleanSession = true;
 			if (connectOptions.hosts) {
-			    
-				if (!(connectOptions.hosts instanceof Array) )
-					throw new Error(format(ERROR.INVALID_ARGUMENT, [connectOptions.hosts, "connectOptions.hosts"]));
-				if (connectOptions.hosts.length <1 )
-					throw new Error(format(ERROR.INVALID_ARGUMENT, [connectOptions.hosts, "connectOptions.hosts"]));
-				
+
+				if (!(connectOptions.hosts instanceof Array)) throw new Error(format(ERROR.INVALID_ARGUMENT, [connectOptions.hosts, "connectOptions.hosts"]));
+				if (connectOptions.hosts.length < 1) throw new Error(format(ERROR.INVALID_ARGUMENT, [connectOptions.hosts, "connectOptions.hosts"]));
+
 				var usingURIs = false;
-				for (var i = 0; i<connectOptions.hosts.length; i++) {
-					if (typeof connectOptions.hosts[i] !== "string")
-						throw new Error(format(ERROR.INVALID_TYPE, [typeof connectOptions.hosts[i], "connectOptions.hosts["+i+"]"]));
+				for (var i = 0; i < connectOptions.hosts.length; i++) {
+					if (typeof connectOptions.hosts[i] !== "string") throw new Error(format(ERROR.INVALID_TYPE, [_typeof(connectOptions.hosts[i]), "connectOptions.hosts[" + i + "]"]));
 					if (/^(wss?):\/\/((\[(.+)\])|([^\/]+?))(:(\d+))?(\/.*)$/.test(connectOptions.hosts[i])) {
 						if (i == 0) {
 							usingURIs = true;
 						} else if (!usingURIs) {
-							throw new Error(format(ERROR.INVALID_ARGUMENT, [connectOptions.hosts[i], "connectOptions.hosts["+i+"]"]));
+							throw new Error(format(ERROR.INVALID_ARGUMENT, [connectOptions.hosts[i], "connectOptions.hosts[" + i + "]"]));
 						}
 					} else if (usingURIs) {
-						throw new Error(format(ERROR.INVALID_ARGUMENT, [connectOptions.hosts[i], "connectOptions.hosts["+i+"]"]));
+						throw new Error(format(ERROR.INVALID_ARGUMENT, [connectOptions.hosts[i], "connectOptions.hosts[" + i + "]"]));
 					}
 				}
-				
+
 				if (!usingURIs) {
-					if (!connectOptions.ports)
-						throw new Error(format(ERROR.INVALID_ARGUMENT, [connectOptions.ports, "connectOptions.ports"]));
-					if (!(connectOptions.ports instanceof Array) )
-						throw new Error(format(ERROR.INVALID_ARGUMENT, [connectOptions.ports, "connectOptions.ports"]));
-					if (connectOptions.hosts.length != connectOptions.ports.length)
-						throw new Error(format(ERROR.INVALID_ARGUMENT, [connectOptions.ports, "connectOptions.ports"]));
-					
+					if (!connectOptions.ports) throw new Error(format(ERROR.INVALID_ARGUMENT, [connectOptions.ports, "connectOptions.ports"]));
+					if (!(connectOptions.ports instanceof Array)) throw new Error(format(ERROR.INVALID_ARGUMENT, [connectOptions.ports, "connectOptions.ports"]));
+					if (connectOptions.hosts.length != connectOptions.ports.length) throw new Error(format(ERROR.INVALID_ARGUMENT, [connectOptions.ports, "connectOptions.ports"]));
+
 					connectOptions.uris = [];
-					
-					for (var i = 0; i<connectOptions.hosts.length; i++) {
-						if (typeof connectOptions.ports[i] !== "number" || connectOptions.ports[i] < 0)
-							throw new Error(format(ERROR.INVALID_TYPE, [typeof connectOptions.ports[i], "connectOptions.ports["+i+"]"]));
+
+					for (var i = 0; i < connectOptions.hosts.length; i++) {
+						if (typeof connectOptions.ports[i] !== "number" || connectOptions.ports[i] < 0) throw new Error(format(ERROR.INVALID_TYPE, [_typeof(connectOptions.ports[i]), "connectOptions.ports[" + i + "]"]));
 						var host = connectOptions.hosts[i];
 						var port = connectOptions.ports[i];
-						
-						var ipv6 = (host.indexOf(":") != -1);
-						uri = "ws://"+(ipv6?"["+host+"]":host)+":"+port+path;
+
+						var ipv6 = host.indexOf(":") != -1;
+						uri = "ws://" + (ipv6 ? "[" + host + "]" : host) + ":" + port + path;
 						connectOptions.uris.push(uri);
 					}
 				} else {
 					connectOptions.uris = connectOptions.hosts;
 				}
 			}
-			
+
 			client.connect(connectOptions);
 		};
-	 
+
 		/** 
-		 * Subscribe for messages, request receipt of a copy of messages sent to the destinations described by the filter.
-		 * 
-		 * @name Paho.MQTT.Client#subscribe
-		 * @function
-		 * @param {string} filter describing the destinations to receive messages from.
-		 * <br>
-		 * @param {object} subscribeOptions - used to control the subscription
-		 *
-		 * @param {number} subscribeOptions.qos - the maiximum qos of any publications sent 
-		 *                                  as a result of making this subscription.
-		 * @param {object} subscribeOptions.invocationContext - passed to the onSuccess callback 
-		 *                                  or onFailure callback.
-		 * @param {function} subscribeOptions.onSuccess - called when the subscribe acknowledgement
-		 *                                  has been received from the server.
-		 *                                  A single response object parameter is passed to the onSuccess callback containing the following fields:
-		 *                                  <ol>
-		 *                                  <li>invocationContext if set in the subscribeOptions.       
-		 *                                  </ol>
-		 * @param {function} subscribeOptions.onFailure - called when the subscribe request has failed or timed out.
-		 *                                  A single response object parameter is passed to the onFailure callback containing the following fields:
-		 *                                  <ol>
-		 *                                  <li>invocationContext - if set in the subscribeOptions.       
-		 *                                  <li>errorCode - a number indicating the nature of the error.
-		 *                                  <li>errorMessage - text describing the error.      
-		 *                                  </ol>
-		 * @param {number} subscribeOptions.timeout - which, if present, determines the number of
-		 *                                  seconds after which the onFailure calback is called.
-		 *                                  The presence of a timeout does not prevent the onSuccess
-		 *                                  callback from being called when the subscribe completes.         
-		 * @throws {InvalidState} if the client is not in connected state.
-		 */
+   * Subscribe for messages, request receipt of a copy of messages sent to the destinations described by the filter.
+   * 
+   * @name Paho.MQTT.Client#subscribe
+   * @function
+   * @param {string} filter describing the destinations to receive messages from.
+   * <br>
+   * @param {object} subscribeOptions - used to control the subscription
+   *
+   * @param {number} subscribeOptions.qos - the maiximum qos of any publications sent 
+   *                                  as a result of making this subscription.
+   * @param {object} subscribeOptions.invocationContext - passed to the onSuccess callback 
+   *                                  or onFailure callback.
+   * @param {function} subscribeOptions.onSuccess - called when the subscribe acknowledgement
+   *                                  has been received from the server.
+   *                                  A single response object parameter is passed to the onSuccess callback containing the following fields:
+   *                                  <ol>
+   *                                  <li>invocationContext if set in the subscribeOptions.       
+   *                                  </ol>
+   * @param {function} subscribeOptions.onFailure - called when the subscribe request has failed or timed out.
+   *                                  A single response object parameter is passed to the onFailure callback containing the following fields:
+   *                                  <ol>
+   *                                  <li>invocationContext - if set in the subscribeOptions.       
+   *                                  <li>errorCode - a number indicating the nature of the error.
+   *                                  <li>errorMessage - text describing the error.      
+   *                                  </ol>
+   * @param {number} subscribeOptions.timeout - which, if present, determines the number of
+   *                                  seconds after which the onFailure calback is called.
+   *                                  The presence of a timeout does not prevent the onSuccess
+   *                                  callback from being called when the subscribe completes.         
+   * @throws {InvalidState} if the client is not in connected state.
+   */
 		this.subscribe = function (filter, subscribeOptions) {
-			if (typeof filter !== "string")
-				throw new Error("Invalid argument:"+filter);
-			subscribeOptions = subscribeOptions || {} ;
-			validate(subscribeOptions,  {qos:"number", 
-										 invocationContext:"object", 
-										 onSuccess:"function", 
-										 onFailure:"function",
-										 timeout:"number"
-										});
-			if (subscribeOptions.timeout && !subscribeOptions.onFailure)
-				throw new Error("subscribeOptions.timeout specified with no onFailure callback.");
-			if (typeof subscribeOptions.qos !== "undefined" 
-				&& !(subscribeOptions.qos === 0 || subscribeOptions.qos === 1 || subscribeOptions.qos === 2 ))
-				throw new Error(format(ERROR.INVALID_ARGUMENT, [subscribeOptions.qos, "subscribeOptions.qos"]));
+			if (typeof filter !== "string") throw new Error("Invalid argument:" + filter);
+			subscribeOptions = subscribeOptions || {};
+			validate(subscribeOptions, { qos: "number",
+				invocationContext: "object",
+				onSuccess: "function",
+				onFailure: "function",
+				timeout: "number"
+			});
+			if (subscribeOptions.timeout && !subscribeOptions.onFailure) throw new Error("subscribeOptions.timeout specified with no onFailure callback.");
+			if (typeof subscribeOptions.qos !== "undefined" && !(subscribeOptions.qos === 0 || subscribeOptions.qos === 1 || subscribeOptions.qos === 2)) throw new Error(format(ERROR.INVALID_ARGUMENT, [subscribeOptions.qos, "subscribeOptions.qos"]));
 			client.subscribe(filter, subscribeOptions);
 		};
 
 		/**
-		 * Unsubscribe for messages, stop receiving messages sent to destinations described by the filter.
-		 * 
-		 * @name Paho.MQTT.Client#unsubscribe
-		 * @function
-		 * @param {string} filter - describing the destinations to receive messages from.
-		 * @param {object} unsubscribeOptions - used to control the subscription
-		 * @param {object} unsubscribeOptions.invocationContext - passed to the onSuccess callback 
-		                                      or onFailure callback.
-		 * @param {function} unsubscribeOptions.onSuccess - called when the unsubscribe acknowledgement has been received from the server.
-		 *                                    A single response object parameter is passed to the 
-		 *                                    onSuccess callback containing the following fields:
-		 *                                    <ol>
-		 *                                    <li>invocationContext - if set in the unsubscribeOptions.     
-		 *                                    </ol>
-		 * @param {function} unsubscribeOptions.onFailure called when the unsubscribe request has failed or timed out.
-		 *                                    A single response object parameter is passed to the onFailure callback containing the following fields:
-		 *                                    <ol>
-		 *                                    <li>invocationContext - if set in the unsubscribeOptions.       
-		 *                                    <li>errorCode - a number indicating the nature of the error.
-		 *                                    <li>errorMessage - text describing the error.      
-		 *                                    </ol>
-		 * @param {number} unsubscribeOptions.timeout - which, if present, determines the number of seconds
-		 *                                    after which the onFailure callback is called. The presence of
-		 *                                    a timeout does not prevent the onSuccess callback from being
-		 *                                    called when the unsubscribe completes
-		 * @throws {InvalidState} if the client is not in connected state.
-		 */
+   * Unsubscribe for messages, stop receiving messages sent to destinations described by the filter.
+   * 
+   * @name Paho.MQTT.Client#unsubscribe
+   * @function
+   * @param {string} filter - describing the destinations to receive messages from.
+   * @param {object} unsubscribeOptions - used to control the subscription
+   * @param {object} unsubscribeOptions.invocationContext - passed to the onSuccess callback 
+                                        or onFailure callback.
+   * @param {function} unsubscribeOptions.onSuccess - called when the unsubscribe acknowledgement has been received from the server.
+   *                                    A single response object parameter is passed to the 
+   *                                    onSuccess callback containing the following fields:
+   *                                    <ol>
+   *                                    <li>invocationContext - if set in the unsubscribeOptions.     
+   *                                    </ol>
+   * @param {function} unsubscribeOptions.onFailure called when the unsubscribe request has failed or timed out.
+   *                                    A single response object parameter is passed to the onFailure callback containing the following fields:
+   *                                    <ol>
+   *                                    <li>invocationContext - if set in the unsubscribeOptions.       
+   *                                    <li>errorCode - a number indicating the nature of the error.
+   *                                    <li>errorMessage - text describing the error.      
+   *                                    </ol>
+   * @param {number} unsubscribeOptions.timeout - which, if present, determines the number of seconds
+   *                                    after which the onFailure callback is called. The presence of
+   *                                    a timeout does not prevent the onSuccess callback from being
+   *                                    called when the unsubscribe completes
+   * @throws {InvalidState} if the client is not in connected state.
+   */
 		this.unsubscribe = function (filter, unsubscribeOptions) {
-			if (typeof filter !== "string")
-				throw new Error("Invalid argument:"+filter);
-			unsubscribeOptions = unsubscribeOptions || {} ;
-			validate(unsubscribeOptions,  {invocationContext:"object", 
-										   onSuccess:"function", 
-										   onFailure:"function",
-										   timeout:"number"
-										  });
-			if (unsubscribeOptions.timeout && !unsubscribeOptions.onFailure)
-				throw new Error("unsubscribeOptions.timeout specified with no onFailure callback.");
+			if (typeof filter !== "string") throw new Error("Invalid argument:" + filter);
+			unsubscribeOptions = unsubscribeOptions || {};
+			validate(unsubscribeOptions, { invocationContext: "object",
+				onSuccess: "function",
+				onFailure: "function",
+				timeout: "number"
+			});
+			if (unsubscribeOptions.timeout && !unsubscribeOptions.onFailure) throw new Error("unsubscribeOptions.timeout specified with no onFailure callback.");
 			client.unsubscribe(filter, unsubscribeOptions);
 		};
 
 		/**
-		 * Send a message to the consumers of the destination in the Message.
-		 * 
-		 * @name Paho.MQTT.Client#send
-		 * @function 
-		 * @param {string|Paho.MQTT.Message} topic - <b>mandatory</b> The name of the destination to which the message is to be sent. 
-		 * 					   - If it is the only parameter, used as Paho.MQTT.Message object.
-		 * @param {String|ArrayBuffer} payload - The message data to be sent. 
-		 * @param {number} qos The Quality of Service used to deliver the message.
-		 * 		<dl>
-		 * 			<dt>0 Best effort (default).
-		 *     			<dt>1 At least once.
-		 *     			<dt>2 Exactly once.     
-		 * 		</dl>
-		 * @param {Boolean} retained If true, the message is to be retained by the server and delivered 
-		 *                     to both current and future subscriptions.
-		 *                     If false the server only delivers the message to current subscribers, this is the default for new Messages. 
-		 *                     A received message has the retained boolean set to true if the message was published 
-		 *                     with the retained boolean set to true
-		 *                     and the subscrption was made after the message has been published. 
-		 * @throws {InvalidState} if the client is not connected.
-		 */   
-		this.send = function (topic,payload,qos,retained) {   
-			var message ;  
-			
-			if(arguments.length == 0){
-				throw new Error("Invalid argument."+"length");
+   * Send a message to the consumers of the destination in the Message.
+   * 
+   * @name Paho.MQTT.Client#send
+   * @function 
+   * @param {string|Paho.MQTT.Message} topic - <b>mandatory</b> The name of the destination to which the message is to be sent. 
+   * 					   - If it is the only parameter, used as Paho.MQTT.Message object.
+   * @param {String|ArrayBuffer} payload - The message data to be sent. 
+   * @param {number} qos The Quality of Service used to deliver the message.
+   * 		<dl>
+   * 			<dt>0 Best effort (default).
+   *     			<dt>1 At least once.
+   *     			<dt>2 Exactly once.     
+   * 		</dl>
+   * @param {Boolean} retained If true, the message is to be retained by the server and delivered 
+   *                     to both current and future subscriptions.
+   *                     If false the server only delivers the message to current subscribers, this is the default for new Messages. 
+   *                     A received message has the retained boolean set to true if the message was published 
+   *                     with the retained boolean set to true
+   *                     and the subscrption was made after the message has been published. 
+   * @throws {InvalidState} if the client is not connected.
+   */
+		this.send = function (topic, payload, qos, retained) {
+			var message;
 
-			}else if(arguments.length == 1) {
+			if (arguments.length == 0) {
+				throw new Error("Invalid argument." + "length");
+			} else if (arguments.length == 1) {
 
-				if (!(topic instanceof Message) && (typeof topic !== "string"))
-					throw new Error("Invalid argument:"+ typeof topic);
+				if (!(topic instanceof Message) && typeof topic !== "string") throw new Error("Invalid argument:" + (typeof topic === "undefined" ? "undefined" : _typeof(topic)));
 
 				message = topic;
-				if (typeof message.destinationName === "undefined")
-					throw new Error(format(ERROR.INVALID_ARGUMENT,[message.destinationName,"Message.destinationName"]));
-				client.send(message); 
-
-			}else {
+				if (typeof message.destinationName === "undefined") throw new Error(format(ERROR.INVALID_ARGUMENT, [message.destinationName, "Message.destinationName"]));
+				client.send(message);
+			} else {
 				//parameter checking in Message object 
 				message = new Message(payload);
 				message.destinationName = topic;
-				if(arguments.length >= 3)
-					message.qos = qos;
-				if(arguments.length >= 4)
-					message.retained = retained;
-				client.send(message); 
+				if (arguments.length >= 3) message.qos = qos;
+				if (arguments.length >= 4) message.retained = retained;
+				client.send(message);
 			}
 		};
-		
+
 		/** 
-		 * Normal disconnect of this Messaging client from its server.
-		 * 
-		 * @name Paho.MQTT.Client#disconnect
-		 * @function
-		 * @throws {InvalidState} if the client is already disconnected.     
-		 */
+   * Normal disconnect of this Messaging client from its server.
+   * 
+   * @name Paho.MQTT.Client#disconnect
+   * @function
+   * @throws {InvalidState} if the client is already disconnected.     
+   */
 		this.disconnect = function () {
 			client.disconnect();
 		};
-		
+
 		/** 
-		 * Get the contents of the trace log.
-		 * 
-		 * @name Paho.MQTT.Client#getTraceLog
-		 * @function
-		 * @return {Object[]} tracebuffer containing the time ordered trace records.
-		 */
+   * Get the contents of the trace log.
+   * 
+   * @name Paho.MQTT.Client#getTraceLog
+   * @function
+   * @return {Object[]} tracebuffer containing the time ordered trace records.
+   */
 		this.getTraceLog = function () {
 			return client.getTraceLog();
-		}
-		
+		};
+
 		/** 
-		 * Start tracing.
-		 * 
-		 * @name Paho.MQTT.Client#startTrace
-		 * @function
-		 */
+   * Start tracing.
+   * 
+   * @name Paho.MQTT.Client#startTrace
+   * @function
+   */
 		this.startTrace = function () {
 			client.startTrace();
 		};
-		
+
 		/** 
-		 * Stop tracing.
-		 * 
-		 * @name Paho.MQTT.Client#stopTrace
-		 * @function
-		 */
+   * Stop tracing.
+   * 
+   * @name Paho.MQTT.Client#stopTrace
+   * @function
+   */
 		this.stopTrace = function () {
 			client.stopTrace();
 		};
 
-		this.isConnected = function() {
+		this.isConnected = function () {
 			return client.connected;
 		};
 	};
 
 	Client.prototype = {
-		get host() { return this._getHost(); },
-		set host(newHost) { this._setHost(newHost); },
-			
-		get port() { return this._getPort(); },
-		set port(newPort) { this._setPort(newPort); },
+		get host() {
+			return this._getHost();
+		},
+		set host(newHost) {
+			this._setHost(newHost);
+		},
 
-		get path() { return this._getPath(); },
-		set path(newPath) { this._setPath(newPath); },
-			
-		get clientId() { return this._getClientId(); },
-		set clientId(newClientId) { this._setClientId(newClientId); },
+		get port() {
+			return this._getPort();
+		},
+		set port(newPort) {
+			this._setPort(newPort);
+		},
 
-		get onConnectionLost() { return this._getOnConnectionLost(); },
-		set onConnectionLost(newOnConnectionLost) { this._setOnConnectionLost(newOnConnectionLost); },
+		get path() {
+			return this._getPath();
+		},
+		set path(newPath) {
+			this._setPath(newPath);
+		},
 
-		get onMessageDelivered() { return this._getOnMessageDelivered(); },
-		set onMessageDelivered(newOnMessageDelivered) { this._setOnMessageDelivered(newOnMessageDelivered); },
-		
-		get onMessageArrived() { return this._getOnMessageArrived(); },
-		set onMessageArrived(newOnMessageArrived) { this._setOnMessageArrived(newOnMessageArrived); },
+		get clientId() {
+			return this._getClientId();
+		},
+		set clientId(newClientId) {
+			this._setClientId(newClientId);
+		},
 
-		get trace() { return this._getTrace(); },
-		set trace(newTraceFunction) { this._setTrace(newTraceFunction); }	
+		get onConnectionLost() {
+			return this._getOnConnectionLost();
+		},
+		set onConnectionLost(newOnConnectionLost) {
+			this._setOnConnectionLost(newOnConnectionLost);
+		},
+
+		get onMessageDelivered() {
+			return this._getOnMessageDelivered();
+		},
+		set onMessageDelivered(newOnMessageDelivered) {
+			this._setOnMessageDelivered(newOnMessageDelivered);
+		},
+
+		get onMessageArrived() {
+			return this._getOnMessageArrived();
+		},
+		set onMessageArrived(newOnMessageArrived) {
+			this._setOnMessageArrived(newOnMessageArrived);
+		},
+
+		get trace() {
+			return this._getTrace();
+		},
+		set trace(newTraceFunction) {
+			this._setTrace(newTraceFunction);
+		}
 
 	};
-	
+
 	/** 
-	 * An application message, sent or received.
-	 * <p>
-	 * All attributes may be null, which implies the default values.
-	 * 
-	 * @name Paho.MQTT.Message
-	 * @constructor
-	 * @param {String|ArrayBuffer} payload The message data to be sent.
-	 * <p>
-	 * @property {string} payloadString <i>read only</i> The payload as a string if the payload consists of valid UTF-8 characters.
-	 * @property {ArrayBuffer} payloadBytes <i>read only</i> The payload as an ArrayBuffer.
-	 * <p>
-	 * @property {string} destinationName <b>mandatory</b> The name of the destination to which the message is to be sent
-	 *                    (for messages about to be sent) or the name of the destination from which the message has been received.
-	 *                    (for messages received by the onMessage function).
-	 * <p>
-	 * @property {number} qos The Quality of Service used to deliver the message.
-	 * <dl>
-	 *     <dt>0 Best effort (default).
-	 *     <dt>1 At least once.
-	 *     <dt>2 Exactly once.     
-	 * </dl>
-	 * <p>
-	 * @property {Boolean} retained If true, the message is to be retained by the server and delivered 
-	 *                     to both current and future subscriptions.
-	 *                     If false the server only delivers the message to current subscribers, this is the default for new Messages. 
-	 *                     A received message has the retained boolean set to true if the message was published 
-	 *                     with the retained boolean set to true
-	 *                     and the subscrption was made after the message has been published. 
-	 * <p>
-	 * @property {Boolean} duplicate <i>read only</i> If true, this message might be a duplicate of one which has already been received. 
-	 *                     This is only set on messages received from the server.
-	 *                     
-	 */
-	var Message = function (newPayload) {  
+  * An application message, sent or received.
+  * <p>
+  * All attributes may be null, which implies the default values.
+  * 
+  * @name Paho.MQTT.Message
+  * @constructor
+  * @param {String|ArrayBuffer} payload The message data to be sent.
+  * <p>
+  * @property {string} payloadString <i>read only</i> The payload as a string if the payload consists of valid UTF-8 characters.
+  * @property {ArrayBuffer} payloadBytes <i>read only</i> The payload as an ArrayBuffer.
+  * <p>
+  * @property {string} destinationName <b>mandatory</b> The name of the destination to which the message is to be sent
+  *                    (for messages about to be sent) or the name of the destination from which the message has been received.
+  *                    (for messages received by the onMessage function).
+  * <p>
+  * @property {number} qos The Quality of Service used to deliver the message.
+  * <dl>
+  *     <dt>0 Best effort (default).
+  *     <dt>1 At least once.
+  *     <dt>2 Exactly once.     
+  * </dl>
+  * <p>
+  * @property {Boolean} retained If true, the message is to be retained by the server and delivered 
+  *                     to both current and future subscriptions.
+  *                     If false the server only delivers the message to current subscribers, this is the default for new Messages. 
+  *                     A received message has the retained boolean set to true if the message was published 
+  *                     with the retained boolean set to true
+  *                     and the subscrption was made after the message has been published. 
+  * <p>
+  * @property {Boolean} duplicate <i>read only</i> If true, this message might be a duplicate of one which has already been received. 
+  *                     This is only set on messages received from the server.
+  *                     
+  */
+	var Message = function Message(newPayload) {
 		var payload;
-		if (   typeof newPayload === "string" 
-			|| newPayload instanceof ArrayBuffer
-			|| newPayload instanceof Int8Array
-			|| newPayload instanceof Uint8Array
-			|| newPayload instanceof Int16Array
-			|| newPayload instanceof Uint16Array
-			|| newPayload instanceof Int32Array
-			|| newPayload instanceof Uint32Array
-			|| newPayload instanceof Float32Array
-			|| newPayload instanceof Float64Array
-		   ) {
+		if (typeof newPayload === "string" || newPayload instanceof ArrayBuffer || newPayload instanceof Int8Array || newPayload instanceof Uint8Array || newPayload instanceof Int16Array || newPayload instanceof Uint16Array || newPayload instanceof Int32Array || newPayload instanceof Uint32Array || newPayload instanceof Float32Array || newPayload instanceof Float64Array) {
 			payload = newPayload;
 		} else {
-			throw (format(ERROR.INVALID_ARGUMENT, [newPayload, "newPayload"]));
+			throw format(ERROR.INVALID_ARGUMENT, [newPayload, "newPayload"]);
 		}
 
 		this._getPayloadString = function () {
-			if (typeof payload === "string")
-				return payload;
-			else
-				return parseUTF8(payload, 0, payload.length); 
+			if (typeof payload === "string") return payload;else return parseUTF8(payload, 0, payload.length);
 		};
 
-		this._getPayloadBytes = function() {
+		this._getPayloadBytes = function () {
 			if (typeof payload === "string") {
 				var buffer = new ArrayBuffer(UTF8Length(payload));
-				var byteStream = new Uint8Array(buffer); 
+				var byteStream = new Uint8Array(buffer);
 				stringToUTF8(payload, byteStream, 0);
 
 				return byteStream;
@@ -71519,61 +71422,81 @@ Paho.MQTT = (function (global) {
 		};
 
 		var destinationName = undefined;
-		this._getDestinationName = function() { return destinationName; };
-		this._setDestinationName = function(newDestinationName) { 
-			if (typeof newDestinationName === "string")
-				destinationName = newDestinationName;
-			else 
-				throw new Error(format(ERROR.INVALID_ARGUMENT, [newDestinationName, "newDestinationName"]));
+		this._getDestinationName = function () {
+			return destinationName;
 		};
-				
+		this._setDestinationName = function (newDestinationName) {
+			if (typeof newDestinationName === "string") destinationName = newDestinationName;else throw new Error(format(ERROR.INVALID_ARGUMENT, [newDestinationName, "newDestinationName"]));
+		};
+
 		var qos = 0;
-		this._getQos = function() { return qos; };
-		this._setQos = function(newQos) { 
-			if (newQos === 0 || newQos === 1 || newQos === 2 )
-				qos = newQos;
-			else 
-				throw new Error("Invalid argument:"+newQos);
+		this._getQos = function () {
+			return qos;
+		};
+		this._setQos = function (newQos) {
+			if (newQos === 0 || newQos === 1 || newQos === 2) qos = newQos;else throw new Error("Invalid argument:" + newQos);
 		};
 
 		var retained = false;
-		this._getRetained = function() { return retained; };
-		this._setRetained = function(newRetained) { 
-			if (typeof newRetained === "boolean")
-				retained = newRetained;
-			else 
-				throw new Error(format(ERROR.INVALID_ARGUMENT, [newRetained, "newRetained"]));
+		this._getRetained = function () {
+			return retained;
 		};
-		
+		this._setRetained = function (newRetained) {
+			if (typeof newRetained === "boolean") retained = newRetained;else throw new Error(format(ERROR.INVALID_ARGUMENT, [newRetained, "newRetained"]));
+		};
+
 		var duplicate = false;
-		this._getDuplicate = function() { return duplicate; };
-		this._setDuplicate = function(newDuplicate) { duplicate = newDuplicate; };
+		this._getDuplicate = function () {
+			return duplicate;
+		};
+		this._setDuplicate = function (newDuplicate) {
+			duplicate = newDuplicate;
+		};
 	};
-	
+
 	Message.prototype = {
-		get payloadString() { return this._getPayloadString(); },
-		get payloadBytes() { return this._getPayloadBytes(); },
-		
-		get destinationName() { return this._getDestinationName(); },
-		set destinationName(newDestinationName) { this._setDestinationName(newDestinationName); },
-		
-		get qos() { return this._getQos(); },
-		set qos(newQos) { this._setQos(newQos); },
+		get payloadString() {
+			return this._getPayloadString();
+		},
+		get payloadBytes() {
+			return this._getPayloadBytes();
+		},
 
-		get retained() { return this._getRetained(); },
-		set retained(newRetained) { this._setRetained(newRetained); },
+		get destinationName() {
+			return this._getDestinationName();
+		},
+		set destinationName(newDestinationName) {
+			this._setDestinationName(newDestinationName);
+		},
 
-		get duplicate() { return this._getDuplicate(); },
-		set duplicate(newDuplicate) { this._setDuplicate(newDuplicate); }
+		get qos() {
+			return this._getQos();
+		},
+		set qos(newQos) {
+			this._setQos(newQos);
+		},
+
+		get retained() {
+			return this._getRetained();
+		},
+		set retained(newRetained) {
+			this._setRetained(newRetained);
+		},
+
+		get duplicate() {
+			return this._getDuplicate();
+		},
+		set duplicate(newDuplicate) {
+			this._setDuplicate(newDuplicate);
+		}
 	};
-	   
+
 	// Module contents.
 	return {
 		Client: Client,
 		Message: Message
 	};
-})(window);
-
+}(window);
 
 /***/ })
 /******/ ]);
