@@ -51348,13 +51348,9 @@ var _Menu = __webpack_require__(28);
 
 var _Menu2 = _interopRequireDefault(_Menu);
 
-var _LineMultiAxis = __webpack_require__(50);
+var _TemperatureGauge = __webpack_require__(453);
 
-var _LineMultiAxis2 = _interopRequireDefault(_LineMultiAxis);
-
-var _NodeGauge = __webpack_require__(58);
-
-var _NodeGauge2 = _interopRequireDefault(_NodeGauge);
+var _TemperatureGauge2 = _interopRequireDefault(_TemperatureGauge);
 
 var _Store = __webpack_require__(20);
 
@@ -51381,14 +51377,18 @@ var Environment = function (_Component) {
     var _this = _possibleConstructorReturn(this, (Environment.__proto__ || Object.getPrototypeOf(Environment)).call(this, props));
 
     _this._processStore = function () {
-      var currentPath = _this.props.location.pathname;
-      var data = _underscore2.default.find(_Store2.default.menu.nodes, function (menu) {
-        return menu.url === currentPath;
+
+      _this.setState({ nodeMenuItems: _Store2.default.menu.nodes });
+
+      var currentUrl = _this.props.location.pathname;
+
+      var filterEnvironment = _underscore2.default.find(_this.state.nodeMenuItems, function (menu) {
+        return menu.url === currentUrl;
       });
 
       _this.setState({
-        sensors: data,
-        graphs: data.children,
+        environmentItems: filterEnvironment,
+        sensorData: _Store2.default.sensor_data,
         loading: false
       });
     };
@@ -51396,9 +51396,9 @@ var Environment = function (_Component) {
     _this.state = {
       nodes: [],
       loading: true,
-      sensors: {},
-      graphs: [],
-      gauges: []
+      nodeMenuItems: [],
+      environmentItems: {},
+      sensorData: []
     };
     return _this;
   }
@@ -51408,32 +51408,22 @@ var Environment = function (_Component) {
     value: function componentWillMount() {
       var _this2 = this;
 
-      // console.log('=== componentWillMount >>> environment')
-
       _Store2.default.addListener(function () {
         _this2._processStore();
       });
-
-      if (_Store2.default.state.length !== 0) {
-        this._processStore();
-      }
     }
   }, {
     key: 'componentDidUpdate',
     value: function componentDidUpdate() {
       if (!this.state.loading) {
-        // console.log('=== componentDidUpdate >>> loading false')
-        _reactDom2.default.render(_react2.default.createElement(_NodeGauge2.default, { data: this.state.graphs }), document.getElementById('Gauge'));
-        _reactDom2.default.render(_react2.default.createElement(_LineMultiAxis2.default, { data: this.state.graphs }), document.getElementById('LineMultiAxis'));
+        _reactDom2.default.render(_react2.default.createElement(_TemperatureGauge2.default, { data: this.state.sensorData }), document.getElementById('TemperatureGauge'));
       }
     }
   }, {
     key: 'componentDidMount',
     value: function componentDidMount() {
       if (!this.state.loading) {
-        // console.log('=== componentDidMount >>> loading false')
-        _reactDom2.default.render(_react2.default.createElement(_NodeGauge2.default, { data: this.state.graphs }), document.getElementById('Gauge'));
-        _reactDom2.default.render(_react2.default.createElement(_LineMultiAxis2.default, { data: this.state.graphs }), document.getElementById('LineMultiAxis'));
+        _reactDom2.default.render(_react2.default.createElement(_TemperatureGauge2.default, { data: this.state.sensorData }), document.getElementById('TemperatureGauge'));
       }
     }
   }, {
@@ -51482,28 +51472,7 @@ var Environment = function (_Component) {
                 _react2.default.createElement(
                   'div',
                   { className: !this.state.loading ? 'card-content' : '' },
-                  _react2.default.createElement('div', { id: 'Gauge', className: !this.state.loading ? 'columns' : '',
-                    style: { width: '100%' } })
-                )
-              ),
-              _react2.default.createElement('br', null),
-              _react2.default.createElement(
-                'div',
-                { className: !this.state.loading ? 'card' : '' },
-                _react2.default.createElement(
-                  'div',
-                  { className: !this.state.loading ? 'card-header' : '' },
-                  _react2.default.createElement(
-                    'p',
-                    { className: 'card-header-title',
-                      style: { color: '#4468b0' } },
-                    !this.state.loading && 'Timeline'
-                  )
-                ),
-                _react2.default.createElement(
-                  'div',
-                  { className: !this.state.loading ? 'card-content' : '' },
-                  _react2.default.createElement('div', { id: 'LineMultiAxis' })
+                  _react2.default.createElement('div', { id: 'TemperatureGauge' })
                 )
               )
             )
@@ -68246,7 +68215,6 @@ var NodeTemplate = function (_Component) {
     var _this = _possibleConstructorReturn(this, (NodeTemplate.__proto__ || Object.getPrototypeOf(NodeTemplate)).call(this, props));
 
     _this._processStore = function () {
-      var currentPath = _this.props.location.pathname;
 
       if (_Store2.default.sensor_data[_this.props.match.params.id]) {
 
@@ -68258,8 +68226,6 @@ var NodeTemplate = function (_Component) {
         });
       }
     };
-
-    _this.shouldUpdateGraph = 0;
 
     _this.state = {
       nodes: [],
@@ -68302,16 +68268,11 @@ var NodeTemplate = function (_Component) {
       _Store2.default.addListener(function () {
         _this2._processStore();
       });
-
-      // if (this.state.masterMenuItems.length !== 0) {
-      //   this._processStore()
-      // }
     }
   }, {
     key: 'componentDidUpdate',
     value: function componentDidUpdate() {
       if (!this.state.loading) {
-
         _reactDom2.default.render(_react2.default.createElement(_LineMultiAxis2.default, { data: [this.state.graphs] }), document.getElementById('LineMultiAxis'));
       }
     }
@@ -68320,7 +68281,6 @@ var NodeTemplate = function (_Component) {
     value: function componentDidMount() {
       if (!this.state.loading) {
         console.log('=== componentDidMount >>> loading false');
-
         _reactDom2.default.render(_react2.default.createElement(_LineMultiAxis2.default, { data: [this.state.graphs] }), document.getElementById('LineMultiAxis'));
       }
     }
@@ -68431,6 +68391,7 @@ exports.default = function () {
   var clientId = 'clientId-' + Math.random() * 100;
 
   var client = new _mqttws2.default.MQTT.Client(hostname, port, clientId);
+  var shouldUpdateGraph = false;
 
   client.onConnectionLost = onConnectionLost;
   client.onMessageArrived = onMessageArrived;
@@ -68458,22 +68419,22 @@ exports.default = function () {
         temperature: {
           chart: {
             label: 'temperature',
-            data: [data.cmmc_packet.sensor_node.field1],
+            data: [data.cmmc_packet.sensor_node.field1 / 100],
             labels: [1]
           }
         },
         humidity: {
           chart: {
             label: 'humidity',
-            data: [data.cmmc_packet.sensor_node.field2],
+            data: [data.cmmc_packet.sensor_node.field2 / 100],
             labels: [1]
           }
         }
       };
     } else {
-      SENSOR_DATA[sensor_node.device_name].temperature.chart.data.push(sensor_node.field1);
-      SENSOR_DATA[sensor_node.device_name].humidity.chart.data.push(sensor_node.field2);
-
+      shouldUpdateGraph = true;
+      SENSOR_DATA[sensor_node.device_name].temperature.chart.data.push(sensor_node.field1 / 100);
+      SENSOR_DATA[sensor_node.device_name].humidity.chart.data.push(sensor_node.field2 / 100);
       SENSOR_DATA[sensor_node.device_name].temperature.chart.labels = [].concat(_toConsumableArray(SENSOR_DATA[sensor_node.device_name].temperature.chart.data));
       SENSOR_DATA[sensor_node.device_name].humidity.chart.labels = [].concat(_toConsumableArray(SENSOR_DATA[sensor_node.device_name].humidity.chart.data));
     }
@@ -68492,11 +68453,14 @@ exports.default = function () {
       data: subNodes
     });
 
-    _Dispatcher2.default.dispatch({
-      type: _Constants2.default.DONE_GET_DATA,
-      data: SENSOR_DATA
-    });
-  }, 2000);
+    if (shouldUpdateGraph) {
+      shouldUpdateGraph = false;
+      _Dispatcher2.default.dispatch({
+        type: _Constants2.default.DONE_GET_DATA,
+        data: SENSOR_DATA
+      });
+    }
+  }, 1000);
 };
 
 /***/ }),
@@ -71497,6 +71461,89 @@ Paho.MQTT = function (global) {
 		Message: Message
 	};
 }(window);
+
+/***/ }),
+/* 453 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(2);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactSvgGauge = __webpack_require__(81);
+
+var _reactSvgGauge2 = _interopRequireDefault(_reactSvgGauge);
+
+var _uuid = __webpack_require__(29);
+
+var _uuid2 = _interopRequireDefault(_uuid);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = function (props) {
+
+  var data = [];
+
+  for (var key in props.data) {
+    if (props.data.hasOwnProperty(key)) {
+      console.log(props.data[key]);
+
+      var node = props.data[key];
+      var temperature = node.temperature.chart.data;
+      var humidity = node.humidity.chart.data;
+
+      data.push(_react2.default.createElement(
+        'div',
+        { className: 'columns' },
+        _react2.default.createElement(
+          'div',
+          { className: 'column', key: (0, _uuid2.default)() },
+          _react2.default.createElement(_reactSvgGauge2.default, {
+            label: key,
+            value: parseInt(temperature).toFixed(2),
+            valueLabelStyle: {
+              fontSize: '20px',
+              fontFamily: 'Kanit, sans-serif'
+            },
+            topLabelStyle: {
+              fontFamily: 'Kanit, sans-serif'
+            },
+            color: '#BFE6C7',
+            width: '180',
+            height: '150'
+          })
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'column', key: (0, _uuid2.default)() },
+          _react2.default.createElement(_reactSvgGauge2.default, {
+            label: key,
+            value: parseInt(humidity).toFixed(2),
+            valueLabelStyle: {
+              fontSize: '20px',
+              fontFamily: 'Kanit, sans-serif'
+            },
+            topLabelStyle: {
+              fontFamily: 'Kanit, sans-serif'
+            },
+            color: '#BFE6C7',
+            width: '180',
+            height: '150'
+          })
+        )
+      ));
+    }
+  }
+
+  return data;
+};
 
 /***/ })
 /******/ ]);

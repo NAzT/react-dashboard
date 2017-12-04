@@ -16,6 +16,7 @@ export default () => {
   const clientId = `clientId-${Math.random() * 100}`
 
   let client = new Paho.MQTT.Client(hostname, port, clientId)
+  let shouldUpdateGraph = false
 
   client.onConnectionLost = onConnectionLost
   client.onMessageArrived = onMessageArrived
@@ -37,30 +38,29 @@ export default () => {
     const data = JSON.parse(message.payloadString)
     const sensor_node = data.cmmc_packet.sensor_node
 
-
     if (_.isUndefined(SENSOR_NODES[sensor_node.device_name])) {
       SENSOR_NODES[sensor_node.device_name] = data.cmmc_packet.sensor_node
       SENSOR_DATA[sensor_node.device_name] = {
         temperature: {
           chart: {
             label: 'temperature',
-            data: [data.cmmc_packet.sensor_node.field1],
-            labels: [1],
+            data: [data.cmmc_packet.sensor_node.field1 / 100],
+            labels: [1]
           }
         },
         humidity: {
           chart: {
             label: 'humidity',
-            data: [data.cmmc_packet.sensor_node.field2],
-            labels: [1],
+            data: [data.cmmc_packet.sensor_node.field2 / 100],
+            labels: [1]
           }
         }
       }
     }
     else {
-      SENSOR_DATA[sensor_node.device_name].temperature.chart.data.push(sensor_node.field1)
-      SENSOR_DATA[sensor_node.device_name].humidity.chart.data.push(sensor_node.field2)
-
+      shouldUpdateGraph = true
+      SENSOR_DATA[sensor_node.device_name].temperature.chart.data.push(sensor_node.field1 / 100)
+      SENSOR_DATA[sensor_node.device_name].humidity.chart.data.push(sensor_node.field2 / 100)
       SENSOR_DATA[sensor_node.device_name].temperature.chart.labels = [...SENSOR_DATA[sensor_node.device_name].temperature.chart.data]
       SENSOR_DATA[sensor_node.device_name].humidity.chart.labels = [...SENSOR_DATA[sensor_node.device_name].humidity.chart.data]
     }
@@ -76,14 +76,17 @@ export default () => {
 
     Dispatcher.dispatch({
       type: TypeActions.GOT_MENU_UPDATES,
-      data: subNodes,
+      data: subNodes
     })
 
-    Dispatcher.dispatch({
-      type: TypeActions.DONE_GET_DATA,
-      data: SENSOR_DATA,
-    })
+    if (shouldUpdateGraph) {
+      shouldUpdateGraph = false
+      Dispatcher.dispatch({
+        type: TypeActions.DONE_GET_DATA,
+        data: SENSOR_DATA
+      })
+    }
 
-  }, 2000)
+  }, 1000)
 
 }

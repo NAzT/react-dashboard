@@ -11,8 +11,6 @@ export default class NodeTemplate extends Component {
   constructor (props) {
     super(props)
 
-    this.shouldUpdateGraph = 0
-
     this.state = {
       nodes: [],
       loading: true,
@@ -44,7 +42,6 @@ export default class NodeTemplate extends Component {
   }
 
   _processStore = () => {
-    const currentPath = this.props.location.pathname
 
     if (store.sensor_data[this.props.match.params.id]) {
 
@@ -65,15 +62,10 @@ export default class NodeTemplate extends Component {
     store.addListener(() => {
       this._processStore()
     })
-
-    // if (this.state.masterMenuItems.length !== 0) {
-    //   this._processStore()
-    // }
   }
 
   componentDidUpdate () {
     if (!this.state.loading) {
-
       ReactDOM.render(<LineMultiAxis data={[this.state.graphs]}/>, document.getElementById('LineMultiAxis'))
     }
   }
@@ -81,7 +73,6 @@ export default class NodeTemplate extends Component {
   componentDidMount () {
     if (!this.state.loading) {
       console.log('=== componentDidMount >>> loading false')
-
       ReactDOM.render(<LineMultiAxis data={[this.state.graphs]}/>, document.getElementById('LineMultiAxis'))
     }
   }
