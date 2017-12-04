@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import Menu from './Menu.js'
-import TemperatureGauge from './gauges/environment/TemperatureGauge.jsx'
+import TemperatureGauge from './environment/TemperatureGauge.jsx'
+import HumidityGauge from './environment/HumidityGauge.jsx'
 import store from '../flux/Store'
 import _ from 'underscore'
 
@@ -42,15 +43,20 @@ export default class Environment extends Component {
 
   }
 
+  _gaugeRender = () => {
+    ReactDOM.render(<TemperatureGauge data={this.state.sensorData}/>, document.getElementById('temperature'))
+    ReactDOM.render(<HumidityGauge data={this.state.sensorData}/>, document.getElementById('humidity'))
+  }
+
   componentDidUpdate () {
     if (!this.state.loading) {
-      ReactDOM.render(<TemperatureGauge data={this.state.sensorData}/>, document.getElementById('TemperatureGauge'))
+      this._gaugeRender()
     }
   }
 
   componentDidMount () {
     if (!this.state.loading) {
-      ReactDOM.render(<TemperatureGauge data={this.state.sensorData}/>, document.getElementById('TemperatureGauge'))
+      this._gaugeRender()
     }
   }
 
@@ -75,10 +81,22 @@ export default class Environment extends Component {
               <div className={!this.state.loading ? 'card' : ''}>
                 <div className={!this.state.loading ? 'card-header' : ''}>
                   <p className='card-header-title'
-                     style={{color: '#4468b0'}}>{!this.state.loading && 'Average'}</p>
+                     style={{color: '#4468b0'}}>{!this.state.loading && 'Temperature'}</p>
                 </div>
                 <div className={!this.state.loading ? 'card-content' : ''}>
-                  <div id='TemperatureGauge'/>
+                  <div id='temperature' className={!this.state.loading && 'columns' || ''}/>
+                </div>
+              </div>
+
+              <br/>
+
+              <div className={!this.state.loading ? 'card' : ''}>
+                <div className={!this.state.loading ? 'card-header' : ''}>
+                  <p className='card-header-title'
+                     style={{color: '#4468b0'}}>{!this.state.loading && 'Humidity'}</p>
+                </div>
+                <div className={!this.state.loading ? 'card-content' : ''}>
+                  <div id='humidity' className={!this.state.loading && 'columns' || ''}/>
                 </div>
               </div>
 

@@ -51348,9 +51348,13 @@ var _Menu = __webpack_require__(28);
 
 var _Menu2 = _interopRequireDefault(_Menu);
 
-var _TemperatureGauge = __webpack_require__(453);
+var _TemperatureGauge = __webpack_require__(456);
 
 var _TemperatureGauge2 = _interopRequireDefault(_TemperatureGauge);
+
+var _HumidityGauge = __webpack_require__(457);
+
+var _HumidityGauge2 = _interopRequireDefault(_HumidityGauge);
 
 var _Store = __webpack_require__(20);
 
@@ -51393,6 +51397,11 @@ var Environment = function (_Component) {
       });
     };
 
+    _this._gaugeRender = function () {
+      _reactDom2.default.render(_react2.default.createElement(_TemperatureGauge2.default, { data: _this.state.sensorData }), document.getElementById('temperature'));
+      _reactDom2.default.render(_react2.default.createElement(_HumidityGauge2.default, { data: _this.state.sensorData }), document.getElementById('humidity'));
+    };
+
     _this.state = {
       nodes: [],
       loading: true,
@@ -51416,14 +51425,14 @@ var Environment = function (_Component) {
     key: 'componentDidUpdate',
     value: function componentDidUpdate() {
       if (!this.state.loading) {
-        _reactDom2.default.render(_react2.default.createElement(_TemperatureGauge2.default, { data: this.state.sensorData }), document.getElementById('TemperatureGauge'));
+        this._gaugeRender();
       }
     }
   }, {
     key: 'componentDidMount',
     value: function componentDidMount() {
       if (!this.state.loading) {
-        _reactDom2.default.render(_react2.default.createElement(_TemperatureGauge2.default, { data: this.state.sensorData }), document.getElementById('TemperatureGauge'));
+        this._gaugeRender();
       }
     }
   }, {
@@ -51466,13 +51475,33 @@ var Environment = function (_Component) {
                     'p',
                     { className: 'card-header-title',
                       style: { color: '#4468b0' } },
-                    !this.state.loading && 'Average'
+                    !this.state.loading && 'Temperature'
                   )
                 ),
                 _react2.default.createElement(
                   'div',
                   { className: !this.state.loading ? 'card-content' : '' },
-                  _react2.default.createElement('div', { id: 'TemperatureGauge' })
+                  _react2.default.createElement('div', { id: 'temperature', className: !this.state.loading && 'columns' || '' })
+                )
+              ),
+              _react2.default.createElement('br', null),
+              _react2.default.createElement(
+                'div',
+                { className: !this.state.loading ? 'card' : '' },
+                _react2.default.createElement(
+                  'div',
+                  { className: !this.state.loading ? 'card-header' : '' },
+                  _react2.default.createElement(
+                    'p',
+                    { className: 'card-header-title',
+                      style: { color: '#4468b0' } },
+                    !this.state.loading && 'Humidity'
+                  )
+                ),
+                _react2.default.createElement(
+                  'div',
+                  { className: !this.state.loading ? 'card-content' : '' },
+                  _react2.default.createElement('div', { id: 'humidity', className: !this.state.loading && 'columns' || '' })
                 )
               )
             )
@@ -71463,7 +71492,10 @@ Paho.MQTT = function (global) {
 }(window);
 
 /***/ }),
-/* 453 */
+/* 453 */,
+/* 454 */,
+/* 455 */,
+/* 456 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -71493,47 +71525,91 @@ exports.default = function (props) {
 
   for (var key in props.data) {
     if (props.data.hasOwnProperty(key)) {
-      console.log(props.data[key]);
+      //console.log(props.data[key])
 
       var node = props.data[key];
       var temperature = node.temperature.chart.data;
+
+      data.push(_react2.default.createElement(
+        'div',
+        { key: (0, _uuid2.default)() },
+        _react2.default.createElement(_reactSvgGauge2.default, {
+          label: key,
+          max: '50',
+          value: parseInt(temperature).toFixed(2),
+          valueLabelStyle: {
+            fontSize: '16px',
+            fontFamily: 'Kanit, sans-serif'
+          },
+          topLabelStyle: {
+            fontFamily: 'Kanit, sans-serif'
+          },
+          symbol: ' c',
+          color: '#BFE6C7',
+          width: '180',
+          height: '150'
+        })
+      ));
+    }
+  }
+
+  return data;
+};
+
+/***/ }),
+/* 457 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(2);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactSvgGauge = __webpack_require__(81);
+
+var _reactSvgGauge2 = _interopRequireDefault(_reactSvgGauge);
+
+var _uuid = __webpack_require__(29);
+
+var _uuid2 = _interopRequireDefault(_uuid);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = function (props) {
+
+  var data = [];
+
+  for (var key in props.data) {
+    if (props.data.hasOwnProperty(key)) {
+      //console.log(props.data[key])
+
+      var node = props.data[key];
       var humidity = node.humidity.chart.data;
 
       data.push(_react2.default.createElement(
         'div',
-        { className: 'columns' },
+        { className: 'columns', key: (0, _uuid2.default)() },
         _react2.default.createElement(
           'div',
-          { className: 'column', key: (0, _uuid2.default)() },
-          _react2.default.createElement(_reactSvgGauge2.default, {
-            label: key,
-            value: parseInt(temperature).toFixed(2),
-            valueLabelStyle: {
-              fontSize: '20px',
-              fontFamily: 'Kanit, sans-serif'
-            },
-            topLabelStyle: {
-              fontFamily: 'Kanit, sans-serif'
-            },
-            color: '#BFE6C7',
-            width: '180',
-            height: '150'
-          })
-        ),
-        _react2.default.createElement(
-          'div',
-          { className: 'column', key: (0, _uuid2.default)() },
+          { className: 'column' },
           _react2.default.createElement(_reactSvgGauge2.default, {
             label: key,
             value: parseInt(humidity).toFixed(2),
             valueLabelStyle: {
-              fontSize: '20px',
+              fontSize: '16px',
               fontFamily: 'Kanit, sans-serif'
             },
             topLabelStyle: {
               fontFamily: 'Kanit, sans-serif'
             },
-            color: '#BFE6C7',
+            symbol: ' %rh',
+            color: '#feb2c2',
             width: '180',
             height: '150'
           })
