@@ -9,14 +9,14 @@ const _mapValue = (x, in_min, in_max, out_min, out_max) => {
 }
 const SENSOR_NODES = {}
 const SENSOR_DATA = {}
-export default (callback) => {
+export default () => {
 
   const hostname = 'mqtt.cmmc.io'
   const port = 9001
   const clientId = `clientId-${Math.random() * 100}`
 
   let client = new Paho.MQTT.Client(hostname, port, clientId)
-  console.log(client)
+
   client.onConnectionLost = onConnectionLost
   client.onMessageArrived = onMessageArrived
   client.connect({onSuccess: onConnect})
@@ -36,17 +36,21 @@ export default (callback) => {
     console.log('onMessageArrived:' + message.payloadString)
     const data = JSON.parse(message.payloadString)
     const sensor_node = data.cmmc_packet.sensor_node
+
+
     if (_.isUndefined(SENSOR_NODES[sensor_node.device_name])) {
       SENSOR_NODES[sensor_node.device_name] = data.cmmc_packet.sensor_node
-      SENSOR_DATA[sensor_node.from] = {
+      SENSOR_DATA[sensor_node.device_name] = {
         temperature: {
           chart: {
+            label: 'temperature',
             data: [data.cmmc_packet.sensor_node.field1],
             labels: [1],
           }
         },
         humidity: {
           chart: {
+            label: 'humidity',
             data: [data.cmmc_packet.sensor_node.field2],
             labels: [1],
           }
@@ -54,11 +58,11 @@ export default (callback) => {
       }
     }
     else {
-      SENSOR_DATA[sensor_node.from].temperature.chart.data.push(sensor_node.field1)
-      SENSOR_DATA[sensor_node.from].humidity.chart.data.push(sensor_node.field2)
+      SENSOR_DATA[sensor_node.device_name].temperature.chart.data.push(sensor_node.field1)
+      SENSOR_DATA[sensor_node.device_name].humidity.chart.data.push(sensor_node.field2)
 
-      SENSOR_DATA[sensor_node.from].temperature.chart.labels = [...SENSOR_DATA[sensor_node.from].temperature.chart.data]
-      SENSOR_DATA[sensor_node.from].humidity.chart.labels = [...SENSOR_DATA[sensor_node.from].humidity.chart.data]
+      SENSOR_DATA[sensor_node.device_name].temperature.chart.labels = [...SENSOR_DATA[sensor_node.device_name].temperature.chart.data]
+      SENSOR_DATA[sensor_node.device_name].humidity.chart.labels = [...SENSOR_DATA[sensor_node.device_name].humidity.chart.data]
     }
   }
 
@@ -66,7 +70,7 @@ export default (callback) => {
     const subNodes = []
     _.keys(SENSOR_NODES).forEach((k, idx) => {
       subNodes.push({
-        id: idx, name: k, url: `/environment/node/${SENSOR_NODES[k].from}`
+        id: idx, name: k, url: `/node/${SENSOR_NODES[k].device_name}`
       })
     })
 

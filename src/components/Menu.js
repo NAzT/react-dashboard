@@ -34,7 +34,7 @@ export default class Menu extends Component {
   }
 
   componentWillMount () {
-    if (store.menu.length !== 0) {
+    if (this.state.masterMenuItems.length !== 0) {
       this._processStore()
     }
   }
@@ -55,11 +55,31 @@ export default class Menu extends Component {
         <ul className='menu-list'>
           {
             this.state.masterMenuItems.map(menuItem => {
+
+              let nodes = []
+
+              menuItem.children.forEach(subMenu => { // render sub menu
+
+                nodes.push(
+                  <li key={uuid()}>
+                    <NavLink activeStyle={this.state.activeSubMenu} to={subMenu.url}>
+                      <BoldSpan><i className='fa fa-code-fork'/> {subMenu.name}</BoldSpan>
+                    </NavLink>
+                  </li>
+                )
+
+              })
+
               return (
                 <li key={uuid()}>
                   <NavLink activeStyle={this.state.activeSubMenu} to={menuItem.url}>
                     <BoldSpan><i className={menuItem.icon}/> {menuItem.name}</BoldSpan>
                   </NavLink>
+                  <ul>
+                    {
+                      nodes.map(node => node)
+                    }
+                  </ul>
                 </li>
               )
             })
@@ -75,30 +95,13 @@ export default class Menu extends Component {
             this.state.nodeMenuItems.map(menuItem => {
 
               const group = []
-              let nodes = []
 
-              menuItem.children.forEach(subMenu => { // render sub menu
-
-                nodes.push(
-                  <li key={uuid()}>
-                    <NavLink activeStyle={this.state.activeSubMenu} to={subMenu.url}>
-                      <BoldSpan><i className='fa fa-code-fork'/> {subMenu.name}</BoldSpan>
-                    </NavLink>
-                  </li>
-                )
-
-              })
 
               group.push( // render menu
                 <li key={uuid()}>
                   <NavLink activeStyle={this.state.activeMenu} to={menuItem.url}>
                     <BoldSpan><i className={menuItem.icon}/> {menuItem.name}</BoldSpan>
                   </NavLink>
-                  <ul>
-                    {
-                      nodes.map(node => node)
-                    }
-                  </ul>
                 </li>
               )
 

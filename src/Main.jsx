@@ -11,15 +11,14 @@ import Dispatcher from './flux/Dispatcher'
 import TypeActions from './flux/Constants'
 import API from './api/prod.mqtt'
 
-API((DATA) => {
-  console.log(DATA)
-})
+API()
 
-var menu = {
+const menu = {
   master: [{
     'url': '/',
     'name': 'CMMC',
     'icon': 'fa fa-pie-chart',
+    'children': []
   }],
   nodes: [{
     'id': 1,
@@ -54,9 +53,8 @@ const Main = (
     <Switch>
       <Route exact path='/' component={Master}/>
       <Route exact path='/environment' component={Environment}/>
-      <Route exact path='/environment/node/:id' component={NodeTemplate}/>
+      <Route exact path='/node/:id' component={NodeTemplate}/>
       <Route exact path='/battery' component={Battery}/>
-      <Route exact path='/battery/node/:id' component={NodeTemplate}/>
       <Route component={PageNotFound}/>
     </Switch>
   </HashRouter>

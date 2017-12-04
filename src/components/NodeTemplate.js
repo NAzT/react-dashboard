@@ -11,10 +11,33 @@ export default class NodeTemplate extends Component {
   constructor (props) {
     super(props)
 
+    this.shouldUpdateGraph = 0
+
     this.state = {
       nodes: [],
       loading: true,
-      graphs: []
+      graphs: {
+        data: [],
+        labels: ''
+      },
+      masterMenuItems: [],
+      nodeMenuItems: [],
+      sensorData: {
+        temperature: {
+          chart: {
+            label: 'temperature',
+            data: [],
+            labels: [1]
+          }
+        },
+        humidity: {
+          chart: {
+            label: 'humidity',
+            data: [],
+            labels: [1]
+          }
+        }
+      }
     }
 
     console.log('=== constructor')
@@ -22,13 +45,18 @@ export default class NodeTemplate extends Component {
 
   _processStore = () => {
     const currentPath = this.props.location.pathname
-    let node = _.find(store.state.nodes, (node) => node.url.split('/')[1] === currentPath.split('/')[1])
-    let data = _.find(node.children, (obj) => obj.url === currentPath)
 
-    this.setState({
-      graphs: [data],
-      loading: false
-    })
+    if (store.sensor_data[this.props.match.params.id]) {
+
+      this.setState({sensorData: store.sensor_data[this.props.match.params.id]})
+
+      this.setState({
+        graphs: Object.assign({}, this.state.sensorData.temperature.chart),
+        loading: false
+      })
+
+    }
+
   }
 
   componentWillMount () {
@@ -38,20 +66,15 @@ export default class NodeTemplate extends Component {
       this._processStore()
     })
 
-    if (store.state.length !== 0) {
-      this._processStore()
-    }
+    // if (this.state.masterMenuItems.length !== 0) {
+    //   this._processStore()
+    // }
   }
 
   componentDidUpdate () {
     if (!this.state.loading) {
-      console.log('=== componentDidUpdate >>> loading false')
 
-      const currentPath = this.props.location.pathname
-      let node = _.find(store.state.nodes, (node) => node.url.split('/')[1] === currentPath.split('/')[1])
-      let data = _.find(node.children, (obj) => obj.url === currentPath)
-
-      ReactDOM.render(<LineMultiAxis data={[data]}/>, document.getElementById('LineMultiAxis'))
+      ReactDOM.render(<LineMultiAxis data={[this.state.graphs]}/>, document.getElementById('LineMultiAxis'))
     }
   }
 
@@ -59,7 +82,7 @@ export default class NodeTemplate extends Component {
     if (!this.state.loading) {
       console.log('=== componentDidMount >>> loading false')
 
-      ReactDOM.render(<LineMultiAxis data={this.state.graphs}/>, document.getElementById('LineMultiAxis'))
+      ReactDOM.render(<LineMultiAxis data={[this.state.graphs]}/>, document.getElementById('LineMultiAxis'))
     }
   }
 

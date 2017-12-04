@@ -11,7 +11,7 @@ const LineMultiAxis = (props) => {
 
   //console.log(props.data)
 
-  props.data.map(obj => {
+  props.data.map(chart => {
 
     const key = uuid()
     const r = parseInt((Math.random() * 255).toFixed(0))
@@ -19,7 +19,7 @@ const LineMultiAxis = (props) => {
     const b = parseInt((Math.random() * 255).toFixed(0))
 
     datasets.push({
-      label: obj.name,
+      label: chart.label,
       fill: true,
       lineTension: 0,
       backgroundColor: `rgba(${r}, ${g}, ${b}, 0.3)`,
@@ -37,7 +37,7 @@ const LineMultiAxis = (props) => {
       //pointHoverBorderWidth: 2,
       pointRadius: 3,
       //pointHitRadius: 5,
-      data: obj.chart.data,
+      data: chart.data,
       yAxisID: key
     })
 
