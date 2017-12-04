@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import Menu from './Menu.js'
-import LineMultiAxis from './LineMultiAxis.jsx'
-import Gauge from './NodeGauge.jsx'
+import Gauge from './battery/Gauge.jsx'
 import store from '../flux/Store'
 import _ from 'underscore'
 
@@ -14,48 +13,48 @@ export default class Battery extends Component {
     this.state = {
       nodes: [],
       loading: true,
-      sensors: {},
-      graphs: [],
-      gauges: []
+      nodeMenuItems: [],
+      batteryItems: {},
+      sensorData: []
     }
   }
 
   _processStore = () => {
-    const currentPath = this.props.location.pathname
-    let data = _.find(store.menu.nodes, (menu) => menu.url === currentPath)
+
+    this.setState({nodeMenuItems: store.menu.nodes})
+
+    const currentUrl = this.props.location.pathname
+
+    let filterBattery = _.find(this.state.nodeMenuItems, (menu) => menu.url === currentUrl)
 
     this.setState({
-      sensors: data,
-      graphs: data.children,
+      batteryItems: filterBattery,
+      sensorData: store.sensor_data,
       loading: false
     })
+
   }
 
   componentWillMount () {
-    // console.log('=== componentWillMount >>> battery')
-
     store.addListener(() => {
       this._processStore()
     })
 
-    if (store.state.length !== 0) {
-      this._processStore()
-    }
+  }
+
+  _gaugeRender = () => {
+    ReactDOM.render(<Gauge data={this.state.sensorData}/>, document.getElementById('gauge'))
   }
 
   componentDidUpdate () {
     if (!this.state.loading) {
-      // console.log('=== componentDidUpdate >>> loading false')
-      ReactDOM.render(<Gauge data={this.state.graphs}/>, document.getElementById('Gauge'))
-      ReactDOM.render(<LineMultiAxis data={this.state.graphs}/>, document.getElementById('LineMultiAxis'))
+      this._gaugeRender()
     }
   }
 
   componentDidMount () {
     if (!this.state.loading) {
-      // console.log('=== componentDidMount >>> loading false')
-      ReactDOM.render(<Gauge data={this.state.graphs}/>, document.getElementById('Gauge'))
-      ReactDOM.render(<LineMultiAxis data={this.state.graphs}/>, document.getElementById('LineMultiAxis'))
+      this._gaugeRender()
     }
   }
 
@@ -80,23 +79,10 @@ export default class Battery extends Component {
               <div className={!this.state.loading ? 'card' : ''}>
                 <div className={!this.state.loading ? 'card-header' : ''}>
                   <p className='card-header-title'
-                     style={{color: '#4468b0'}}>{!this.state.loading && 'Average'}</p>
+                     style={{color: '#4468b0'}}>{!this.state.loading && 'Battery'}</p>
                 </div>
                 <div className={!this.state.loading ? 'card-content' : ''}>
-                  <div id='Gauge' className={!this.state.loading ? 'columns' : ''}
-                       style={{width: '100%'}}/>
-                </div>
-              </div>
-
-              <br/>
-
-              <div className={!this.state.loading ? 'card' : ''}>
-                <div className={!this.state.loading ? 'card-header' : ''}>
-                  <p className='card-header-title'
-                     style={{color: '#4468b0'}}>{!this.state.loading && 'Timeline'}</p>
-                </div>
-                <div className={!this.state.loading ? 'card-content' : ''}>
-                  <div id='LineMultiAxis'/>
+                  <div id='gauge' className={!this.state.loading && 'columns' || ''}/>
                 </div>
               </div>
 

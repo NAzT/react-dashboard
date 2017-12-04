@@ -54,6 +54,10 @@ export default () => {
             data: [data.cmmc_packet.sensor_node.field2 / 100],
             labels: [1]
           }
+        },
+        battery: {
+          //value: data.cmmc_packet.sensor_node.battery / 100
+          value: _mapValue(data.cmmc_packet.sensor_node.battery, 0, 1000, 0, 100)
         }
       }
     }

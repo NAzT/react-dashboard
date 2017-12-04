@@ -68016,13 +68016,9 @@ var _Menu = __webpack_require__(28);
 
 var _Menu2 = _interopRequireDefault(_Menu);
 
-var _LineMultiAxis = __webpack_require__(50);
+var _Gauge = __webpack_require__(459);
 
-var _LineMultiAxis2 = _interopRequireDefault(_LineMultiAxis);
-
-var _NodeGauge = __webpack_require__(58);
-
-var _NodeGauge2 = _interopRequireDefault(_NodeGauge);
+var _Gauge2 = _interopRequireDefault(_Gauge);
 
 var _Store = __webpack_require__(20);
 
@@ -68049,24 +68045,32 @@ var Battery = function (_Component) {
     var _this = _possibleConstructorReturn(this, (Battery.__proto__ || Object.getPrototypeOf(Battery)).call(this, props));
 
     _this._processStore = function () {
-      var currentPath = _this.props.location.pathname;
-      var data = _underscore2.default.find(_Store2.default.menu.nodes, function (menu) {
-        return menu.url === currentPath;
+
+      _this.setState({ nodeMenuItems: _Store2.default.menu.nodes });
+
+      var currentUrl = _this.props.location.pathname;
+
+      var filterBattery = _underscore2.default.find(_this.state.nodeMenuItems, function (menu) {
+        return menu.url === currentUrl;
       });
 
       _this.setState({
-        sensors: data,
-        graphs: data.children,
+        batteryItems: filterBattery,
+        sensorData: _Store2.default.sensor_data,
         loading: false
       });
+    };
+
+    _this._gaugeRender = function () {
+      _reactDom2.default.render(_react2.default.createElement(_Gauge2.default, { data: _this.state.sensorData }), document.getElementById('gauge'));
     };
 
     _this.state = {
       nodes: [],
       loading: true,
-      sensors: {},
-      graphs: [],
-      gauges: []
+      nodeMenuItems: [],
+      batteryItems: {},
+      sensorData: []
     };
     return _this;
   }
@@ -68076,32 +68080,22 @@ var Battery = function (_Component) {
     value: function componentWillMount() {
       var _this2 = this;
 
-      // console.log('=== componentWillMount >>> battery')
-
       _Store2.default.addListener(function () {
         _this2._processStore();
       });
-
-      if (_Store2.default.state.length !== 0) {
-        this._processStore();
-      }
     }
   }, {
     key: 'componentDidUpdate',
     value: function componentDidUpdate() {
       if (!this.state.loading) {
-        // console.log('=== componentDidUpdate >>> loading false')
-        _reactDom2.default.render(_react2.default.createElement(_NodeGauge2.default, { data: this.state.graphs }), document.getElementById('Gauge'));
-        _reactDom2.default.render(_react2.default.createElement(_LineMultiAxis2.default, { data: this.state.graphs }), document.getElementById('LineMultiAxis'));
+        this._gaugeRender();
       }
     }
   }, {
     key: 'componentDidMount',
     value: function componentDidMount() {
       if (!this.state.loading) {
-        // console.log('=== componentDidMount >>> loading false')
-        _reactDom2.default.render(_react2.default.createElement(_NodeGauge2.default, { data: this.state.graphs }), document.getElementById('Gauge'));
-        _reactDom2.default.render(_react2.default.createElement(_LineMultiAxis2.default, { data: this.state.graphs }), document.getElementById('LineMultiAxis'));
+        this._gaugeRender();
       }
     }
   }, {
@@ -68144,34 +68138,13 @@ var Battery = function (_Component) {
                     'p',
                     { className: 'card-header-title',
                       style: { color: '#4468b0' } },
-                    !this.state.loading && 'Average'
+                    !this.state.loading && 'Battery'
                   )
                 ),
                 _react2.default.createElement(
                   'div',
                   { className: !this.state.loading ? 'card-content' : '' },
-                  _react2.default.createElement('div', { id: 'Gauge', className: !this.state.loading ? 'columns' : '',
-                    style: { width: '100%' } })
-                )
-              ),
-              _react2.default.createElement('br', null),
-              _react2.default.createElement(
-                'div',
-                { className: !this.state.loading ? 'card' : '' },
-                _react2.default.createElement(
-                  'div',
-                  { className: !this.state.loading ? 'card-header' : '' },
-                  _react2.default.createElement(
-                    'p',
-                    { className: 'card-header-title',
-                      style: { color: '#4468b0' } },
-                    !this.state.loading && 'Timeline'
-                  )
-                ),
-                _react2.default.createElement(
-                  'div',
-                  { className: !this.state.loading ? 'card-content' : '' },
-                  _react2.default.createElement('div', { id: 'LineMultiAxis' })
+                  _react2.default.createElement('div', { id: 'gauge', className: !this.state.loading && 'columns' || '' })
                 )
               )
             )
@@ -68458,6 +68431,10 @@ exports.default = function () {
             data: [data.cmmc_packet.sensor_node.field2 / 100],
             labels: [1]
           }
+        },
+        battery: {
+          //value: data.cmmc_packet.sensor_node.battery / 100
+          value: _mapValue(data.cmmc_packet.sensor_node.battery, 0, 1000, 0, 100)
         }
       };
     } else {
@@ -71609,6 +71586,72 @@ exports.default = function (props) {
               fontFamily: 'Kanit, sans-serif'
             },
             symbol: ' %rh',
+            color: '#feb2c2',
+            width: '180',
+            height: '150'
+          })
+        )
+      ));
+    }
+  }
+
+  return data;
+};
+
+/***/ }),
+/* 458 */,
+/* 459 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(2);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactSvgGauge = __webpack_require__(81);
+
+var _reactSvgGauge2 = _interopRequireDefault(_reactSvgGauge);
+
+var _uuid = __webpack_require__(29);
+
+var _uuid2 = _interopRequireDefault(_uuid);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = function (props) {
+
+  var data = [];
+
+  for (var key in props.data) {
+    if (props.data.hasOwnProperty(key)) {
+      //console.log(props.data[key])
+
+      var node = props.data[key];
+      var battery = node.battery.value;
+
+      data.push(_react2.default.createElement(
+        'div',
+        { className: 'columns', key: (0, _uuid2.default)() },
+        _react2.default.createElement(
+          'div',
+          { className: 'column' },
+          _react2.default.createElement(_reactSvgGauge2.default, {
+            label: key,
+            value: parseInt(battery),
+            valueLabelStyle: {
+              fontSize: '16px',
+              fontFamily: 'Kanit, sans-serif'
+            },
+            topLabelStyle: {
+              fontFamily: 'Kanit, sans-serif'
+            },
+            symbol: ' %',
             color: '#feb2c2',
             width: '180',
             height: '150'
