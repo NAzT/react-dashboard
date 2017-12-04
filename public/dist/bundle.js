@@ -71652,7 +71652,7 @@ exports.default = function (props) {
               fontFamily: 'Kanit, sans-serif'
             },
             symbol: ' %',
-            color: '#feb2c2',
+            color: '#ffcc99',
             width: '180',
             height: '150'
           })
