@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import Menu from './Menu.js'
-import MasterGauge from './MasterGauge.jsx'
+import MasterGauge from './master/Gauge.jsx'
 import store from '../flux/Store'
 import _ from 'underscore'
 
@@ -13,12 +13,9 @@ export default class Master extends Component {
     this.state = {
       nodes: [],
       loading: true,
-      status: {}
+      master: {}
+      //status: {}
     }
-
-    store.addListener(() => {
-      this._processStore()
-    })
 
   }
 
@@ -32,21 +29,36 @@ export default class Master extends Component {
   }
 
   componentWillMount () {
-    if (store.menu.length !== 0) {
-      this._processStore()
-    }
+    store.addListener(() => {
+
+      this.setState({
+        master: store.master_data,
+        loading: false
+      })
+
+    })
   }
 
   componentDidUpdate () {
     if (!this.state.loading) {
-      ReactDOM.render(<MasterGauge data={this.state.status}/>, document.getElementById('masterGauge'))
+      ReactDOM.render(<MasterGauge label='อุณหภูมิ'
+                                   value={this.state.master.temperature}
+                                   symbol=' c'
+      />, document.getElementById('temperature'))
+      ReactDOM.render(<MasterGauge label='ความชื้น'
+                                   value={this.state.master.humidity}
+                                   symbol=' %rh'
+      />, document.getElementById('humidity'))
     }
   }
 
   componentDidMount () {
     //console.log('=== componentDidMount >>> Master')
     if (!this.state.loading) {
-      ReactDOM.render(<MasterGauge data={this.state.status}/>, document.getElementById('masterGauge'))
+      ReactDOM.render(<MasterGauge label='อุณหภูมิ'
+                                   value={this.state.master.temperature}/>, document.getElementById('temperature'))
+      ReactDOM.render(<MasterGauge label='ความชื้น'
+                                   value={this.state.master.humidity}/>, document.getElementById('humidity'))
     }
   }
 
@@ -73,9 +85,9 @@ export default class Master extends Component {
                   <p className='card-header-title'
                      style={{color: '#4468b0'}}>{!this.state.loading && 'Status'}</p>
                 </div>
-                <div className={!this.state.loading ? 'card-content' : ''}>
-                  <div id='masterGauge' className={!this.state.loading ? 'columns' : ''}
-                       style={{width: '100%'}}/>
+                <div className={!this.state.loading ? 'card-content columns' : ''}>
+                  <div id='temperature' style={{width: '100%'}}/>
+                  <div id='humidity' style={{width: '100%'}}/>
                 </div>
               </div>
 

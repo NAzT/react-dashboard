@@ -9,6 +9,7 @@ const _mapValue = (x, in_min, in_max, out_min, out_max) => {
 }
 const SENSOR_NODES = {}
 const SENSOR_DATA = {}
+let MASTER_DATA = {}
 export default () => {
 
   const hostname = 'mqtt.cmmc.io'
@@ -37,6 +38,13 @@ export default () => {
     console.log('onMessageArrived:' + message.payloadString)
     const data = JSON.parse(message.payloadString)
     const sensor_node = data.cmmc_packet.sensor_node
+
+    MASTER_DATA = {
+      temperature: data.temperature_c / 100,
+      humidity: data.humidity_percent_rh / 100,
+      gps_latitude: data.gps_latitude,
+      gps_longitude: data.gps_longitude
+    }
 
     if (_.isUndefined(SENSOR_NODES[sensor_node.device_name])) {
       SENSOR_NODES[sensor_node.device_name] = data.cmmc_packet.sensor_node
@@ -87,7 +95,8 @@ export default () => {
       shouldUpdateGraph = false
       Dispatcher.dispatch({
         type: TypeActions.DONE_GET_DATA,
-        data: SENSOR_DATA
+        data: SENSOR_DATA,
+        master: MASTER_DATA
       })
     }
 

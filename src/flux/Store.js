@@ -7,11 +7,13 @@ class MyStore extends Store {
     super(props)
     this.menu = {master: [], nodes: []}
     this.sensor_data = {}
+    this.master_data = {}
   }
 
   __onDispatch (action) {
     if (action.type === AppConstants.DONE_GET_DATA) {
       Object.assign(this.sensor_data, action.data)
+      Object.assign(this.master_data, action.master)
       //console.log('this.sensor_data', this.sensor_data)
       this.__emitChange()
     }

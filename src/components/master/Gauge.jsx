@@ -4,27 +4,24 @@ import uuid from 'uuid'
 
 export default (props) => {
 
-  return props.data.map(data => {
-
     return (
       <div className='column' key={uuid()}>
         <Gauge
-          label={data.name}
-          value={data.value}
+          label={props.label}
+          value={props.value}
           valueLabelStyle={{
-            fontSize: '20px',
+            fontSize: '16px',
             fontFamily: 'Kanit, sans-serif'
           }}
           topLabelStyle={{
             fontFamily: 'Kanit, sans-serif'
           }}
-          color='#BFE6C7'
+          color='#CCEAE1'
           width='180'
           height='150'
+          symbol={props.symbol}
         />
       </div>
     )
-
-  })
 
 }

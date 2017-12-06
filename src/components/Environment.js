@@ -28,19 +28,37 @@ export default class Environment extends Component {
 
     let filterEnvironment = _.find(this.state.nodeMenuItems, (menu) => menu.url === currentUrl)
 
-    this.setState({
-      environmentItems: filterEnvironment,
-      sensorData: store.sensor_data,
-      loading: false
-    })
+    if (this.state.sensorData.length !== 0) {
+      this.setState({
+        environmentItems: filterEnvironment,
+        sensorData: store.sensor_data,
+        loading: false
+      })
+    }
 
   }
 
   componentWillMount () {
     store.addListener(() => {
-      this._processStore()
-    })
+      //this._processStore()
+      this.setState({nodeMenuItems: store.menu.nodes})
 
+      const currentUrl = this.props.location.pathname
+
+      let filterEnvironment = _.find(this.state.nodeMenuItems, (menu) => menu.url === currentUrl)
+
+      // console.log('sensor data ', store.sensor_data)
+
+      if (!_.isEmpty(store.sensor_data)) {
+        this.setState({
+          environmentItems: filterEnvironment,
+          sensorData: store.sensor_data,
+          loading: false
+        })
+
+      console.log('sensor data ', this.state.sensorData)
+      }
+    })
   }
 
   _gaugeRender = () => {
