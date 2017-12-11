@@ -67,7 +67,7 @@ const LineMultiAxis = (props) => {
 
     yAxes.push({
       type: 'linear',
-      display: false,
+      display: true,
       position: 'left',
       id: key
     })
@@ -83,7 +83,7 @@ const LineMultiAxis = (props) => {
       backgroundColor: `rgba(${r}, ${g}, ${b}, 0.3)`,
       borderColor: `rgba(${r}, ${g}, ${b}, 0.3)`,
       label: 'pm2.5',
-      data: chart.data.map(v => v * (100 * Math.random(1, 100))),
+      data: chart.data.map(v => v * (Math.random())),
       yAxisID: key,
       ...defaultOptions
     })

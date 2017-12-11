@@ -12,30 +12,29 @@ export default class NodeTemplate extends Component {
   constructor (props) {
     super(props)
 
+    this.dummy = function () {
+      return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24].map((v) => (v * Math.random().toFixed(2)))
+    }
     this.state = {
       nodes: [],
       loading: true,
-      graphs: {
-        data: [],
-        labels: ''
+      gauge: {
+        temperature: 30,
+        humidity: 30,
+        pm10: 30,
+        pm25: 30,
       },
+      // graphs: {
+      //   data: [],
+      //   labels: ''
+      // },
       masterMenuItems: [],
       nodeMenuItems: [],
       sensorData: {
-        temperature: {
-          chart: {
-            label: 'temperature',
-            data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24],
-            labels: [1]
-          }
+        multichart: {
+          labels: ['pm1', 'pm10', 'pm2.5'],
+          data: [this.dummy(), this.dummy(), this.dummy()]
         },
-        humidity: {
-          chart: {
-            label: 'humidity',
-            data: [],
-            labels: [1]
-          }
-        }
       }
     }
 
@@ -43,15 +42,14 @@ export default class NodeTemplate extends Component {
   }
 
   _processStore = () => {
-
+    console.log('multichart', this.state.sensorData.multichart)
     if (store.sensor_data[this.props.match.params.id]) {
-
-      this.setState({sensorData: store.sensor_data[this.props.match.params.id]})
-
-      this.setState({
-        graphs: Object.assign({}, this.state.sensorData.temperature.chart),
-        loading: false
-      })
+      // this.setState({sensorData: store.sensor_data[this.props.match.params.id]})
+      //
+      // this.setState({
+      //   graphs: Object.assign({}, this.state.sensorData.temperature.chart),
+      //   loading: false
+      // })
     }
   }
 
@@ -65,35 +63,39 @@ export default class NodeTemplate extends Component {
 
   componentDidUpdate () {
     if (!this.state.loading) {
-      ReactDOM.render(<LineMultiAxis data={[this.state.graphs]}/>, document.getElementById('LineMultiAxis'))
+      console.log(this.state.sensorData)
+      ReactDOM.render(<LineMultiAxis
+        data={this.state.sensorData.multichart}/>, document.getElementById('LineMultiAxis'))
+
       ReactDOM.render(<MasterGauge label='อุณหภูมิ'
-                                   value={this.state.temperature}/>, document.getElementById('temperature-g'))
+                                   value={this.state.gauge.temperature}/>, document.getElementById('temperature-g'))
       ReactDOM.render(<MasterGauge label='ความชื้น'
-                                   value={this.state.humidity}/>, document.getElementById('humidity-g'))
+                                   value={this.state.gauge.humidity}/>, document.getElementById('humidity-g'))
       ReactDOM.render(<MasterGauge label='PM10'
                                    value={50}/>, document.getElementById('pm10-g'))
       ReactDOM.render(<MasterGauge label='PM2.5'
-                                   value={this.state.humidity}/>, document.getElementById('pm25-g'))
+                                   value={this.state.gauge.humidity}/>, document.getElementById('pm25-g'))
     }
   }
 
   componentDidMount () {
-    this.setState({sensorData: store.sensor_data[this.props.match.params.id]})
-    this.setState({
-      graphs: this.state.sensorData.temperature.chart,
-      loading: false
-    })
+    // TODO: FILTER DATA HERE.
+    // this.setState({sensorData: store.sensor_data[this.props.match.params.id]})
+    // this.setState({
+    //   graphs: this.state.sensorData.temperature.chart,
+    //   loading: false
+    // })
     this.setState({loading: false})
     if (!this.state.loading) {
       ReactDOM.render(<LineMultiAxis data={[this.state.graphs]}/>, document.getElementById('LineMultiAxis'))
       ReactDOM.render(<MasterGauge label='อุณหภูมิ'
-                                   value={this.state.temperature}/>, document.getElementById('temperature-g'))
+                                   value={this.state.gauge.temperature}/>, document.getElementById('temperature-g'))
       ReactDOM.render(<MasterGauge label='ความชื้น'
-                                   value={this.state.humidity}/>, document.getElementById('humidity-g'))
+                                   value={this.state.gauge.humidity}/>, document.getElementById('humidity-g'))
       ReactDOM.render(<MasterGauge label='PM10'
-                                   value={50}/>, document.getElementById('pm10-g'))
+                                   value={this.state.gauge.pm10}/>, document.getElementById('pm10-g'))
       ReactDOM.render(<MasterGauge label='PM2.5'
-                                   value={this.state.humidity}/>, document.getElementById('pm25-g'))
+                                   value={this.state.gauge.pm25}/>, document.getElementById('pm25-g'))
     }
   }
 
