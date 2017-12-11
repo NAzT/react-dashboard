@@ -12,16 +12,6 @@ export default class NodeTemplate extends Component {
 
   constructor (props) {
     super(props)
-
-    this.dummy = function () {
-      console.log('influx', influx_sensor.results[0].series[0].columns)
-      console.log('influx', influx_sensor.results[0].series[0].name)
-      console.log('influx', influx_sensor.results[0].series[0].values)
-      return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24].map((v) => ((v * Math.random()).toFixed(2)))
-    }
-    const pm10 = influx_sensor.results[0].series[0].values.map((v) => v[1])
-    const pm1 = influx_sensor.results[0].series[0].values.map((v) => v[2])
-    const pm25 = influx_sensor.results[0].series[0].values.map((v) => v[3])
     this.state = {
       nodes: [],
       loading: true,
@@ -40,19 +30,26 @@ export default class NodeTemplate extends Component {
       sensorData: {
         multichart: {
           labels: ['pm1', 'pm10', 'pm2.5'],
-          data: [pm1, pm10, pm25]
+          data: [0, 0, 0]
         },
       }
     }
-
-    console.log('=== constructor')
   }
 
   _processStore = () => {
-    console.log('store has some changes.', this.state.sensorData.multichart)
-    console.log(store.sensor_stations)
-    if (store.sensor_data[this.props.match.params.id]) {
-      // this.setState({sensorData: store.sensor_data[this.props.match.params.id]})
+    // console.log('store has some changes.', this.state.sensorData.multichart)
+    // console.log('id', store.sensor_stations)
+    const station = store.sensor_stations[this.props.match.params.id - 1]
+    console.log('station >', station)
+    if (station) {
+      const pm10 = station.results[0].series[0].values.map((v) => v[1])
+      const pm1 = station.results[0].series[0].values.map((v) => v[2])
+      const pm25 = station.results[0].series[0].values.map((v) => v[3])
+      this.setState({
+        sensorData: {
+          multichart: Object.assign({}, {data: [pm1, pm10, pm25], labels: ['pm1', 'pm10', 'pm2.5']})
+        }
+      })
       //
       // this.setState({
       //   graphs: Object.assign({}, this.state.sensorData.temperature.chart),
@@ -62,6 +59,8 @@ export default class NodeTemplate extends Component {
   }
 
   componentWillMount () {
+    this.setState({id: this.props.match.params.id})
+    console.log('id:::', this.state.id, '>>>', this.props.match.params.id)
     store.addListener(() => {
       this._processStore()
     })
