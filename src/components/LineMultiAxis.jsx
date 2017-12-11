@@ -67,7 +67,8 @@ const LineMultiAxis = (props) => {
     labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24],
     datasets: datasets
   }
-  console.log(line_data)
+
+  // console.log(line_data)
 
   let line_option = {
     responsive: true,
