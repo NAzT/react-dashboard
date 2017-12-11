@@ -24,6 +24,7 @@ const Main = (
   <HashRouter>
     <Switch>
       <Route exact path='/' component={LandingPage}/>
+      <Route exact path='/about' component={LandingPage}/>
       <Route exact path='/node/:id' component={NodeTemplate}/>
       <Route component={PageNotFound}/>
     </Switch>

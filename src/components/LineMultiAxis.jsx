@@ -5,8 +5,6 @@ import uuid from 'uuid'
 const LineMultiAxis = (props) => {
   const chart = props.data
 
-  //console.log('==== found data line multi axis')
-
   let datasets = []
   let yAxes = []
 
@@ -83,9 +81,7 @@ const LineMultiAxis = (props) => {
     }
   }
 
-  return (
-    <Line data={line_data} options={line_option} key={uuid()}/>
-  )
+  return (<Line data={line_data} options={line_option} key={uuid()}/>)
 
 }
 
