@@ -2,9 +2,10 @@ import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import Menu from './Menu.js'
 import LineMultiAxis from './LineMultiAxis.jsx'
-import Gauge from './NodeGauge.jsx'
+import MasterGauge from './master/Gauge.jsx'
 import store from '../flux/Store'
 import _ from 'underscore'
+// import Gauge from './NodeGauge.jsx'
 
 export default class NodeTemplate extends Component {
 
@@ -24,7 +25,7 @@ export default class NodeTemplate extends Component {
         temperature: {
           chart: {
             label: 'temperature',
-            data: [],
+            data: [1, 2, 3, 4, 5],
             labels: [1]
           }
         },
@@ -65,19 +66,44 @@ export default class NodeTemplate extends Component {
   componentDidUpdate () {
     if (!this.state.loading) {
       ReactDOM.render(<LineMultiAxis data={[this.state.graphs]}/>, document.getElementById('LineMultiAxis'))
+      ReactDOM.render(<MasterGauge label='อุณหภูมิ'
+                                   value={this.state.temperature}/>, document.getElementById('temperature-g'))
+      ReactDOM.render(<MasterGauge label='ความชื้น'
+                                   value={this.state.humidity}/>, document.getElementById('humidity-g'))
+      ReactDOM.render(<MasterGauge label='PM10'
+                                   value={50}/>, document.getElementById('pm10-g'))
+      ReactDOM.render(<MasterGauge label='PM2.5'
+                                   value={this.state.humidity}/>, document.getElementById('pm25-g'))
     }
   }
 
   componentDidMount () {
+    this.setState({sensorData: store.sensor_data[this.props.match.params.id]})
+    this.setState({
+      graphs: this.state.sensorData.temperature.chart,
+      loading: false
+    })
     this.setState({loading: false})
     if (!this.state.loading) {
-      console.log('=== componentDidMount >>> loading false')
       ReactDOM.render(<LineMultiAxis data={[this.state.graphs]}/>, document.getElementById('LineMultiAxis'))
+      ReactDOM.render(<MasterGauge label='อุณหภูมิ'
+                                   value={this.state.temperature}/>, document.getElementById('temperature-g'))
+      ReactDOM.render(<MasterGauge label='ความชื้น'
+                                   value={this.state.humidity}/>, document.getElementById('humidity-g'))
+      ReactDOM.render(<MasterGauge label='PM10'
+                                   value={50}/>, document.getElementById('pm10-g'))
+      ReactDOM.render(<MasterGauge label='PM2.5'
+                                   value={this.state.humidity}/>, document.getElementById('pm25-g'))
     }
   }
 
-  _ctxClassName (expect) {
-    return !this.state.loading ? expect : ''
+  _ctxClassName (expect, opposite) {
+    if (opposite) {
+      return this.state.loading ? expect : ''
+    }
+    else {
+      return !this.state.loading ? expect : ''
+    }
   }
 
   render () {
@@ -91,21 +117,25 @@ export default class NodeTemplate extends Component {
             </div>
             <div className="column is-9 has-text-centered">
 
-              <div className={this._ctxClassName('card')}>
-                <div className={this._ctxClassName('card-content')}>
-                  <span className={this._ctxClassName('fa fa-refresh fa-spin fa-3x', false)}/>
-                </div>
-              </div>
-              {/*guage */}
-
+              {/*<div className={this._ctxClassName('card')}>*/}
+              {/*<div className={this._ctxClassName('card-content')}>*/}
+              {/*<span className={this._ctxClassName('fa fa-refresh fa-spin fa-3x', true)}/>*/}
+              {/*</div>*/}
+              {/*</div>*/}
               <div className={this._ctxClassName('card')}>
                 <div className={this._ctxClassName('card-header')}>
                   <p className='card-header-title'
                      style={{color: '#4468b0'}}>Status</p>
                 </div>
                 <div className={this._ctxClassName('card-content')}>
-                  <div id='masterGauge' className={this._ctxClassName('columns')}
-                       style={{width: '100%'}}/>
+                  <div className='columns'>
+                    <div id='temperature-g' style={{width: '100%'}}/>
+                    <div id='humidity-g' style={{width: '100%'}}/>
+                    <div id='pm10-g' style={{width: '100%'}}/>
+                    <div id='pm25-g' style={{width: '100%'}}/>
+                  </div>
+                  {/*<div id='masterGauge' className={this._ctxClassName('columns')}*/}
+                  {/*style={{width: '100%'}}/>*/}
                 </div>
               </div>
 

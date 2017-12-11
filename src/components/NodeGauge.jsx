@@ -9,7 +9,7 @@ export default (props) => {
     return (
       <div className='column' key={uuid()}>
         <Gauge
-          label={sensor.name}
+          label={sensoa.name}
           value={average.toFixed(2)}
           valueLabelStyle={{
             fontSize: '20px',
