@@ -36,7 +36,7 @@ const LineMultiAxis = (props) => {
     datasets.push({
       backgroundColor: `rgba(${r}, ${g}, ${b}, 0.3)`,
       borderColor: `rgba(${r}, ${g}, ${b}, 0.3)`,
-      label: chart.label,
+      label: 'pm1',
       data: chart.data,
       yAxisID: key,
       ...defaultOptions
@@ -73,8 +73,31 @@ const LineMultiAxis = (props) => {
     })
   })
 
+  props.data.map(chart => {
+    const key = uuid()
+    const r = parseInt((Math.random() * 255).toFixed(0))
+    const g = parseInt((Math.random() * 255).toFixed(0))
+    const b = parseInt((Math.random() * 255).toFixed(0))
+
+    datasets.push({
+      backgroundColor: `rgba(${r}, ${g}, ${b}, 0.3)`,
+      borderColor: `rgba(${r}, ${g}, ${b}, 0.3)`,
+      label: 'pm2.5',
+      data: chart.data.map(v => v * (100 * Math.random(1, 100))),
+      yAxisID: key,
+      ...defaultOptions
+    })
+
+    yAxes.push({
+      type: 'linear',
+      display: false,
+      position: 'left',
+      id: key
+    })
+  })
+
   let line_data = {
-    labels: ['6', '7', '8', '9', '10', '11'],
+    labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24],
     datasets: datasets
   }
   console.log(line_data)
