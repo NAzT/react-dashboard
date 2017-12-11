@@ -3,6 +3,7 @@ import { Line } from 'react-chartjs-2'
 import uuid from 'uuid'
 
 const LineMultiAxis = (props) => {
+  const chart = props.data
 
   //console.log('==== found data line multi axis')
 
@@ -27,73 +28,42 @@ const LineMultiAxis = (props) => {
     pointRadius: 3,
   }
 
-  props.data.map(chart => {
+
+  console.log('props multiple lines we got.. ', props)
+
+  chart.data.forEach((v, idx) => {
+    console.log('idx=>', idx, 'v=>', v)
     const key = uuid()
     const r = parseInt((Math.random() * 255).toFixed(0))
     const g = parseInt((Math.random() * 255).toFixed(0))
     const b = parseInt((Math.random() * 255).toFixed(0))
-
     datasets.push({
       backgroundColor: `rgba(${r}, ${g}, ${b}, 0.3)`,
       borderColor: `rgba(${r}, ${g}, ${b}, 0.3)`,
-      label: 'pm1',
-      data: chart.data,
+      label: chart.labels[idx],
+      data: chart.data[idx],
       yAxisID: key,
       ...defaultOptions
     })
 
-    yAxes.push({
-      type: 'linear',
-      display: false,
-      position: 'left',
-      id: key
-    })
-  })
-
-  props.data.map(chart => {
-    const key = uuid()
-    const r = parseInt((Math.random() * 255).toFixed(0))
-    const g = parseInt((Math.random() * 255).toFixed(0))
-    const b = parseInt((Math.random() * 255).toFixed(0))
-
-    datasets.push({
-      backgroundColor: `rgba(${r}, ${g}, ${b}, 0.3)`,
-      borderColor: `rgba(${r}, ${g}, ${b}, 0.3)`,
-      label: 'pm10',
-      data: chart.data.map(v => v * (100 * Math.random(1, 100))),
-      yAxisID: key,
-      ...defaultOptions
-    })
-
-    yAxes.push({
-      type: 'linear',
-      display: true,
-      position: 'left',
-      id: key
-    })
-  })
-
-  props.data.map(chart => {
-    const key = uuid()
-    const r = parseInt((Math.random() * 255).toFixed(0))
-    const g = parseInt((Math.random() * 255).toFixed(0))
-    const b = parseInt((Math.random() * 255).toFixed(0))
-
-    datasets.push({
-      backgroundColor: `rgba(${r}, ${g}, ${b}, 0.3)`,
-      borderColor: `rgba(${r}, ${g}, ${b}, 0.3)`,
-      label: 'pm2.5',
-      data: chart.data.map(v => v * (Math.random())),
-      yAxisID: key,
-      ...defaultOptions
-    })
-
-    yAxes.push({
-      type: 'linear',
-      display: false,
-      position: 'left',
-      id: key
-    })
+    if (idx === 0) {
+      yAxes.push({
+        type: 'linear',
+        display: true,
+        position: 'left',
+        label: 'hello',
+        id: key
+      })
+    }
+    else {
+      yAxes.push({
+        label: 'hello',
+        type: 'linear',
+        display: false,
+        position: 'left',
+        id: key
+      })
+    }
   })
 
   let line_data = {
