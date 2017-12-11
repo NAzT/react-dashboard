@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom'
 import 'font-awesome/css/font-awesome.css'
 import styled from 'styled-components'
-//import { menuItems } from '../data/menuItems'
 import store from '../flux/Store'
 import uuid from 'uuid'
 
@@ -34,9 +33,7 @@ export default class Menu extends Component {
   }
 
   componentWillMount () {
-    // if (this.state.masterMenuItems.length !== 0) {
     this._processStore()
-    // }
   }
 
   render () {

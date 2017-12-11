@@ -39,7 +39,6 @@ class MyStore extends Store {
     if (action.type === AppConstants.DONE_GET_DATA) {
       Object.assign(this.sensor_data, action.data)
       Object.assign(this.master_data, action.master)
-      //console.log('this.sensor_data', this.sensor_data)
       this.__emitChange()
     }
     else if (action.type === AppConstants.DONE_GET_MENU) {
