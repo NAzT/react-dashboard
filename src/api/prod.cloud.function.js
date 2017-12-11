@@ -6,7 +6,7 @@ const basePath = '/data'
 const uris = ['1.json', '2.json', '3.json', '4.json']
 
 const doSth = function () {
-  const promises = uris.map((uri) => axios.get(`${basePath}/${uri}`))
+  const promises = uris.map((uri) => axios.get(`${basePath}/${uri}?${Math.random()}`))
   axios.all(promises)
     .then(axios.spread((...results) => {
         Dispatcher.dispatch({
