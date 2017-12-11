@@ -17,7 +17,7 @@ const menu = {
   }],
   nodes: [
     {
-      'id': 1,
+      'id': 5,
       'url': '/about',
       'name': 'เกี่ยวกับโครงการ',
       'icon': 'fa fa-envira',
@@ -32,6 +32,7 @@ class MyStore extends Store {
     this.menu = menu
     this.sensor_data = {}
     this.master_data = {}
+    this.sensor_stations = []
   }
 
   __onDispatch (action) {
@@ -51,7 +52,14 @@ class MyStore extends Store {
       Object.assign(this.menu.master[0].children, action.data)
       this.__emitChange()
     }
-
+    else if (action.type === AppConstants.GOT_SENSOR_DATA) {
+      action.data.forEach((station, idx) => {
+        this.sensor_stations[idx] = station
+        if (idx === action.data.length - 1) {
+          this.__emitChange()
+        }
+      })
+    }
   }
 
 }

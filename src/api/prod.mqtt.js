@@ -1,4 +1,3 @@
-import axois from 'axios'
 import TypeActions from '../flux/Constants'
 import Dispatcher from '../flux/Dispatcher'
 import _ from 'underscore'

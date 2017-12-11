@@ -12,6 +12,7 @@ import LandingPage from './components/LandingPage'
 
 HTTP_API()
 // API()
+
 const PageNotFound = ({location}) => (
   <div className="container">
     <div className="section">

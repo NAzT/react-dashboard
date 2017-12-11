@@ -49,7 +49,8 @@ export default class NodeTemplate extends Component {
   }
 
   _processStore = () => {
-    console.log('multichart', this.state.sensorData.multichart)
+    console.log('store has some changes.', this.state.sensorData.multichart)
+    console.log(store.sensor_stations)
     if (store.sensor_data[this.props.match.params.id]) {
       // this.setState({sensorData: store.sensor_data[this.props.match.params.id]})
       //
