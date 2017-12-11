@@ -8,20 +8,12 @@ const menu = {
     'name': 'โครงการ Refresh Siam',
     'icon': 'fa fa-pie-chart',
     'children':
-      [{
-        id: 0, name: 'สุขุมวิท-พระราม 4', url: '/node/BME280-ID-01'
-      },
-        {
-          id: 1,
-          name: 'ตึกสำรวจ คณะวิศวฯ',
-          url: '/node/BAT8285-ID-01'
-        },
-        {
-          id: 3,
-          name: 'ห้องสมุดคณะวิศวฯ',
-          url: '/node/SHT31-ID-01'
-        },
-        {id: 4, name: 'อาคารมั่นคง', url: '/node/LATTE-ID-01'}]
+      [
+        {id: 0, name: 'ห้องสมุดคณะวิศวฯ', url: '/node/SHT31-ID-01'},
+        {id: 1, name: 'อาคารมั่นคงเคหะการ', url: '/node/LATTE-ID-01'},
+        {id: 2, name: 'สุขุมวิท-พระราม 4', url: '/node/BME280-ID-01'},
+        {id: 3, name: 'ตึกสำรวจ คณะวิศวฯ', url: '/node/BAT8285-ID-01'},
+      ]
   }],
   nodes: [
     {

@@ -28,11 +28,10 @@ const LineMultiAxis = (props) => {
     pointRadius: 3,
   }
 
-
   console.log('props multiple lines we got.. ', props)
 
   chart.data.forEach((v, idx) => {
-    console.log('idx=>', idx, 'v=>', v)
+    // console.log('idx=>', idx, 'v=>', v)
     const key = uuid()
     const r = parseInt((Math.random() * 255).toFixed(0))
     const g = parseInt((Math.random() * 255).toFixed(0))
@@ -51,15 +50,13 @@ const LineMultiAxis = (props) => {
         type: 'linear',
         display: true,
         position: 'left',
-        label: 'hello',
         id: key
       })
     }
     else {
       yAxes.push({
-        label: 'hello',
         type: 'linear',
-        display: false,
+        display: true,
         position: 'left',
         id: key
       })

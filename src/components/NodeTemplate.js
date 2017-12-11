@@ -19,6 +19,9 @@ export default class NodeTemplate extends Component {
       console.log('influx', influx_sensor.results[0].series[0].values)
       return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24].map((v) => ((v * Math.random()).toFixed(2)))
     }
+    const pm10 = influx_sensor.results[0].series[0].values.map((v) => v[1])
+    const pm1 = influx_sensor.results[0].series[0].values.map((v) => v[2])
+    const pm25 = influx_sensor.results[0].series[0].values.map((v) => v[3])
     this.state = {
       nodes: [],
       loading: true,
@@ -37,7 +40,7 @@ export default class NodeTemplate extends Component {
       sensorData: {
         multichart: {
           labels: ['pm1', 'pm10', 'pm2.5'],
-          data: [this.dummy(), this.dummy(), this.dummy()]
+          data: [pm1, pm10, pm25]
         },
       }
     }
