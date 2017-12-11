@@ -5876,6 +5876,32 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+var menu = {
+  master: [{
+    'url': '/',
+    'name': 'Refresh Siam',
+    'icon': 'fa fa-pie-chart',
+    'children': [{
+      id: 0, name: 'สุขุมวิท-พระราม 4', url: '/node/BME280-ID-01'
+    }, {
+      id: 1,
+      name: 'ตึกสำรวจ คณะวิศวฯ',
+      url: '/node/BAT8285-ID-01'
+    }, {
+      id: 3,
+      name: 'ห้องสมุดคณะวิศวฯ',
+      url: '/node/SHT31-ID-01'
+    }, { id: 4, name: 'อาคารมั่นคง', url: '/node/LATTE-ID-01' }]
+  }],
+  nodes: [{
+    'id': 1,
+    'url': '/environment',
+    'name': 'เกี่ยวกับโครงการ',
+    'icon': 'fa fa-envira',
+    'children': []
+  }]
+};
+
 var MyStore = function (_Store) {
   _inherits(MyStore, _Store);
 
@@ -5884,7 +5910,7 @@ var MyStore = function (_Store) {
 
     var _this = _possibleConstructorReturn(this, (MyStore.__proto__ || Object.getPrototypeOf(MyStore)).call(this, props));
 
-    _this.menu = { master: [], nodes: [] };
+    _this.menu = menu;
     _this.sensor_data = {};
     _this.master_data = {};
     return _this;
@@ -8170,9 +8196,9 @@ var Menu = function (_Component) {
   _createClass(Menu, [{
     key: 'componentWillMount',
     value: function componentWillMount() {
-      if (this.state.masterMenuItems.length !== 0) {
-        this._processStore();
-      }
+      // if (this.state.masterMenuItems.length !== 0) {
+      this._processStore();
+      // }
     }
   }, {
     key: 'render',
@@ -8184,11 +8210,7 @@ var Menu = function (_Component) {
       return _react2.default.createElement(
         'aside',
         { className: 'menu' },
-        _react2.default.createElement(
-          'p',
-          { className: 'menu-label' },
-          'Master'
-        ),
+        _react2.default.createElement('p', { className: 'menu-label' }),
         _react2.default.createElement(
           'ul',
           { className: 'menu-list' },
@@ -8240,11 +8262,7 @@ var Menu = function (_Component) {
             );
           })
         ),
-        _react2.default.createElement(
-          'p',
-          { className: 'menu-label' },
-          'Nodes'
-        ),
+        _react2.default.createElement('p', { className: 'menu-label' }),
         _react2.default.createElement(
           'ul',
           { className: 'menu-list' },
@@ -24331,34 +24349,45 @@ var _prod2 = _interopRequireDefault(_prod);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-(0, _prod2.default)();
+// API()
 
-var menu = {
-  master: [{
-    'url': '/',
-    'name': 'CMMC',
-    'icon': 'fa fa-pie-chart',
-    'children': []
-  }],
-  nodes: [{
-    'id': 1,
-    'url': '/environment',
-    'name': 'สภาพแวดล้อม',
-    'icon': 'fa fa-envira',
-    'children': []
-  }, {
-    'id': 2,
-    'url': '/battery',
-    'name': 'แบตเตอรี่',
-    'icon': 'fa fa-battery-three-quarters',
-    'children': []
-  }]
-};
-
-_Dispatcher2.default.dispatch({
-  type: _Constants2.default.DONE_GET_MENU,
-  data: menu
-});
+// const menu = {
+//   master: [{
+//     'url': '/',
+//     'name': 'CMMC',
+//     'icon': 'fa fa-pie-chart',
+//     'children':
+//       [{id: 0, name: 'BME280-ID-01', url: '/node/BME280-ID-01'}, {
+//         id: 1,
+//         name: 'BAT8285-ID-01',
+//         url: '/node/BAT8285-ID-01'
+//       }, {id: 2, name: 'BME280-ID-02', url: '/node/BME280-ID-02'}, {
+//         id: 3,
+//         name: 'SHT31-ID-01',
+//         url: '/node/SHT31-ID-01'
+//       }, {id: 4, name: 'LATTE-ID-01', url: '/node/LATTE-ID-01'}]
+//   }],
+//   nodes: [{
+//     'id': 1,
+//     'url': '/environment',
+//     'name': 'สภาพแวดล้อม',
+//     'icon': 'fa fa-envira',
+//     'children': []
+//   }, {
+//     'id': 2,
+//     'url': '/battery',
+//     'name': 'แบตเตอรี่',
+//     'icon': 'fa fa-battery-three-quarters',
+//     'children': []
+//   }]
+// }
+//
+// setTimeout(function () {
+//   Dispatcher.dispatch({
+//     type: TypeActions.DONE_GET_MENU,
+//     data: menu
+//   })
+// }, 1000)
 
 var PageNotFound = function PageNotFound(_ref) {
   var location = _ref.location;
@@ -45443,7 +45472,7 @@ var _Menu = __webpack_require__(30);
 
 var _Menu2 = _interopRequireDefault(_Menu);
 
-var _Gauge = __webpack_require__(456);
+var _Gauge = __webpack_require__(290);
 
 var _Gauge2 = _interopRequireDefault(_Gauge);
 
@@ -45484,7 +45513,7 @@ var Master = function (_Component) {
 
     _this.state = {
       nodes: [],
-      loading: true,
+      loading: false,
       master: {}
       //status: {}
     };
@@ -51144,7 +51173,54 @@ module.exports = v4;
 
 
 /***/ }),
-/* 290 */,
+/* 290 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(2);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactSvgGauge = __webpack_require__(22);
+
+var _reactSvgGauge2 = _interopRequireDefault(_reactSvgGauge);
+
+var _uuid = __webpack_require__(15);
+
+var _uuid2 = _interopRequireDefault(_uuid);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = function (props) {
+
+  return _react2.default.createElement(
+    'div',
+    { className: 'column', key: (0, _uuid2.default)() },
+    _react2.default.createElement(_reactSvgGauge2.default, {
+      label: props.label,
+      value: props.value,
+      valueLabelStyle: {
+        fontSize: '16px',
+        fontFamily: 'Kanit, sans-serif'
+      },
+      topLabelStyle: {
+        fontFamily: 'Kanit, sans-serif'
+      },
+      color: '#CCEAE1',
+      width: '180',
+      height: '150',
+      symbol: props.symbol
+    })
+  );
+};
+
+/***/ }),
 /* 291 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -51840,6 +51916,7 @@ var NodeTemplate = function (_Component) {
   }, {
     key: 'componentDidMount',
     value: function componentDidMount() {
+      this.setState({ loading: false });
       if (!this.state.loading) {
         console.log('=== componentDidMount >>> loading false');
         _reactDom2.default.render(_react2.default.createElement(_LineMultiAxis2.default, { data: [this.state.graphs] }), document.getElementById('LineMultiAxis'));
@@ -51872,6 +51949,26 @@ var NodeTemplate = function (_Component) {
                   'div',
                   { className: this.state.loading ? 'card-content' : '' },
                   _react2.default.createElement('span', { className: this.state.loading && 'fa fa-refresh fa-spin fa-3x' || '' })
+                )
+              ),
+              _react2.default.createElement(
+                'div',
+                { className: !this.state.loading ? 'card' : '' },
+                _react2.default.createElement(
+                  'div',
+                  { className: !this.state.loading ? 'card-header' : '' },
+                  _react2.default.createElement(
+                    'p',
+                    { className: 'card-header-title',
+                      style: { color: '#4468b0' } },
+                    !this.state.loading && 'Status'
+                  )
+                ),
+                _react2.default.createElement(
+                  'div',
+                  { className: !this.state.loading ? 'card-content' : '' },
+                  _react2.default.createElement('div', { id: 'masterGauge', className: !this.state.loading ? 'columns' : '',
+                    style: { width: '100%' } })
                 )
               ),
               _react2.default.createElement(
@@ -68633,28 +68730,29 @@ exports.default = function () {
     }
   }
 
-  setInterval(function () {
-    var subNodes = [];
-    _underscore2.default.keys(SENSOR_NODES).forEach(function (k, idx) {
-      subNodes.push({
-        id: idx, name: k, url: '/node/' + SENSOR_NODES[k].device_name
-      });
-    });
-
-    _Dispatcher2.default.dispatch({
-      type: _Constants2.default.GOT_MENU_UPDATES,
-      data: subNodes
-    });
-
-    if (shouldUpdateGraph) {
-      shouldUpdateGraph = false;
-      _Dispatcher2.default.dispatch({
-        type: _Constants2.default.DONE_GET_DATA,
-        data: SENSOR_DATA,
-        master: MASTER_DATA
-      });
-    }
-  }, 1000);
+  // setInterval(function () {
+  //   const subNodes = []
+  //   _.keys(SENSOR_NODES).forEach((k, idx) => {
+  //     subNodes.push({
+  //       id: idx, name: k, url: `/node/${SENSOR_NODES[k].device_name}`
+  //     })
+  //   })
+  //
+  //   Dispatcher.dispatch({
+  //     type: TypeActions.GOT_MENU_UPDATES,
+  //     data: subNodes
+  //   })
+  //
+  //   if (shouldUpdateGraph) {
+  //     shouldUpdateGraph = false
+  //     Dispatcher.dispatch({
+  //       type: TypeActions.DONE_GET_DATA,
+  //       data: SENSOR_DATA,
+  //       master: MASTER_DATA
+  //     })
+  //   }
+  //
+  // }, 1000)
 };
 
 /***/ }),
@@ -71655,54 +71753,6 @@ Paho.MQTT = function (global) {
 		Message: Message
 	};
 }(window);
-
-/***/ }),
-/* 456 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(2);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactSvgGauge = __webpack_require__(22);
-
-var _reactSvgGauge2 = _interopRequireDefault(_reactSvgGauge);
-
-var _uuid = __webpack_require__(15);
-
-var _uuid2 = _interopRequireDefault(_uuid);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = function (props) {
-
-  return _react2.default.createElement(
-    'div',
-    { className: 'column', key: (0, _uuid2.default)() },
-    _react2.default.createElement(_reactSvgGauge2.default, {
-      label: props.label,
-      value: props.value,
-      valueLabelStyle: {
-        fontSize: '16px',
-        fontFamily: 'Kanit, sans-serif'
-      },
-      topLabelStyle: {
-        fontFamily: 'Kanit, sans-serif'
-      },
-      color: '#CCEAE1',
-      width: '180',
-      height: '150',
-      symbol: props.symbol
-    })
-  );
-};
 
 /***/ })
 /******/ ]);

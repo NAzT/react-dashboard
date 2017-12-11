@@ -12,7 +12,7 @@ export default class Master extends Component {
 
     this.state = {
       nodes: [],
-      loading: true,
+      loading: false,
       master: {}
       //status: {}
     }

@@ -11,34 +11,45 @@ import Dispatcher from './flux/Dispatcher'
 import TypeActions from './flux/Constants'
 import API from './api/prod.mqtt'
 
-API()
+// API()
 
-const menu = {
-  master: [{
-    'url': '/',
-    'name': 'CMMC',
-    'icon': 'fa fa-pie-chart',
-    'children': []
-  }],
-  nodes: [{
-    'id': 1,
-    'url': '/environment',
-    'name': 'สภาพแวดล้อม',
-    'icon': 'fa fa-envira',
-    'children': []
-  }, {
-    'id': 2,
-    'url': '/battery',
-    'name': 'แบตเตอรี่',
-    'icon': 'fa fa-battery-three-quarters',
-    'children': []
-  }]
-}
-
-Dispatcher.dispatch({
-  type: TypeActions.DONE_GET_MENU,
-  data: menu
-})
+// const menu = {
+//   master: [{
+//     'url': '/',
+//     'name': 'CMMC',
+//     'icon': 'fa fa-pie-chart',
+//     'children':
+//       [{id: 0, name: 'BME280-ID-01', url: '/node/BME280-ID-01'}, {
+//         id: 1,
+//         name: 'BAT8285-ID-01',
+//         url: '/node/BAT8285-ID-01'
+//       }, {id: 2, name: 'BME280-ID-02', url: '/node/BME280-ID-02'}, {
+//         id: 3,
+//         name: 'SHT31-ID-01',
+//         url: '/node/SHT31-ID-01'
+//       }, {id: 4, name: 'LATTE-ID-01', url: '/node/LATTE-ID-01'}]
+//   }],
+//   nodes: [{
+//     'id': 1,
+//     'url': '/environment',
+//     'name': 'สภาพแวดล้อม',
+//     'icon': 'fa fa-envira',
+//     'children': []
+//   }, {
+//     'id': 2,
+//     'url': '/battery',
+//     'name': 'แบตเตอรี่',
+//     'icon': 'fa fa-battery-three-quarters',
+//     'children': []
+//   }]
+// }
+//
+// setTimeout(function () {
+//   Dispatcher.dispatch({
+//     type: TypeActions.DONE_GET_MENU,
+//     data: menu
+//   })
+// }, 1000)
 
 const PageNotFound = ({location}) => (
   <div className="container">

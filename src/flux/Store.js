@@ -2,10 +2,42 @@ import { Store } from 'flux/utils'
 import AppDispatcher from './Dispatcher'
 import AppConstants from './Constants'
 
+const menu = {
+  master: [{
+    'url': '/',
+    'name': 'Refresh Siam',
+    'icon': 'fa fa-pie-chart',
+    'children':
+      [{
+        id: 0, name: 'สุขุมวิท-พระราม 4', url: '/node/BME280-ID-01'
+      },
+        {
+          id: 1,
+          name: 'ตึกสำรวจ คณะวิศวฯ',
+          url: '/node/BAT8285-ID-01'
+        },
+        {
+          id: 3,
+          name: 'ห้องสมุดคณะวิศวฯ',
+          url: '/node/SHT31-ID-01'
+        },
+        {id: 4, name: 'อาคารมั่นคง', url: '/node/LATTE-ID-01'}]
+  }],
+  nodes: [
+    {
+      'id': 1,
+      'url': '/environment',
+      'name': 'เกี่ยวกับโครงการ',
+      'icon': 'fa fa-envira',
+      'children': []
+    }
+  ]
+}
+
 class MyStore extends Store {
   constructor (props) {
     super(props)
-    this.menu = {master: [], nodes: []}
+    this.menu = menu
     this.sensor_data = {}
     this.master_data = {}
   }

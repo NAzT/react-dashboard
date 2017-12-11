@@ -56,7 +56,7 @@ export default class Environment extends Component {
           loading: false
         })
 
-      console.log('sensor data ', this.state.sensorData)
+        console.log('sensor data ', this.state.sensorData)
       }
     })
   }

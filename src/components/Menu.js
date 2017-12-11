@@ -34,9 +34,9 @@ export default class Menu extends Component {
   }
 
   componentWillMount () {
-    if (this.state.masterMenuItems.length !== 0) {
-      this._processStore()
-    }
+    // if (this.state.masterMenuItems.length !== 0) {
+    this._processStore()
+    // }
   }
 
   render () {
@@ -50,7 +50,7 @@ export default class Menu extends Component {
       <aside className='menu'>
 
         <p className='menu-label'>
-          Master
+          {/*Master*/}
         </p>
         <ul className='menu-list'>
           {
@@ -88,14 +88,13 @@ export default class Menu extends Component {
         </ul>
 
         <p className='menu-label'>
-          Nodes
+          {/*Nodes*/}
         </p>
         <ul className='menu-list'>
           {
             this.state.nodeMenuItems.map(menuItem => {
 
               const group = []
-
 
               group.push( // render menu
                 <li key={uuid()}>

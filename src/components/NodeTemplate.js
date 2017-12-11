@@ -71,6 +71,7 @@ export default class NodeTemplate extends Component {
   }
 
   componentDidMount () {
+    this.setState({loading: false})
     if (!this.state.loading) {
       console.log('=== componentDidMount >>> loading false')
       ReactDOM.render(<LineMultiAxis data={[this.state.graphs]}/>, document.getElementById('LineMultiAxis'))
@@ -91,6 +92,17 @@ export default class NodeTemplate extends Component {
               <div className={this.state.loading ? 'card' : ''}>
                 <div className={this.state.loading ? 'card-content' : ''}>
                   <span className={this.state.loading && 'fa fa-refresh fa-spin fa-3x' || ''}/>
+                </div>
+              </div>
+              {/*guage */}
+              <div className={!this.state.loading ? 'card' : ''}>
+                <div className={!this.state.loading ? 'card-header' : ''}>
+                  <p className='card-header-title'
+                     style={{color: '#4468b0'}}>{!this.state.loading && 'Status'}</p>
+                </div>
+                <div className={!this.state.loading ? 'card-content' : ''}>
+                  <div id='masterGauge' className={!this.state.loading ? 'columns' : ''}
+                       style={{width: '100%'}}/>
                 </div>
               </div>
 

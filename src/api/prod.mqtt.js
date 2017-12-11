@@ -78,28 +78,28 @@ export default () => {
     }
   }
 
-  setInterval(function () {
-    const subNodes = []
-    _.keys(SENSOR_NODES).forEach((k, idx) => {
-      subNodes.push({
-        id: idx, name: k, url: `/node/${SENSOR_NODES[k].device_name}`
-      })
-    })
-
-    Dispatcher.dispatch({
-      type: TypeActions.GOT_MENU_UPDATES,
-      data: subNodes
-    })
-
-    if (shouldUpdateGraph) {
-      shouldUpdateGraph = false
-      Dispatcher.dispatch({
-        type: TypeActions.DONE_GET_DATA,
-        data: SENSOR_DATA,
-        master: MASTER_DATA
-      })
-    }
-
-  }, 1000)
+  // setInterval(function () {
+  //   const subNodes = []
+  //   _.keys(SENSOR_NODES).forEach((k, idx) => {
+  //     subNodes.push({
+  //       id: idx, name: k, url: `/node/${SENSOR_NODES[k].device_name}`
+  //     })
+  //   })
+  //
+  //   Dispatcher.dispatch({
+  //     type: TypeActions.GOT_MENU_UPDATES,
+  //     data: subNodes
+  //   })
+  //
+  //   if (shouldUpdateGraph) {
+  //     shouldUpdateGraph = false
+  //     Dispatcher.dispatch({
+  //       type: TypeActions.DONE_GET_DATA,
+  //       data: SENSOR_DATA,
+  //       master: MASTER_DATA
+  //     })
+  //   }
+  //
+  // }, 1000)
 
 }
