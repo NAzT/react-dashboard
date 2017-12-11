@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import Menu from './Menu.js'
-import MasterGauge from './master/Gauge.jsx'
+import MasterGauge from './charts/Gauge.jsx'
 import store from '../flux/Store'
 import _ from 'underscore'
 
