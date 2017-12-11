@@ -4,11 +4,9 @@ import uuid from 'uuid'
 
 const LineMultiAxis = (props) => {
   const chart = props.data
-
   let datasets = []
   let yAxes = []
-
-  //console.log(props.data)
+  const key = uuid()
   const defaultOptions = {
     fill: true,
     lineTension: 0,
@@ -26,16 +24,15 @@ const LineMultiAxis = (props) => {
     pointRadius: 3,
   }
 
-  console.log('props multiple lines we got.. ', props)
-
+  var colors = [[19, 38, 39], [243, 90, 156], [117, 103, 251]]
   chart.data.forEach((v, idx) => {
     // console.log('idx=>', idx, 'v=>', v)
-    const key = uuid()
     const r = parseInt((Math.random() * 255).toFixed(0))
     const g = parseInt((Math.random() * 255).toFixed(0))
     const b = parseInt((Math.random() * 255).toFixed(0))
+    console.log('rrr', r, g, b)
     datasets.push({
-      backgroundColor: `rgba(${r}, ${g}, ${b}, 0.3)`,
+      backgroundColor: `rgba(${colors[idx][0]}, ${colors[idx][1]}, ${colors[idx][2]}, 0.3)`,
       borderColor: `rgba(${r}, ${g}, ${b}, 0.3)`,
       label: chart.labels[idx],
       data: chart.data[idx],
@@ -43,28 +40,19 @@ const LineMultiAxis = (props) => {
       ...defaultOptions
     })
 
-    if (idx === 0) {
-      yAxes.push({
-        type: 'linear',
-        display: true,
-        position: 'left',
-        id: key
-      })
-    }
-    else {
-      yAxes.push({
-        type: 'linear',
-        display: true,
-        position: 'left',
-        id: key
-      })
-    }
   })
 
   let line_data = {
     labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24],
     datasets: datasets
   }
+
+  yAxes.push({
+    type: 'linear',
+    display: true,
+    position: 'left',
+    id: key
+  })
 
   // console.log(line_data)
 
