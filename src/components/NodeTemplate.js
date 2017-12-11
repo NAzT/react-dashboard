@@ -51,9 +51,7 @@ export default class NodeTemplate extends Component {
         graphs: Object.assign({}, this.state.sensorData.temperature.chart),
         loading: false
       })
-
     }
-
   }
 
   componentWillMount () {
@@ -95,14 +93,15 @@ export default class NodeTemplate extends Component {
 
               <div className={this._ctxClassName('card')}>
                 <div className={this._ctxClassName('card-content')}>
-                  <span className={this.state.loading && 'fa fa-refresh fa-spin fa-3x' || ''}/>
+                  <span className={this._ctxClassName('fa fa-refresh fa-spin fa-3x', false)}/>
                 </div>
               </div>
               {/*guage */}
+
               <div className={this._ctxClassName('card')}>
                 <div className={this._ctxClassName('card-header')}>
                   <p className='card-header-title'
-                     style={{color: '#4468b0'}}>{!this.state.loading && 'Status'}</p>
+                     style={{color: '#4468b0'}}>Status</p>
                 </div>
                 <div className={this._ctxClassName('card-content')}>
                   <div id='masterGauge' className={this._ctxClassName('columns')}
@@ -112,19 +111,16 @@ export default class NodeTemplate extends Component {
 
               <div className={this._ctxClassName('card')}>
                 <div className={this._ctxClassName('card-header')}>
-                  <p className='card-header-title' style={{color: '#4468b0'}}>{!this.state.loading && 'Timeline'}</p>
+                  <p className='card-header-title' style={{color: '#4468b0'}}>Timeline</p>
                 </div>
                 <div className={this._ctxClassName('card-content')}>
                   <div id='LineMultiAxis'/>
                 </div>
               </div>
-
             </div>
           </div>
-
         </div>
       </div>
     )
-
   }
 }
