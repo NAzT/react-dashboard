@@ -5,7 +5,7 @@ import AppConstants from './Constants'
 const menu = {
   master: [{
     'url': '/',
-    'name': 'Refresh Siam',
+    'name': 'โครงการ Refresh Siam',
     'icon': 'fa fa-pie-chart',
     'children':
       [{

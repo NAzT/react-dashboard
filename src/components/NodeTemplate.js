@@ -78,6 +78,10 @@ export default class NodeTemplate extends Component {
     }
   }
 
+  _ctxClassName (expect) {
+    return !this.state.loading ? expect : ''
+  }
+
   render () {
     return (
       <div className='container'>
@@ -89,28 +93,28 @@ export default class NodeTemplate extends Component {
             </div>
             <div className="column is-9 has-text-centered">
 
-              <div className={this.state.loading ? 'card' : ''}>
-                <div className={this.state.loading ? 'card-content' : ''}>
+              <div className={this._ctxClassName('card')}>
+                <div className={this._ctxClassName('card-content')}>
                   <span className={this.state.loading && 'fa fa-refresh fa-spin fa-3x' || ''}/>
                 </div>
               </div>
               {/*guage */}
-              <div className={!this.state.loading ? 'card' : ''}>
-                <div className={!this.state.loading ? 'card-header' : ''}>
+              <div className={this._ctxClassName('card')}>
+                <div className={this._ctxClassName('card-header')}>
                   <p className='card-header-title'
                      style={{color: '#4468b0'}}>{!this.state.loading && 'Status'}</p>
                 </div>
-                <div className={!this.state.loading ? 'card-content' : ''}>
-                  <div id='masterGauge' className={!this.state.loading ? 'columns' : ''}
+                <div className={this._ctxClassName('card-content')}>
+                  <div id='masterGauge' className={this._ctxClassName('columns')}
                        style={{width: '100%'}}/>
                 </div>
               </div>
 
-              <div className={!this.state.loading ? 'card' : ''}>
-                <div className={!this.state.loading ? 'card-header' : ''}>
+              <div className={this._ctxClassName('card')}>
+                <div className={this._ctxClassName('card-header')}>
                   <p className='card-header-title' style={{color: '#4468b0'}}>{!this.state.loading && 'Timeline'}</p>
                 </div>
-                <div className={!this.state.loading ? 'card-content' : ''}>
+                <div className={this._ctxClassName('card-content')}>
                   <div id='LineMultiAxis'/>
                 </div>
               </div>
