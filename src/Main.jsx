@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom'
 import { HashRouter, Route, Switch, Redirect } from 'react-router-dom'
 import 'bulma/css/bulma.css'
 import Master from './components/Master'
-import Environment from './components/Environment'
 import Battery from './components/Battery'
 import NodeTemplate from './components/NodeTemplate'
 
@@ -25,7 +24,6 @@ const Main = (
   <HashRouter>
     <Switch>
       <Route exact path='/' component={LandingPage}/>
-      <Route exact path='/environment' component={Environment}/>
       <Route exact path='/node/:id' component={NodeTemplate}/>
       <Route exact path='/battery' component={Battery}/>
       <Route component={PageNotFound}/>

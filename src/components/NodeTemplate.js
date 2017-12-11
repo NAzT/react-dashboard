@@ -4,6 +4,7 @@ import Menu from './Menu.js'
 import LineMultiAxis from './LineMultiAxis.jsx'
 import MasterGauge from './master/Gauge.jsx'
 import store from '../flux/Store'
+import influx_sensor from '../api/data.influx.json'
 import _ from 'underscore'
 // import Gauge from './NodeGauge.jsx'
 
@@ -13,6 +14,9 @@ export default class NodeTemplate extends Component {
     super(props)
 
     this.dummy = function () {
+      console.log('influx', influx_sensor.results[0].series[0].columns)
+      console.log('influx', influx_sensor.results[0].series[0].name)
+      console.log('influx', influx_sensor.results[0].series[0].values)
       return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24].map((v) => ((v * Math.random()).toFixed(2)))
     }
     this.state = {
