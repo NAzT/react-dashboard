@@ -14,14 +14,11 @@ export default class Master extends Component {
     }
   }
 
-  componentWillMount () {
-  }
+  componentWillMount () { }
 
-  componentDidUpdate () {
-  }
+  componentDidUpdate () { }
 
-  componentDidMount () {
-  }
+  componentDidMount () { }
 
   render () {
 

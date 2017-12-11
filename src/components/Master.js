@@ -30,12 +30,7 @@ export default class Master extends Component {
 
   componentWillMount () {
     store.addListener(() => {
-
-      this.setState({
-        master: store.master_data,
-        loading: false
-      })
-
+      this.setState({master: store.master_data, loading: false})
     })
   }
 

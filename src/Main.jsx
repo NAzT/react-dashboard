@@ -11,7 +11,7 @@ import HTTP_API from './api/prod.cloud.function'
 import LandingPage from './components/LandingPage'
 
 HTTP_API()
-// API()
+MQTT_API()
 
 const PageNotFound = ({location}) => (
   <div className="container">

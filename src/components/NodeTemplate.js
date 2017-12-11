@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import Menu from './Menu.js'
-import LineMultiAxis from './LineMultiAxis.jsx'
+import LineMultiAxis from './charts/LineMultiAxis.jsx'
 import MasterGauge from './master/Gauge.jsx'
 import store from '../flux/Store'
 import influx_sensor from '../api/data.influx.json'
