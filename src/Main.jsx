@@ -6,9 +6,11 @@ import NodeTemplate from './components/NodeTemplate'
 
 import Dispatcher from './flux/Dispatcher'
 import TypeActions from './flux/Constants'
-import API from './api/prod.mqtt'
+import MQTT_API from './api/prod.mqtt'
+import HTTP_API from './api/prod.cloud.function'
 import LandingPage from './components/LandingPage'
 
+HTTP_API()
 // API()
 const PageNotFound = ({location}) => (
   <div className="container">

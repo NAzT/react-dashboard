@@ -61,8 +61,6 @@ export default class NodeTemplate extends Component {
   }
 
   componentWillMount () {
-    console.log('=== componentWillMount >>> NodeTemplate')
-
     store.addListener(() => {
       this._processStore()
     })

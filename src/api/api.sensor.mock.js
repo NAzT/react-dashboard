@@ -1,6 +1,6 @@
-import * as dummy from '../data/dummyCharts'
+import * as dummy from '../../public/dist/data/dummyCharts'
 
-import sensors from '../data/virtualData'
+import sensors from '../../public/dist/data/virtualData'
 
 const MOCKUP_API = {
 

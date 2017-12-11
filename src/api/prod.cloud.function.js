@@ -1,10 +1,16 @@
-import axois from 'axios'
-import paho_mqtt from 'paho-mqtt/mqttws31'
+import axios from 'axios'
 
 export default (callback) => {
 
-  axois.get('https://us-central1-performance-182414.cloudfunctions.net/menu').then((response) => {
-    return callback(response.data)
-  })
+  setInterval(() => {
+    const promises = ['/1.json', '/2.json', '/3.json', '/4.json'].map((uri) => axios.get(`/data/${uri}`))
+    axios.all(promises)
+      .then(axios.spread((...results) => {
+          results.forEach((v, idx) => {
+            console.log(idx, v.data)
+          })
+        })
+      )
+  }, 10 * 1000)
 
 }
