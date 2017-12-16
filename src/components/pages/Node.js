@@ -62,13 +62,18 @@ export default class NodeTemplate extends Component {
     this.data = this.state.sensorData.multichart
     const station = store.sensor_stations[this.props.match.params.id - 1]
     if (station) {
-      const pm1 = station.results[0].series[0].values.map((v) => v[1])
-      const pm2_5 = station.results[0].series[0].values.map((v) => v[2])
-      const pm10 = station.results[0].series[0].values.map((v) => v[3])
-      this.multi_line_charts = this.state.sensorData.multichart
-      this.multi_line_charts.data[0] = pm1
-      this.multi_line_charts.data[1] = pm2_5
-      this.multi_line_charts.data[2] = pm10
+      if (station.results[0].series === undefined) {
+        console.error('data not found.')
+      }
+      else {
+        const pm1 = station.results[0].series[0].values.map((v) => v[1])
+        const pm2_5 = station.results[0].series[0].values.map((v) => v[2])
+        const pm10 = station.results[0].series[0].values.map((v) => v[3])
+        this.multi_line_charts = this.state.sensorData.multichart
+        this.multi_line_charts.data[0] = pm1
+        this.multi_line_charts.data[1] = pm2_5
+        this.multi_line_charts.data[2] = pm10
+      }
       console.log('did update...')
     }
     else {
