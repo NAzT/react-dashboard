@@ -1,5 +1,5 @@
-import TypeActions from '../flux/Constants'
-import Dispatcher from '../flux/Dispatcher'
+import TypeActions from '../data/Constants'
+import Dispatcher from '../data/Dispatcher'
 import _ from 'underscore'
 import Paho from '../mqttws31'
 

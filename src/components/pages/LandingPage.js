@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
-import Menu from './Menu.js'
-import MasterGauge from './charts/Gauge.jsx'
-import store from '../flux/Store'
+import Menu from '../Menu.js'
+import MasterGauge from '../charts/Gauge.jsx'
+import store from '../../data/Store'
 import _ from 'underscore'
 
 export default class Master extends Component {

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom'
 import 'font-awesome/css/font-awesome.css'
 import styled from 'styled-components'
-import store from '../flux/Store'
+import store from '../data/Store'
 import uuid from 'uuid'
 
 export default class Menu extends Component {

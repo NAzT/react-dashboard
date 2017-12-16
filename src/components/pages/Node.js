@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
-import Menu from './Menu.js'
-import LineMultiAxis from './charts/LineMultiAxis.jsx'
-import MasterGauge from './charts/Gauge.jsx'
-import store from '../flux/Store'
+import Menu from '../Menu.js'
+import LineMultiAxis from '../charts/LineMultiAxis.jsx'
+import Gauge from '../charts/Gauge.jsx'
+import store from '../../data/Store'
 import _ from 'underscore'
+import TemperatureGauge from '../charts/TemperatureGauge.jsx'
 
 export default class NodeTemplate extends Component {
 
@@ -80,42 +81,28 @@ export default class NodeTemplate extends Component {
     console.log('component will update with station')
   }
 
-  componentDidUpdate () {
-    this.updateGraphCache()
-
+  _drawGauge () {
     ReactDOM.render(<LineMultiAxis data={this.data}/>, document.getElementById('LineMultiAxis'))
 
-    ReactDOM.render(<MasterGauge label='อุณหภูมิ'
-                                 value={this.state.gauge.temperature}/>, document.getElementById('temperature-g'))
-    ReactDOM.render(<MasterGauge label='ความชื้น'
-                                 value={this.state.gauge.humidity}/>, document.getElementById('humidity-g'))
-    ReactDOM.render(<MasterGauge label='PM10'
-                                 value={50}/>, document.getElementById('pm10-g'))
-    ReactDOM.render(<MasterGauge label='PM2.5'
-                                 value={this.state.gauge.humidity}/>, document.getElementById('pm25-g'))
+    ReactDOM.render(<TemperatureGauge value={this.state.gauge.temperature}/>, document.getElementById('temperature-g'))
+    ReactDOM.render(<Gauge label='ความชื้น'
+                           symbol='%'
+                           value={this.state.gauge.humidity}/>, document.getElementById('humidity-g'))
+    ReactDOM.render(<Gauge label='PM10'
+                           value={50}/>, document.getElementById('pm10-g'))
+    ReactDOM.render(<Gauge label='PM2.5'
+                           value={this.state.gauge.humidity}/>, document.getElementById('pm25-g'))
+  }
+
+  componentDidUpdate () {
+    this.updateGraphCache()
+    this._drawGauge()
   }
 
   componentDidMount () {
-    // TODO: FILTER DATA HERE.
-    // this.setState({sensorData: store.sensor_data[this.props.match.params.id]})
-    // this.setState({
-    //   graphs: this.state.sensorData.temperature.chart,
-    //   loading: false
-    // })
     console.log('did mount')
     this.updateGraphCache()
-    // this.setState({loading: false})
-    // if (!this.state.loading) {
-    ReactDOM.render(<LineMultiAxis data={this.data}/>, document.getElementById('LineMultiAxis'))
-    ReactDOM.render(<MasterGauge label='อุณหภูมิ'
-                                 value={this.state.gauge.temperature}/>, document.getElementById('temperature-g'))
-    ReactDOM.render(<MasterGauge label='ความชื้น'
-                                 value={this.state.gauge.humidity}/>, document.getElementById('humidity-g'))
-    ReactDOM.render(<MasterGauge label='PM10'
-                                 value={this.state.gauge.pm10}/>, document.getElementById('pm10-g'))
-    ReactDOM.render(<MasterGauge label='PM2.5'
-                                 value={this.state.gauge.pm25}/>, document.getElementById('pm25-g'))
-    // }
+    this._drawGauge()
   }
 
   _ctxClassName (expect, opposite) {

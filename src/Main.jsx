@@ -2,13 +2,11 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { HashRouter, Route, Switch, Redirect } from 'react-router-dom'
 import 'bulma/css/bulma.css'
-import NodeTemplate from './components/NodeTemplate'
+import Node from './components/pages/Node'
 
-import Dispatcher from './flux/Dispatcher'
-import TypeActions from './flux/Constants'
 import MQTT_API from './api/prod.mqtt'
 import HTTP_API from './api/prod.cloud.function'
-import LandingPage from './components/LandingPage'
+import LandingPage from './components/pages/LandingPage'
 
 HTTP_API()
 MQTT_API()
@@ -26,7 +24,7 @@ const Main = (
     <Switch>
       <Route exact path='/' component={LandingPage}/>
       <Route exact path='/about' component={LandingPage}/>
-      <Route exact path='/node/:id' component={NodeTemplate}/>
+      <Route exact path='/node/:id' component={Node}/>
       <Route component={PageNotFound}/>
     </Switch>
   </HashRouter>
