@@ -34,7 +34,7 @@ export default class NodeTemplate extends Component {
 
   _processStore = () => {
     const station = store.sensor_stations[this.props.match.params.id - 1]
-    console.log('incoming station =>', station, this.props.match.params.id - 1)
+    // console.log('incoming station =>', station, this.props.match.params.id - 1)
     if (station) {
       const pm1 = station.results[0].series[0].values.map((v) => v[1])
       const pm2_5 = station.results[0].series[0].values.map((v) => v[2])
@@ -88,8 +88,8 @@ export default class NodeTemplate extends Component {
 
   _drawGauge () {
     ReactDOM.render(<LineMultiAxis data={this.data}/>, document.getElementById('LineMultiAxis'))
-
-    ReactDOM.render(<TemperatureGauge value={this.state.gauge.temperature}/>, document.getElementById('temperature-g'))
+    ReactDOM.render(<TemperatureGauge value={this.state.gauge.temperature}/>,
+      document.getElementById('temperature-g'))
     ReactDOM.render(<Gauge label='ความชื้น'
                            symbol='%'
                            value={this.state.gauge.humidity}/>, document.getElementById('humidity-g'))

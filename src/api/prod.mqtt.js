@@ -10,13 +10,14 @@ const SENSOR_NODES = {}
 const SENSOR_DATA = {}
 let MASTER_DATA = {}
 export default () => {
-
   const hostname = 'mqtt.cmmc.io'
   const port = 9001
   const clientId = `clientId-${Math.random() * 100}`
 
   let client = new Paho.MQTT.Client(hostname, port, clientId)
   let shouldUpdateGraph = false
+
+  console.log('mqtt...')
 
   client.onConnectionLost = onConnectionLost
   client.onMessageArrived = onMessageArrived
@@ -33,75 +34,21 @@ export default () => {
     }
   }
 
+  let topicMapping = {
+    'NDTH/NAQ126101':
+      {id: 1, name: 'ห้องสมุดคณะวิศวฯ', topic: 'NDTH/NAQ126101'},
+    'NDTH/NAQ126070':
+      {id: 2, name: 'อาคารมั่นคงเคหะการ', topic: 'NDTH/NAQ126070'},
+    'NDTH/MCTH007/status':
+      {id: 3, name: 'สุขุมวิท-พระราม 4', topic: 'NDTH/MCTH007/status'},
+    'NDTH/MCTH006/status':
+      {id: 4, name: 'ตึกสำรวจ คณะวิศวฯ', topic: 'NDTH/MCTH006/status'},
+  }
+
   function onMessageArrived (message) {
     console.log('onMessageArrived:' + message.payloadString)
     console.log('destinationName:' + message.destinationName)
-    // console.log(message.to)
-    // const data = JSON.parse(message.payloadString)
-    // const sensor_node = data.cmmc_packet.sensor_node
-
-    //   MASTER_DATA = {
-    //     temperature: data.temperature_c / 100,
-    //     humidity: data.humidity_percent_rh / 100,
-    //     gps_latitude: data.gps_latitude,
-    //     gps_longitude: data.gps_longitude
-    //   }
-    //
-    //   if (_.isUndefined(SENSOR_NODES[sensor_node.device_name])) {
-    //     SENSOR_NODES[sensor_node.device_name] = data.cmmc_packet.sensor_node
-    //     SENSOR_DATA[sensor_node.device_name] = {
-    //       temperature: {
-    //         chart: {
-    //           label: 'temperature',
-    //           data: [data.cmmc_packet.sensor_node.field1 / 100],
-    //           labels: [1]
-    //         }
-    //       },
-    //       humidity: {
-    //         chart: {
-    //           label: 'humidity',
-    //           data: [data.cmmc_packet.sensor_node.field2 / 100],
-    //           labels: [1]
-    //         }
-    //       },
-    //       battery: {
-    //         //value: data.cmmc_packet.sensor_node.battery / 100
-    //         value: _mapValue(data.cmmc_packet.sensor_node.battery, 0, 1000, 0, 100)
-    //       }
-    //     }
-    //   }
-    //   else {
-    //     shouldUpdateGraph = true
-    //     SENSOR_DATA[sensor_node.device_name].temperature.chart.data.push(sensor_node.field1 / 100)
-    //     SENSOR_DATA[sensor_node.device_name].humidity.chart.data.push(sensor_node.field2 / 100)
-    //     SENSOR_DATA[sensor_node.device_name].temperature.chart.labels = [...SENSOR_DATA[sensor_node.device_name].temperature.chart.data]
-    //     SENSOR_DATA[sensor_node.device_name].humidity.chart.labels = [...SENSOR_DATA[sensor_node.device_name].humidity.chart.data]
-    //   }
-    // }
-
-    // setInterval(function () {
-    //   const subNodes = []
-    //   _.keys(SENSOR_NODES).forEach((k, idx) => {
-    //     subNodes.push({
-    //       id: idx, name: k, url: `/node/${SENSOR_NODES[k].device_name}`
-    //     })
-    //   })
-    //
-    //   Dispatcher.dispatch({
-    //     type: TypeActions.GOT_MENU_UPDATES,
-    //     data: subNodes
-    //   })
-    //
-    //   if (shouldUpdateGraph) {
-    //     shouldUpdateGraph = false
-    //     Dispatcher.dispatch({
-    //       type: TypeActions.DONE_GET_DATA,
-    //       data: SENSOR_DATA,
-    //       master: MASTER_DATA
-    //     })
-    //   }
-    //
-    // }, 1000)
-
+    const data = JSON.parse(message.payloadString)
+    console.log('topic=', topicMapping[message.destinationName], 'data', data)
   }
 }

@@ -9,10 +9,10 @@ const menu = {
     'icon': 'fa fa-pie-chart',
     'children':
       [
-        {id: 1, name: 'ห้องสมุดคณะวิศวฯ', url: '/node/1'},
-        {id: 2, name: 'อาคารมั่นคงเคหะการ', url: '/node/2'},
-        {id: 3, name: 'สุขุมวิท-พระราม 4', url: '/node/3'},
-        {id: 4, name: 'ตึกสำรวจ คณะวิศวฯ', url: '/node/4'},
+        {id: 1, name: 'ห้องสมุดคณะวิศวฯ', url: '/node/1', topic: 'NDTH/NAQ126101'},
+        {id: 2, name: 'อาคารมั่นคงเคหะการ', url: '/node/2', topic: 'NDTH/NAQ126070'},
+        {id: 3, name: 'สุขุมวิท-พระราม 4', url: '/node/3', topic: 'NDTH/MCTH007/status'},
+        {id: 4, name: 'ตึกสำรวจ คณะวิศวฯ', url: '/node/4', topic: 'NDTH/MCTH006/status'},
       ]
   }],
   nodes: [
