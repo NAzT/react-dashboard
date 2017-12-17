@@ -5,7 +5,7 @@ import Dispatcher from '../data/Dispatcher'
 const basePath = '/data'
 const uris = ['1.json', '2.json', '3.json', '4.json']
 
-const doSth = function () {
+const doHttpRequest = function () {
   const promises = uris.map((uri) => axios.get(`${basePath}/${uri}?${Math.random()}`))
   axios.all(promises)
     .then(axios.spread((...results) => {
@@ -17,7 +17,6 @@ const doSth = function () {
     )
 }
 export default (callback) => {
-  doSth()
-  setInterval(doSth, 60 * 1000)
-
+  doHttpRequest()
+  setInterval(doHttpRequest, 60 * 1000)
 }

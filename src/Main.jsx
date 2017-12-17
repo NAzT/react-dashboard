@@ -5,7 +5,7 @@ import 'bulma/css/bulma.css'
 import Node from './components/pages/Node'
 
 import MQTT_API from './api/prod.mqtt'
-import HTTP_API from './api/prod.cloud.function'
+import HTTP_API from './api/prod.http.api'
 import LandingPage from './components/pages/LandingPage'
 
 HTTP_API()

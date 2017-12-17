@@ -2,6 +2,7 @@ import TypeActions from '../data/Constants'
 import Dispatcher from '../data/Dispatcher'
 import _ from 'underscore'
 import Paho from '../mqttws31'
+import store from '../data/MqttStore'
 
 const _mapValue = (x, in_min, in_max, out_min, out_max) => {
   return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
@@ -35,20 +36,23 @@ export default () => {
   }
 
   let topicMapping = {
-    'NDTH/NAQ126101':
-      {id: 1, name: 'ห้องสมุดคณะวิศวฯ', topic: 'NDTH/NAQ126101'},
-    'NDTH/NAQ126070':
-      {id: 2, name: 'อาคารมั่นคงเคหะการ', topic: 'NDTH/NAQ126070'},
-    'NDTH/MCTH007/status':
-      {id: 3, name: 'สุขุมวิท-พระราม 4', topic: 'NDTH/MCTH007/status'},
-    'NDTH/MCTH006/status':
-      {id: 4, name: 'ตึกสำรวจ คณะวิศวฯ', topic: 'NDTH/MCTH006/status'},
+    'NDTH/NAQ126101': {id: 1},
+    'NDTH/NAQ126070': {id: 2},
+    'NDTH/MCTH007/status': {id: 3},
+    'NDTH/MCTH006/status': {id: 4},
   }
 
   function onMessageArrived (message) {
-    console.log('onMessageArrived:' + message.payloadString)
-    console.log('destinationName:' + message.destinationName)
+    // console.log('onMessageArrived:' + message.payloadString)
+    // console.log('destinationName:' + message.destinationName)
+    // console.log('topic=', topicMapping[message.destinationName], 'data', data)
     const data = JSON.parse(message.payloadString)
-    console.log('topic=', topicMapping[message.destinationName], 'data', data)
+    console.log('[58] dispatching...')
+
+    Dispatcher.dispatch({
+      type: TypeActions.MQTT_MESSAGE_ARRIVED,
+      data: {id: topicMapping[message.destinationName].id, d: data}
+    })
+
   }
 }
