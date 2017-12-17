@@ -33,14 +33,13 @@ export default class NodeTemplate extends Component {
     }
   }
 
-  componentWillReceiveProps () {
-    this.page_id = this.props.match.params.id - 1
-    console.log('componentWillReceiveProps ', `page_id = ${this.page_id}`)
+  componentWillReceiveProps (nextProps) {
+    this.page_id = nextProps.match.params.id
+    console.log('componentWillReceiveProps ', `page_id = ${this.page_id}`, nextProps)
   }
 
   _processStore = () => {
     const station = store.sensor_stations[this.page_id]
-    // console.log('incoming station =>', station, this.props.match.params.id - 1)
     if (station) {
       const pm1 = station.results[0].series[0].values.map((v) => v[1])
       const pm2_5 = station.results[0].series[0].values.map((v) => v[2])
@@ -57,10 +56,13 @@ export default class NodeTemplate extends Component {
   }
 
   componentWillMount () {
-    console.log('will mount')
+    this.page_id = this.props.match.params.id
+    console.log(`will mount with page_id => ${this.page_id}`)
     this._processStore()
     mqttStore.addListener(() => {
-      console.log(`mqtt store has updates => ${this.page_id}`)
+      console.log(`mqtt store has updates page_id => ${this.page_id}`)
+      console.log(mqttStore.state)
+      console.log(mqttStore.state[this.page_id])
       this.setState({
         gauge: {
           pm10: mqttStore.state[this.page_id].pm10,
@@ -99,15 +101,28 @@ export default class NodeTemplate extends Component {
     }
   }
 
+  // shouldComponentUpdate (nextProps) {
+  //   console.log('shoudComponentUpdate', nextProps)
+  // }
+
   componentWillUpdate () {
     this.updateGraphCache()
+    // this.setState({
+    //   gauge: {
+    //     pm10: mqttStore.state[this.page_id].pm10,
+    //     pm25: mqttStore.state[this.page_id].pm25,
+    //     temperature: mqttStore.state[this.page_id].temperature,
+    //     humidity: mqttStore.state[this.page_id].humidity
+    //   }
+    // })
   }
 
   _drawGauge () {
-    ReactDOM.render(<LineMultiAxis data={this.data}/>, document.getElementById('LineMultiAxis'))
+    ReactDOM.render(<LineMultiAxis  data={this.data}/>, document.getElementById('LineMultiAxis'))
     ReactDOM.render(<TemperatureGauge value={this.state.gauge.temperature}/>,
       document.getElementById('temperature-g'))
     ReactDOM.render(<Gauge label='ความชื้น'
+                           redraw
                            symbol='%'
                            value={this.state.gauge.humidity}/>, document.getElementById('humidity-g'))
     ReactDOM.render(<Gauge label='PM10'

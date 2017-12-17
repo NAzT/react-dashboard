@@ -31,7 +31,8 @@ export default () => {
 
   function onConnectionLost (responseObject) {
     if (responseObject.errorCode !== 0) {
-      console.log('onConnectionLost:' + responseObject.errorMessage)
+      console.log('onConnectionLost: ' + responseObject.errorMessage)
+      client.connect({onSuccess: onConnect})
     }
   }
 

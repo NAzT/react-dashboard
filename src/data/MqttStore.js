@@ -4,8 +4,19 @@ import AppConstants from './Constants'
 
 class MqttStore extends Store {
   constructor (props) {
+    const defaultState = {
+      temperature: 0,
+      humidity: 0,
+      pm10: 0
+    }
     super(props)
-    this.state = {}
+    this.state = {
+      1: defaultState,
+      2: defaultState,
+      3: defaultState,
+      4: defaultState,
+      5: defaultState,
+    }
   }
 
   __onDispatch (action) {
