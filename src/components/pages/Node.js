@@ -6,22 +6,21 @@ import Gauge from '../charts/Gauge.jsx'
 import store from '../../data/Store'
 import mqttStore from '../../data/MqttStore'
 import _ from 'underscore'
-import TemperatureGauge from '../charts/TemperatureGauge.jsx'
 
 export default class NodeTemplate extends Component {
 
   constructor (props) {
     super(props)
     this.multi_line_charts = {}
+    this.gauge = {
+      temperature: 0,
+      humidity: 0,
+      pm10: 0,
+      pm25: 0,
+    }
     this.state = {
       nodes: [],
       loading: true,
-      gauge: {
-        temperature: 0,
-        humidity: 0,
-        pm10: 0,
-        pm25: 0,
-      },
       masterMenuItems: [],
       nodeMenuItems: [],
       sensorData: {
@@ -35,7 +34,8 @@ export default class NodeTemplate extends Component {
 
   componentWillReceiveProps (nextProps) {
     this.page_id = nextProps.match.params.id
-    console.log('componentWillReceiveProps ', `page_id = ${this.page_id}`, nextProps)
+    this.gauge = mqttStore.state[this.page_id]
+    // console.log('componentWillReceiveProps ', `page_id = ${this.page_id}`, nextProps)
   }
 
   _processStore = () => {
@@ -61,17 +61,18 @@ export default class NodeTemplate extends Component {
     this._processStore()
     mqttStore.addListener(() => {
       console.log(`mqtt store has updates page_id => ${this.page_id}`)
-      console.log(mqttStore.state)
+      // console.log(mqttStore.state)
       console.log(mqttStore.state[this.page_id])
-      this.setState({
-        gauge: {
-          pm10: mqttStore.state[this.page_id].pm10,
-          pm25: mqttStore.state[this.page_id].pm25,
-          temperature: mqttStore.state[this.page_id].temp,
-          humidity: mqttStore.state[this.page_id].humidity
-        }
-      })
-      console.log(this.state)
+      this.gauge = mqttStore.state[this.page_id]
+      // this.setState({
+      //   gauge: {
+      //     pm10: mqttStore.state[this.page_id].pm10,
+      //     pm25: mqttStore.state[this.page_id].pm25,
+      //     temperature: mqttStore.state[this.page_id].temp,
+      //     humidity: mqttStore.state[this.page_id].humidity
+      //   }
+      // })
+      // console.log(this.state)
       this._drawGauge()
     })
     store.addListener(() => {
@@ -107,39 +108,40 @@ export default class NodeTemplate extends Component {
 
   componentWillUpdate () {
     this.updateGraphCache()
-    // this.setState({
-    //   gauge: {
-    //     pm10: mqttStore.state[this.page_id].pm10,
-    //     pm25: mqttStore.state[this.page_id].pm25,
-    //     temperature: mqttStore.state[this.page_id].temperature,
-    //     humidity: mqttStore.state[this.page_id].humidity
-    //   }
-    // })
+  }
+
+  _drawChart () {
+    ReactDOM.render(<LineMultiAxis data={this.data}/>, document.getElementById('LineMultiAxis'))
   }
 
   _drawGauge () {
-    ReactDOM.render(<LineMultiAxis  data={this.data}/>, document.getElementById('LineMultiAxis'))
-    ReactDOM.render(<TemperatureGauge value={this.state.gauge.temperature}/>,
+    ReactDOM.render(<Gauge
+        label='อุณหภูมิ'
+        symbol='℃' value={this.gauge.temperature}/>,
       document.getElementById('temperature-g'))
     ReactDOM.render(<Gauge label='ความชื้น'
                            redraw
                            symbol='%'
-                           value={this.state.gauge.humidity}/>, document.getElementById('humidity-g'))
+                           value={this.gauge.humidity}/>, document.getElementById('humidity-g'))
     ReactDOM.render(<Gauge label='PM10'
-                           value={this.state.gauge.pm10}/>, document.getElementById('pm10-g'))
+                           symbol='ppm'
+                           value={this.gauge.pm10}/>, document.getElementById('pm10-g'))
     ReactDOM.render(<Gauge label='PM2.5'
-                           value={this.state.gauge.pm25}/>, document.getElementById('pm25-g'))
+                           symbol='ppm'
+                           value={this.gauge.pm25}/>, document.getElementById('pm25-g'))
   }
 
   componentDidUpdate () {
     this.updateGraphCache()
     this._drawGauge()
+    this._drawChart()
   }
 
   componentDidMount () {
     console.log('did mount')
     this.updateGraphCache()
     this._drawGauge()
+    this._drawChart()
   }
 
   _ctxClassName (expect, opposite) {

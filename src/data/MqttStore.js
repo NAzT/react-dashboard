@@ -7,7 +7,8 @@ class MqttStore extends Store {
     const defaultState = {
       temperature: 0,
       humidity: 0,
-      pm10: 0
+      pm10: 0,
+      pm25: 0
     }
     super(props)
     this.state = {
