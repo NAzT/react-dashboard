@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import Menu from '../menu/Menu.js'
 import LineMultiAxis from '../charts/LineMultiAxis.jsx'
 import Gauge from '../charts/Gauge.jsx'
-import store from '../../data/Store'
+import store from '../../data/SensorStore'
 import mqttStore from '../../data/MqttStore'
 import _ from 'underscore'
 
