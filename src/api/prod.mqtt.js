@@ -1,5 +1,5 @@
-import TypeActions from '../data/Constants'
-import Dispatcher from '../data/Dispatcher'
+import TypeActions from '../helpers/Constants'
+import Dispatcher from '../helpers/Dispatcher'
 import _ from 'underscore'
 import Paho from '../mqttws31'
 import store from '../data/MqttStore'

@@ -4,6 +4,7 @@ import 'font-awesome/css/font-awesome.css'
 import styled from 'styled-components'
 import store from '../data/Store'
 import uuid from 'uuid'
+import { stack as Menu2 } from 'react-burger-menu'
 
 export default class Menu extends Component {
 
@@ -43,71 +44,66 @@ export default class Menu extends Component {
       font-family: 'Kanit', sans-serif;
     `
 
-    return (
-      <aside className='menu'>
 
-        <p className='menu-label'>
-          {/*Master*/}
-        </p>
-        <ul className='menu-list'>
-          {
-            this.state.masterMenuItems.map(menuItem => {
+    return (<aside className='menu'>
+      <ul className='menu-list'>
+        {
+          this.state.masterMenuItems.map(menuItem => {
 
-              let nodes = []
+            let nodes = []
 
-              menuItem.children.forEach(subMenu => { // render sub menu
+            menuItem.children.forEach(subMenu => { // render sub menu
 
-                nodes.push(
-                  <li key={uuid()}>
-                    <NavLink activeStyle={this.state.activeSubMenu} to={subMenu.url}>
-                      <BoldSpan><i className='fa fa-code-fork'/> {subMenu.name}</BoldSpan>
-                    </NavLink>
-                  </li>
-                )
-
-              })
-
-              return (
+              nodes.push(
                 <li key={uuid()}>
-                  <NavLink activeStyle={this.state.activeSubMenu} to={menuItem.url}>
-                    <BoldSpan><i className={menuItem.icon}/> {menuItem.name}</BoldSpan>
-                  </NavLink>
-                  <ul>
-                    {
-                      nodes.map(node => node)
-                    }
-                  </ul>
-                </li>
-              )
-            })
-          }
-
-        </ul>
-
-        <p className='menu-label'>
-          {/*Nodes*/}
-        </p>
-        <ul className='menu-list'>
-          {
-            this.state.nodeMenuItems.map(menuItem => {
-
-              const group = []
-
-              group.push( // render menu
-                <li key={uuid()}>
-                  <NavLink activeStyle={this.state.activeMenu} to={menuItem.url}>
-                    <BoldSpan><i className={menuItem.icon}/> {menuItem.name}</BoldSpan>
+                  <NavLink activeStyle={this.state.activeSubMenu} to={subMenu.url}>
+                    <BoldSpan><i className='fa fa-code-fork'/> {subMenu.name}</BoldSpan>
                   </NavLink>
                 </li>
               )
 
-              return group
-
             })
-          }
-        </ul>
-      </aside>
-    )
+
+            return (
+              <li key={uuid()}>
+                <NavLink activeStyle={this.state.activeSubMenu} to={menuItem.url}>
+                  <BoldSpan><i className={menuItem.icon}/> {menuItem.name}</BoldSpan>
+                </NavLink>
+                <ul>
+                  {
+                    nodes.map(node => node)
+                  }
+                </ul>
+              </li>
+            )
+          })
+        }
+
+      </ul>
+
+      <p className='menu-label'>
+        {/*Nodes*/}
+      </p>
+      <ul className='menu-list'>
+        {
+          this.state.nodeMenuItems.map(menuItem => {
+
+            const group = []
+
+            group.push( // render menu
+              <li key={uuid()}>
+                <NavLink activeStyle={this.state.activeMenu} to={menuItem.url}>
+                  <BoldSpan><i className={menuItem.icon}/> {menuItem.name}</BoldSpan>
+                </NavLink>
+              </li>
+            )
+
+            return group
+
+          })
+        }
+      </ul>
+    </aside>)
 
   }
 }

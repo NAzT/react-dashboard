@@ -1,6 +1,6 @@
 import { Store } from 'flux/utils'
-import AppDispatcher from './Dispatcher'
-import AppConstants from './Constants'
+import AppDispatcher from '../helpers/Dispatcher'
+import AppConstants from '../helpers/Constants'
 
 const menu = {
   master: [{

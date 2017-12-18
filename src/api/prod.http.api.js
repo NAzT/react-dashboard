@@ -1,6 +1,6 @@
 import axios from 'axios'
-import TypeActions from '../data/Constants'
-import Dispatcher from '../data/Dispatcher'
+import TypeActions from '../helpers/Constants'
+import Dispatcher from '../helpers/Dispatcher'
 
 const basePath = '/data'
 const uris = ['1.json', '2.json', '3.json', '4.json']
