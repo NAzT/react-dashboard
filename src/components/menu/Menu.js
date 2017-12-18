@@ -1,10 +1,6 @@
 import React, { Component } from 'react'
-import { NavLink } from 'react-router-dom'
 import 'font-awesome/css/font-awesome.css'
-import styled from 'styled-components'
 import store from '../../data/Store'
-import uuid from 'uuid'
-import { stack as Menu2 } from 'react-burger-menu'
 import MenuList from './MenuList'
 
 export default class Menu extends Component {
@@ -31,10 +27,12 @@ export default class Menu extends Component {
   }
 
   render () {
-    return (<aside className='menu'>
-      <MenuList menu={this.state.group1}/>
-      <MenuList menu={this.state.group2}/>
-    </aside>)
+    return (
+      <aside className='menu'>
+        <MenuList menu={this.state.group1}/>
+        <MenuList menu={this.state.group2}/>
+      </aside>
+    )
 
   }
 }
