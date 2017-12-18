@@ -32,6 +32,5 @@ export default class Menu extends Component {
         <MenuList menu={this.state.group2}/>
       </aside>
     )
-
   }
 }
