@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
-import Menu from '../Menu.js'
+import Menu from '../menu/Menu.js'
 import LineMultiAxis from '../charts/LineMultiAxis.jsx'
 import Gauge from '../charts/Gauge.jsx'
 import store from '../../data/Store'
