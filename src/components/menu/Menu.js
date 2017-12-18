@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import 'font-awesome/css/font-awesome.css'
 import store from '../../data/Store'
 import MenuList from './MenuList'
 
@@ -8,7 +7,6 @@ export default class Menu extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      currentUrl: props.url,
       group1: [],
       group2: [],
     }
