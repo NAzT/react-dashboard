@@ -12,15 +12,8 @@ export default class Menu extends Component {
     super(props)
     this.state = {
       currentUrl: props.url,
-      activeMenu: {
-        backgroundColor: 'hsl(217, 71%, 50%)',
-        color: 'white'
-      },
-      activeSubMenu: {
-        color: '#4468B0'
-      },
-      masterMenuItems: [],
-      nodeMenuItems: []
+      group1: [],
+      group2: [],
     }
 
     store.addListener(() => {
@@ -30,7 +23,7 @@ export default class Menu extends Component {
   }
 
   _processStore = () => {
-    this.setState({masterMenuItems: store.menu.master, nodeMenuItems: store.menu.nodes})
+    this.setState({group1: store.menu.group1, group2: store.menu.group2})
   }
 
   componentWillMount () {
@@ -38,41 +31,44 @@ export default class Menu extends Component {
   }
 
   render () {
-
+    const styles = {
+      activeMenu: {
+        backgroundColor: 'hsl(217, 71%, 50%)',
+        color: 'white'
+      },
+      activeSubMenu: {
+        color: '#4468B0'
+      }
+    }
     const BoldSpan = styled.span`
       font-weight: bold;
       font-family: 'Kanit', sans-serif;
     `
 
-
     return (<aside className='menu'>
       <ul className='menu-list'>
         {
-          this.state.masterMenuItems.map(menuItem => {
+          this.state.group1.map(menuItem => {
 
             let nodes = []
 
-            menuItem.children.forEach(subMenu => { // render sub menu
-
+            menuItem.children.forEach(subMenu => {
               nodes.push(
                 <li key={uuid()}>
-                  <NavLink activeStyle={this.state.activeSubMenu} to={subMenu.url}>
+                  <NavLink activeStyle={styles.activeSubMenu} to={subMenu.url}>
                     <BoldSpan><i className='fa fa-code-fork'/> {subMenu.name}</BoldSpan>
                   </NavLink>
                 </li>
               )
-
             })
 
             return (
               <li key={uuid()}>
-                <NavLink activeStyle={this.state.activeSubMenu} to={menuItem.url}>
+                <NavLink activeStyle={styles.activeSubMenu} to={menuItem.url}>
                   <BoldSpan><i className={menuItem.icon}/> {menuItem.name}</BoldSpan>
                 </NavLink>
                 <ul>
-                  {
-                    nodes.map(node => node)
-                  }
+                  {nodes.map(node => node)}
                 </ul>
               </li>
             )
@@ -86,21 +82,12 @@ export default class Menu extends Component {
       </p>
       <ul className='menu-list'>
         {
-          this.state.nodeMenuItems.map(menuItem => {
-
-            const group = []
-
-            group.push( // render menu
-              <li key={uuid()}>
-                <NavLink activeStyle={this.state.activeMenu} to={menuItem.url}>
-                  <BoldSpan><i className={menuItem.icon}/> {menuItem.name}</BoldSpan>
-                </NavLink>
-              </li>
-            )
-
-            return group
-
-          })
+          this.state.group2.map(menuItem =>
+            <li key={uuid()}>
+              <NavLink activeStyle={this.state.activeMenu} to={menuItem.url}>
+                <BoldSpan><i className={menuItem.icon}/> {menuItem.name}</BoldSpan>
+              </NavLink>
+            </li>)
         }
       </ul>
     </aside>)

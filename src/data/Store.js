@@ -3,7 +3,7 @@ import AppDispatcher from '../helpers/Dispatcher'
 import AppConstants from '../helpers/Constants'
 
 const menu = {
-  master: [{
+  group1: [{
     'url': '/',
     'name': 'โครงการ Refresh Siam',
     'icon': 'fa fa-pie-chart',
@@ -15,7 +15,7 @@ const menu = {
         {id: 4, name: 'ตึกสำรวจ คณะวิศวฯ', url: '/node/4', topic: 'NDTH/MCTH006/status'},
       ]
   }],
-  nodes: [
+  group2: [
     {
       'id': 5,
       'url': '/about',
@@ -38,7 +38,7 @@ class MyStore extends Store {
   __onDispatch (action) {
     if (action.type === AppConstants.DONE_GET_DATA) {
       Object.assign(this.sensor_data, action.data)
-      Object.assign(this.master_data, action.master)
+      Object.assign(this.master_data, action.group1)
       this.__emitChange()
     }
     else if (action.type === AppConstants.DONE_GET_MENU) {
@@ -46,9 +46,9 @@ class MyStore extends Store {
       this.__emitChange()
     }
     else if (action.type === AppConstants.GOT_MENU_UPDATES) {
-      Object.assign(this.menu.nodes[0].children, action.data)
-      Object.assign(this.menu.nodes[1].children, action.data)
-      Object.assign(this.menu.master[0].children, action.data)
+      Object.assign(this.menu.group2[0].children, action.data)
+      Object.assign(this.menu.group2[1].children, action.data)
+      Object.assign(this.menu.group1[0].children, action.data)
       this.__emitChange()
     }
     else if (action.type === AppConstants.GOT_SENSOR_DATA) {

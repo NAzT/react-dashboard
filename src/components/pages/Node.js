@@ -22,7 +22,7 @@ export default class NodeTemplate extends Component {
       nodes: [],
       loading: true,
       masterMenuItems: [],
-      nodeMenuItems: [],
+      group2: [],
       sensorData: {
         multichart: {
           labels: ['pm1', 'pm2.5', 'pm10'],
