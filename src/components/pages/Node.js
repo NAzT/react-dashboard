@@ -68,7 +68,16 @@ export default class NodeTemplate extends Component {
       if (station.results[0].series === undefined) {
         console.error('data not found.')
       }
-      else { }
+      else {
+        const x_labels = station.results[0].series[0].values.map((v) => v[0])
+        const pm1 = station.results[0].series[0].values.map((v) => v[1])
+        const pm2_5 = station.results[0].series[0].values.map((v) => v[2])
+        const pm10 = station.results[0].series[0].values.map((v) => v[3])
+        this.state.sensorData.multichart.x_labels = x_labels
+        this.state.sensorData.multichart.data[0] = pm1
+        this.state.sensorData.multichart.data[1] = pm2_5
+        this.state.sensorData.multichart.data[2] = pm10
+      }
     }
     else {
       console.error('station not found.. with id', this.props.match.params)
