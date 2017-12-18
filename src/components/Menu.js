@@ -48,25 +48,23 @@ export default class Menu extends Component {
     return (<aside className='menu'>
       <ul className='menu-list'>
         {
-          this.state.group1.map(menuItem => {
-            return (
-              <li key={uuid()}>
-                <NavLink activeStyle={styles.activeSubMenu} to={menuItem.url}>
-                  <BoldSpan><i className={menuItem.icon}/> {menuItem.name}</BoldSpan>
-                </NavLink>
-                <ul>
-                  {
-                    menuItem.children.map(subMenu =>
-                      <li key={uuid()}>
-                        <NavLink activeStyle={styles.activeSubMenu} to={subMenu.url}>
-                          <BoldSpan><i className='fa fa-code-fork'/> {subMenu.name}</BoldSpan>
-                        </NavLink>
-                      </li>)
-                  }
-                </ul>
-              </li>
-            )
-          })
+          this.state.group1.map(menuItem =>
+            <li key={uuid()}>
+              <NavLink activeStyle={styles.activeSubMenu} to={menuItem.url}>
+                <BoldSpan><i className={menuItem.icon}/> {menuItem.name}</BoldSpan>
+              </NavLink>
+              <ul>
+                {
+                  menuItem.children.map(subMenu =>
+                    <li key={uuid()}>
+                      <NavLink activeStyle={styles.activeSubMenu} to={subMenu.url}>
+                        <BoldSpan><i className='fa fa-code-fork'/> {subMenu.name}</BoldSpan>
+                      </NavLink>
+                    </li>)
+                }
+              </ul>
+            </li>
+          )
         }
 
       </ul>
