@@ -62,7 +62,6 @@ export default class NodeTemplate extends Component {
   }
 
   updateGraphCache = function () {
-    this.data = this.state.sensorData.multichart
     const station = sensorStore.sensor_stations[this.page_id]
     if (station) {
       if (station.results[0].series === undefined) {
@@ -93,7 +92,7 @@ export default class NodeTemplate extends Component {
   }
 
   _drawChart () {
-    ReactDOM.render(<LineMultiAxis data={this.data}/>, document.getElementById('LineMultiAxis'))
+    ReactDOM.render(<LineMultiAxis data={this.state.sensorData.multichart}/>, document.getElementById('LineMultiAxis'))
   }
 
   _drawGauge () {
