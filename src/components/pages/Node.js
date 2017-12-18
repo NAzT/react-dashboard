@@ -35,7 +35,6 @@ export default class NodeTemplate extends Component {
   componentWillReceiveProps (nextProps) {
     this.page_id = nextProps.match.params.id
     this.gauge = mqttStore.state[this.page_id]
-    // console.log('componentWillReceiveProps ', `page_id = ${this.page_id}`, nextProps)
   }
 
   _processStore = () => {
@@ -60,19 +59,7 @@ export default class NodeTemplate extends Component {
     console.log(`will mount with page_id => ${this.page_id}`)
     this._processStore()
     mqttStore.addListener(() => {
-      console.log(`mqtt store has updates page_id => ${this.page_id}`)
-      // console.log(mqttStore.state)
-      console.log(mqttStore.state[this.page_id])
       this.gauge = mqttStore.state[this.page_id]
-      // this.setState({
-      //   gauge: {
-      //     pm10: mqttStore.state[this.page_id].pm10,
-      //     pm25: mqttStore.state[this.page_id].pm25,
-      //     temperature: mqttStore.state[this.page_id].temp,
-      //     humidity: mqttStore.state[this.page_id].humidity
-      //   }
-      // })
-      // console.log(this.state)
       this._drawGauge()
     })
     store.addListener(() => {
@@ -138,7 +125,6 @@ export default class NodeTemplate extends Component {
   }
 
   componentDidMount () {
-    console.log('did mount')
     this.updateGraphCache()
     this._drawGauge()
     this._drawChart()

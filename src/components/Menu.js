@@ -49,26 +49,20 @@ export default class Menu extends Component {
       <ul className='menu-list'>
         {
           this.state.group1.map(menuItem => {
-
-            let nodes = []
-
-            menuItem.children.forEach(subMenu => {
-              nodes.push(
-                <li key={uuid()}>
-                  <NavLink activeStyle={styles.activeSubMenu} to={subMenu.url}>
-                    <BoldSpan><i className='fa fa-code-fork'/> {subMenu.name}</BoldSpan>
-                  </NavLink>
-                </li>
-              )
-            })
-
             return (
               <li key={uuid()}>
                 <NavLink activeStyle={styles.activeSubMenu} to={menuItem.url}>
                   <BoldSpan><i className={menuItem.icon}/> {menuItem.name}</BoldSpan>
                 </NavLink>
                 <ul>
-                  {nodes.map(node => node)}
+                  {
+                    menuItem.children.map(subMenu =>
+                      <li key={uuid()}>
+                        <NavLink activeStyle={styles.activeSubMenu} to={subMenu.url}>
+                          <BoldSpan><i className='fa fa-code-fork'/> {subMenu.name}</BoldSpan>
+                        </NavLink>
+                      </li>)
+                  }
                 </ul>
               </li>
             )

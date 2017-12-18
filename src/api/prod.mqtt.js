@@ -18,7 +18,7 @@ export default () => {
   let client = new Paho.MQTT.Client(hostname, port, clientId)
   let shouldUpdateGraph = false
 
-  console.log('mqtt...')
+  console.log('connecting mqtt...')
 
   client.onConnectionLost = onConnectionLost
   client.onMessageArrived = onMessageArrived
@@ -44,12 +44,7 @@ export default () => {
   }
 
   function onMessageArrived (message) {
-    // console.log('onMessageArrived:' + message.payloadString)
-    // console.log('destinationName:' + message.destinationName)
-    // console.log('topic=', topicMapping[message.destinationName], 'data', data)
     const data = JSON.parse(message.payloadString)
-    console.log('[58] dispatching...')
-
     Dispatcher.dispatch({
       type: TypeActions.MQTT_MESSAGE_ARRIVED,
       data: {id: topicMapping[message.destinationName].id, d: data}

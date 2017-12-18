@@ -21,10 +21,9 @@ class MqttStore extends Store {
   }
 
   __onDispatch (action) {
-    console.log('__onDispatch', action)
+    // console.log('__onDispatch', action)
     if (action.type === AppConstants.MQTT_MESSAGE_ARRIVED) {
       this.state[action.data.id] = action.data.d
-      console.log(this.state)
       this.__emitChange()
     }
   }
