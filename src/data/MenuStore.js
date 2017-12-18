@@ -28,6 +28,9 @@ class MenuStore extends Store {
         }
       ]
     }
+
+    this.topicMapping = {}
+    menu.group1[0].children.forEach((val) => { this.topicMapping[val.topic] = val })
     this.menu = menu
   }
 

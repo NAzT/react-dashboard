@@ -173,9 +173,9 @@ export default class NodeTemplate extends Component {
               </div>
 
               <div className={this._ctxClassName('card')}>
-                <div className={this._ctxClassName('card-header')}>
-                  <p className='card-header-title' style={{color: '#4468b0'}}>Timeline</p>
-                </div>
+                {/*<div className={this._ctxClassName('card-header')}>*/}
+                {/*<p className='card-header-title' style={{color: '#4468b0'}}>Timeline</p>*/}
+                {/*</div>*/}
                 <div className={this._ctxClassName('card-content')}>
                   <div id='LineMultiAxis'/>
                 </div>

@@ -6,14 +6,12 @@ class MyStore extends Store {
   constructor (props) {
     super(props)
     this.sensor_data = {}
-    this.master_data = {}
     this.sensor_stations = []
   }
 
   __onDispatch (action) {
     if (action.type === AppConstants.DONE_GET_DATA) {
       Object.assign(this.sensor_data, action.data)
-      Object.assign(this.master_data, action.group1)
       this.__emitChange()
     }
     else if (action.type === AppConstants.GOT_SENSOR_DATA) {

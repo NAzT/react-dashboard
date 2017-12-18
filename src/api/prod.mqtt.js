@@ -1,8 +1,9 @@
 import TypeActions from '../helpers/Constants'
 import Dispatcher from '../helpers/Dispatcher'
 import _ from 'underscore'
-import Paho from '../mqttws31'
+import Paho from '../libs/mqttws31'
 import store from '../data/MqttStore'
+import menuStore from '../data/MenuStore'
 
 const _mapValue = (x, in_min, in_max, out_min, out_max) => {
   return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
@@ -36,18 +37,11 @@ export default () => {
     }
   }
 
-  let topicMapping = {
-    'NDTH/NAQ126101': {id: 1},
-    'NDTH/NAQ126070': {id: 2},
-    'NDTH/MCTH007/status': {id: 3},
-    'NDTH/MCTH006/status': {id: 4},
-  }
-
   function onMessageArrived (message) {
     const data = JSON.parse(message.payloadString)
     Dispatcher.dispatch({
       type: TypeActions.MQTT_MESSAGE_ARRIVED,
-      data: {id: topicMapping[message.destinationName].id, d: data}
+      data: {id: menuStore.topicMapping[message.destinationName].id, d: data}
     })
 
   }

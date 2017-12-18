@@ -24,7 +24,7 @@ const LineMultiAxis = (props) => {
     pointRadius: 2,
   }
 
-  var colors = [[19, 38, 39], [243, 90, 156], [117, 103, 251]]
+  const colors = [[19, 38, 39], [243, 90, 156], [117, 103, 251]]
   chart.data.forEach((v, idx) => {
     // console.log('idx=>', idx, 'v=>', v)
     // const r = parseInt((Math.random() * 255).toFixed(0))
