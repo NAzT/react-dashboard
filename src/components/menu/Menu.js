@@ -12,10 +12,6 @@ export default class Menu extends Component {
       group1: [],
       group2: [],
     }
-
-    store.addListener(() => {
-      this._processStore()
-    })
   }
 
   _processStore = () => {
@@ -24,6 +20,9 @@ export default class Menu extends Component {
 
   componentWillMount () {
     this._processStore()
+    store.addListener(() => {
+      this._processStore()
+    })
   }
 
   render () {
