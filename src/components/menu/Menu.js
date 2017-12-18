@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import store from '../../data/Store'
+import menuStore from '../../data/MenuStore'
 import MenuList from './MenuList'
 
 export default class Menu extends Component {
@@ -13,12 +13,12 @@ export default class Menu extends Component {
   }
 
   _processStore = () => {
-    this.setState({group1: store.menu.group1, group2: store.menu.group2})
+    this.setState({group1: menuStore.menu.group1, group2: menuStore.menu.group2})
   }
 
   componentWillMount () {
     this._processStore()
-    store.addListener(() => {
+    menuStore.addListener(() => {
       this._processStore()
     })
   }

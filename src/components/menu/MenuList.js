@@ -14,9 +14,7 @@ export default class MenuList extends Component {
     }
   }
 
-  componentDidMount () {
-
-  }
+  componentDidMount () { }
 
   render () {
     return (
