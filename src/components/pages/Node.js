@@ -7,7 +7,7 @@ import sensorStore from '../../data/SensorStore'
 import mqttStore from '../../data/MqttStore'
 import _ from 'underscore'
 
-export default class NodeTemplate extends Component {
+export default class Node extends Component {
 
   constructor (props) {
     super(props)
@@ -96,7 +96,6 @@ export default class NodeTemplate extends Component {
   }
 
   _drawGauge () {
-    console.log(this.gauge)
     ReactDOM.render(<Gauge label='อุณหภูมิ' symbol='℃'
                            value={this.gauge.temperature}/>, document.getElementById('temperature-g'))
     ReactDOM.render(<Gauge label='ความชื้น' redraw symbol='%'

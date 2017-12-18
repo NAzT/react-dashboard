@@ -1,9 +1,14 @@
 const path = require('path')
+const webpack = require('webpack')
 
 module.exports = {
   entry: {
     main: './src/Main.jsx'
   },
+  plugins: [
+    // Ignore all locale files of moment.js
+    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+  ],
   output: {
     path: path.join(__dirname, 'public/dist'),
     filename: 'bundle.js'
